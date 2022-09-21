@@ -1,0 +1,35 @@
+// @import "./base.styl";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  word-break: break-all;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+ul,
+li {
+  list-style: none;
+}
+html,
+body {
+  -webkit-overflow-scrolling: touch;
+  // font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: #fff;
+}
+.flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}

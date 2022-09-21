@@ -1,0 +1,17 @@
+$theme-color: #599524;
+$theme-secondary-color: #3e7211;
+$theme-three-color: #da993c;
+$f-color: #343a45; //新版字体颜色1级
+$f-color-second: #666a74; //新版字体颜色2级
+$f-color-three: #b3b4ba; // 新版字体颜色3级
+$border-color: #e8e9ec;
+
+@mixin bj-image($url) {
+  background-image: url($url + '.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    background-image: url($url + '@2x.png');
+  }
+}

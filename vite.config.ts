@@ -1,7 +1,37 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import viteCompression from 'vite-plugin-compresser'; //提供gzip压缩
+import AutoImport from 'unplugin-auto-import/vite';
+import Component from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()]
-})
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Component({
+      resolvers: [ElementPlusResolver()],
+    }),
+    viteCompression({ test: /\.(js|css|svg|ttf|otf|eot)$/ }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import '@/common/css/var.scss';`,
+      },
+    },
+  },
+  server: {
+    proxy: {
+      target: '',
+    },
+  },
+});
