@@ -12,18 +12,23 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
     "@vueuse/core": "^9.2.0",
+    "ali-oss": "^6.17.1",
     "axios": "^0.27.2",
+    "echarts": "^5.3.3",
     "element-plus": "^2.2.17",
     "good-storage": "^1.1.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.22",
+    "qs": "^6.11.0",
     "sass": "^1.54.9",
     "vite-plugin-compresser": "^1.0.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.16.6",
     "@types/good-storage": "^1.1.0",
+    "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^3.1.0",
     "eslint": "^8.23.1",
     "typescript": "^4.6.4",

@@ -1,10 +1,10 @@
 $theme-color: #599524;
-$theme-secondary-color: #3e7211;
+$theme-second-color: #3e7211;
 $theme-three-color: #da993c;
 $f-color: #343a45; //新版字体颜色1级
 $f-color-second: #666a74; //新版字体颜色2级
 $f-color-three: #b3b4ba; // 新版字体颜色3级
-$border-color: #e8e9ec;
+$border-color: #e5e5e5;
 
 @mixin bj-image($url) {
   background-image: url($url + '.png');
@@ -14,4 +14,10 @@ $border-color: #e8e9ec;
   @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
     background-image: url($url + '@2x.png');
   }
+}
+:root {
+  --el-color-primary: #599524;
+  --el-color-primary-light-3: #3e7211;
+  --el-color-primary-dark-2: #3e7211;
+  // --el-button-hover-bg-color: #3e7211 !important;
 }

@@ -24,3 +24,9 @@ let prod_arr = {
 };
 
 export const urls: urls = import.meta.env.MODE === 'development' ? dev_arr : prod_arr;
+
+// 个人中心 前置域名
+export const UserCenterUrl =
+  import.meta.env.MODE === 'development'
+    ? import.meta.env.VITE_APP_USER_CENTER_URL
+    : import.meta.env.VITE_APP_USER_CENTER_URL;

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useStorage } from '@vueuse/core';
 
 interface userInfo {
   name?: string;
@@ -16,8 +17,31 @@ export const userInfoDefineStore = defineStore('userInfoDefineStore', () => {
     userInfo.value = info;
   };
 
+  const clearUserInfo = () => {
+    userInfo.value = {};
+  };
+
   return {
     userInfo,
     setUserInfo,
+    clearUserInfo,
+  };
+});
+
+// 暂时没用上，使用了storage.set 功能
+export const tokenDefineStore = defineStore('tokenDefineStore', () => {
+  let token = useStorage('token', '');
+
+  const setToken = (tokenData: string) => {
+    token.value = tokenData;
+  };
+
+  const cleanToken = () => {
+    token.value = '';
+  };
+  return {
+    token,
+    setToken,
+    cleanToken,
   };
 });

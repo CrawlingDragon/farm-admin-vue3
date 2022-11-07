@@ -31,7 +31,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      target: '',
+      // '/api': {
+      //   target: 'https://betahos-api.114nz.com/',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/api/, ''),
+      // },
     },
   },
 });

@@ -39,17 +39,17 @@
       </div>
       <div class="right flex">
         <div class="user-box">
-          <div class="login-box flex align-center" v-if="tokenRef">
+          <div class="login-box flex align-center" v-if="!userInfoStore.userInfo">
             <div class="" @click="login('password')">登录</div>
             <div class="" @click="login('register')">注册</div>
           </div>
           <el-dropdown v-else>
-            <a class="ant-dropdown-link">
+            <div class="ant-dropdown-link flex align-center" style="height: 50px">
               <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" />
               {{ userInfoStore.userInfo.mobile }}
-              <el-icon><ArrowDown /></el-icon>
+              <el-icon class="icon2"><ArrowDown /></el-icon>
               <!-- <down-outlined class="icon2" /> -->
-            </a>
+            </div>
             <template #dropdown>
               <div class="web-drop-box box2">
                 <router-link class="item" to="/change-password">修改密码</router-link>
@@ -60,8 +60,8 @@
         </div>
         <div class="admin-title">
           <el-dropdown>
-            <a class="ant-dropdown-link"
-              >管理中心<el-icon class="icon2"><ArrowDown /></el-icon>
+            <a class="ant-dropdown-link">
+              管理中心<el-icon class="icon2"><ArrowDown /></el-icon>
             </a>
             <template #dropdown placement="bottom-end">
               <div class="web-drop-box box3">
@@ -88,14 +88,13 @@
       </div>
     </div>
   </div>
-  <Nav />
+  <!-- <Nav /> -->
 </template>
 <script setup lang="ts">
-import Nav from './nav.vue';
 import { login, loginOut } from '@/common/js/getToken';
 import { userInfoDefineStore } from '@/store/index';
 import { urls } from '@/common/js/urls';
-import { h, ref } from 'vue';
+import { h, ref, onMounted } from 'vue';
 import storage from 'good-storage';
 // import { useRouter } from 'vue-router';
 import { ElMessageBox } from 'element-plus';
@@ -103,23 +102,16 @@ import { getAssetsImage } from '@/common/js/util';
 
 // const router = useRouter();
 const userInfoStore = userInfoDefineStore();
-const tokenRef = ref(storage.get('token'));
-
+let token = storage.get('token');
+// console.log('token', token);
 // userInfo store
 const goPage = (url: string) => {
   let token = storage.get('token');
   if (token != '') {
     if (userInfoStore.userInfo.isUserAccount === 1) {
       // 个人账户
-      ElMessageBox({
-        title: '访问失败',
-        message: h('div', {}, [h('p', '医院管理中心/会员管理仅支持新型庄稼医院账号访问 ')]),
-        // okText: '知道了',
-        // onOk() {
-        //   router.push({
-        //     path: '/account-stay',
-        //   });
-        // },
+      ElMessageBox.alert('医院管理中心/会员管理仅支持新型庄稼医院账号访问', '访问失败', {
+        confirmButtonText: '知道了',
       });
       return;
     }
@@ -131,6 +123,7 @@ const goPage = (url: string) => {
 .header {
   height: 50px;
   width: 100%;
+  background: #fff;
 }
 .logo {
   cursor: pointer;
@@ -252,6 +245,7 @@ const goPage = (url: string) => {
   height: 100%;
 }
 .user-box .login-box > div {
+  display: inline-block;
   padding: 0 10px;
   cursor: pointer;
 }

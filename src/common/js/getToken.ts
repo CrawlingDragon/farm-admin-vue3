@@ -1,12 +1,10 @@
 import { userInfoDefineStore } from './../../store/index';
-// import { getUrlQuery } from './util';
 import { router } from '../../router';
-// import Store from '../../store';
 import Axios from 'axios';
-// import QS from 'qs';
-import leansAxios from '../../http';
+import leansAxios from '../../http/http';
 import storage from 'good-storage';
-
+import { UserCenterUrl } from './urls';
+export { getUrlQuery } from './util';
 export function loginOut() {
   //退出登录
   //判断url是否为需要登录的页面，是就改写成index
@@ -15,12 +13,11 @@ export function loginOut() {
     url = window.location.origin + import.meta.env.DEV;
   }
   // 清空token
-  // store.commit('setUid', '');
   storage.set('token', '');
+  console.log('window.localStorage.getItem(token)', window.localStorage.getItem('token'));
+
   //退出登录的地址
-  window.location.href = `${
-    import.meta.env.VITE_APP_API
-  }/sso/sso_logout?redirect_url=${url}&state=123`;
+  window.location.href = `${UserCenterUrl}/sso_logout?redirect_url=${url}&state=123`;
 }
 
 //处理链接，删除其中的code参数，然后返回其他部分
@@ -46,17 +43,15 @@ export function deleteUrlCode() {
 // 去登录函数
 export function login(login_type = 'password', url = deleteUrlCode()) {
   //deleteUrlCode函数
-  window.location.href = `${
-    import.meta.env.VITE_APP_API
-  }/sso/authorize?login_type=${login_type}&response_type=code&client_id=thy&redirect_uri=${url}`;
+  window.location.href = `${UserCenterUrl}/authorize?login_type=${login_type}&response_type=code&client_id=ynb&redirect_uri=${url}`;
 }
 
 export function fetchGetToken(code: string) {
   // 获取token
   return new Promise((resolve) => {
     const url = storage.get('redirect_uri');
-    Axios.post(`${import.meta.env.VITE_APP_API}/sso/token`, {
-      client_id: 'thy',
+    Axios.post(`${UserCenterUrl}/token`, {
+      client_id: 'ynb',
       grant_type: 'authorization_code',
       code: code,
       scope: '',
@@ -72,34 +67,24 @@ export function fetchGetToken(code: string) {
         } else if (res.status === 200) {
           // 保存token
           let token = res.data.access_token;
+          // let tokenStorage = useStorage('token', '');
+          // tokenStorage.value = token;
           storage.set('token', token);
-
+          // let tokenStore = tokenDefineStore();
+          // tokenStore.setToken(token);
           // 请求接口，获取对应token的用户信息，并保存
           leansAxios
-            .fetchPost('Mobile/User/userCenter', {
-              uId: token,
+            .fetchPost('/api/auth/userInfo', {
+              token: token,
             })
             .then((res: any) => {
               let data = res.data;
-              if (data.code == 0) {
+              if (data.code == 200) {
                 const userInfoStore = userInfoDefineStore();
-                userInfoStore.setUserInfo(data.data); //保存用户信息
+                console.log('data.data', data.data);
+                userInfoStore.setUserInfo(data.data); // 保存用户信息
                 resolve(data.data);
               }
-              // } else if (data.code == 201) {
-              //   if (data.data.length == 0) {
-              //     leansAxios
-              //       .fetchPost('Mobile/User/userCenter', {
-              //         uId: token,
-              //       })
-              //       .then((res: any) => {
-              //         let data = res.data;
-              //         if (data.code == 0) {
-              //           store.dispatch('saveUserInfo', data.data);
-              //         }
-              //       });
-              //   }
-              // }
             });
         }
       })
