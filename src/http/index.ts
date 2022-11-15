@@ -25,6 +25,8 @@ export { getPrescribingTemplate } from './getPrescribingTemplate';
 export { getTemplateDetail } from './getTemplateDetail';
 export { getAddSoil } from './getAddSoil';
 export { getHospitalUser } from './getHospitalUser';
+export { getTestSoilDetail } from './getTestSoilDetail';
+export { getDelSoil } from './getDelSoil';
 // 特色业务
 // 挂号管理
 export { getSubscribeLists } from './getSubscribeLists';

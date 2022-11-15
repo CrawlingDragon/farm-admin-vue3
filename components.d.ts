@@ -50,7 +50,7 @@ declare module '@vue/runtime-core' {
     Head: typeof import('./src/components/head.vue')['default']
     Kind: typeof import('./src/components/kind.vue')['default']
     KindSelect: typeof import('./src/components/kindSelect.vue')['default']
-    LasetTestSoilSelect: typeof import('./src/components/lasetTestSoilSelect.vue')['default']
+    LatestTestSoilSelect: typeof import('./src/components/latestTestSoilSelect.vue')['default']
     MedicineSelect: typeof import('./src/components/medicineSelect.vue')['default']
     Nav: typeof import('./src/components/nav.vue')['default']
     Pages: typeof import('./src/components/pages.vue')['default']

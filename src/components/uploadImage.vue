@@ -21,10 +21,11 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted ,onUpdated} from 'vue';
 import OSS from 'ali-oss';
-import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { getAliossCount } from '@/http';
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const props = defineProps({
   limit: {
@@ -40,7 +41,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:images']);
-let imgList = ref([]);
+let imgList = ref<UploadUserFile[]>([]);
 let addInfos = ref<any>([]);
 let client = ref<any>({});
 
@@ -77,8 +78,10 @@ async function addbeforeupload(result: any) {
 }
 
 onMounted(async () => {
+  // debugger
+  imgList.value = props.images as any
   let { alioss } = await getAliossCount();
-  console.log('alioss', alioss);
+  // console.log('alioss', alioss);
   let { accessKeyId, accessKeySecret, bucket, region, stsToken } = alioss;
   client.value = new OSS({
     // yourRegion填写Bucket所在地域。以华东1（杭州）为例，yourRegion填写为oss-cn-hangzhou。
@@ -119,8 +122,35 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   dialogVisible.value = true;
 };
 watch(imgList, (newVal) => {
-  console.log('newVal', newVal);
+  // console.log('newVal', newVal);
   emit('update:images', addInfos);
 });
+
+//watch props，当有默认图片数据的时候，赋值给upload插件
+watch(() => props.images,(newVal) => {
+  // console.log('newVal---prosps.img', newVal);
+  if(newVal.length ==0)return 
+  imgList.value = utilAddImageName(newVal)
+})
+
+// 把props.images的数组格式转换成 符合upload的的数组格式
+function utilAddImageName(arr:any){
+  let imgListArr:any = []
+   arr.forEach((item:any) => {
+    imgListArr.push({
+      name:Math.random() + '.png',
+      url:item
+    })
+  })
+  return imgListArr
+}
+// onUpdated(() => {
+//   console.log('2', 2);
+//   console.log('props.images', props.images);
+//   if(props.images.length !== 0){
+//     imgList.value = utilAddImageName(props.images)
+//   }
+// })
+
 </script>
 <style lang="scss" scoped></style>
