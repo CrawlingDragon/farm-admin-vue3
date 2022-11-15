@@ -37,3 +37,16 @@ export { getAddExpert } from './getAddExpert';
 // 短信管理
 export { getNoteLists } from './getNoteLists';
 export { getNoteSmsSendInfo } from './getNoteSmsSendInfo';
+export { getNoteDelete } from './getNoteDelete';
+export { getNoteSmsTemplate } from './getNoteSmsTemplate';
+export { getNoteSmsSend } from './getNoteSmsSend';
+// 信息管理
+export { getMessageLists } from './getMessageLists';
+export { getMessageDelete } from './getMessageDelete';
+export { getSaveNews } from './getSaveNews';
+export { getNewsInfo } from './getNewsInfo';
+// 人才培训
+export { getTrainLists } from './getTrainLists';
+export { getTrainDel } from './getTrainDel';
+export { getTrainDetail } from './getTrainDetail';
+

@@ -135,12 +135,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/serve-people.vue'),
   },
   {
-    path: '/serve-registration', //挂号管理
-    component: () => import('@/view/serve-registration.vue'),
+    path: '/serve-people-add', //新增培训
+    component: () => import('@/view/serve-people-add.vue'),
   },
   {
-    path: '/serve-registration-add', //新增专家排班
-    component: () => import('@/view/serve-registration-add.vue'),
+    path: '/serve-registration', //挂号管理
+    component: () => import('@/view/serve-registration.vue'),
   },
   {
     path: '/serve-registration-detail', //挂号单详情
@@ -161,6 +161,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/serve-message', //信息管理
     component: () => import('@/view/serve-message.vue'),
+  },
+  {
+    path: '/serve-message-add', //发布信息
+    component: () => import('@/view/serve-message-add.vue'),
   },
   //医院设置
   {
