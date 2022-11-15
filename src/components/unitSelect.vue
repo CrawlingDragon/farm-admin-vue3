@@ -13,8 +13,8 @@ import { getSelectInfo } from '../http/getSelectInfo';
 
 const prop = defineProps({
   unit: {
-    type: [Number, String],
-    default: '',
+    type: Number,
+    default: 1,
   },
 });
 
@@ -25,7 +25,7 @@ let options = reactive({
     // 作物select option
     {
       value: '亩',
-      label: '亩',
+      label: '1',
     },
   ],
 });
@@ -35,7 +35,10 @@ const changeFn = (el: any) => {
 
 onMounted(async () => {
   let { unitArr } = await getSelectInfo();
+  // console.log('unitArr', unitArr);
   options.unitOptions = unitArr;
+  // 加载数据之后，使用第一个数据，作为默认数据
+  emit('update:unit', unitArr[0].value);
 });
 </script>
 <style lang="scss" scoped>

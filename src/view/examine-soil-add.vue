@@ -4,10 +4,18 @@
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-soil' }">测土配方</el-breadcrumb-item>
-        <el-breadcrumb-item>测土详情</el-breadcrumb-item>
+        <el-breadcrumb-item>{{
+          routeName === 'examine-soil-add' ? '新增测土' : '测土详情:' + ruleForm.cetuId
+        }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <AddSecondBar title="测土配方" :mobile="11" :time="123544" @del="del" />
+    <AddSecondBar
+      title="测土配方"
+      :mobile="userInfo.mobile"
+      :time="userInfo.time"
+      @del="del"
+      v-if="cetuId"
+    />
     <div class="content">
       <el-form
         ref="ruleFormRef"
@@ -21,33 +29,31 @@
         <div class="top-box bg-w border">
           <div class="left-bar">
             <div class="tip">土壤信息</div>
-            <el-form-item label="会员：" prop="nameId">
-              <!-- <el-input v-model="ruleForm.nameId" class="w300" placeholder="姓名/手机号码" /> -->
+            <el-form-item label="会员:" prop="nameId" v-if="!cetuId">
               <UserSelectVue v-model:user="ruleForm.nameId" />
             </el-form-item>
-            <el-form-item label="位置：" prop="address">
+            <el-form-item label="会员:" v-else>
+              {{ userInfo.name }} {{ userInfo.mobile }}
+            </el-form-item>
+            <el-form-item label="位置:" prop="address">
               <el-input
                 v-model="ruleForm.address"
                 class="w300"
                 placeholder="请详细描述采样地址信息"
               />
             </el-form-item>
-            <el-form-item prop="name" label="北纬：">
-              <el-input
-                v-model="ruleForm.latitude"
-                class="w120 mr20"
-                placeholder="如：30°12‘42’‘"
-              />
-              <span>东经：</span>
+            <el-form-item prop="name" label="北纬:">
+              <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12‘42’‘" />
+              <span>东经:</span>
               <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12’18‘’" />
             </el-form-item>
-            <el-form-item label="现种养种类：" prop="name">
+            <el-form-item label="现种养种类:" prop="nowKind">
               <KindSelect v-model:kind="ruleForm.nowKind"></KindSelect>
             </el-form-item>
-            <el-form-item label="前种养种类：" prop="name">
+            <el-form-item label="前种养种类:" prop="beforeKind">
               <KindSelect v-model:kind="ruleForm.beforeKind"></KindSelect>
             </el-form-item>
-            <el-form-item label="数量:" prop="growNumber">
+            <el-form-item label="数量:" prop="number">
               <el-input
                 v-model.number="ruleForm.number"
                 label="right"
@@ -56,24 +62,30 @@
               />
               <UnitSelect v-model:unit="ruleForm.unit"></UnitSelect>
             </el-form-item>
-            <el-form-item label="地形:" prop="name">
+            <el-form-item label="地形:" prop="terrain">
               <el-radio-group v-model="ruleForm.terrain">
-                <el-radio label="平原" />
-                <el-radio label="盆地" />
-                <el-radio label="高原" />
-                <el-radio label="丘陵" />
-                <el-radio label="山地" />
-                <el-radio label="水塘" />
-                <el-radio label="水库" />
-                <el-radio label="湖泊" />
-                <el-radio label="河流" />
-                <el-radio label="海洋" />
+                <el-radio :label="1">平原</el-radio>
+                <el-radio :label="2">盆地</el-radio>
+                <el-radio :label="3">高原</el-radio>
+                <el-radio :label="4">丘陵</el-radio>
+                <el-radio :label="5">山地</el-radio>
+                <el-radio :label="6">水塘</el-radio>
+                <el-radio :label="7">水库</el-radio>
+                <el-radio :label="8">湖泊</el-radio>
+                <el-radio :label="9">河流</el-radio>
+                <el-radio :label="10">海洋</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="采样深度(cm)：" prop="name">
+            <el-form-item label="采样深度(cm):" prop="sampleNumber">
               <el-input v-model="ruleForm.sampleNumber" class="w300" />
             </el-form-item>
-            <el-form-item label="采样日期：" prop="name" v-model="ruleForm.sampleDate" class="w300">
+            <el-form-item
+              label="采样日期:"
+              prop="sampleDate"
+              v-model="ruleForm.sampleDate"
+              class="w300"
+              readonly
+            >
               <el-date-picker
                 v-model="ruleForm.sampleDate"
                 type="date"
@@ -81,15 +93,16 @@
                 size="large"
                 class="w300"
                 style="width: 300px"
+                value-format="YYYY-MM-DD"
               />
             </el-form-item>
-            <el-form-item label="初复诊：" prop="name">
+            <el-form-item label="初复诊:" prop="diagnosis">
               <el-radio-group v-model="ruleForm.diagnosis">
-                <el-radio label="初诊" />
-                <el-radio label="复诊" />
+                <el-radio :label="1">初诊</el-radio>
+                <el-radio :label="2">复诊</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="描述：" prop="name">
+            <el-form-item label="描述:" prop="describe">
               <el-input
                 v-model="ruleForm.describe"
                 class="w300"
@@ -99,17 +112,17 @@
                 show-word-limit
               />
             </el-form-item>
-            <el-form-item label="图片：" prop="name">
+            <el-form-item label="图片:" prop="image">
               <UploadImageVue v-model:images="ruleForm.image" />
             </el-form-item>
-            <el-form-item label="测试人:" prop="name">
+            <el-form-item label="测试人:" prop="testPeople">
               <ExpertSelect v-model:expert="ruleForm.testPeople"></ExpertSelect>
             </el-form-item>
-            <el-form-item label="测土状态:" prop="name">
+            <el-form-item label="测土状态:" prop="soilStatus">
               <el-radio-group v-model="ruleForm.soilStatus">
-                <el-radio label="检测中" />
-                <el-radio label="检测完成" />
-                <el-radio label="给处方" />
+                <el-radio :label="1">检测中</el-radio>
+                <el-radio :label="2">检测完成</el-radio>
+                <el-radio :label="3">给处方</el-radio>
               </el-radio-group>
             </el-form-item>
             <div class="tip">检测信息</div>
@@ -118,52 +131,65 @@
           <div class="right-bar">
             <div class="right-box border">
               <div class="tip">测土配方结果</div>
-              <el-form-item label="铵态氮含量：" prop="name">
+              <el-form-item label="铵态氮含量:" v-if="ruleForm.soilStatus === 1">
                 <div>
-                  <p v-if="ruleForm.soilStatus === '检测中'">检测中...</p>
-                  <el-input v-model="ruleForm.soilResult.an" class="w200 result-input" v-else />
-                  <div class="standard">标准值：10-15mg/kg</div>
+                  <p>检测中...</p>
+                  <div class="standard">标准值:10-15mg/kg</div>
                 </div>
               </el-form-item>
-              <el-form-item label="速效磷含量：" prop="name">
+              <el-form-item label="铵态氮含量:" prop="soilResult.an" v-else>
                 <div>
-                  <p v-if="ruleForm.soilStatus === '检测中'">检测中...</p>
-                  <el-input v-model="ruleForm.soilResult.lin" class="w200 result-input" v-else />
-                  <div class="standard">极高：>=90|高：90-60|中：60-30|低30-15|极低：&lt;15</div>
+                  <!-- <p v-if="ruleForm.soilStatus === 1">检测中...</p> -->
+                  <el-input v-model="ruleForm.soilResult.an" class="w200 result-input" />
+                  <div class="standard">标准值:10-15mg/kg</div>
                 </div>
               </el-form-item>
-              <el-form-item label="有效钾含量：" prop="name">
+              <el-form-item label="速效磷含量:" v-if="ruleForm.soilStatus === 1">
                 <div>
-                  <p v-if="ruleForm.soilStatus === '检测中'">检测中...</p>
-                  <el-input v-model="ruleForm.soilResult.jia" class="w200 result-input" v-else />
-                  <div class="standard">
-                    极高： >=155|高：155-125|中：125-100|低100-70|极低：&lt;70
-                  </div>
+                  <p>检测中...</p>
+                  <div class="standard">极高:>=90|高:90-60|中:60-30|低30-15|极低:&lt;15</div>
                 </div>
               </el-form-item>
-              <el-form-item label="PH值：" prop="name">
+              <el-form-item label="速效磷含量:" prop="soilResult.lin" v-else>
+                <div>
+                  <el-input v-model="ruleForm.soilResult.lin" class="w200 result-input" />
+                  <div class="standard">极高:>=90|高:90-60|中:60-30|低30-15|极低:&lt;15</div>
+                </div>
+              </el-form-item>
+              <el-form-item label="有效钾含量:" v-if="ruleForm.soilStatus === 1">
+                <div>
+                  <p>检测中...</p>
+
+                  <div class="standard">极高: >=155|高:155-125|中:125-100|低100-70|极低:&lt;70</div>
+                </div>
+              </el-form-item>
+              <el-form-item label="有效钾含量:" prop="soilResult.jia" v-else>
+                <div>
+                  <el-input v-model="ruleForm.soilResult.jia" class="w200 result-input" />
+                  <div class="standard">极高: >=155|高:155-125|中:125-100|低100-70|极低:&lt;70</div>
+                </div>
+              </el-form-item>
+              <el-form-item label="PH值:" prop="ph">
                 <div>
                   <el-input v-model="ruleForm.soilResult.ph" class="w200" />
-                  <div class="standard">标中性值：7</div>
+                  <div class="standard">标中性值:7</div>
                 </div>
               </el-form-item>
-              <el-form-item label="有机质：" prop="name">
+              <el-form-item label="有机质:" prop="organic">
                 <el-input v-model="ruleForm.soilResult.organic" class="w200 organic-input" />
                 <div>
-                  <div class="standard">
-                    极高：>=25|高：25-20|中：20-15 | 低15-10 | 极低：&lt; 15
-                  </div>
+                  <div class="standard">极高:>=25|高:25-20|中:20-15 | 低15-10 | 极低:&lt; 15</div>
                 </div>
               </el-form-item>
-              <el-form-item label="盐分" prop="name">
+              <el-form-item label="盐分" prop="salt">
                 <el-input v-model="ruleForm.soilResult.salt" class="w200 salt-input" />
               </el-form-item>
-              <el-form-item label="结果描述" prop="name">
+              <el-form-item label="结果描述" prop="soilDescribe">
                 <el-input
                   v-model="ruleForm.soilResult.soilDescribe"
                   class="w300"
                   type="textarea"
-                  placeholder="请输入其他检测数据（如：有机质）、土壤养分综合评估、适合种植种类种类等信息"
+                  placeholder="请输入其他检测数据（如:有机质）、土壤养分综合评估、适合种植种类种类等信息"
                   show-word-limit
                   maxlength="2000"
                   rows="5"
@@ -172,7 +198,7 @@
             </div>
           </div>
         </div>
-        <div class="bottom-box border bg-w mt10" v-if="ruleForm.soilStatus === '给处方'">
+        <div class="bottom-box border bg-w mt10" v-if="ruleForm.soilStatus === 3">
           <div class="left-bar">
             <div class="tip">
               处方信息
@@ -180,10 +206,10 @@
                 <el-checkbox label="公开处方" name="type" />
               </el-checkbox-group>
             </div>
-            <el-form-item label="处方专家" prop="name">
+            <el-form-item label="处方专家" prop="Prescribing.expert">
               <ExpertSelect v-model:expert="ruleForm.Prescribing.expert" />
             </el-form-item>
-            <el-form-item label="看诊结果" prop="name">
+            <el-form-item label="看诊结果" prop="Prescribing.result">
               <el-input
                 v-model="ruleForm.Prescribing.result"
                 class="w300"
@@ -192,6 +218,13 @@
                 maxlength="2000"
                 show-word-limit
               />
+            </el-form-item>
+            <el-form-item label="最近测土记录" prop="leastSoilRecord">
+              <LatestTestSoilSelectVue
+                v-model:soilTestRecord="ruleForm.Prescribing.leastSoilRecord"
+                :soilSelectOption="selectOptions.cetuOrderList"
+              >
+              </LatestTestSoilSelectVue>
             </el-form-item>
             <div class="tip">用药信息</div>
             <div class="medicine">
@@ -234,13 +267,17 @@
         </div>
         <div class="submit-bar">
           <div class="content">
-            <el-button type="primary" size="large" @click="submitForm(ruleFormRef)" class="mr20"
+            <el-button
+              type="primary"
+              size="large"
+              @click="submitForm(ruleFormRef, 'goPage')"
+              class="mr20"
               >确定添加</el-button
             >
             <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
               >确定并继续添加</el-button
             >
-            <el-button size="large">取消</el-button>
+            <el-button size="large" @click="cancel">取消</el-button>
           </div>
         </div>
       </el-form>
@@ -249,35 +286,27 @@
 </template>
 <script setup lang="ts">
 import { computed, reactive, ref, onUnmounted, onMounted } from 'vue';
-import { ElMessage, UploadProps, UploadRawFile, UploadFiles } from 'element-plus';
-import { useRoute } from 'vue-router';
+import { ElMessage, UploadProps, UploadRawFile, UploadFiles, ElMessageBox } from 'element-plus';
+import { useRoute, useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
-import { getAddSoil, AddSoilParams } from '@/http/getAddSoil';
+import { getAddSoil } from '@/http/getAddSoil';
+import { getTestExpert, getTestSoilDetail, getDelSoil } from '@/http';
 import KindSelect from '@/components/kindSelect.vue';
+import UnitSelect from '@/components/unitSelect.vue';
 import ExpertSelect from '@/components/expertSelect.vue';
 import medicineSelectVue from '@/components/medicineSelect.vue';
 import PrescribingTemplateVue from '@/components/prescribingTemplate.vue';
 import UserSelectVue from '@/components/userSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
-import { alioss } from '@/common/js/alioss';
 import UploadImageVue from '@/components/uploadImage.vue';
-
-// alioss 请求函数
-// let { putObject, getAccount } = alioss();
-// const action = ref('');
-// getAccount().then((res: any) => {
-//   action.value = res + '/test.png';
-//   console.log('res', res);
-// });
+import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
+
 const cetuId = computed(() => route.params.cetuId);
-// console.log('cetuId.value', cetuId.value);
-const detailData = reactive<any>({
-  userInfo: {},
-});
+const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
@@ -287,17 +316,17 @@ const ruleForm = reactive({
   longitude: '', //纬度
   nowKind: '', //现在种类
   beforeKind: '', //之前种类
-  unit: '亩', //单位
+  unit: 1, //单位
   number: '', //数量
-  terrain: '', //地形
+  terrain: 1, //地形
   sampleNumber: '', // 采样深度
   sampleDate: '', //采样日期
-  diagnosis: '初诊', // 初复诊
+  diagnosis: 1, // 初复诊
   describe: '', //描述
-  image: [], // 图片
-  aliossImage: [],
-  testPeople: '', //测试人
-  soilStatus: '检测完成', //测土状态
+  image: [] as any, // 图片
+  // aliossImage: [],
+  testPeople: 0, //测试人
+  soilStatus: 1, //测土状态
   soilResult: {
     // 测土配方结果
     an: '', //氨态碳含量
@@ -313,6 +342,7 @@ const ruleForm = reactive({
     open: ['公开处方'],
     expert: '', //处方专家
     result: '', // 看诊结果
+    leastSoilRecord: '', //最近测土记录
     medicine: [
       //用药信息
       {
@@ -320,19 +350,54 @@ const ruleForm = reactive({
         drugId: '', //药品id
         drugSpecIds: '', //药品规格
         sizeSelectOption: [],
-        drugQuantity: 0, // 药品数量
+        drugQuantity: 1, // 药品数量
       },
     ],
   },
+  cetuId: '', //用于详情显示的cetuId
   templates: {}, // 选中的处方模板
 });
 
-const rules = reactive<FormRules>({});
-// 模块化内容 1.用药记录 2.数量单位3，选择作物 a-b 排列的select
+// 用于select的option设置，数据化
+const selectOptions = reactive({
+  expertList: [], // 测试专家
+  cetuOrderList: [], // 最近测土记录
+  recipeTemList: [], //处方模板列表
+});
+
+const rules = reactive<FormRules>({
+  nameId: [{ required: true, message: '会员不能为空', trigger: 'change' }],
+  address: [{ required: true, message: '地址不能为空', trigger: 'change' }],
+  nowKind: [{ required: true, message: '现种类不能为空', trigger: 'change' }],
+  number: [{ required: true, message: '数量不能为空', trigger: 'change' }],
+  terrain: [{ required: true, message: '地形不能为空', trigger: 'change' }],
+  sampleNumber: [{ required: true, message: '采样深度不能为空', trigger: 'change' }],
+  sampleDate: [{ required: true, message: '采样日期不能为空', trigger: 'change' }],
+  diagnosis: [{ required: true, message: '初复诊不能为空', trigger: 'change' }],
+  testPeople: [{ required: true, message: '测试人不能为空', trigger: 'change' }],
+  soilStatus: [{ required: true, message: '测土状态不能为空', trigger: 'change' }],
+  'soilResult.an': [{ required: true, message: '氨态碳不能为空', trigger: 'change' }],
+  'soilResult.lin': [{ required: true, message: '速效磷不能为空', trigger: 'change' }],
+  'soilResult.jia': [{ required: true, message: '有效钾不能为空', trigger: 'change' }],
+  'Prescribing.expert': [{ required: true, message: '处方专家不能为空', trigger: 'change' }],
+  'Prescribing.result': [{ required: true, message: '看诊结果不能为空', trigger: 'change' }],
+});
 
 //顶部的删除按钮
 const del = () => {
-  console.log('del');
+  ElMessageBox.confirm('是否要删除测土配方', '提示')
+    .then(async (res) => {
+      let r = await getDelSoil(ruleForm.cetuId);
+      if (r.code) {
+        ElMessage.error(r.msg);
+      } else {
+        ElMessage.success('删除成功');
+        router.replace({ path: '/examine-soil' });
+      }
+      // console.log('r', r);
+      //删除配方
+    })
+    .catch(() => {});
 };
 
 // 添加用药
@@ -353,10 +418,24 @@ function delMedicine(index: number) {
 
 // 选择模板
 function selectPrescribing(detail: any) {
-  // console.log('detail', detail);
+  console.log('detail', detail);
   const { content, drugInfo } = detail;
   ruleForm.Prescribing.result = content;
+  integrationMedicine(drugInfo);
+}
+// 整合自定义用药数组 和 后端用药数组
+function integrationMedicine(drugInfo: any) {
   ruleForm.Prescribing.medicine = [];
+  if (drugInfo.length === 0) {
+    ruleForm.Prescribing.medicine.push({
+      drugName: '', //药品名字
+      drugId: '', //药品id
+      drugSpecIds: '', //药品规格
+      sizeSelectOption: [],
+      drugQuantity: 1, // 药品数量
+    });
+    return;
+  }
   drugInfo.forEach((item: any, index: number) => {
     ruleForm.Prescribing.medicine.push({
       drugName: '', //药品名字
@@ -380,16 +459,27 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
   // console.log('remove');
 };
 
-const submitForm = async (formEl: FormInstance | undefined) => {
+const router = useRouter();
+const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!');
       setSoilData();
+      if (goPage) {
+        setTimeout(() => {
+          router.push('/examine-soil');
+        }, 500);
+      }
     } else {
       console.log('error submit!', fields);
     }
   });
+};
+
+// 取消按钮
+const cancel = function () {
+  router.push('/examine-soil');
 };
 
 const soilParams = computed<any>(() => {
@@ -406,7 +496,7 @@ const soilParams = computed<any>(() => {
     isPublic: ruleForm.Prescribing.open[0],
     expertId: ruleForm.Prescribing.expert,
     chufangResult: ruleForm.Prescribing.result,
-    lastCetuNumber: '4654654',
+    lastCetuNumber: ruleForm.Prescribing.leastSoilRecord,
   });
 
   let yongyaoInfoJson = JSON.stringify(ruleForm.Prescribing.medicine);
@@ -425,7 +515,7 @@ const soilParams = computed<any>(() => {
     datecollected: ruleForm.sampleDate,
     isFrist: ruleForm.diagnosis,
     soildescribe: ruleForm.describe,
-    images: ruleForm.image,
+    images: [...ruleForm.image.url].join(','),
     expertId: ruleForm.testPeople,
     status: ruleForm.soilStatus,
     soilResultsJson,
@@ -435,14 +525,69 @@ const soilParams = computed<any>(() => {
   return params;
 });
 
+// 提价测土结果请求
 async function setSoilData() {
   let r = await getAddSoil(soilParams.value);
-
-  ElMessage(r.msg);
+  if (r.code) {
+    ElMessage.error(r.msg);
+  } else {
+    ElMessage.success('已经添加');
+  }
 }
 
-onMounted(() => {
+// 测土配方，处方模板，专家列表的select option的数据请求
+async function setExpertSoilTemplateSelectData() {
+  let { expertList, recipeTemList, cetuOrderList } = await getTestExpert();
+  selectOptions.expertList = expertList;
+  selectOptions.recipeTemList = recipeTemList;
+  selectOptions.cetuOrderList = cetuOrderList;
+}
+
+const userInfo = reactive({ mobile: 0, time: 0, name: '' });
+async function getSoilDetail() {
+  // 没有cetuId，说明是新增页面不需要请求详情数据
+  if (!cetuId.value) return;
+  let r = await getTestSoilDetail(cetuId.value as any);
+  // console.log('r', r);
+  let s = r.soilInfo;
+  let cetuResult = r.cetuResult;
+  let chufangInfo = r.chufangInfo;
+  ruleForm.cetuId = s.cetuId;
+  userInfo.mobile = s.mobile;
+  userInfo.time = s.datecollected;
+  userInfo.name = s.username;
+  ruleForm.address = s.address;
+  ruleForm.latitude = s.northLat;
+  ruleForm.longitude = s.eastLng;
+  ruleForm.nowKind = s.zuowuId;
+  ruleForm.beforeKind = s.beforeZuowuId;
+  ruleForm.unit = s.unitId;
+  ruleForm.number = s.mushu;
+  ruleForm.terrain = +s.dixing;
+  ruleForm.sampleNumber = s.depth;
+  ruleForm.sampleDate = s.datecollected;
+  ruleForm.diagnosis = +s.isFrist;
+  ruleForm.describe = s.soildescribe;
+  ruleForm.image = s.images;
+  ruleForm.testPeople = +s.expertId;
+  ruleForm.soilStatus = +r.status;
+  ruleForm.soilResult.an = cetuResult.atdVal;
+  ruleForm.soilResult.lin = cetuResult.sxlVal;
+  ruleForm.soilResult.jia = cetuResult.yxjVal;
+  ruleForm.soilResult.ph = cetuResult.phVal;
+  ruleForm.soilResult.organic = cetuResult.organicVal;
+  ruleForm.soilResult.salt = cetuResult.saltVal;
+  ruleForm.soilResult.soilDescribe = cetuResult.resultVal;
+  ruleForm.Prescribing.open = chufangInfo.isPublic ? ['公开处方'] : [];
+  ruleForm.Prescribing.expert = chufangInfo.expertId;
+  ruleForm.Prescribing.result = chufangInfo.chufangResult;
+  ruleForm.Prescribing.leastSoilRecord = chufangInfo.lastCetuNumber;
+  integrationMedicine(r.drugInfo);
+}
+onMounted(async () => {
   emit('update:hideAside', false);
+  setExpertSoilTemplateSelectData();
+  getSoilDetail();
 });
 // 隐藏左边栏
 onUnmounted(() => {

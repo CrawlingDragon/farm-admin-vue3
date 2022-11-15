@@ -64,11 +64,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/examine-soil.vue'),
   },
   {
-    path: '/examine-soil-detail/:cuteId', //测土配方编辑
-    component: () => import('@/view/examine-soil-detail.vue'),
+    path: '/examine-soil-add', //新增测土
+    name: 'examine-soil-add',
+    component: () => import('@/view/examine-soil-add.vue'),
   },
   {
-    path: '/examine-soil-add/:cetuId', //新增测土
+    path: '/examine-soil-detail/:cetuId', //测土配方详情
+    component: () => import('@/view/examine-soil-detail.vue'),
+  },
+
+  {
+    path: '/examine-soil-edit/:cetuId', //编辑测土
     component: () => import('@/view/examine-soil-add.vue'),
   },
   {

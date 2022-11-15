@@ -10,8 +10,12 @@
 <script setup lang="ts">
 const props = defineProps({
   title: String,
-  mobile: Number,
-  time: Number,
+  mobile: {
+    type: [String, Number],
+  },
+  time: {
+    type: [String, Number],
+  },
 });
 const emit = defineEmits(['del']);
 const del = () => {

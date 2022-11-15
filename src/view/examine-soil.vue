@@ -13,7 +13,7 @@
         <el-icon class="icon"><QuestionFilled /></el-icon>
       </el-tooltip>
 
-      <el-button type="primary" class="add" @click="goSoilPage('add')">新增测土</el-button>
+      <el-button type="primary" class="add" @click="goAddSoilPage">新增测土</el-button>
     </div>
     <div class="input-bar">
       <el-input
@@ -73,7 +73,9 @@
             >
               详情
             </div>
-            <div v-else class="color cursor" @click="goSoilPage('add', scope.row.cetuId)">编辑</div>
+            <div v-else class="color cursor" @click="goSoilPage('edit', scope.row.cetuId)">
+              编辑
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -86,6 +88,7 @@ import { ref, computed, reactive, onMounted, watch } from 'vue';
 import Pages from '@/components/pages.vue';
 import { getSoilList } from '@/http';
 import { useRouter } from 'vue-router';
+
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
@@ -150,11 +153,22 @@ onMounted(() => {
 });
 
 const router = useRouter();
-function goSoilPage(page: string, cetuId?: number) {
+function goAddSoilPage() {
   router.push({
-    path: `examine-soil-${page}/${cetuId}`,
-    params: {},
+    path: `/examine-soil-add`,
   });
+}
+function goSoilPage(page: string, cetuId?: number | string) {
+  switch (page) {
+    case 'edit':
+      router.push({
+        path: `/examine-soil-${page}/${cetuId}`,
+      });
+    case 'detail':
+      router.push({
+        path: `/examine-soil-${page}/${cetuId}`,
+      });
+  }
 }
 </script>
 <style lang="scss" scoped>
