@@ -27,3 +27,15 @@ export { getAddSoil } from './getAddSoil';
 export { getHospitalUser } from './getHospitalUser';
 export { getTestSoilDetail } from './getTestSoilDetail';
 export { getDelSoil } from './getDelSoil';
+// 特色业务
+// 挂号管理
+export { getSubscribeLists } from './getSubscribeLists';
+export { getExpertSchedulLists } from './getExpertSchedulLists';
+export { getSubscribeDetail } from './getSubscribeDetail';
+export { getSubscribeDetailSave } from './getSubscribeDetailSave';
+export { getExpertSchedulDel } from './getExpertSchedulDel';
+export { getExpertSchedulDetail } from './getExpertSchedulDetail';
+export { getAddExpert } from './getAddExpert';
+// 短信管理
+export { getNoteLists } from './getNoteLists';
+export { getNoteSmsSendInfo } from './getNoteSmsSendInfo';

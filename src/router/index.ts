@@ -145,8 +145,24 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/serve-registration.vue'),
   },
   {
+    path: '/serve-registration-add', //新增专家排班
+    component: () => import('@/view/serve-registration-add.vue'),
+  },
+  {
+    path: '/serve-registration-detail', //挂号单详情
+    component: () => import('@/view/serve-registration-detail.vue'),
+  },
+  {
     path: '/serve-note', //短信管理
     component: () => import('@/view/serve-note.vue'),
+  },
+  {
+    path: '/serve-note-detail', //发短信
+    component: () => import('@/view/serve-note-detail.vue'),
+  },
+  {
+    path: '/serve-note-show', //短信详情
+    component: () => import('@/view/serve-note-show.vue'),
   },
   {
     path: '/serve-message', //信息管理
