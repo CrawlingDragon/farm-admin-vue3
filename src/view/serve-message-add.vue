@@ -18,6 +18,7 @@
             <el-input v-model="ruleForm.keywords" size="large" class="w300 m-2 mr20" placeholder="请输入关键词"></el-input>
           </el-form-item>
           <el-form-item label="内容:" prop="content">
+            <RichText v-model:valueHtml="ruleForm.content"></RichText>
           </el-form-item>
           <el-form-item label="缩略图:" prop="thumb">
             <UploadImageVue :limit="1" v-model:images="ruleForm.thumb" />
@@ -43,11 +44,16 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { getSaveNews, getNewsInfo } from '@/http';
 import UploadImageVue from '@/components/uploadImage.vue';
 import { ElMessage } from 'element-plus';
+import RichText from '@/components/richText.vue';
 
 const router = useRouter()
 const route = useRoute()
 const id = computed(() => {
-  return route.query.id
+  if (route.query.id) {
+    return route.query.id
+  } else {
+    return ''
+  }
 })
 const title = ref('信息编辑')
 const emit = defineEmits(['update:hideAside']);
@@ -64,10 +70,10 @@ let ruleForm = reactive(<any>{
   content: '', //信息内容
   thumb: [],//缩略图链接
 });
-
+// const valueHtmls = ref('')
 onMounted(async () => {
-  emit('update:hideAside', false);
   setNewsInfo()
+  emit('update:hideAside', false);
 })
 // 隐藏侧边栏
 onUnmounted(() => {
@@ -85,15 +91,49 @@ async function setNewsInfo() {
   if (id.value) {
     title.value = '信息编辑'
     let r = await getNewsInfo({ newId: id.value })
-    console.log('r', r)
+    // console.log('r', r)
+    if (r.code == 404) {
+      ElMessage.error(r.msg);
+      setTimeout(() => {
+        router.go(-1);
+      }, 1000);
+    }
+    let arr = []
+    arr.push(r.thumb)
     ruleForm.title = r.title
     ruleForm.keywords = r.keywords
     ruleForm.content = r.content
-    ruleForm.thumb.push(r.thumb)
+    ruleForm.thumb = arr
   } else {
     title.value = '发布信息'
   }
 
+}
+const params = computed(() => {
+  let params = {
+    newId: String(id.value),
+    title: ruleForm.title,
+    keywords: ruleForm.keywords,
+    content: ruleForm.content,
+    thumb: ruleForm.thumb[0]
+  }
+  return params;
+})
+// 保存提交方法
+async function setSaveNews() {
+  // console.log(params.value)
+  let r = await getSaveNews(params.value)
+  if (r.code) {
+    ElMessage.error(r.msg);
+  } else {
+    ElMessage.success('保存成功');
+    setTimeout(() => {
+      router.push({
+        path: "/serve-message"
+      })
+    }, 1000);
+
+  }
 }
 
 // 保存
@@ -101,7 +141,7 @@ async function saveMessage(formEl: FormInstance | undefined) {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(ruleForm)
+      setSaveNews()
     } else {
       console.log('error submit!', fields);
     }
@@ -123,11 +163,16 @@ async function saveMessage(formEl: FormInstance | undefined) {
 .content-box {
   background: #fff;
   padding-top: 20px;
+  padding-bottom: 20px;
 
   .content-form {
     min-height: 65vh;
 
   }
+}
+
+.submit-bar {
+  z-index: 101;
 }
 </style>
 

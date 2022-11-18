@@ -51,4 +51,5 @@ export { getNewsInfo } from './getNewsInfo';
 export { getTrainLists } from './getTrainLists';
 export { getTrainDel } from './getTrainDel';
 export { getTrainDetail } from './getTrainDetail';
+export { getTrainAddEdit } from './getTrainAddEdit';
 

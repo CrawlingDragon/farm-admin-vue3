@@ -14,6 +14,10 @@
           <el-button type="danger" size="small" @click="delNote">删除</el-button>
         </div>
         <div class="detail-box">
+          <span class="label">发送状态: </span>
+          <span class="content">{{ detailData.statusTips }}</span>
+        </div>
+        <div class="detail-box">
           <span class="label">发送时间: </span>
           <span class="content">{{ detailData.sendTime }}</span>
         </div>
@@ -48,6 +52,7 @@ let id = computed(() => route.query.id);
 const detailData = reactive<any>({
   content: '',//内容
   sendTime: '',//发送时间
+  statusTips: '',//发送状态
   smsId: '',//id
   userArr: [],//收件人
   userCount: '',//收件人总数
@@ -59,6 +64,7 @@ onMounted(async () => {
   // console.log('r', r)
   detailData.content = r.content
   detailData.sendTime = r.sendTime
+  detailData.statusTips = r.statusTips
   detailData.smsId = r.smsId
   detailData.userArr = r.userArr
   detailData.userCount = r.userCount
