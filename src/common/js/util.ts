@@ -104,3 +104,14 @@ export function initTransferData(arr: any[]) {
   });
   return newArr;
 }
+
+export function transformImageParams(images: any[]) {
+  if (images.length === 0) {
+    return '';
+  }
+  let arr: any = [];
+  images.forEach((item) => {
+    arr.push(item.url);
+  });
+  return arr.join(',');
+}

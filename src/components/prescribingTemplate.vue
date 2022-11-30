@@ -19,12 +19,24 @@ export interface ListItem {
   templateId: number;
 }
 
+const props = defineProps({
+  recipeTemList: {
+    type: Array,
+    default: function () {
+      return [];
+    },
+  },
+});
 const emit = defineEmits(['selectTemplate']);
 
 const prescribingTemplateList = ref<ListItem[]>([]);
 onMounted(async () => {
-  let r = await getTestExpert();
-  prescribingTemplateList.value = r.recipeTemList;
+  if (props.recipeTemList.length != 0) {
+    prescribingTemplateList.value = props.recipeTemList as ListItem[];
+  } else {
+    let r = await getTestExpert();
+    prescribingTemplateList.value = r.recipeTemList;
+  }
 });
 
 // 选择模板函数

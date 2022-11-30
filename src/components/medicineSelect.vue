@@ -1,11 +1,14 @@
 <template>
   <!-- 用药的select选择 -->
-  <el-select-v2
-    v-model="drugName"
-    :options="options.medicineOptions"
-    class="unit"
-    @change="changeFn"
-  />
+  <el-select v-model="drugId" placeholder="请选择" class="unit" @change="changeFn">
+    <el-option
+      v-for="item in optionsComputed"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    >
+    </el-option>
+  </el-select>
 </template>
 <script setup lang="ts">
 import { reactive, onMounted, computed } from 'vue';
@@ -35,30 +38,57 @@ let options = reactive({
     // 用药名select option
     {
       label: '药品1',
-      value: {
-        drugName: '药品1',
-        drugId: '2',
-      },
+      value: '',
       specLists: [],
     },
   ],
 });
 
 const selected = computed(() => (el: string) => {
+  let arr: any = [{ label: '1', value: '1' }];
+  options.medicineOptions.forEach((item: any) => {
+    if (item.drugId == el) {
+      arr = item.specLists;
+    }
+  });
+  arr.map((item: any) => {
+    item.value = item.drugSpecIds;
+    item.label = item.spec;
+  });
+  return arr;
+});
+
+const selectDrugName = computed((el: string) => {
+  let id = '';
+  options.medicineOptions.forEach((item: any) => {
+    if (item.drugId == el) {
+      id = item.specLists;
+    }
+  });
+  return id;
+});
+
+const optionsComputed = computed(() => {
   let arr: any = [];
   options.medicineOptions.forEach((item: any) => {
-    if (item.drugName == el) {
-      arr = item.specLists;
+    if (item.drugName) {
+      arr.push({
+        label: item.drugName,
+        value: item.drugId,
+        specLists: item.specLists,
+      });
     }
   });
   return arr;
 });
 
 const changeFn = (el: any) => {
-  const { drugName, drugId } = el;
-  emit('update:drugName', drugName);
-  emit('update:drugId', drugId);
-  emit('update:size', selected);
+  // console.log('el', el);
+  // const { drugName, drugId } = el;
+  // emit('update:drugName', drugName);
+  console.log('selected.value', selected.value(el));
+  emit('update:drugId', el);
+  emit('update:size', selected.value(el));
 };
 
 onMounted(async () => {

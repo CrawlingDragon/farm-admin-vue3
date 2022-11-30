@@ -1,10 +1,15 @@
 <template>
   <div class="add-second-bar border">
     <div class="name">{{ title }}</div>
-    <div class="del" @click="del">删除</div>
-    <div class="user-mobile">{{ mobile }}</div>
-    <div class="time">{{ time }}</div>
-    <div class="text">录入</div>
+    <template v-if="onlyShowTitle">
+      <slot>
+        <div class="del" @click="del">删除</div>
+      </slot>
+
+      <div class="user-mobile">{{ mobile }}</div>
+      <div class="time">{{ time }}</div>
+      <div class="text">录入</div>
+    </template>
   </div>
 </template>
 <script setup lang="ts">
@@ -15,6 +20,10 @@ const props = defineProps({
   },
   time: {
     type: [String, Number],
+  },
+  onlyShowTitle: {
+    type: Boolean,
+    default: true,
   },
 });
 const emit = defineEmits(['del']);
@@ -30,6 +39,7 @@ const del = () => {
   display: flex;
   align-items: center;
   font-size: 14px;
+  position: relative;
   .name {
     margin-right: 20px;
     font-weight: bold;
@@ -44,6 +54,7 @@ const del = () => {
   .text {
     color: #999;
     margin-right: 10px;
+    font-size: 12px;
   }
 }
 </style>

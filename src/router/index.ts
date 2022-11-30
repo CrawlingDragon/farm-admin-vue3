@@ -82,8 +82,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/examine-point.vue'),
   },
   {
+    path: '/examine-point-add/:pointId', //编辑观测点
+    component: () => import('@/view/examine-point-add.vue'),
+  },
+  {
     path: '/examine-point-add', //新增观测点
     component: () => import('@/view/examine-point-add.vue'),
+  },
+  {
+    path: '/examine-point-detail/:pointId', //观测点详情
+    component: () => import('@/view/examine-point-detail.vue'),
   },
   {
     path: '/examine-zuozhenlist', //坐诊记录
@@ -91,7 +99,17 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/examine-zuozhen-add', // 新增坐诊
+    name: 'examine-zuozhen-add',
     component: () => import('@/view/examine-zuozhen-add.vue'),
+  },
+  {
+    path: '/examine-zuozhen-add/:zuozhenId', // 坐诊编辑
+    name: 'examine-zuozhen-edit',
+    component: () => import('@/view/examine-zuozhen-add.vue'),
+  },
+  {
+    path: '/examine-zuozhen-detail/:zuozhenId', // 坐诊详情
+    component: () => import('@/view/examine-zuozhen-detail.vue'),
   },
   {
     path: '/examine-xunzhenlist', //巡诊记录
@@ -100,6 +118,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/examine-xunzhen-add', // 新增巡诊
     component: () => import('@/view/examine-xunzhen-add.vue'),
+  },
+  {
+    path: '/examine-xunzhen-add/:xunzhenId', // 巡诊编辑
+    component: () => import('@/view/examine-xunzhen-add.vue'),
+  },
+  {
+    path: '/examine-xunzhen-detail/:xunzhenId', // 巡诊编辑
+    component: () => import('@/view/examine-xunzhen-detail.vue'),
   },
   {
     path: '/examine-wangzhen', //网诊管理

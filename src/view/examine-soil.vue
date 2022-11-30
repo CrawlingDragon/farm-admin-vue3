@@ -92,7 +92,7 @@ import { useRouter } from 'vue-router';
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
-const status = ref({ label: '全部', value: 0 });
+const status = ref(0);
 const page = ref(1);
 const options = ref([
   { label: '全部', value: 0 },
@@ -114,14 +114,15 @@ const params = computed(() => {
     endTime,
     page: page.value,
     pageCount: 10,
-    status: status.value.value,
+    status: status.value,
   };
   return params;
 });
 // 点击tab切换
 function choose(activeVal: number) {
+  debugger;
   active.value = activeVal;
-  status.value = options.value.filter((item) => item.value == activeVal)[0];
+  status.value = options.value.filter((item) => item.value == activeVal)[0].value;
 }
 // 点击搜索按钮
 function search() {
@@ -186,6 +187,7 @@ function goSoilPage(page: string, cetuId?: number | string) {
   }
   .icon {
     margin-left: 0;
+    font-size: 20px;
     cursor: pointer;
   }
   .add {

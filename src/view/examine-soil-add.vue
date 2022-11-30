@@ -300,6 +300,7 @@ import UserSelectVue from '@/components/userSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
 import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
+import { transformImageParams } from '@/common/js/util';
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
@@ -464,13 +465,15 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!');
-      setSoilData();
-      if (goPage) {
-        setTimeout(() => {
-          router.push('/examine-soil');
-        }, 500);
-      }
+      // console.log('submit!');
+      let r = setSoilData().then((res) => {
+        console.log('res', res);
+        if (goPage) {
+          setTimeout(() => {
+            router.push('/examine-soil');
+          }, 500);
+        }
+      });
     } else {
       console.log('error submit!', fields);
     }
@@ -515,7 +518,7 @@ const soilParams = computed<any>(() => {
     datecollected: ruleForm.sampleDate,
     isFrist: ruleForm.diagnosis,
     soildescribe: ruleForm.describe,
-    images: [...ruleForm.image.url].join(','),
+    images: transformImageParams(ruleForm.image),
     expertId: ruleForm.testPeople,
     status: ruleForm.soilStatus,
     soilResultsJson,
@@ -530,8 +533,10 @@ async function setSoilData() {
   let r = await getAddSoil(soilParams.value);
   if (r.code) {
     ElMessage.error(r.msg);
+    return Promise.reject('error');
   } else {
     ElMessage.success('已经添加');
+    return Promise.resolve('ok');
   }
 }
 
@@ -552,6 +557,7 @@ async function getSoilDetail() {
   let s = r.soilInfo;
   let cetuResult = r.cetuResult;
   let chufangInfo = r.chufangInfo;
+  ruleForm.nameId = s.uid;
   ruleForm.cetuId = s.cetuId;
   userInfo.mobile = s.mobile;
   userInfo.time = s.datecollected;

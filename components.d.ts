@@ -7,9 +7,15 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AddConclusion: typeof import('./src/components/add-conclusion.vue')['default']
+    AddDay: typeof import('./src/components/addDay.vue')['default']
+    AddDayWatch: typeof import('./src/components/add-day-watch.vue')['default']
     AddSecondBar: typeof import('./src/components/add-second-bar.vue')['default']
+    AddTestSoil: typeof import('./src/components/add-test-soil.vue')['default']
     Aside: typeof import('./src/components/aside.vue')['default']
+    DrugSizeSelect: typeof import('./src/components/drugSizeSelect.vue')['default']
     EchartLine: typeof import('./src/components/echart-line.vue')['default']
+    ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

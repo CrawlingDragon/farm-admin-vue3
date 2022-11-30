@@ -20,6 +20,12 @@ const prop = defineProps({
     type: [Number, String],
     default: '',
   },
+  options: {
+    type: Array,
+    default: function () {
+      return [];
+    },
+  },
 });
 
 const emit = defineEmits(['update:kind']);
@@ -52,9 +58,14 @@ const trimData = computed(() => {
   });
 });
 onMounted(async () => {
-  let { categoryArr } = await getSelectInfo();
-  // console.log('categoryArr', categoryArr);
-  kindOptions.options = categoryArr;
+  if (prop.options.length === 0) {
+    let { categoryArr } = await getSelectInfo();
+    // console.log('categoryArr', categoryArr);
+    kindOptions.options = categoryArr;
+  } else {
+    kindOptions.options = prop.options as any;
+    // console.log('prop');
+  }
 });
 </script>
 <style lang="scss" scoped></style>

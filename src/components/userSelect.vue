@@ -1,6 +1,9 @@
 <template>
   <!-- 医院下面--会员的select选择 -->
-  <el-select-v2 v-model="user" :options="trimData" class="w300 select" @change="changeFn" />
+
+  <el-select v-model="user" placeholder="请选择会员" class="w300 select" @change="changeFn">
+    <el-option :label="item.label" :value="item.value" v-for="item in trimData"></el-option>
+  </el-select>
 </template>
 <script setup lang="ts">
 import { reactive, onMounted, computed } from 'vue';
