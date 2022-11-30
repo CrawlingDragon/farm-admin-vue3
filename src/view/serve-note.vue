@@ -22,7 +22,8 @@
     <div class="table-box md20">
       <el-table :data="noteData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="sendTime" width="300" label="发送时间" />
-        <el-table-column header-align="center" align="center" prop="content" width="300" label="内容" />
+        <el-table-column header-align="center" align="center" prop="content" width="300" :show-overflow-tooltip="true"
+          label="内容" />
         <el-table-column header-align="center" align="center" prop="userCount" width="100" label="会员数" />
         <el-table-column header-align="center" align="center" prop="statusTips" class-name="status-tips" label="发送状态">
           <template #default="scope">
@@ -34,7 +35,6 @@
         <el-table-column header-align="center" align="center" width="150" label="操作">
           <template #default="scope">
             <div>
-              <!-- <span class="cursor color-del" @click="deleteExpert(scope.row.schId)">删除</span> -->
               <span class="color cursor" @click="detailNote(scope.row)">详情</span>
             </div>
           </template>
@@ -50,7 +50,6 @@ import { ref, computed, reactive, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router'
 import Pages from '@/components/pages.vue';
 import { getNoteLists } from '@/http';
-import Search from './search.vue';
 
 const dateVal = ref('')
 const page = ref(1)

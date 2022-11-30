@@ -2,7 +2,7 @@
   <div class="serve-registration border bg-w pd40">
     <div class="head right-head soil-right-head">
       <div class="tab" :class="{ active: active == 0 }" @click="choose(0)">挂号记录</div>
-      <div class="tab" :class="{ active: active == 1 }" @click="choose(1)">专家排版</div>
+      <div class="tab" :class="{ active: active == 1 }" @click="choose(1)">专家排班</div>
       <el-button type="primary" class="add" @click="goSoilPage()">新增专家排班</el-button>
     </div>
     <div class="input-bar">
@@ -54,7 +54,7 @@
         <el-table-column prop="status" header-align="center" align="center" width="150" label="操作">
           <template #default="scope">
             <div>
-              <span class="cursor color-del" @click="deleteExpert(scope.row.schId)">删除</span>
+              <span class="cursor color del" @click="deleteExpert(scope.row.schId)">删除</span>
               <span class="color cursor" @click="detailExpert(scope.row)">详情</span>
             </div>
           </template>
@@ -62,14 +62,14 @@
       </el-table>
     </div>
     <Pages :total="soilData.totalData" v-model:page="page"></Pages>
-    <el-dialog v-model="dialogFormVisible" title="排班详情">
+    <el-dialog v-model="dialogFormVisible" title="新增专家排班">
       <el-form ref="ruleFormRef" label-width="118px" :rules="rules" size="large" :model="ruleForm">
         <el-form-item label="门诊日期:" prop="outpatientTime">
           <el-date-picker :clearable="false" value-format="YYYY-MM-DD" v-model="ruleForm.outpatientTime" type="date"
             placeholder="请选择日期" />
         </el-form-item>
         <el-form-item label="时段:" prop="apm">
-          <el-select v-model="ruleForm.apm" class="m-2" placeholder="Select" size="default">
+          <el-select v-model="ruleForm.apm" class="m-2" placeholder="请选择时段" size="default">
             <el-option label="上午" value="1" />
             <el-option label="下午" value="2" />
           </el-select>
@@ -407,10 +407,9 @@ async function setAddExpert() {
   justify-content: space-between;
 }
 
-.color-del {
+.del {
   display: inline-block;
-  margin-right: 10px;
-  color: #337ab7;
+  margin-right: 15px;
 }
 
 .content-detail {
