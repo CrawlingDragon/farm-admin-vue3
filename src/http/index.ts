@@ -80,4 +80,13 @@ export { getTrainLists } from './getTrainLists';
 export { getTrainDel } from './getTrainDel';
 export { getTrainDetail } from './getTrainDetail';
 export { getTrainAddEdit } from './getTrainAddEdit';
+// 商品中心
+// 已卖出的商品
+export {
+  getOutCommodityList,
+  getExportList,
+  getorderDetail,
+  getorderDelete,
+  getOrderRemarkEdit
+} from './getCommodityCenter';
 

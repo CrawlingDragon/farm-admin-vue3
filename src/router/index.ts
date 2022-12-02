@@ -150,6 +150,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/goods-sold.vue'),
   },
   {
+    path: '/goods-sold-detail', //已卖出商品详情
+    component: () => import('@/view/goods-sold-detail.vue'),
+  },
+  {
     path: '/goods-sell-info', //销售统计
     component: () => import('@/view/goods-sell-info.vue'),
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="serve-registration border bg-w pd40">
     <div class="head right-head soil-right-head">
-      <div class="tab">人才培训</div>
+      人才培训
       <el-button type="primary" class="add" @click="goPeoplePage()">新增培训</el-button>
     </div>
     <div class="input-bar">
