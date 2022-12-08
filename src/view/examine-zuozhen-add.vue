@@ -102,6 +102,7 @@
             </el-form-item>
             <el-form-item label="病情描述:" prop="describe">
               <el-input
+                placeholder="输入具体描述"
                 v-model="ruleForm.describe"
                 class="w300"
                 type="textarea"
@@ -133,6 +134,7 @@
                 rows="5"
                 maxlength="2000"
                 show-word-limit
+                placeholder="输入具体描述"
               />
             </el-form-item>
             <el-form-item label="测土记录" prop="leastSoilRecord">
@@ -144,14 +146,14 @@
               </LatestTestSoilSelectVue>
             </el-form-item>
             <div class="tip">用药信息</div>
-            <div class="medicine">
+            <!-- <div class="medicine" v-if="false">
               <div class="bar title border">
                 <div class="item">商品名称</div>
                 <div class="item">商品规格</div>
                 <div class="item">数量</div>
                 <div class="del"></div>
-              </div>
-              <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
+              </div> -->
+            <!-- <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
                 <div class="item">
                   <medicineSelectVue
                     v-model:drugName="item.drugName"
@@ -171,8 +173,12 @@
                 <div class="del" @click="delMedicine(index)">x</div>
               </div>
             </div>
-            <el-button class="add-medicine-btn" @click="addMedicine">添加用药</el-button>
+            <el-button class="add-medicine-btn" @click="addMedicine" v-if="false"
+              >添加用药</el-button
+            > -->
+            <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
           </div>
+
           <div class="right-bar">
             <div class="tip">请选择处方模板</div>
             <div class="choose-box">
@@ -185,6 +191,7 @@
             </div>
           </div>
         </div>
+
         <div class="submit-bar" v-if="routeName == 'examine-zuozhen-add'">
           <div class="content">
             <el-button
@@ -226,13 +233,15 @@ import { getDelSoil, getAddEditZuoXun, getZuoXunDetail } from '@/http';
 import KindSelect from '@/components/kindSelect.vue';
 import UnitSelect from '@/components/unitSelect.vue';
 import ExpertSelect from '@/components/expertSelect.vue';
-import medicineSelectVue from '@/components/medicineSelect.vue';
+// import medicineSelectVue from '@/components/medicineSelect.vue';
 import PrescribingTemplateVue from '@/components/prescribingTemplate.vue';
 import UserSelectVue from '@/components/userSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
 import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
-import DrugSizeSelect from '@/components/drugSizeSelect.vue';
+// import DrugSizeSelect from '@/components/drugSizeSelect.vue';
+import Medicine from '@/components/medicine.vue';
+import { integrationMedicine } from '@/common/js/util';
 import { transformImageParams } from '@/common/js/util';
 import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
@@ -272,14 +281,14 @@ const ruleForm = reactive({
     soilRecord: '', //测土记录
     medicine: [
       //用药信息
-      {
-        drugName: '', //药品名字
-        drugId: '', //药品id
-        drugSpecIds: '', //药品规格
-        sizeSelectOption: [] as any,
-        drugQuantity: 1, // 药品数量
-      },
-    ],
+      // {
+      //   drugName: '', //药品名字
+      //   drugId: '', //药品id
+      //   drugSpecIds: '', //药品规格
+      //   sizeSelectOption: [] as any,
+      //   drugQuantity: 1, // 药品数量
+      // },
+    ] as any,
   },
   zuozhenId: '', //用于详情显示的zuozhenId
   templates: {}, // 选中的处方模板
@@ -316,44 +325,47 @@ const del = () => {
 };
 
 // 添加用药
-function addMedicine() {
-  ruleForm.Prescribing.medicine.push({
-    drugName: '', //药品名字
-    drugId: '', //药品id
-    drugSpecIds: '', //药品规格
-    sizeSelectOption: [],
-    drugQuantity: 1, // 药品数量
-  });
-}
+// function addMedicine() {
+//   ruleForm.Prescribing.medicine.push({
+//     drugName: '', //药品名字
+//     drugId: '', //药品id
+//     drugSpecIds: '', //药品规格
+//     sizeSelectOption: [],
+//     drugQuantity: 1, // 药品数量
+//   });
+// }
 
-// 删除用药
-function delMedicine(index: number) {
-  ruleForm.Prescribing.medicine.splice(index, 1);
-}
+// // 删除用药
+// function delMedicine(index: number) {
+//   ruleForm.Prescribing.medicine.splice(index, 1);
+// }
 
 // 选择模板
 function selectPrescribing(detail: any) {
   console.log('detail', detail);
   const { content, drugInfo } = detail;
   ruleForm.Prescribing.result = content;
-  integrationMedicine(drugInfo, 'Prescribing');
+  ruleForm.Prescribing.medicine = integrationMedicine(drugInfo);
 }
 // 整合自定义用药数组 和 后端用药数组
-function integrationMedicine(drugInfo: any, target: 'Prescribing') {
-  ruleForm[target].medicine = [];
-  if (drugInfo.length === 0) {
-    return;
-  }
-  drugInfo.forEach((item: any) => {
-    ruleForm[target].medicine.push({
-      drugName: item.drugName, //药品名字
-      drugId: item.drugId, //药品id
-      drugSpecIds: item.drugSpec, //药品规格
-      sizeSelectOption: [],
-      drugQuantity: +item.drugQuantity, // 药品数量
-    });
-  });
-}
+// function integrationMedicine(drugInfo: any, target: 'Prescribing') {
+//   ruleForm[target].medicine = [];
+//   if (drugInfo.length === 0) {
+//     return;
+//   }
+//   drugInfo.forEach((item: any) => {
+//     ruleForm[target].medicine.push({
+//       drugName: item.drugName, //药品名字
+//       drugId: item.drugId, //药品id
+//       drugSpec: item.drugSpec,
+//       drugSpecIds: item.drugSpecIds, //药品规格
+//       sizeSelectOption: [],
+//       drugQuantity: +item.drugQuantity, // 药品数量
+//       selectMyself: false,
+//     });
+//   });
+//   // console.log('ruleForm[target].medicine', ruleForm[target].medicine);
+// }
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
@@ -440,7 +452,7 @@ async function getZuozhenDetail() {
   ruleForm.Prescribing.expert = chufangInfo.expertId;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.soilRecord = chufangInfo.cetuNumber;
-  integrationMedicine(r.drugInfo, 'Prescribing');
+  ruleForm.Prescribing.medicine = integrationMedicine(r.drugInfo);
 }
 onMounted(async () => {
   emit('update:hideAside', false);

@@ -4,7 +4,7 @@
       坐诊记录
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
         <template #content> 记录会员的线下坐诊数据，包含种类基本情况和开处方信息。 </template>
-        <el-icon class="icon"><QuestionFilled /></el-icon>
+        <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
       <div class="export" @click="exportPDFFn">导出PDF</div>
       <el-button type="primary" class="add" @click="goAddZuoPageFn">新增坐诊</el-button>

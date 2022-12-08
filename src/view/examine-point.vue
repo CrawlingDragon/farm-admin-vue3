@@ -6,7 +6,7 @@
         <template #content>
           观测点即试验示范地，同时设立对照组和观测点，并将作物信息，<br />测土信息、农资商品使用信息、日常观测信息全部公开，通过控<br />制变量法，直观的给农户展示放心农资的使用情况。
         </template>
-        <el-icon class="icon"><QuestionFilled /></el-icon>
+        <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
       <el-button type="primary" class="add" @click="goAddPointPageFn('add')">新增观测点</el-button>
     </div>

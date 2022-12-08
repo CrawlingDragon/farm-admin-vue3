@@ -1,0 +1,170 @@
+<template>
+  <div class="wang-answer-box">
+    <el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="120px"
+      class="demo-ruleForm"
+      size="default"
+      status-icon
+    >
+      <div class="answer-box">
+        <div class="icon-bar">
+          <div class="icon-item" @click="showUploadBtn = true">
+            <el-icon><Picture /></el-icon>
+          </div>
+          <div class="icon-item" @click="addMedicineFn">💊</div>
+          <div class="icon-item">
+            <el-popover placement="right" :width="400" trigger="hover">
+              <template #reference>
+                <el-icon><EditPen /></el-icon>
+              </template>
+              <PrescribingTemplate
+                v-if="recipeTemListArr.length !== 0"
+                :recipeTemList="recipeTemListArr"
+                @selectTemplate="selectTemplate"
+              />
+            </el-popover>
+          </div>
+        </div>
+        <el-input
+          v-model="ruleForm.content"
+          type="textarea"
+          class="textarea"
+          placeholder="请输入回复内容"
+          :rows="5"
+        />
+      </div>
+      <UploadImage
+        v-model:images="ruleForm.images"
+        v-if="showUploadBtn"
+        style="margin-bottom: 10px"
+      />
+      <Medicine v-if="showMedicineBtn" v-model:medicine-prop="ruleForm.medicine" />
+      <el-button type="primary" @click="submitForm(ruleFormRef)">回复</el-button>
+    </el-form>
+  </div>
+</template>
+<script setup lang="ts">
+import { reactive, ref, computed } from 'vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage } from 'element-plus';
+import UploadImage from '@/components/uploadImage.vue';
+import Medicine from '@/components/medicine.vue';
+import PrescribingTemplate from '@/components/prescribingTemplate.vue';
+import { integrationMedicine, transformImageParams } from '@/common/js/util';
+import { getWangToAnswer } from '@/http';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const props = defineProps({
+  recipeTemListArr: {
+    type: Array,
+    default: function () {
+      return [];
+    },
+  },
+  questionId: {
+    type: Number,
+    default: 0,
+  },
+});
+const ruleFormRef = ref<FormInstance>();
+const ruleForm = reactive({
+  content: '',
+  images: [],
+  medicine: [] as any,
+});
+const showUploadBtn = ref(false);
+const showMedicineBtn = ref(false);
+const rules = reactive<FormRules>({
+  content: [{ required: true, message: '回复内容不能为空', trigger: 'blur' }],
+});
+const addMedicineFn = () => {
+  showMedicineBtn.value = true;
+  setTimeout(() => {
+    ruleForm.medicine.push({
+      drugName: '', //药品名字
+      drugId: '', //药品id
+      drugSpecIds: '', //药品规格id
+      drugSpec: '', //药品规格
+      sizeSelectOption: [],
+      drugQuantity: '1', // 药品数量
+      selectMyself: false,
+    });
+  }, 100);
+};
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (ruleForm.content == '') {
+    ElMessage.error('回复内容不能为空');
+    return;
+  }
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      submitAnswerFn();
+    } else {
+      console.log('error submit!', fields);
+    }
+  });
+};
+
+const ToAnswerParamsComputed = computed(() => {
+  let yongyaoInfoJson = JSON.stringify(ruleForm.medicine);
+  let params = {
+    questionId: props.questionId,
+    message: ruleForm.content,
+    images: transformImageParams(ruleForm.images),
+    yongyaoInfoJson,
+  };
+  return params;
+});
+//提交回复 fetch
+const submitAnswerFn = async () => {
+  let r = await getWangToAnswer(ToAnswerParamsComputed.value as any);
+  console.log('submit-r', r);
+  if (r.code) {
+    ElMessage.error(r.msg);
+  } else {
+    ElMessage.success('回复成功');
+    router.go(0);
+  }
+};
+//选择了模板后的 用药赋值函数
+const selectTemplate = (val: any) => {
+  showMedicineBtn.value = true;
+  setTimeout(() => {
+    ruleForm.medicine = integrationMedicine(val.drugInfo);
+  }, 100);
+};
+</script>
+<style lang="scss" scoped>
+.wang-answer-box {
+  font-size: 14px;
+  .answer-box {
+    border: 1px solid $theme-color;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    .icon-bar {
+      display: flex;
+      height: 40px;
+      border-bottom: 1px solid $theme-color;
+      & > .icon-item {
+        width: 50px;
+        height: 100%;
+        border-right: 1px solid #e5e5e5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 23px;
+      }
+    }
+
+    :deep().el-textarea__inner {
+      box-shadow: none;
+      min-height: 90px;
+    }
+  }
+}
+</style>

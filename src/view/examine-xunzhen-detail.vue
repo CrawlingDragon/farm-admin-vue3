@@ -3,8 +3,8 @@
     <div class="nav-bar border">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/examine-zuozhenlist' }">坐诊记录</el-breadcrumb-item>
-        <el-breadcrumb-item> 观测点详情:{{ ruleForm.enterInfo.zuoxunNumber }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/examine-xunzhenlist' }">巡诊记录</el-breadcrumb-item>
+        <el-breadcrumb-item> 巡诊详情:{{ ruleForm.enterInfo.zuoxunNumber }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="point-container">
@@ -19,7 +19,7 @@
       >
         <div class="title-fiexed-bar border">
           <AddSecondBar
-            title="坐诊详情"
+            title="巡诊详情"
             :mobile="ruleForm.enterInfo.enterMobile"
             :time="ruleForm.enterInfo.enterTime"
             class="left"
@@ -47,7 +47,7 @@
             <el-form-item label="会员:" prop="username">
               {{ ruleForm.username }} {{ ruleForm.enterInfo.enterMobile }}
             </el-form-item>
-            <el-form-item label="坐诊种类:" prop="nowKind">
+            <el-form-item label="巡诊种类:" prop="nowKind">
               {{ ruleForm.nowKind }}
             </el-form-item>
             <el-form-item label="种养模式:" prop="plantType">
@@ -61,7 +61,7 @@
               {{ ruleForm.unit }}
             </el-form-item>
             <el-form-item
-              label="坐诊日期:"
+              label="巡诊日期:"
               prop="time"
               v-model="ruleForm.time"
               class="w300"
@@ -93,9 +93,9 @@
 
         <div class="dayTest test-soil-box border">
           <div class="tip">处方信息</div>
-          <el-form-item label="坐诊专家:" prop="describe">
+          <el-form-item label="巡诊专家:" prop="describe">
             {{ ruleForm.Prescribing.expert }}
-            {{ ruleForm.Prescribing.expert }}专家手机号码
+            {{ ruleForm.Prescribing.mobile }}
           </el-form-item>
           <el-form-item label="看诊结果:" prop="describe">
             {{ ruleForm.Prescribing.result }}
@@ -197,7 +197,7 @@ import { transformImageParams } from '@/common/js/util';
 const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 
-const zuozhenId = computed(() => route.params.zuozhenId) as any;
+const xunzhenId = computed(() => route.params.xunzhenId) as any;
 // const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
@@ -215,13 +215,14 @@ const ruleForm = reactive({
   plantType: '1', //种养模式
   degree: '1', //病发程度
   number: '', //数量
-  time: '', //坐诊日期
+  time: '', //巡诊日期
   diagnosis: 1, // 初复诊
   describe: '', //描述
   image: [] as any, // 图片
   Prescribing: {
     // 处方信息
     expert: '', //处方专家
+    mobile: '', //专家手机
     result: '', // 看诊结果
     soilRecord: '', //测土记录
     medicine: [
@@ -248,7 +249,7 @@ const ruleForm = reactive({
 
 //路由到编辑页
 const goPageEdit = () => {
-  router.push({ path: `/examine-zuozhen-add/${zuozhenId.value}` });
+  router.push({ path: `/examine-xunzhen-add/${xunzhenId.value}` });
 };
 
 const rules = reactive<FormRules>({
@@ -258,14 +259,14 @@ const rules = reactive<FormRules>({
 
 //顶部的删除按钮
 const del = () => {
-  ElMessageBox.confirm('是否要删除坐诊记录', '提示')
+  ElMessageBox.confirm('是否要删除巡诊记录', '提示')
     .then(async (res) => {
-      let r = await getDelZuoXunTrack(zuozhenId.value as any);
+      let r = await getDelZuoXunTrack(xunzhenId.value as any);
       if (r.code) {
         ElMessage.error(r.msg);
       } else {
         ElMessage.success('删除成功');
-        router.replace({ path: '/examine-point' });
+        router.replace({ path: '/examine-xunzhenlist' });
       }
       // console.log('r', r);
       //删除配方
@@ -332,7 +333,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
 
 const zuoZhenParams = computed<any>(() => {
   let params = {
-    zxId: zuozhenId.value,
+    zxId: xunzhenId.value,
     addType: '1',
     trackTime: ruleForm.addTrack.time,
     effect: ruleForm.addTrack.effect,
@@ -361,8 +362,8 @@ async function setZuoXunTrack() {
 // const userInfo = reactive({ mobile: 0, time: 0, name: '' });
 async function getZuozhenDetail() {
   // 没有zuozhenId，说明是新增页面不需要请求详情数据
-  if (!zuozhenId.value) return;
-  let r = await getZuoXunDetail(zuozhenId.value as any);
+  if (!xunzhenId.value) return;
+  let r = await getZuoXunDetail(xunzhenId.value as any);
   // console.log('r', r);
   let enterInfo = r.enterInfo;
   let s = r.soilInfo;
@@ -381,7 +382,8 @@ async function getZuozhenDetail() {
   ruleForm.diagnosis = s.isFristTips;
   ruleForm.describe = s.content;
   ruleForm.image = s.images;
-  ruleForm.Prescribing.expert = chufangInfo.expertId;
+  ruleForm.Prescribing.expert = chufangInfo.expertName;
+  ruleForm.Prescribing.mobile = chufangInfo.expertMobile;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.soilRecord = chufangInfo.cetuNumber;
   integrationMedicine(r.drugInfo, 'Prescribing');

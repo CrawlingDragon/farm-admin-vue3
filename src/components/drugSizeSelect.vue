@@ -5,6 +5,7 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      :disabled="item.disabled"
     ></el-option>
   </el-select>
 </template>
@@ -26,6 +27,10 @@ const props = defineProps({
       ];
     },
   },
+  selectMyself: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emits = defineEmits(['update:drugSpecIds']);
 const options = computed(() => props.sizeSelectOption as any);
@@ -36,7 +41,9 @@ const changeFn = (el: any) => {
 watch(
   () => props.sizeSelectOption,
   () => {
-    emits('update:drugSpecIds', '');
+    if (props.selectMyself) {
+      emits('update:drugSpecIds', '');
+    }
   }
 );
 </script>

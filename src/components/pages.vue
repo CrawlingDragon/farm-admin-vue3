@@ -1,3 +1,4 @@
+import { onMounted, onUnmounted } from 'vue';
 <template>
   <div class="pages-box">
     <div class="left">
@@ -17,6 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { watch } from 'vue';
 const prop = defineProps({
   total: {
     type: Number,
@@ -33,6 +35,21 @@ function handleCurrentChange(page: number) {
   // console.log('page', page);
   emit('update:page', page);
 }
+
+// onMounted(() => {
+//   window.addEventListener('scroll', scrollToTop);
+// });
+
+// onUnmounted(() => {
+//   window.removeEventListener('scroll', scrollToTop);
+// });
+watch(
+  () => prop.page,
+  () => {
+    // console.log('prop.page', prop.page);
+    document.documentElement.scrollTop = 0;
+  }
+);
 </script>
 <style lang="scss" scoped>
 .pages-box {

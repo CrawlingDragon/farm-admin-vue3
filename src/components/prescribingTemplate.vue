@@ -31,6 +31,7 @@ const emit = defineEmits(['selectTemplate']);
 
 const prescribingTemplateList = ref<ListItem[]>([]);
 onMounted(async () => {
+  // console.log('props.recipeTemList', props.recipeTemList);
   if (props.recipeTemList.length != 0) {
     prescribingTemplateList.value = props.recipeTemList as ListItem[];
   } else {

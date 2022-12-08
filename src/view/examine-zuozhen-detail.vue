@@ -95,7 +95,7 @@
           <div class="tip">处方信息</div>
           <el-form-item label="坐诊专家:" prop="describe">
             {{ ruleForm.Prescribing.expert }}
-            {{ ruleForm.Prescribing.expert }}专家手机号码
+            {{ ruleForm.Prescribing.mobile }}
           </el-form-item>
           <el-form-item label="看诊结果:" prop="describe">
             {{ ruleForm.Prescribing.result }}
@@ -222,6 +222,7 @@ const ruleForm = reactive({
   Prescribing: {
     // 处方信息
     expert: '', //处方专家
+    mobile: '', //专家手机
     result: '', // 看诊结果
     soilRecord: '', //测土记录
     medicine: [
@@ -265,7 +266,7 @@ const del = () => {
         ElMessage.error(r.msg);
       } else {
         ElMessage.success('删除成功');
-        router.replace({ path: '/examine-point' });
+        router.replace({ path: '/examine-zuozhenlist' });
       }
       // console.log('r', r);
       //删除配方
@@ -381,7 +382,8 @@ async function getZuozhenDetail() {
   ruleForm.diagnosis = s.isFristTips;
   ruleForm.describe = s.content;
   ruleForm.image = s.images;
-  ruleForm.Prescribing.expert = chufangInfo.expertId;
+  ruleForm.Prescribing.expert = chufangInfo.expertName;
+  ruleForm.Prescribing.mobile = chufangInfo.expertMobile;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.soilRecord = chufangInfo.cetuNumber;
   integrationMedicine(r.drugInfo, 'Prescribing');

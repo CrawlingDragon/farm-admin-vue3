@@ -124,7 +124,7 @@ const fetchData: IndexData = reactive({
 // 请求数据，且set data
 const setIndexData = async () => {
   let result = await getIndex(params);
-  console.log('result', result);
+  // console.log('result', result);
   fetchData.info = result.info;
   fetchData.dataTotal = result.dataTotal;
   fetchData.switchVal = result.switch;
@@ -135,7 +135,7 @@ const setIndexData = async () => {
   fetchData.charArrayStr = result.charArrayStr;
   fetchData.replyArrayStr = result.replyArrayStr;
   fetchData.tempArray = result.tempArray;
-  console.log('result', fetchData.switchVal);
+  // console.log('result', fetchData.switchVal);
 };
 
 onMounted(async () => {

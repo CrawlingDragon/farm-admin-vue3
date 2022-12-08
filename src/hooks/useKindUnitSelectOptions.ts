@@ -17,7 +17,7 @@ export function useKindUnitSelectOptions() {
     kindOptions.value = categoryArr;
     // options.kindOptions = categoryArr;
     // options.unitOptions = unitArr;
-    console.log('kindOptions', kindOptions);
+    // console.log('kindOptions', kindOptions);
   }
   onMounted(() => {
     setUnitAndKindSelectData();
