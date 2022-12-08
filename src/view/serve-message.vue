@@ -1,7 +1,7 @@
 <template>
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
-      <div class="tab">信息管理</div>
+      信息管理
       <el-button type="primary" icon="Plus" class="add" @click="goLink('/serve-message-add')">发布信息</el-button>
     </div>
     <div class="table-box md20">

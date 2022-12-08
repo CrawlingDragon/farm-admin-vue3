@@ -1,9 +1,9 @@
 <template>
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
-      <div class="tab">短信管理</div>
-      <el-tooltip class="box-item tab" effect="dark" content="将最新农资商品、培训、测土配方取报告等信息发短信给会员，会员会收到相应的手机短信。"
-        placement="right-start">
+      短信管理
+      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+        <template #content> 将最新农资商品、培训、测土配方取报告等信息发短信给会员，会员会收到相应的手机短信。</template>
         <el-icon class="icon">
           <QuestionFilled />
         </el-icon>
@@ -113,8 +113,9 @@ function detailNote(params: any) {
   }
 
   .icon {
-    margin-left: 0;
+    margin-left: 5px;
     cursor: pointer;
+    font-size: 20px;
   }
 
   .add {
