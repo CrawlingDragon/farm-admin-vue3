@@ -218,3 +218,23 @@ export function calc(num1: any, num2: any, calcStr: any) {
 
   return sum;
 }
+// 整合自定义用药数组 和 后端用药数组
+export function integrationMedicine(drugInfo: any) {
+  let result: any = [];
+  if (drugInfo.length === 0) {
+    return;
+  }
+  drugInfo.forEach((item: any) => {
+    result.push({
+      drugName: item.drugName, //药品名字
+      drugId: item.drugId, //药品id
+      drugSpec: item.drugSpec,
+      drugSpecIds: item.drugSpecIds, //药品规格
+      sizeSelectOption: [],
+      drugQuantity: +item.drugQuantity, // 药品数量
+      selectMyself: false,
+      drugPrice: item.drugPrice, //单价
+    });
+  });
+  return result;
+}

@@ -3,17 +3,17 @@
     <div class="nav-bar border">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/examine-zuozhenlist' }">坐诊记录</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/examine-xunzhenlist' }">巡诊记录</el-breadcrumb-item>
         <el-breadcrumb-item>{{
-          routeName === 'examine-zuozhen-add'
-            ? '新增坐诊'
-            : '坐诊详情:' + ruleForm.enterInfo.zuoxunNumber
+          routeName === 'examine-xunzhen-add'
+            ? '新增巡诊'
+            : '巡诊详情:' + ruleForm.enterInfo.zuoxunNumber
         }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <AddSecondBar
-      v-if="routeName !== 'examine-zuozhen-add'"
-      title="坐诊详情"
+      v-if="routeName !== 'examine-xunzhen-add'"
+      title="巡诊详情"
       :mobile="ruleForm.enterInfo.enterMobile"
       :time="ruleForm.enterInfo.enterTime"
       class="left"
@@ -32,14 +32,14 @@
         <div class="top-box bg-w border">
           <div class="left-bar">
             <div class="tip">种类病情资料</div>
-            <el-form-item label="会员:" prop="nameId" v-if="!zuozhenId">
+            <el-form-item label="会员:" prop="nameId" v-if="!xunzhenId">
               <UserSelectVue v-model:user="ruleForm.nameId" />
             </el-form-item>
             <el-form-item label="会员:" v-else>
               {{ ruleForm.username }} {{ ruleForm.enterInfo.enterMobile }}
             </el-form-item>
 
-            <el-form-item label="坐诊种类:" prop="nowKind">
+            <el-form-item label="巡诊种类:" prop="nowKind">
               <KindSelect
                 v-model:kind="ruleForm.nowKind"
                 v-if="kindOptions.length != 0"
@@ -77,7 +77,7 @@
               ></UnitSelect>
             </el-form-item>
             <el-form-item
-              label="坐诊日期:"
+              label="巡诊日期:"
               prop="time"
               v-model="ruleForm.time"
               class="w300"
@@ -103,6 +103,7 @@
             <el-form-item label="病情描述:" prop="describe">
               <el-input
                 v-model="ruleForm.describe"
+                placeholder="输入具体描述"
                 class="w300"
                 type="textarea"
                 rows="4"
@@ -118,15 +119,16 @@
         <div class="bottom-box border bg-w mt10">
           <div class="left-bar">
             <div class="tip">处方信息</div>
-            <el-form-item label="坐诊专家:" prop="Prescribing.expert">
+            <el-form-item label="巡诊专家:" prop="Prescribing.expert">
               <ExpertSelect
-                v-if="expertList.length != 0"
+                v-if="expertListArr.length != 0"
                 v-model:expert="ruleForm.Prescribing.expert"
-                :options="expertList"
+                :options="expertListArr"
               />
             </el-form-item>
             <el-form-item label="看诊结果:" prop="Prescribing.result">
               <el-input
+                placeholder="输入具体描述"
                 v-model="ruleForm.Prescribing.result"
                 class="w300"
                 type="textarea"
@@ -137,21 +139,21 @@
             </el-form-item>
             <el-form-item label="测土记录" prop="leastSoilRecord">
               <LatestTestSoilSelectVue
-                v-if="cetuOrderList.length != 0"
+                v-if="cetuOrderListArr.length != 0"
                 v-model:soilTestRecord="ruleForm.Prescribing.soilRecord"
-                :soilSelectOption="cetuOrderList"
+                :soilSelectOption="cetuOrderListArr"
               >
               </LatestTestSoilSelectVue>
             </el-form-item>
             <div class="tip">用药信息</div>
-            <div class="medicine">
+            <!-- <div class="medicine" v-if="false">
               <div class="bar title border">
                 <div class="item">商品名称</div>
                 <div class="item">商品规格</div>
                 <div class="item">数量</div>
                 <div class="del"></div>
-              </div>
-              <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
+              </div> -->
+            <!-- <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
                 <div class="item">
                   <medicineSelectVue
                     v-model:drugName="item.drugName"
@@ -160,10 +162,9 @@
                   />
                 </div>
                 <div class="item">
-                  <el-select-v2
-                    v-model="item.drugSpecIds"
-                    :options="item.sizeSelectOption"
-                    class="unit"
+                  <DrugSizeSelect
+                    :sizeSelectOption="item.sizeSelectOption"
+                    v-model:drugSpecIds="item.drugSpecIds"
                   />
                 </div>
                 <div class="item">
@@ -172,21 +173,26 @@
                 <div class="del" @click="delMedicine(index)">x</div>
               </div>
             </div>
-            <el-button class="add-medicine-btn" @click="addMedicine">添加用药</el-button>
+            <el-button class="add-medicine-btn" @click="addMedicine" v-if="false"
+              >添加用药</el-button
+            > -->
+            <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
           </div>
+
           <div class="right-bar">
             <div class="tip">请选择处方模板</div>
             <div class="choose-box">
               <PrescribingTemplateVue
-                v-if="recipeTemList.length != 0"
+                v-if="recipeTemListArr.length != 0"
                 @select-template="selectPrescribing"
-                :recipeTemList="recipeTemList"
+                :recipeTemList="recipeTemListArr"
               >
               </PrescribingTemplateVue>
             </div>
           </div>
         </div>
-        <div class="submit-bar" v-if="routeName == 'examine-zuozhen-add'">
+
+        <div class="submit-bar" v-if="routeName == 'examine-xunzhen-add'">
           <div class="content">
             <el-button
               type="primary"
@@ -227,22 +233,25 @@ import { getDelSoil, getAddEditZuoXun, getZuoXunDetail } from '@/http';
 import KindSelect from '@/components/kindSelect.vue';
 import UnitSelect from '@/components/unitSelect.vue';
 import ExpertSelect from '@/components/expertSelect.vue';
-import medicineSelectVue from '@/components/medicineSelect.vue';
+// import medicineSelectVue from '@/components/medicineSelect.vue';
 import PrescribingTemplateVue from '@/components/prescribingTemplate.vue';
 import UserSelectVue from '@/components/userSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
 import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
-import { transformImageParams } from '@/common/js/util';
+// import DrugSizeSelect from '@/components/drugSizeSelect.vue';
+import Medicine from '@/components/medicine.vue';
+import { transformImageParams, integrationMedicine } from '@/common/js/util';
 import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
+
 let { kindOptions, unitOptions } = useKindUnitSelectOptions();
-let { expertList, cetuOrderList, recipeTemList } = useExpertTemplateTestSelectOptions();
+let { expertListArr, cetuOrderListArr, recipeTemListArr } = useExpertTemplateTestSelectOptions();
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 
-const zuozhenId = computed(() => route.params.zuozhenId);
+const xunzhenId = computed(() => route.params.xunzhenId);
 const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
@@ -260,7 +269,7 @@ const ruleForm = reactive({
   plantType: '1', //种养模式
   degree: '1', //病发程度
   number: '', //数量
-  time: '', //坐诊日期
+  time: '', //巡诊日期
   diagnosis: 1, // 初复诊
   describe: '', //描述
   image: [] as any, // 图片
@@ -271,29 +280,29 @@ const ruleForm = reactive({
     soilRecord: '', //测土记录
     medicine: [
       //用药信息
-      {
-        drugName: '', //药品名字
-        drugId: '', //药品id
-        drugSpecIds: '', //药品规格
-        sizeSelectOption: [],
-        drugQuantity: 1, // 药品数量
-      },
-    ],
+      // {
+      //   drugName: '', //药品名字
+      //   drugId: '', //药品id
+      //   drugSpecIds: '', //药品规格
+      //   sizeSelectOption: [] as any,
+      //   drugQuantity: 1, // 药品数量
+      // },
+    ] as any,
   },
-  zuozhenId: '', //用于详情显示的zuozhenId
+  xunzhenId: '', //用于详情显示的xunzhenId
   templates: {}, // 选中的处方模板
 });
 
 const rules = reactive<FormRules>({
   nameId: [{ required: true, message: '会员不能为空', trigger: 'change' }],
-  nowKind: [{ required: true, message: '坐诊种类不能为空', trigger: 'change' }],
+  nowKind: [{ required: true, message: '巡诊种类不能为空', trigger: 'change' }],
   number: [{ required: true, message: '数量不能为空', trigger: 'change' }],
   plantType: [{ required: true, message: '种养模式不能为空', trigger: 'change' }],
   degree: [{ required: true, message: '病发程度不能为空', trigger: 'change' }],
-  time: [{ required: true, message: '坐诊日期不能为空', trigger: 'change' }],
+  time: [{ required: true, message: '巡诊日期不能为空', trigger: 'change' }],
   describe: [{ required: true, message: '描述不能为空', trigger: 'change' }],
   diagnosis: [{ required: true, message: '初复诊不能为空', trigger: 'change' }],
-  'Prescribing.expert': [{ required: true, message: '坐诊专家不能为空', trigger: 'change' }],
+  'Prescribing.expert': [{ required: true, message: '巡诊专家不能为空', trigger: 'change' }],
   'Prescribing.result': [{ required: true, message: '看诊结果不能为空', trigger: 'change' }],
 });
 
@@ -301,7 +310,7 @@ const rules = reactive<FormRules>({
 const del = () => {
   ElMessageBox.confirm('是否要删除测土配方', '提示')
     .then(async (res) => {
-      let r = await getDelSoil(ruleForm.zuozhenId);
+      let r = await getDelSoil(ruleForm.xunzhenId);
       if (r.code) {
         ElMessage.error(r.msg);
       } else {
@@ -315,57 +324,47 @@ const del = () => {
 };
 
 // 添加用药
-function addMedicine() {
-  ruleForm.Prescribing.medicine.push({
-    drugName: '', //药品名字
-    drugId: '', //药品id
-    drugSpecIds: '', //药品规格
-    sizeSelectOption: [],
-    drugQuantity: 1, // 药品数量
-  });
-}
+// function addMedicine() {
+//   ruleForm.Prescribing.medicine.push({
+//     drugName: '', //药品名字
+//     drugId: '', //药品id
+//     drugSpecIds: '', //药品规格
+//     sizeSelectOption: [],
+//     drugQuantity: 1, // 药品数量
+//   });
+// }
 
-// 删除用药
-function delMedicine(index: number) {
-  ruleForm.Prescribing.medicine.splice(index, 1);
-}
+// // 删除用药
+// function delMedicine(index: number) {
+//   ruleForm.Prescribing.medicine.splice(index, 1);
+// }
 
 // 选择模板
 function selectPrescribing(detail: any) {
   console.log('detail', detail);
   const { content, drugInfo } = detail;
   ruleForm.Prescribing.result = content;
-  integrationMedicine(drugInfo);
+  ruleForm.Prescribing.medicine = integrationMedicine(drugInfo);
 }
-// 整合自定义用药数组 和 后端用药数组
-function integrationMedicine(drugInfo: any) {
-  ruleForm.Prescribing.medicine = [];
-  if (drugInfo.length === 0) {
-    ruleForm.Prescribing.medicine.push({
-      drugName: '', //药品名字
-      drugId: '', //药品id
-      drugSpecIds: '', //药品规格
-      sizeSelectOption: [],
-      drugQuantity: 1, // 药品数量
-    });
-    return;
-  }
-  drugInfo.forEach((item: any, index: number) => {
-    ruleForm.Prescribing.medicine.push({
-      drugName: '', //药品名字
-      drugId: '', //药品id
-      drugSpecIds: '', //药品规格
-      sizeSelectOption: [],
-      drugQuantity: 1, // 药品数量
-    });
-    if (ruleForm.Prescribing.medicine.length > drugInfo.length) {
-      return;
-    }
-    ruleForm.Prescribing.medicine[index].drugName = item.drugName;
-    ruleForm.Prescribing.medicine[index].drugSpecIds = item.drugSpec;
-    ruleForm.Prescribing.medicine[index].drugQuantity = item.drugQuantity;
-  });
-}
+// // 整合自定义用药数组 和 后端用药数组
+// function integrationMedicine(drugInfo: any, target: 'Prescribing') {
+//   ruleForm[target].medicine = [];
+//   if (drugInfo.length === 0) {
+//     return;
+//   }
+//   drugInfo.forEach((item: any) => {
+//     ruleForm[target].medicine.push({
+//       drugName: item.drugName, //药品名字
+//       drugId: item.drugId, //药品id
+//       drugSpec: item.drugSpec,
+//       drugSpecIds: item.drugSpecIds, //药品规格
+//       sizeSelectOption: [],
+//       drugQuantity: +item.drugQuantity, // 药品数量
+//       selectMyself: false,
+//     });
+//   });
+//   // console.log('ruleForm[target].medicine', ruleForm[target].medicine);
+// }
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
@@ -395,7 +394,7 @@ const cancel = function () {
 const soilParams = computed<any>(() => {
   let yongyaoInfoJson = JSON.stringify(ruleForm.Prescribing.medicine);
   let params = {
-    zxId: zuozhenId.value == undefined ? '' : zuozhenId.value,
+    zxId: xunzhenId.value == undefined ? '' : xunzhenId.value,
     uid: ruleForm.nameId,
     zuowuId: ruleForm.nowKind,
     mushu: ruleForm.number,
@@ -428,9 +427,9 @@ async function setZuozhenData() {
 }
 
 async function getZuozhenDetail() {
-  // 没有zuozhenId，说明是新增页面不需要请求详情数据
-  if (!zuozhenId.value) return;
-  let r = await getZuoXunDetail(zuozhenId.value as any);
+  // 没有xunzhenId，说明是新增页面不需要请求详情数据
+  if (!xunzhenId.value) return;
+  let r = await getZuoXunDetail(xunzhenId.value as any);
   console.log('r', r);
   let enterInfo = r.enterInfo;
   let s = r.soilInfo;
@@ -438,7 +437,7 @@ async function getZuozhenDetail() {
   ruleForm.enterInfo = enterInfo;
   ruleForm.username = s.username;
   ruleForm.nameId = s.uid;
-  ruleForm.zuozhenId = s.zuozhenId;
+  ruleForm.xunzhenId = s.xunzhenId;
   ruleForm.plantType = s.plantType;
   ruleForm.degree = s.degree;
   ruleForm.address = s.address;
@@ -452,7 +451,7 @@ async function getZuozhenDetail() {
   ruleForm.Prescribing.expert = chufangInfo.expertId;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.soilRecord = chufangInfo.cetuNumber;
-  integrationMedicine(r.drugInfo);
+  ruleForm.Prescribing.medicine = integrationMedicine(r.drugInfo);
 }
 onMounted(async () => {
   emit('update:hideAside', false);

@@ -1,26 +1,28 @@
 <template>
-  <div :class="{ upload: small }">
-    <el-upload
-      action="aaa"
-      v-model:file-list="imgList"
-      list-type="picture-card"
-      :show-file-list="true"
-      :on-exceed="imgexceed"
-      :auto-upload="false"
-      :on-change="addchange"
-      :before-upload="addbeforeupload"
-      :limit="limit"
-      multiple
-      :before-remove="beforeRemove"
-      :on-preview="handlePictureCardPreview"
-      accept="image/*"
-    >
-      <el-icon><Plus /></el-icon>
-    </el-upload>
+  <div>
+    <div :class="{ upload: small }">
+      <el-upload
+        action="aaa"
+        v-model:file-list="imgList"
+        list-type="picture-card"
+        :show-file-list="true"
+        :on-exceed="imgexceed"
+        :auto-upload="false"
+        :on-change="addchange"
+        :before-upload="addbeforeupload"
+        :limit="limit"
+        multiple
+        :before-remove="beforeRemove"
+        :on-preview="handlePictureCardPreview"
+        accept="image/*"
+      >
+        <el-icon><Plus /></el-icon>
+      </el-upload>
+    </div>
+    <el-dialog v-model="dialogVisible">
+      <el-image :src="dialogImageUrl" fit="cover" />
+    </el-dialog>
   </div>
-  <el-dialog v-model="dialogVisible">
-    <el-image :src="dialogImageUrl" fit="cover" />
-  </el-dialog>
 </template>
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';

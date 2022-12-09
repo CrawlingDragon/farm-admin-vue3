@@ -117,10 +117,12 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/examine-xunzhen-add', // 新增巡诊
+    name: 'examine-xunzhen-add',
     component: () => import('@/view/examine-xunzhen-add.vue'),
   },
   {
     path: '/examine-xunzhen-add/:xunzhenId', // 巡诊编辑
+    name: 'examine-xunzhen-edit',
     component: () => import('@/view/examine-xunzhen-add.vue'),
   },
   {
@@ -134,6 +136,20 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/examine-tongfang', //统防统治
     component: () => import('@/view/examine-tongfang.vue'),
+  },
+  {
+    path: '/examine-tongfang-add', //新增统防统治
+    name: 'examine-tongfang-add',
+    component: () => import('@/view/examine-tongfang-add.vue'),
+  },
+  {
+    path: '/examine-tongfang-add/:tfId', //编辑统防统治
+    name: 'examine-tongfang-edit',
+    component: () => import('@/view/examine-tongfang-add.vue'),
+  },
+  {
+    path: '/examine-tongfang-detail/:tfId', //详情统防统治
+    component: () => import('@/view/examine-tongfang-detail.vue'),
   },
   {
     path: '/examine-template', //处方模板

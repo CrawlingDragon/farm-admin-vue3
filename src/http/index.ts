@@ -10,7 +10,7 @@ export { getVipEdit } from './getVipEdit';
 export { getSendPhoneCode } from './getSendPhoneCode';
 export { getVipApply } from './getVipApply';
 export { getVipApplyAction } from './getVipApplyAction';
-export { getExpertList } from './getExpertList';
+export { getExpertList } from './getExpertList'; //邀请专家列表
 export { getExpertDelete } from './getExpertDelete';
 export { getExpertInfo } from './getExpertInfo';
 export { getExportEdit } from './getExpertEdit';
@@ -55,6 +55,22 @@ export {
   getAddZuoXunTrack,
   getDelZuoXunTrack,
 } from './getZuoXun';
+// 网诊
+export { getWangList, getWangPDF, getWangToAnswer, getWangExpertAnswer } from './getWang';
+//统防统治
+export {
+  getTongFangList,
+  getAddEditTongFang,
+  getTongFangDetail,
+  getDelTongFang,
+} from './getTongfang';
+//处方模版
+export {
+  getTemplateListFetch,
+  getTemplateAddEdit,
+  getTemplateExamineDetail,
+  getTemplateDel,
+} from './getExamineTemplate';
 // 特色业务
 // 挂号管理
 export { getSubscribeLists } from './getSubscribeLists';
@@ -95,4 +111,3 @@ export {
   getProductLists,
   getCashierOrder
 } from './getCashier';
-

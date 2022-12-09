@@ -12,7 +12,7 @@ export function useExpertTemplateTestSelectOptions() {
   async function setUnitAndKindSelectData() {
     let { expertList, recipeTemList, cetuOrderList } = await getTestExpert();
 
-    console.log('expertList', expertList);
+    // console.log('expertList', expertList);
     expertListArr.value = expertList;
     recipeTemListArr.value = recipeTemList;
     cetuOrderListArr.value = cetuOrderList;

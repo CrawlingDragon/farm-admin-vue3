@@ -1,23 +1,25 @@
 <template>
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
-      坐诊记录
+      巡诊记录
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
-        <template #content> 记录会员的线下坐诊数据，包含种类基本情况和开处方信息。 </template>
-        <el-icon class="icon"><QuestionFilled /></el-icon>
+        <template #content
+          >记录专家田间巡诊数据，包含种类基本情况，<br />巡诊地点和开处方信息。</template
+        >
+        <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
       <div class="export" @click="exportPDFFn">导出PDF</div>
-      <el-button type="primary" class="add" @click="goAddZuoPageFn">新增坐诊</el-button>
+      <el-button type="primary" class="add" @click="goAddZuoPageFn">新增巡诊</el-button>
     </div>
     <div class="input-bar">
       <el-input
         v-model="keyword"
         class="w300 m-2 mr20"
         size="large"
-        placeholder="坐诊单号/会员姓名"
+        placeholder="巡诊单号/会员姓名"
       />
       <div class="date-box">
-        <label class="mr10">坐诊日期</label>
+        <label class="mr10">巡诊日期</label>
         <el-date-picker
           v-model="dateVal"
           type="daterange"
@@ -34,17 +36,17 @@
     </div>
     <div class="table-box md20">
       <el-table :data="zuoListData.tableData" style="width: 100%">
-        <el-table-column prop="wenzhenNumber" label="坐诊单号" width="120px" />
+        <el-table-column prop="wenzhenNumber" label="巡诊单号" width="120px" />
         <el-table-column prop="userName" label="会员" />
-        <el-table-column prop="zuowuName" label="坐诊种类" />
+        <el-table-column prop="zuowuName" label="巡诊种类" />
         <el-table-column prop="plantTypeTips" label="种养模式" />
         <el-table-column prop="degreeTips" label="病发程度" />
         <el-table-column prop="isFristTips" label="初复诊" />
         <!-- 检查项目，接口暂时没提供数据 -->
         <el-table-column prop="updateTime" label="检查项目" />
         <el-table-column prop="yongyao" label="用药记录" />
-        <el-table-column prop="expertName" label="坐诊专家" />
-        <el-table-column prop="wenzhenTime" label="坐诊日期" width="120px" />
+        <el-table-column prop="expertName" label="巡诊专家" />
+        <el-table-column prop="wenzhenTime" label="巡诊日期" width="120px" />
         <el-table-column prop="status" label="操作">
           <template #default="scope">
             <div class="color cursor" @click="goPintPage(scope.row.zxId)">详情</div>
@@ -78,7 +80,7 @@ const params = computed(() => {
   let endTime = !dateVal.value ? '' : dateVal.value[1];
 
   let params = {
-    getType: '1',
+    getType: '2',
     keyword: keyword.value,
     startTime,
     endTime,
@@ -121,13 +123,13 @@ onMounted(() => {
 //路由到新增观测点
 function goAddZuoPageFn() {
   router.push({
-    path: `/examine-zuozhen-add`,
+    path: `/examine-xunzhen-add`,
   });
 }
 //路由到观测点详情 or 编辑观测点
 function goPintPage(pointId: number) {
   router.push({
-    path: `/examine-zuozhen-detail/${pointId}`,
+    path: `/examine-xunzhen-detail/${pointId}`,
   });
 }
 
@@ -136,7 +138,7 @@ const exportPDFFn = async () => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
   let params = {
-    getType: '1',
+    getType: '2',
     keyword: keyword.value,
     startTime,
     endTime,
