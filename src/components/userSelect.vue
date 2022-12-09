@@ -1,12 +1,20 @@
 <template>
   <!-- 医院下面--会员的select选择 -->
 
-  <el-select v-model="user" placeholder="请选择会员" class="w300 select" @change="changeFn">
-    <el-option :label="item.label" :value="item.value" v-for="item in trimData"></el-option>
+  <el-select ref="mySelect" remote :filter-method="filterMethed" filterable v-model="user" placeholder="请选择会员"
+    class="w300 select" @change="changeFn">
+    <template #prefix>
+      <el-icon>
+        <Search />
+      </el-icon>
+    </template>
+    <el-option :label="item.label1" :value="item.value" v-for="item in trimDatas" :key="item.value">
+      <div slot>{{ item.label }}</div>
+    </el-option>
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed } from 'vue';
+import { reactive, onMounted, computed, ref } from 'vue';
 import { getHospitalUser } from '../http';
 
 const prop = defineProps({
@@ -14,10 +22,19 @@ const prop = defineProps({
     type: [Number, String],
     default: '',
   },
+  labelStr: {
+    type: String,
+    default: 'label',
+  },
 });
 
 const emit = defineEmits(['update:user']);
-
+let trimDatas = ref([{
+  label: '',
+  label1: '',
+  value: ''
+}])
+const mySelect = ref()
 let options = reactive({
   userOptions: [
     // 作物select option
@@ -35,12 +52,20 @@ let options = reactive({
 const changeFn = (el: any) => {
   emit('update:user', el);
 };
+const filterMethed = (values: any) => {
+  if (!values) {
+    trimDatas.value = trimData.value
+  } else {
+    trimDatas.value = trimData.value.filter((item: any) => ~item.label.indexOf(values))
+  }
+}
 
-const trimData = computed(() => {
+let trimData: any = computed(() => {
   let option: any = [].concat(...(options.userOptions as any));
   option.map((item: any) => {
     item.label = `${item.userName}(${item.mobile})`;
     item.value = item.uid;
+    item.label1 = item[prop.labelStr]
   });
   return option;
 });
@@ -49,7 +74,11 @@ onMounted(async () => {
   // console.log('expertList', expertList);
   // console.log('r', r);
   options.userOptions = r;
+  trimDatas.value = trimData.value
 });
+defineExpose({
+  options, mySelect
+})
 </script>
 <style lang="scss" scoped>
 .select {

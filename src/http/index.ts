@@ -87,6 +87,12 @@ export {
   getExportList,
   getorderDetail,
   getorderDelete,
-  getOrderRemarkEdit
+  getOrderRemarkEdit,
+  getCountList
 } from './getCommodityCenter';
+// 收银台
+export {
+  getProductLists,
+  getCashierOrder
+} from './getCashier';
 

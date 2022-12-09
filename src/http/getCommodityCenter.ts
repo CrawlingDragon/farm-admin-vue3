@@ -40,3 +40,17 @@ interface editParams {
 export function getOrderRemarkEdit(edit: editParams) {
   return get('/api/auth/orderRemarkEdit', edit)
 }
+
+// 统计列表
+interface countParams {
+  token?: string; //[string]	是	登录所得秘钥
+  getType: string | number;//获取类型[1:销售额统计  2:商品销售统计 3:会员购买力统计]
+  startTime: string; //销售额统计格式为 2022-08 , 其余两个格式为 2022-10-22
+  endTime: string; //销售额统计格式为 2022-08 , 其余两个格式为 2022-10-22
+  page: number | string; //[string]	是	页码
+  pageCount: number | string; //[string]		每页数据量复制
+}
+//获取已卖出的商品列表
+export function getCountList(listParams: countParams) {
+  return get('/api/auth/amountTotal', listParams);
+}

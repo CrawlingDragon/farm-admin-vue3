@@ -104,7 +104,7 @@ const params = computed(() => {
     let params = {
         trainId: ruleForm.trainId,//培训ID, 为空则表示新增培训
         title: ruleForm.title, //培训主题
-        image: ruleForm.image[0],//培训主图地址
+        image: ruleForm.image[0].url,//培训主图地址
         startTime,//培训开始时间 , 格式: 2022-10-22 10:20:50
         endTime,//培训结束时间 , 格式: 2022-10-22 10:20:50
         trainTeacher: ruleForm.trainTeacher,//讲师姓名
@@ -136,7 +136,7 @@ async function saveMessage(formEl: FormInstance | undefined) {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
         if (valid) {
-            console.log(params.value)
+            // console.log(params.value)
             setTrainAddEdit()
         } else {
             console.log('error submit!', fields);
@@ -171,7 +171,10 @@ async function setTrainDetail() {
     if (id.value) {
         let r = await getTrainDetail({ trainId: id.value })
         let arr = []
-        arr.push(r.image)
+        arr.push({
+            name: new Date(),
+            url: r.image
+        })
         ruleForm.trainId = id.value//培训ID, 为空则表示新增培训
         ruleForm.title = r.title //培训主题
         ruleForm.image = arr//培训主图地址
