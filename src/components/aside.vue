@@ -23,12 +23,11 @@
           v-if="(item.state === 1 && item.label != 'saleLists' && item.label != 'storeLists')">
           {{ item.words }}
         </router-link>
-        <a href="https://vip.114nz.com/Member/Product/goodsOnSale.html" target="_blank" class="p" v-if="(item.state === 1 && item.label ==
+        <a :href="item.linkurl" target="_blank" class="p" v-if="(item.state === 1 && item.label ==
         'saleLists')">
           {{ item.words }}
         </a>
-        <a href="https://vip.114nz.com/Member/Product/goodsInStock.html" target="_blank" class="p"
-          v-if="(item.state === 1 && item.label == 'storeLists')">
+        <a :href="item.linkurl" target="_blank" class="p" v-if="(item.state === 1 && item.label == 'storeLists')">
           {{ item.words }}
         </a>
       </template>

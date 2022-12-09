@@ -4,6 +4,7 @@ interface AsideItem {
   words: string; //文案
   label: string;
   state: number; // 1：显示 2：不显示
+  linkurl?: string;//商品中心的跳转链接
 }
 export interface AsideTS {
   member: [AsideItem]; // 会员中心
