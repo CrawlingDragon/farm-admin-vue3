@@ -12,10 +12,10 @@ const routes: RouteRecordRaw[] = [
     path: '/index',
     component: () => import('@/view/index.vue'),
   },
-  {
-    path: '/set',
-    component: () => import('@/view/set.vue'),
-  },
+  // {
+  //   path: '/set',
+  //   component: () => import('@/view/set.vue'),
+  // },
   {
     path: '/search',
     component: () => import('@/view/search.vue'),
@@ -220,33 +220,50 @@ const routes: RouteRecordRaw[] = [
   },
   //医院设置
   {
-    path: '/hospital-info', // 医院信息
-    component: () => import('@/view/hospital-info.vue'),
-  },
-  {
-    path: '/hospital-TV', //TV广告图设置
-    component: () => import('@/view/hospital-TV.vue'),
-  },
-  {
-    path: '/hospital-APP', //APP模块设置
-    component: () => import('@/view/hospital-APP.vue'),
-  },
-  {
-    path: '/hospital-PC', //PC端模块设置
-    component: () => import('@/view/hospital-PC.vue'),
-  },
-  {
-    path: '/hospital-live', //直播节目单
-    component: () => import('@/view/hospital-live.vue'),
-  },
-  // 服务
-  {
-    path: '/service-user', //用户反馈
-    component: () => import('@/view/service-user.vue'),
-  },
-  {
-    path: '/service-QQ', //QQ在线客服
-    component: () => import('@/view/service-QQ.vue'),
+    path: '/set',
+    meta: { aside: 'aside-setting' },
+    redirect: '/set/hospital-info',
+    children: [
+      {
+        path: '/set/hospital-info', // 医院信息
+        component: () => import('@/view/hospital-info.vue'),
+      },
+      {
+        path: '/set/hospital-info-edit', // 医院信息编辑
+        component: () => import('@/view/hospital-info-edit.vue'),
+      },
+      {
+        path: '/set/hospital-TV', //TV广告图设置
+        // meta: { aside: 'aside-setting' },
+        component: () => import('@/view/hospital-TV.vue'),
+      },
+      // {
+      //   path: '/set/hospital-APP', //APP模块设置
+      //   // meta: { aside: 'aside-setting' },
+      //   component: () => import('@/view/hospital-APP.vue'),
+      // },
+      // {
+      //   path: '/set/hospital-PC', //PC端模块设置
+      //   // meta: { aside: 'aside-setting' },
+      //   component: () => import('@/view/hospital-PC.vue'),
+      // },
+      // {
+      //   path: '/set/hospital-live', //直播节目单
+      //   // meta: { aside: 'aside-setting' },
+      //   component: () => import('@/view/hospital-live.vue'),
+      // },
+      // // 服务
+      // {
+      //   path: '/set/service-user', //用户反馈
+      //   // meta: { aside: 'aside-setting' },
+      //   component: () => import('@/view/service-user.vue'),
+      // },
+      // {
+      //   path: '/set/service-QQ', //QQ在线客服
+      //   // meta: { aside: 'aside-setting' },
+      //   component: () => import('@/view/service-QQ.vue'),
+      // },
+    ],
   },
 ];
 

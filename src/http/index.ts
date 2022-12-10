@@ -105,3 +105,7 @@ export {
   getorderDelete,
   getOrderRemarkEdit,
 } from './getCommodityCenter';
+
+//设置
+// 医院信息
+export { getHospitalDetail, getHospitalEdit } from './getHospitalInfo';

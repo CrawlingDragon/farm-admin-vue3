@@ -7,7 +7,7 @@
           <el-icon class="icon"><SuccessFilled /></el-icon>
         </div>
         <p class="name">{{ info.hospitalName }}</p>
-        <router-link to="/hospital-info" class="detail">
+        <router-link to="/set/hospital-info" class="detail">
           详细信息 <el-icon><ArrowRight /></el-icon>
         </router-link>
       </div>

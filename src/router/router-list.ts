@@ -135,6 +135,48 @@ export const indexRightBarRouter = [
   },
 ];
 
+export const asideSettingRouter: any = {
+  hospital: [
+    {
+      words: '医院信息',
+      label: 'hospital-info',
+      path: '/hospital-info',
+    },
+    {
+      words: 'TV广告图设置',
+      label: 'hospital-TV',
+      path: '/hospital-TV',
+    },
+    // {
+    //   words: 'APP模块设置',
+    //   label: 'hospital-APP',
+    //   path: '/hospital-APP',
+    // },
+    // {
+    //   words: 'PC端模块设置',
+    //   label: 'hospital-PC',
+    //   path: '/hospital-PC',
+    // },
+    // {
+    //   words: '直播节目单',
+    //   label: 'hospital-live',
+    //   path: '/hospital-live',
+    // },
+  ],
+  // service: [
+  //   {
+  //     words: '用户反馈',
+  //     label: 'service-user',
+  //     path: '/service-user',
+  //   },
+  //   {
+  //     words: 'QQ在线客服',
+  //     label: 'service-QQ',
+  //     path: '/service-QQ',
+  //   },
+  // ],
+};
+
 export function getCustomRouterLink(label: string, links: any) {
   let path = '';
   for (let i = 0; i < links.length; i++) {
