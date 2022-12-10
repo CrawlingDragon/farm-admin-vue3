@@ -28,7 +28,7 @@
         >{{ hospitalInfo.crop }}
       </el-form-item>
       <el-form-item label="营业执照:" label-width="150px" v-show="hospitalInfo.businessImg != ''">
-        <el-image :src="hospitalInfo.businessImg" class="business-image"></el-image>
+        <el-image :src="hospitalInfo.businessImg" class="business-image" fit="cover"></el-image>
       </el-form-item>
       <el-form-item label="真实姓名:" label-width="150px" v-show="hospitalInfo.realName != ''">{{
         hospitalInfo.realName
@@ -122,7 +122,8 @@ const goEditPageFn = () => {
     font-weight: 100;
   }
 }
-.icon-image {
+.icon-image,
+.business-image {
   width: 80px;
   height: 80px;
   border: 1px solid #e5e5e5;

@@ -109,3 +109,5 @@ export {
 //设置
 // 医院信息
 export { getHospitalDetail, getHospitalEdit } from './getHospitalInfo';
+//Tv广告设置
+export { getTvListFetch, getTvDel, getAddEditTv, getTvDetail } from './getTv';

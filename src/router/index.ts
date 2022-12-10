@@ -233,9 +233,19 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/view/hospital-info-edit.vue'),
       },
       {
-        path: '/set/hospital-TV', //TV广告图设置
+        path: '/set/hospital-TV', //TV广告图设置 列表
         // meta: { aside: 'aside-setting' },
         component: () => import('@/view/hospital-TV.vue'),
+      },
+      {
+        path: '/set/hospital-TV-add', //TV广告图设置 新增
+        // meta: { aside: 'aside-setting' },
+        component: () => import('@/view/hospital-TV-add.vue'),
+      },
+      {
+        path: '/set/hospital-TV-add/:adId', //TV广告图设置 编辑
+        // meta: { aside: 'aside-setting' },
+        component: () => import('@/view/hospital-TV-add.vue'),
       },
       // {
       //   path: '/set/hospital-APP', //APP模块设置
