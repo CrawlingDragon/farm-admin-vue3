@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    '副本': typeof import('./src/components/userSelect - 副本.vue')['default']
     AddConclusion: typeof import('./src/components/add-conclusion.vue')['default']
     AddDay: typeof import('./src/components/addDay.vue')['default']
     AddDayWatch: typeof import('./src/components/add-day-watch.vue')['default']
@@ -40,6 +41,7 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']
@@ -72,9 +74,11 @@ declare module '@vue/runtime-core' {
     RichText: typeof import('./src/components/richText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TableTwo: typeof import('./src/components/table-two.vue')['default']
     UnitSelect: typeof import('./src/components/unitSelect.vue')['default']
     UploadImage: typeof import('./src/components/uploadImage.vue')['default']
     UserSelect: typeof import('./src/components/userSelect.vue')['default']
+    UserSelectMoney: typeof import('./src/components/userSelectMoney.vue')['default']
     WangExpertAnsweredList: typeof import('./src/components/wang-expert-answered-list.vue')['default']
     WangExpertList: typeof import('./src/components/wang-expert-list.vue')['default']
     WangInviteExpert: typeof import('./src/components/wang-invite-expert.vue')['default']

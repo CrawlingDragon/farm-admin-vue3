@@ -99,7 +99,10 @@ async function setNewsInfo() {
       }, 1000);
     }
     let arr = []
-    arr.push(r.thumb)
+    arr.push({
+      name: new Date(),
+      url: r.thumb
+    })
     ruleForm.title = r.title
     ruleForm.keywords = r.keywords
     ruleForm.content = r.content
@@ -115,7 +118,7 @@ const params = computed(() => {
     title: ruleForm.title,
     keywords: ruleForm.keywords,
     content: ruleForm.content,
-    thumb: ruleForm.thumb[0]
+    thumb: ruleForm.thumb[0].url
   }
   return params;
 })

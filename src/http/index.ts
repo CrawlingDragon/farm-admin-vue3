@@ -104,6 +104,7 @@ export {
   getorderDetail,
   getorderDelete,
   getOrderRemarkEdit,
+  getCountList,
 } from './getCommodityCenter';
 
 //设置
@@ -111,3 +112,5 @@ export {
 export { getHospitalDetail, getHospitalEdit } from './getHospitalInfo';
 //Tv广告设置
 export { getTvListFetch, getTvDel, getAddEditTv, getTvDetail } from './getTv';
+// 收银台
+export { getProductLists, getCashierOrder } from './getCashier';
