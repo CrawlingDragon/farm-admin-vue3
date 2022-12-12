@@ -74,6 +74,7 @@ declare module '@vue/runtime-core' {
     RichText: typeof import('./src/components/richText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SoilAdd: typeof import('./src/components/soil-add.vue')['default']
     TableTwo: typeof import('./src/components/table-two.vue')['default']
     UnitSelect: typeof import('./src/components/unitSelect.vue')['default']
     UploadImage: typeof import('./src/components/uploadImage.vue')['default']

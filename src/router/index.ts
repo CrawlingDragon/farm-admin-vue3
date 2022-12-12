@@ -47,6 +47,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/vip-edit.vue'),
   },
   {
+    path: '/vip-soil-add', //会员新增测土
+    component: () => import('@/view/vip-soil-add.vue'),
+    children: [
+      {
+        path: '/vip-soil-add',
+        component: import('@/components/soil-add.vue'),
+      },
+    ],
+  },
+  {
     path: '/vip-apply', // 审核会员申请
     component: () => import('@/view/vip-apply.vue'),
   },
