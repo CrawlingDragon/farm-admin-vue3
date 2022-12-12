@@ -112,16 +112,16 @@ const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 const router = useRouter();
 const detailData = reactive<any>({
-  buyTypeTips: '', //购买方式
-  orderSn: '', //订单号
-  orderTime: '', //订单时间
-  productLists: <any>[], //商品列表
-  totalNum: '', //购买件数
-  totalPrice: '', //总价
-  username: '', //买家名
-  mobile: '', //买家联系方式
-  payTypeTips: '', //支付方式
-  remark: '', //备注
+  buyTypeTips: '',//购买方式
+  orderSn: '',//订单号
+  orderTime: '',//订单时间
+  productLists: [] as any,//商品列表
+  totalNum: '',//购买件数
+  totalPrice: '',//总价
+  username: '',//买家名
+  mobile: '',//买家联系方式
+  payTypeTips: '',//支付方式
+  remark: '',//备注
 });
 // 编辑弹窗
 const remarkVisible = ref(false);

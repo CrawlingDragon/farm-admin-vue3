@@ -138,8 +138,8 @@ const statuOptions = reactive([
 const page = ref(1); //当前页
 const soldData = reactive({
   totalData: 0,
-  tableData: <any>[],
-});
+  tableData: [] as any
+})
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
