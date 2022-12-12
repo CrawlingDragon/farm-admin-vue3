@@ -64,7 +64,7 @@ const rules = reactive<FormRules>({
   content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
 });
 const ruleFormRef = ref<FormInstance>();
-let ruleForm = reactive(<any>{
+let ruleForm: any = reactive({
   title: '', //标题
   keywords: '', //关键词
   content: '', //信息内容

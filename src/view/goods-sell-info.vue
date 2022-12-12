@@ -33,9 +33,9 @@ const soilData = reactive({
   tableData: []
 })
 const dateValLabel = ref("销售额统计")
-const typePicker = ref(<any>"monthrange")
+const typePicker = ref<any>("monthrange")
 const pickerFormat = ref("YYYY-MM")
-let columns = ref(<any>[
+let columns = ref<any>([
   {
     prop: 'date',
     label: '时间'

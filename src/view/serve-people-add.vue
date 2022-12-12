@@ -88,7 +88,7 @@ const rules = reactive<FormRules>({
     content: [{ required: false }],
 });
 const ruleFormRef = ref<FormInstance>();
-let ruleForm = reactive(<any>{
+let ruleForm: any = reactive({
     trainId: id.value,//培训ID, 为空则表示新增培训
     title: '', //培训主题
     image: [],//培训主图地址

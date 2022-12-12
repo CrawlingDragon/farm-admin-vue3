@@ -95,7 +95,7 @@ const totalPrice = ref(0.00)// 总金额
 const totalNumber = ref(0)// 总件数
 let paramsJson = ref()//结算参数
 const factMoney = ref()//实收金额
-const zoonMoney = ref(<any>0.00)//找零
+const zoonMoney = ref<any>(0.00)//找零
 
 // 确定搜索
 const search = () => {
