@@ -12,7 +12,7 @@
       <el-button type="primary" class="add" @click="openTemplateDetail(0)">新增模板</el-button>
     </div>
 
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="templateListData.tableData" style="width: 100%">
         <el-table-column prop="title" label="处方名" />
         <el-table-column prop="yongyao" label="用药">

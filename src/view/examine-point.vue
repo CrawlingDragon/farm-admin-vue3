@@ -43,7 +43,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="pointListData.tableData" style="width: 100%">
         <el-table-column prop="observepointNumber" label="观测点ID" />
         <el-table-column prop="title" label="名称" />

@@ -26,7 +26,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20" v-if="active == 0">
+    <div class="table-box" v-if="active == 0">
       <el-table :data="soilData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="orderSn" label="挂号单号" />
         <el-table-column header-align="center" align="center" prop="username" label="会员" />
@@ -44,7 +44,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="table-box md20" v-if="active == 1">
+    <div class="table-box" v-if="active == 1">
       <el-table :data="soilData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="outpatientTime" width="250" label="门诊时间" />
         <el-table-column header-align="center" align="center" prop="repeat" label="是否重复" />

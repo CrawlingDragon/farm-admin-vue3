@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-enter border bg-w pd60">
+  <div class="vip-enter border bg-w pd20 mb50">
     <div class="head right-head">录入会员</div>
     <div class="tip">基本信息</div>
     <el-form
@@ -12,10 +12,10 @@
       status-icon
     >
       <el-form-item label="手机号码:" prop="phone">
-        <el-input v-model.number="ruleForm.phone" label="right" />
+        <el-input v-model.number="ruleForm.phone" label="right" placeholder="请输入手机号码" />
       </el-form-item>
       <el-form-item label="姓名:" prop="name">
-        <el-input v-model="ruleForm.name" label="right" />
+        <el-input v-model="ruleForm.name" label="right" placeholder="请输入姓名" />
       </el-form-item>
       <el-form-item label="所在地区:" prop="local">
         <el-cascader
@@ -48,10 +48,10 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="身份证:" prop="card">
-        <el-input v-model="ruleForm.card" label="right" />
+        <el-input v-model="ruleForm.card" label="right" placeholder="请输入身份证" />
       </el-form-item>
       <el-form-item label="家庭成员数:" prop="family">
-        <el-input v-model.number="ruleForm.family" label="right" />
+        <el-input v-model.number="ruleForm.family" label="right" placeholder="请输入家庭成员数量" />
       </el-form-item>
       <div class="tip">基本信息</div>
       <template v-for="(item, index) in ruleForm.baseInfo">

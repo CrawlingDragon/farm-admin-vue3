@@ -35,7 +35,7 @@
         </div>
         <el-button size="large" @click="search">搜索</el-button>
       </div>
-      <div class="table-box p20">
+      <div class="table-box">
         <el-table :data="vipApplyData.tableData" style="width: 100%">
           <!-- 姓名	手机号码	详细地址	种养种类	申请时间	状态	操作 -->
           <el-table-column prop="userName" label="姓名" />

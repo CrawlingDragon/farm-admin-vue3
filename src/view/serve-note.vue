@@ -19,7 +19,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="noteData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="sendTime" width="300" label="发送时间" />
         <el-table-column header-align="center" align="center" prop="content" width="300" :show-overflow-tooltip="true"

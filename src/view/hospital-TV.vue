@@ -3,18 +3,19 @@
     <div class="head right-head soil-right-head">
       TV广告图设置
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
-        <template #content
-          >最多添加6张电视机广告图，其中中农在线可添加3张，位置为前三个，庄稼医院可控制后三张。
-          广告图区域见下图：</template
-        >
+        <template #content>
+          最多添加6张电视机广告图，其中中农在线可添加3张，<br />位置为前三个，庄稼医院可控制后三张。<br />
+          <div class="p1">广告图区域见下图：</div>
+          <el-image :src="TvTipImg" fit="cover" class="TvTipImg"></el-image>
+        </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
       <el-button type="primary" class="add" @click="goAddAdPage">新增广告图</el-button>
     </div>
-    <div class="table-box md20">
-      <el-table :data="TVListData.tableData" style="margin: 20px; width: auto">
-        <el-table-column prop="listorder" label="排序" />
-        <el-table-column prop="userName" label="广告图" width="400px">
+    <div class="table-box">
+      <el-table :data="TVListData.tableData">
+        <el-table-column prop="listorder" label="排序" width="110px" />
+        <el-table-column prop="userName" label="广告图">
           <template #default="scope">
             <div class="image-box">
               <el-image :src="scope.row.images" fit="scale-down" class="img"></el-image>
@@ -22,11 +23,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="时间" />
-        <el-table-column prop="status" label="操作">
+        <el-table-column prop="addTime" label="时间" width="210px" />
+        <el-table-column prop="status" label="操作" width="110px">
           <template #default="scope">
-            <div class="color cursor" @click="goTVAddEditPage(scope.row.adId)">详情</div>
-            <!-- <div v-else class="color cursor" @click="goAddPointPageFn(scope.row.viewId)">编辑</div> -->
+            <div class="flex">
+              <div class="color cursor mr20" @click="goTVAddEditPage(scope.row.adId)">详情</div>
+              <div class="color cursor" @click="delTVFn(scope.row.adId)">删除</div>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -35,11 +38,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted, watch } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue';
 import Pages from '@/components/pages.vue';
-import { getTvListFetch, getExportZuoXunPDF } from '@/http';
+import { getTvListFetch, getTvDel } from '@/http';
 import { useRouter } from 'vue-router';
-import { start } from 'repl';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import TvTipImg from '@/assets/tv-tip-img.png';
 const router = useRouter();
 
 const page = ref(1);
@@ -59,10 +63,24 @@ function search() {
 }
 async function getTVListData() {
   let r = await getTvListFetch();
-  console.log('r', r);
+  // console.log('r', r);
   TVListData.tableData = r.adLists;
   TVListData.totalData = r.adNum;
 }
+
+const delTVFn = (adId: number) => {
+  ElMessageBox.confirm('确定删除该广告图', '删除提示')
+    .then(async (res) => {
+      let r = await getTvDel(adId);
+      if (r.code) {
+        ElMessage.error(r.msg);
+      } else {
+        ElMessage.success('已删除');
+        getTVListData();
+      }
+    })
+    .catch((e) => {});
+};
 
 watch(page, () => {
   getTVListData();
@@ -75,13 +93,13 @@ onMounted(() => {
 //路由到新增观测点
 function goAddAdPage() {
   router.push({
-    path: `/examine-TV-add`,
+    path: `/set/hospital-TV-add`,
   });
 }
 //路由到观测点详情 or 编辑观测点
 function goTVAddEditPage(adId: number) {
   router.push({
-    path: `/examine-TV-add/${adId}`,
+    path: `/set/hospital-TV-add/${adId}`,
   });
 }
 </script>
@@ -115,9 +133,15 @@ function goTVAddEditPage(adId: number) {
     flex: 1;
   }
 }
-
-:deep().el-table__header-wrapper {
-  border: 1px solid #ebeef5;
-  border-bottom: none;
+.p1 {
+  font-size: 12px;
+  // color: #333;
+  line-height: 20px;
+}
+.TvTipImg {
+  display: block;
+  width: 348px;
+  height: 195px;
+  margin-top: 5px;
 }
 </style>

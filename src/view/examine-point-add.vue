@@ -98,12 +98,8 @@
                 value-format="YYYY-MM-DD"
               />
             </el-form-item>
-            <el-form-item label="试验会员:" prop="testPeople">
-              <ExpertSelect
-                v-if="selectOptions.expertList.length !== 0"
-                v-model:expert="ruleForm.testPeople"
-                :options="selectOptions.expertList"
-              ></ExpertSelect>
+            <el-form-item label="试验会员:" prop="nameId">
+              <UserSelectVue v-model:user="ruleForm.nameId" />
             </el-form-item>
             <el-form-item label="描述:" prop="describe">
               <el-input
@@ -338,7 +334,7 @@ import { getTestExpert, addObservePoint, getObservePointDetail } from '@/http';
 import { getSelectInfo } from '../http/getSelectInfo';
 import KindSelect from '@/components/kindSelect.vue';
 import UnitSelect from '@/components/unitSelect.vue';
-import ExpertSelect from '@/components/expertSelect.vue';
+import UserSelectVue from '@/components/userSelect.vue';
 import medicineSelectVue from '@/components/medicineSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
@@ -350,6 +346,7 @@ const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 
 const pointId = computed(() => route.params.pointId);
+const uId = computed(() => route.query.uId);
 const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
@@ -365,7 +362,7 @@ const ruleForm = reactive({
   number: '', //数量
   unit: '亩', //单位
   sampleDate: '', //开始观察日期
-  testPeople: '', //试验会员
+  nameId: '', //试验会员
   describe: '', //描述
   image: [] as any, // 图片
   leastSoilRecord: {
@@ -445,7 +442,7 @@ const rules = reactive<FormRules>({
   address: [{ required: true, message: '试验地点不能为空', trigger: 'change' }],
   number: [{ required: true, message: '数量不能为空', trigger: 'blur' }],
   sampleDate: [{ required: true, message: '开始观察日期不能为空', trigger: 'change' }],
-  testPeople: [{ required: true, message: '试验会员不能为空', trigger: 'change' }],
+  nameId: [{ required: true, message: '试验会员不能为空', trigger: 'change' }],
   'leftUseFormInfo.date': [{ required: true, message: '开始用药日期不能为空', trigger: 'change' }],
   'leftUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
   'rightUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
@@ -563,7 +560,7 @@ const pointParams = computed<any>(() => {
     mushu: ruleForm.number,
     unit: ruleForm.unit,
     observeTime: ruleForm.sampleDate,
-    uid: ruleForm.testPeople,
+    uid: ruleForm.nameId,
     describe: ruleForm.describe,
     images: transformImageParams(ruleForm.image),
 
@@ -593,6 +590,10 @@ async function setPintData() {
 
 // const userInfo = reactive({ mobile: 0, time: 0, name: '' });
 async function getPointDetail() {
+  if (uId.value) {
+    ruleForm.nameId = +uId.value as any;
+    // ruleForm.nameId = '4279';
+  }
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!pointId.value) return;
   let r = await getObservePointDetail(pointId.value as any);
@@ -612,7 +613,7 @@ async function getPointDetail() {
   ruleForm.number = observeInfo.mushu;
   ruleForm.unit = observeInfo.unitId;
   ruleForm.sampleDate = observeInfo.observeTime;
-  ruleForm.testPeople = observeInfo.realname;
+  ruleForm.nameId = observeInfo.uid;
   ruleForm.describe = observeInfo.describe;
   ruleForm.image = observeInfo.images;
   ruleForm.leastSoilRecord.soilId = fristCetuInfo.cetuNumber;

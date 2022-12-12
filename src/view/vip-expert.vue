@@ -1,7 +1,7 @@
 <template>
   <div class="vip-apply border bg-w pd60">
     <div class="head right-head">专家管理</div>
-    <div class="table-box p20">
+    <div class="table-box">
       <el-table :data="expertData.tableData" style="width: 100%">
         <el-table-column prop="avatar" label="头像" width="80">
           <template #default="scope"> <el-avatar :size="50" :src="scope.row.avatar" /> </template>
@@ -43,7 +43,7 @@ const expertData = reactive({
 const page = ref(1);
 // 删除专家函数
 function deleteExpert(id: number, name: string) {
-  ElMessageBox.confirm(`确定删除该专家${name}？`)
+  ElMessageBox.confirm(`确定删除该专家${name}？`, '提示')
     .then(async () => {
       let r = await getExpertDelete({ expertId: id });
       if (r.code) {

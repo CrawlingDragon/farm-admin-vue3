@@ -48,7 +48,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="soilData.tableData" style="width: 100%">
         <el-table-column prop="cetuNumber" label="测土单号" />
         <el-table-column prop="category" label="现种种类" />

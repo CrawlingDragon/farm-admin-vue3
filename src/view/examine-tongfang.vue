@@ -31,7 +31,7 @@
 
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="zuoListData.tableData" style="width: 100%">
         <el-table-column prop="tongfangNumber" label="统防统治ID" />
         <el-table-column prop="title" label="名称" />

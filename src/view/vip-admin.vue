@@ -23,11 +23,11 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box p20">
+    <div class="table-box">
       <el-table :data="vipAdminData.tableData" style="width: 100%">
         <el-table-column prop="imUserId" label="会员ID" />
-        <el-table-column prop="userName" label="姓名" width="70" />
-        <el-table-column prop="tel" label="手机号码" />
+        <el-table-column prop="userName" label="姓名" width="70px" />
+        <el-table-column prop="tel" label="手机号码" width="150px" />
         <el-table-column prop="selfcard" label="身份证" />
         <el-table-column prop="address" label="所在地" />
         <el-table-column prop="zuowuName" label="种类名" />
@@ -65,15 +65,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <Pages :total="vipAdminData.totalData" v-model:page="page">
-      <!-- <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="vipAdminData.totalData"
-        class="mt-4"
-        v-model:current-page="page"
-      /> -->
-    </Pages>
+    <Pages :total="vipAdminData.totalData" v-model:page="page"></Pages>
   </div>
 </template>
 <script setup lang="ts">
@@ -159,10 +151,10 @@ function goPageDetail(id: number) {
   });
 }
 
-function handleCommand(command: string | number | object, id: number) {
+function handleCommand(command: string | number | object, uId: number) {
   router.push({
     path: `/examine-${command}-add`,
-    query: { id },
+    query: { uId },
   });
 }
 </script>

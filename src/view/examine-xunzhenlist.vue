@@ -34,7 +34,7 @@
 
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="zuoListData.tableData" style="width: 100%">
         <el-table-column prop="wenzhenNumber" label="巡诊单号" width="120px" />
         <el-table-column prop="userName" label="会员" />

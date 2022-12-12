@@ -1,19 +1,36 @@
 <template>
   <div class="serve-registration border bg-w pd40">
-    <div class="head right-head soil-right-head">
-      已卖出的商品
-    </div>
+    <div class="head right-head soil-right-head">已卖出的商品</div>
     <div class="input-bar">
-      <el-input v-model="keyword" class="w300 m-2 mr20" size="large" placeholder='会员手机号/订单号/商品名/商品编码' />
+      <el-input
+        v-model="keyword"
+        class="w300 m-2 mr20"
+        size="large"
+        placeholder="会员手机号/订单号/商品名/商品编码"
+      />
       <div class="date-box">
         <label class="mr10">购买日期</label>
-        <el-date-picker style="width: 300px" v-model="dateVal" type="daterange" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
+        <el-date-picker
+          style="width: 300px"
+          v-model="dateVal"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="选择起始时间"
+          end-placeholder="选择结束时间"
+          size="large"
+          class="mr10"
+          value-format="YYYY-MM-DD"
+        />
       </div>
       <div class="select-box mr10">
         <label class="mr10">备注</label>
         <el-select v-model="statuStatus" style="width: 100px" placeholder="Select" size="large">
-          <el-option v-for="item in statuOptions" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in statuOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
@@ -21,7 +38,7 @@
         <div class="export" @click="expertBuyData"></div>
       </el-tooltip>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-row class="table-header-row">
         <el-col :span="8">
           <div class="header-table">商品</div>
@@ -56,12 +73,16 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <div class="commodity-item table-item" v-for="list in item.productLists" :key="list.productCode">
+            <div
+              class="commodity-item table-item"
+              v-for="list in item.productLists"
+              :key="list.productCode"
+            >
               <el-row>
                 <el-col :span="16">
                   <div class="commodity-list">
                     <div class="logo">
-                      <img :src="list.productImg" alt="">
+                      <img :src="list.productImg" alt="" />
                     </div>
                     <div class="tips">
                       <div class="title-tips">{{ list.productName }}</div>
@@ -78,10 +99,12 @@
                 </el-col>
               </el-row>
             </div>
-            <div class="commodity-item table-item remark-item" v-if="item.remark">备注：{{ item.remark }}</div>
+            <div class="commodity-item table-item remark-item" v-if="item.remark">
+              备注：{{ item.remark }}
+            </div>
           </el-col>
           <el-col :span="3">
-            <div class="buyer-item table-item">{{ item.username }}<br>{{ item.mobile }}</div>
+            <div class="buyer-item table-item">{{ item.username }}<br />{{ item.mobile }}</div>
           </el-col>
           <el-col :span="3">
             <div class="total-item table-item">{{ item.totalPrice }}</div>
@@ -100,26 +123,23 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue';
-import {
-  getOutCommodityList,
-  getExportList,
-} from '@/http';
+import { getOutCommodityList, getExportList } from '@/http';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const keyword = ref('');//关键词
-const dateVal = ref();//时间
-const statuStatus = ref(0);//备注
+const keyword = ref(''); //关键词
+const dateVal = ref(); //时间
+const statuStatus = ref(0); //备注
 const statuOptions = reactive([
   { label: '全部', value: 0 },
   { label: '无备注', value: 1 },
-  { label: '有备注', value: 2 }
-])
-const page = ref(1);//当前页
+  { label: '有备注', value: 2 },
+]);
+const page = ref(1); //当前页
 const soldData = reactive({
   totalData: 0,
-  tableData: <any>[]
-})
+  tableData: <any>[],
+});
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
@@ -141,15 +161,14 @@ function search() {
   } else {
     setOutCommodityList();
   }
-
 }
 // 获取商品列表
 const setOutCommodityList = async () => {
-  let r = await getOutCommodityList(params.value)
-  soldData.tableData = r.data
-  soldData.totalData = r.totalData
+  let r = await getOutCommodityList(params.value);
+  soldData.tableData = r.data;
+  soldData.totalData = r.totalData;
   // console.log(soldData.tableData)
-}
+};
 // 导出数据接口参数
 const expertParams = computed(() => {
   let starttime = !dateVal.value ? '' : dateVal.value[0];
@@ -164,27 +183,25 @@ const expertParams = computed(() => {
 });
 // 导出购买数据
 const expertBuyData = async () => {
-  let r = await getExportList(expertParams.value)
+  let r = await getExportList(expertParams.value);
   // console.log('r', r)
   window.open(r.downLink, '_blank');
-}
+};
 // 跳转详情页
 const goDetail = (id: string | number) => {
   router.push({
     path: '/goods-sold-detail',
-    query: { id: id }
-  })
-}
+    query: { id: id },
+  });
+};
 
 watch(page, () => {
-  setOutCommodityList()
-})
+  setOutCommodityList();
+});
 
 onMounted(() => {
   setOutCommodityList();
 });
-
-
 </script>
 <style lang="scss" scoped>
 .soil-right-head {
@@ -201,7 +218,6 @@ onMounted(() => {
       border-bottom: 2px solid $theme-color;
     }
   }
-
 }
 
 .input-bar {
@@ -358,9 +374,5 @@ onMounted(() => {
       color: rgba(153, 153, 153, 1);
     }
   }
-
 }
 </style>
-
-
-

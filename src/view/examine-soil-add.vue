@@ -30,7 +30,7 @@
           <div class="left-bar">
             <div class="tip">土壤信息</div>
             <el-form-item label="会员:" prop="nameId" v-if="!cetuId">
-              <UserSelectVue v-model:user="ruleForm.nameId" />
+              <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
             </el-form-item>
             <el-form-item label="会员:" v-else>
               {{ userInfo.name }} {{ userInfo.mobile }}
@@ -307,6 +307,7 @@ const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 
 const cetuId = computed(() => route.params.cetuId);
+const uId = computed(() => route.query.uId);
 const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
@@ -326,7 +327,7 @@ const ruleForm = reactive({
   describe: '', //描述
   image: [] as any, // 图片
   // aliossImage: [],
-  testPeople: 0, //测试人
+  testPeople: '' as any, //测试人
   soilStatus: 1, //测土状态
   soilResult: {
     // 测土配方结果
@@ -550,6 +551,10 @@ async function setExpertSoilTemplateSelectData() {
 
 const userInfo = reactive({ mobile: 0, time: 0, name: '' });
 async function getSoilDetail() {
+  if (uId.value) {
+    ruleForm.nameId = +uId.value as any;
+    // ruleForm.nameId = '4279';
+  }
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!cetuId.value) return;
   let r = await getTestSoilDetail(cetuId.value as any);

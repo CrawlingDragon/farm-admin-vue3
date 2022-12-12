@@ -3,7 +3,11 @@
     <div class="item">
       <h5 class="title">会员中心</h5>
       <template v-for="item in aside?.member">
-        <router-link :to="getCustomRouterLink(item.label, asideRouter)" class="p" v-if="item.state === 1">
+        <router-link
+          :to="getCustomRouterLink(item.label, asideRouter)"
+          class="p"
+          v-if="item.state === 1"
+        >
           {{ item.words }}
         </router-link>
       </template>
@@ -11,7 +15,11 @@
     <div class="item">
       <h5 class="title">诊疗中心</h5>
       <template v-for="item in aside?.examine">
-        <router-link :to="getCustomRouterLink(item.label, asideRouter)" class="p" v-if="item.state === 1">
+        <router-link
+          :to="getCustomRouterLink(item.label, asideRouter)"
+          class="p"
+          v-if="item.state === 1"
+        >
           {{ item.words }}
         </router-link>
       </template>
@@ -19,15 +27,27 @@
     <div class="item">
       <h5 class="title">商品中心</h5>
       <template v-for="item in aside?.commodity">
-        <router-link :to="getCustomRouterLink(item.label, asideRouter)" class="p"
-          v-if="(item.state === 1 && item.label != 'saleLists' && item.label != 'storeLists')">
+        <router-link
+          :to="getCustomRouterLink(item.label, asideRouter)"
+          class="p"
+          v-if="item.state === 1 && item.label != 'saleLists' && item.label != 'storeLists'"
+        >
           {{ item.words }}
         </router-link>
-        <a :href="item.linkurl" target="_blank" class="p" v-if="(item.state === 1 && item.label ==
-        'saleLists')">
+        <a
+          :href="item.linkurl"
+          target="_blank"
+          class="p"
+          v-if="item.state === 1 && item.label == 'saleLists'"
+        >
           {{ item.words }}
         </a>
-        <a :href="item.linkurl" target="_blank" class="p" v-if="(item.state === 1 && item.label == 'storeLists')">
+        <a
+          :href="item.linkurl"
+          target="_blank"
+          class="p"
+          v-if="item.state === 1 && item.label == 'storeLists'"
+        >
           {{ item.words }}
         </a>
       </template>
@@ -35,7 +55,11 @@
     <div class="item">
       <h5 class="title">特色业务</h5>
       <template v-for="item in aside?.peculiarity">
-        <router-link :to="getCustomRouterLink(item.label, asideRouter)" class="p" v-if="item.state === 1">
+        <router-link
+          :to="getCustomRouterLink(item.label, asideRouter)"
+          class="p"
+          v-if="item.state === 1"
+        >
           {{ item.words }}
         </router-link>
       </template>
@@ -107,6 +131,7 @@ watch(
 
   .router-link-active {
     color: $theme-color;
+    font-weight: bold;
   }
 }
 </style>

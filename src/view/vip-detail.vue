@@ -155,21 +155,15 @@ const detailData = reactive<any>({
 function goPage(path: string) {
   router.push({
     path,
-    query: { id: id.value },
+    query: { uId: id.value },
   });
 }
 
 // 是否删除会员的按钮函数
 function deleteVip(done: any) {
-  ElMessageBox.confirm('确定删除该会员？', '删除提示')
-    .then(async () => {
-      if (detailData.canDelete === 0) {
-        ElMessageBox.alert(
-          '删除失败，该会员的诊疗记录或购买记录不为空，请清空后再删除',
-          '删除失败',
-          { confirmButtonText: '知道了' }
-        );
-      } else {
+  if (detailData.canDelete !== 0) {
+    ElMessageBox.confirm('确定删除该会员？', '删除提示')
+      .then(async (res) => {
         let r = await getDeleteVip({ id: id.value });
         ElMessage({
           message: '删除成功',
@@ -180,20 +174,22 @@ function deleteVip(done: any) {
             path: '/vip-admin',
           });
         }, 1000);
-
-        done();
-      }
-    })
-    .catch(() => {
-      // catch error
+      })
+      .catch(() => {
+        // catch error
+      });
+  } else {
+    ElMessageBox.alert('删除失败，该会员的诊疗记录或购买记录不为空，请清空后再删除', '删除失败', {
+      confirmButtonText: '知道了',
     });
+  }
 }
 
 // 隐藏左边栏
 onMounted(async () => {
   emit('update:hideAside', false);
   let r = await getVipDetail({ id: id.value });
-  console.log('r', r);
+  // console.log('r', r);
   detailData.userInfo = r.userInfo;
   detailData.tempArray = r.tempArray;
   detailData.recentlog = r.recentlog;

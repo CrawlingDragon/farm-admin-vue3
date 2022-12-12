@@ -46,6 +46,7 @@ import { asideSettingRouter, getCustomRouterLink } from '@/router/router-list';
   }
   .router-link-active {
     color: $theme-color;
+    font-weight: bold;
   }
 }
 </style>

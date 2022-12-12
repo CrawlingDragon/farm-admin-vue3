@@ -19,7 +19,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20">
+    <div class="table-box">
       <el-table :data="peopleData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="trainId" width="100" label="培训ID" />
         <el-table-column header-align="center" :show-overflow-tooltip="true" align="center" prop="title" label="培训主题" />

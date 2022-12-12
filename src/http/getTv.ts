@@ -7,7 +7,7 @@ export function getTvListFetch() {
 }
 
 //删除广告
-export function getTvDel(adId: string) {
+export function getTvDel(adId: number) {
   return post('/api/auth/delAd', { adId });
 }
 

@@ -74,6 +74,7 @@ body {
   height: 60px;
   width: 100%;
   bottom: 0;
+  z-index: 101;
   background: rgba(89, 149, 36, 0.3);
 }
 .submit-bar .content {
@@ -144,7 +145,7 @@ body {
 .input-bar {
   display: flex;
   align-items: center;
-  padding: 50px 20px;
+  padding: 50px 20px 0;
 }
 .color {
   color: $theme-color;
@@ -162,4 +163,12 @@ body {
 }
 .Qicon {
   color: $theme-color;
+}
+.el-table__header-wrapper {
+  border: 1px solid #ebeef5;
+  border-bottom: none;
+}
+.el-table {
+  margin: 20px;
+  width: auto !important;
 }

@@ -13,7 +13,7 @@
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
-    <div class="table-box md20" v-if="tableShow">
+    <div class="table-box" v-if="tableShow">
       <tableTwo :columns="columns" :tableData="soilData.tableData"></tableTwo>
     </div>
     <Pages :total="soilData.totalData" v-model:page="page"></Pages>

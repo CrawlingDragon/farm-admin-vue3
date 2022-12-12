@@ -239,7 +239,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/set/hospital-TV-add', //TV广告图设置 新增
-        // meta: { aside: 'aside-setting' },
+        name: 'hospital-TV-add',
         component: () => import('@/view/hospital-TV-add.vue'),
       },
       {

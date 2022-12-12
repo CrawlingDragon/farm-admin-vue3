@@ -253,6 +253,7 @@ const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
 
 const zuozhenId = computed(() => route.params.zuozhenId);
+const uId = computed(() => route.query.uId);
 const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
@@ -428,6 +429,9 @@ async function setZuozhenData() {
 }
 
 async function getZuozhenDetail() {
+  if (uId.value) {
+    ruleForm.nameId = +uId.value as any;
+  }
   // 没有zuozhenId，说明是新增页面不需要请求详情数据
   if (!zuozhenId.value) return;
   let r = await getZuoXunDetail(zuozhenId.value as any);

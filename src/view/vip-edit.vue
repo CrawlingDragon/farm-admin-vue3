@@ -90,7 +90,7 @@
         >
           <div class="tip">基本信息</div>
           <el-form-item label="姓名:" prop="name">
-            <el-input v-model="ruleForm.name" label="right" class="w300" />
+            <el-input v-model="ruleForm.name" label="right" class="w300" placeholder="请输入姓名" />
           </el-form-item>
           <el-form-item label="手机号码:" prop="phone">
             <p>{{ ruleForm.phone }}</p>
@@ -125,10 +125,20 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="身份证:" prop="card">
-            <el-input v-model="ruleForm.card" label="right" class="w300" />
+            <el-input
+              v-model="ruleForm.card"
+              label="right"
+              class="w300"
+              placeholder="请输入身份证"
+            />
           </el-form-item>
           <el-form-item label="家庭成员数:" prop="family">
-            <el-input v-model.number="ruleForm.family" label="right" class="w300" />
+            <el-input
+              v-model.number="ruleForm.family"
+              label="right"
+              class="w300"
+              placeholder="请输入家庭成员数量"
+            />
           </el-form-item>
           <div class="tip">种类情况</div>
           <template v-for="(item, index) in ruleForm.baseInfo">
@@ -187,7 +197,13 @@
           <el-button type="primary" class="add" @click="addKind">添加种类</el-button>
           <div class="tip">备注信息</div>
           <el-form-item prop="message">
-            <el-input v-model="ruleForm.message" type="textarea" rows="5" class="w300" />
+            <el-input
+              v-model="ruleForm.message"
+              type="textarea"
+              rows="5"
+              class="w300"
+              placeholder="请输入备注信息"
+            />
           </el-form-item>
           <div class="submit-bar">
             <div class="content">
@@ -252,7 +268,7 @@ const emit = defineEmits(['update:hideAside']);
 
 let soil = storage.session.get('soil');
 
-let id = computed(() => route.query.id);
+let id = computed(() => route.query.uId);
 //detail data
 const detailData = reactive<any>({
   userInfo: '',
@@ -448,21 +464,15 @@ const makeSureEdit = () => {
 function goPage(path: string) {
   router.push({
     path,
-    query: { id: id.value },
+    query: { uId: id.value },
   });
 }
 
 // 是否删除会员的按钮函数
-function deleteVip(done: any) {
-  ElMessageBox.confirm('确定删除该会员？', '删除提示')
-    .then(async () => {
-      if (detailData.canDelete === 0) {
-        ElMessageBox.alert(
-          '删除失败，该会员的诊疗记录或购买记录不为空，请清空后再删除',
-          '删除失败',
-          { confirmButtonText: '知道了' }
-        );
-      } else {
+function deleteVip() {
+  if (detailData.canDelete !== 0) {
+    ElMessageBox.confirm('确定删除该会员？', '删除提示')
+      .then(async (res) => {
         let r = await getDeleteVip({ id: id.value });
         ElMessage({
           message: '删除成功',
@@ -473,13 +483,15 @@ function deleteVip(done: any) {
             path: '/vip-admin',
           });
         }, 1000);
-
-        done();
-      }
-    })
-    .catch(() => {
-      // catch error
+      })
+      .catch(() => {
+        // catch error
+      });
+  } else {
+    ElMessageBox.alert('删除失败，该会员的诊疗记录或购买记录不为空，请清空后再删除', '删除失败', {
+      confirmButtonText: '知道了',
     });
+  }
 }
 
 onMounted(async () => {
