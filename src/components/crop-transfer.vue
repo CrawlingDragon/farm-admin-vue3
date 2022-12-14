@@ -5,14 +5,15 @@
 import { onMounted, computed, ref } from 'vue';
 import { getSelectInfo } from '../http/getSelectInfo';
 
-const props = defineProps({
-  kind: {
-    type: Array,
-    default: function () {
-      return [];
-    },
-  },
-});
+const props = defineProps<{ kind: any[] }>();
+// {
+// kind: {
+//   type: Array,
+//   default: function () {
+//     return [];
+//   },
+// },
+// }
 
 const emits = defineEmits(['update:kind']);
 // 穿梭框的默认值

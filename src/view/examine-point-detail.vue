@@ -394,7 +394,7 @@ import { transformImageParams } from '@/common/js/util';
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
-
+const uId = computed(() => route.query.uId);
 const pointId = computed(() => route.params.pointId) as any;
 // const routeName = computed(() => route.name);
 
@@ -465,7 +465,7 @@ const testSoilDialogFormVisible = ref(false);
 const conclusionDialogFormVisible = ref(false);
 //路由到编辑页
 const goPageEdit = () => {
-  router.push({ path: `/examine-point-add/${pointId.value}` });
+  router.push({ path: `/examine-point-add/${pointId.value}`, query: { uId: uId.value } });
 };
 
 const rules = reactive<FormRules>({

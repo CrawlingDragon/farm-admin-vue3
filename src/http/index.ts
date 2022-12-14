@@ -15,6 +15,8 @@ export { getExpertDelete } from './getExpertDelete';
 export { getExpertInfo } from './getExpertInfo';
 export { getExportEdit } from './getExpertEdit';
 
+//全平台的title文案
+export { getGlobalTitle } from './getGlobalTitle';
 // 单位和种类的select options 接口
 export { getSelectInfo } from './getSelectInfo';
 // 专家，会员，模板，测土记录的select options 接口
