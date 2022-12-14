@@ -5,7 +5,13 @@
       <div class="tab" :class="{ active: active == 1 }" @click="choose(1)">检测中</div>
       <div class="tab" :class="{ active: active == 2 }" @click="choose(2)">检测完成</div>
       <div class="tab" :class="{ active: active == 3 }" @click="choose(3)">已给处方</div>
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip
+        class="box-item tab"
+        effect="dark"
+        content=""
+        placement="right-start"
+        v-if="!isVipPage"
+      >
         <template #content>
           测土配方模块记录农户的土壤养分检测结果和处方数据。<br />土壤检测结果数据包含：氮磷钾PH和盐分；
           <br />处方数据：针对检测结果医院专家开处方，对土壤进行调理。
@@ -50,7 +56,7 @@
     </div>
     <div class="table-box">
       <el-table :data="soilData.tableData" style="width: 100%">
-        <el-table-column prop="cetuNumber" label="测土单号" />
+        <el-table-column prop="cetuNumber" label="测土单号" width="150px" />
         <el-table-column prop="category" label="现种种类" />
         <el-table-column prop="address" label="地址" />
         <el-table-column prop="isFrist" label="初复诊" />
@@ -87,8 +93,9 @@
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import Pages from '@/components/pages.vue';
 import { getSoilList } from '@/http';
-import { useRouter } from 'vue-router';
-
+import { useRouter, useRoute } from 'vue-router';
+import { useIfNeedUidRouteQuery } from '@/hooks/useAddRoute';
+const route = useRoute();
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
@@ -105,10 +112,17 @@ const soilData = reactive({
   tableData: [],
 });
 
+//是否在vip的列表页面
+const isVipPage = computed(() => {
+  return route.meta.pageAddress === 'vip' ? true : false;
+});
+const uId = computed(() => route.query.uId);
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
+  let uid = uId.value as any;
   let params = {
+    uid,
     keyword: keyword.value,
     startTime,
     endTime,
@@ -154,9 +168,19 @@ onMounted(() => {
 });
 
 const router = useRouter();
+// const ifNeedUidRouteQuery = computed(() => {
+//   if (route.meta.pageAddress === 'vip') {
+//     return { uId: uId.value };
+//   } else {
+//     return {};
+//   }
+// });
+let ifNeedUidRouteQuery = useIfNeedUidRouteQuery();
+// console.log('ifNeedUidRouteQuery', ifNeedUidRouteQuery.value);
 function goAddSoilPage() {
   router.push({
     path: `/examine-soil-add`,
+    query: ifNeedUidRouteQuery.value,
   });
 }
 function goSoilPage(page: string, cetuId?: number | string) {
@@ -164,10 +188,12 @@ function goSoilPage(page: string, cetuId?: number | string) {
     case 'edit':
       router.push({
         path: `/examine-soil-${page}/${cetuId}`,
+        query: ifNeedUidRouteQuery.value,
       });
     case 'detail':
       router.push({
         path: `/examine-soil-${page}/${cetuId}`,
+        query: ifNeedUidRouteQuery.value,
       });
   }
 }

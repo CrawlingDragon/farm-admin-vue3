@@ -30,6 +30,7 @@ import OSS from 'ali-oss';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { getAliossCount } from '@/http';
 import type { UploadProps, UploadUserFile } from 'element-plus';
+import goodStorage from 'good-storage';
 
 const props = defineProps({
   limit: {
@@ -63,19 +64,6 @@ const imgexceed: UploadProps['onExceed'] = (files, uploadFiles) => {
 // 判断文件的类型
 function addchange(res: any) {
   addbeforeupload(res.raw);
-  // if (res.raw.type == 'image/png') {
-  //   fileType.value = '.png';
-  //   addbeforeupload(res.raw);
-  // } else if (res.raw.type == 'image/gif') {
-  //   fileType.value = '.gif';
-  //   addbeforeupload(res.raw);
-  // } else if (res.raw.type == 'video/mp4') {
-  //   fileType.value = '.mp4';
-  //   addbeforeupload(res.raw);
-  // } else {
-  //   alert('x');
-  //   return false;
-  // }
 }
 // 上传的方法
 async function addbeforeupload(result: any) {
@@ -87,7 +75,19 @@ async function addbeforeupload(result: any) {
 }
 
 onMounted(async () => {
-  let { alioss } = await getAliossCount();
+  let alioss;
+  let sessionAlioss = goodStorage.session.get('alioss', '');
+
+  //第一次请求ali-oss账号相关，且session缓存
+  if (sessionAlioss === '') {
+    let r = await getAliossCount();
+    alioss = r.alioss;
+    goodStorage.session.set('alioss', alioss);
+  } else {
+    //如果已经缓存，则取缓存赋值 ali-oss
+    alioss = sessionAlioss;
+  }
+
   let { accessKeyId, accessKeySecret, bucket, region, stsToken } = alioss;
   client.value = new OSS({
     // yourRegion填写Bucket所在地域。以华东1（杭州）为例，yourRegion填写为oss-cn-hangzhou。
@@ -139,10 +139,6 @@ watch(
 );
 </script>
 <style lang="scss" scoped>
-// .upload {
-//   width: 100px;
-//   height: 100px;
-// }
 .upload {
   :deep().el-upload--picture-card,
   :deep().el-upload-list--picture-card .el-upload-list__item {

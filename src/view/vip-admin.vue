@@ -154,7 +154,6 @@ function goPageDetail(id: number) {
 function handleCommand(command: string | number | object, uId: number) {
   router.push({
     path: `/examine-${command}-add`,
-    query: { uId },
   });
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="mb50">
-    <div class="nav-bar border">
+    <!-- <div class="nav-bar border">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-soil' }">测土配方</el-breadcrumb-item>
@@ -8,7 +8,8 @@
           routeName === 'examine-soil-add' ? '新增测土' : '测土详情:' + ruleForm.cetuId
         }}</el-breadcrumb-item>
       </el-breadcrumb>
-    </div>
+    </div> -->
+    <AddSoilHeader :cetu-id="ruleForm.cetuId" />
     <AddSecondBar
       title="测土配方"
       :mobile="userInfo.mobile"
@@ -48,10 +49,18 @@
               <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12’18‘’" />
             </el-form-item>
             <el-form-item label="现种养种类:" prop="nowKind">
-              <KindSelect v-model:kind="ruleForm.nowKind"></KindSelect>
+              <KindSelect
+                v-model:kind="ruleForm.nowKind"
+                :options="kindOptions"
+                v-if="kindOptions.length != 0"
+              ></KindSelect>
             </el-form-item>
             <el-form-item label="前种养种类:" prop="beforeKind">
-              <KindSelect v-model:kind="ruleForm.beforeKind"></KindSelect>
+              <KindSelect
+                v-model:kind="ruleForm.beforeKind"
+                :options="kindOptions"
+                v-if="kindOptions.length != 0"
+              ></KindSelect>
             </el-form-item>
             <el-form-item label="数量:" prop="number">
               <el-input
@@ -60,7 +69,11 @@
                 placeholder="请输入数字"
                 class="grow-number w200 mr30"
               />
-              <UnitSelect v-model:unit="ruleForm.unit"></UnitSelect>
+              <UnitSelect
+                v-model:unit="ruleForm.unit"
+                v-if="unitOptions.length != 0"
+                :options="unitOptions"
+              ></UnitSelect>
             </el-form-item>
             <el-form-item label="地形:" prop="terrain">
               <el-radio-group v-model="ruleForm.terrain">
@@ -110,13 +123,18 @@
                 rows="4"
                 maxlength="2000"
                 show-word-limit
+                placeholder="请输入描述"
               />
             </el-form-item>
             <el-form-item label="图片:" prop="image">
               <UploadImageVue v-model:images="ruleForm.image" />
             </el-form-item>
             <el-form-item label="测试人:" prop="testPeople">
-              <ExpertSelect v-model:expert="ruleForm.testPeople"></ExpertSelect>
+              <ExpertSelect
+                v-model:expert="ruleForm.testPeople"
+                v-if="expertListArr.length != 0"
+                :options="expertListArr"
+              ></ExpertSelect>
             </el-form-item>
             <el-form-item label="测土状态:" prop="soilStatus">
               <el-radio-group v-model="ruleForm.soilStatus">
@@ -207,7 +225,11 @@
               </el-checkbox-group>
             </div>
             <el-form-item label="处方专家" prop="Prescribing.expert">
-              <ExpertSelect v-model:expert="ruleForm.Prescribing.expert" />
+              <ExpertSelect
+                v-model:expert="ruleForm.Prescribing.expert"
+                :options="expertListArr"
+                v-if="expertListArr.length != 0"
+              />
             </el-form-item>
             <el-form-item label="看诊结果" prop="Prescribing.result">
               <el-input
@@ -227,35 +249,7 @@
               </LatestTestSoilSelectVue>
             </el-form-item>
             <div class="tip">用药信息</div>
-            <div class="medicine">
-              <div class="bar title border">
-                <div class="item">商品名称</div>
-                <div class="item">商品规格</div>
-                <div class="item">数量</div>
-                <div class="del"></div>
-              </div>
-              <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
-                <div class="item">
-                  <medicineSelectVue
-                    v-model:drugName="item.drugName"
-                    v-model:drugId="item.drugId"
-                    v-model:size="item.sizeSelectOption"
-                  />
-                </div>
-                <div class="item">
-                  <el-select-v2
-                    v-model="item.drugSpecIds"
-                    :options="item.sizeSelectOption"
-                    class="unit"
-                  />
-                </div>
-                <div class="item">
-                  <el-input v-model="item.drugQuantity" placeholder=""></el-input>
-                </div>
-                <div class="del" @click="delMedicine(index)">x</div>
-              </div>
-            </div>
-            <el-button class="add-medicine-btn" @click="addMedicine">添加用药</el-button>
+            <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
           </div>
           <div class="right-bar">
             <div class="tip">请选择处方模板</div>
@@ -290,17 +284,22 @@ import { ElMessage, UploadProps, UploadRawFile, UploadFiles, ElMessageBox } from
 import { useRoute, useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
 import { getAddSoil } from '@/http/getAddSoil';
-import { getTestExpert, getTestSoilDetail, getDelSoil } from '@/http';
+import { getTestSoilDetail, getDelSoil } from '@/http';
 import KindSelect from '@/components/kindSelect.vue';
 import UnitSelect from '@/components/unitSelect.vue';
 import ExpertSelect from '@/components/expertSelect.vue';
-import medicineSelectVue from '@/components/medicineSelect.vue';
 import PrescribingTemplateVue from '@/components/prescribingTemplate.vue';
 import UserSelectVue from '@/components/userSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
 import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
-import { transformImageParams } from '@/common/js/util';
+import { integrationMedicine, transformImageParams } from '@/common/js/util';
+import AddSoilHeader from '@/components/add-soil-header.vue';
+import Medicine from '@/components/medicine.vue';
+import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
+import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
+const { kindOptions, unitOptions } = useKindUnitSelectOptions();
+let { expertListArr, cetuOrderListArr, recipeTemListArr } = useExpertTemplateTestSelectOptions();
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
@@ -402,64 +401,13 @@ const del = () => {
     .catch(() => {});
 };
 
-// 添加用药
-function addMedicine() {
-  ruleForm.Prescribing.medicine.push({
-    drugName: '', //药品名字
-    drugId: '', //药品id
-    drugSpecIds: '', //药品规格
-    sizeSelectOption: [],
-    drugQuantity: 1, // 药品数量
-  });
-}
-
-// 删除用药
-function delMedicine(index: number) {
-  ruleForm.Prescribing.medicine.splice(index, 1);
-}
-
 // 选择模板
 function selectPrescribing(detail: any) {
   console.log('detail', detail);
   const { content, drugInfo } = detail;
   ruleForm.Prescribing.result = content;
-  integrationMedicine(drugInfo);
+  ruleForm.Prescribing.medicine = integrationMedicine(drugInfo);
 }
-// 整合自定义用药数组 和 后端用药数组
-function integrationMedicine(drugInfo: any) {
-  ruleForm.Prescribing.medicine = [];
-  if (drugInfo.length === 0) {
-    ruleForm.Prescribing.medicine.push({
-      drugName: '', //药品名字
-      drugId: '', //药品id
-      drugSpecIds: '', //药品规格
-      sizeSelectOption: [],
-      drugQuantity: 1, // 药品数量
-    });
-    return;
-  }
-  drugInfo.forEach((item: any, index: number) => {
-    ruleForm.Prescribing.medicine.push({
-      drugName: '', //药品名字
-      drugId: '', //药品id
-      drugSpecIds: '', //药品规格
-      sizeSelectOption: [],
-      drugQuantity: 1, // 药品数量
-    });
-    if (ruleForm.Prescribing.medicine.length > drugInfo.length) {
-      return;
-    }
-    ruleForm.Prescribing.medicine[index].drugName = item.drugName;
-    ruleForm.Prescribing.medicine[index].drugSpecIds = item.drugSpec;
-    ruleForm.Prescribing.medicine[index].drugQuantity = item.drugQuantity;
-  });
-}
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  console.log('uploadFile', uploadFile);
-  console.log('ruleForm.image', ruleForm.image);
-  console.log('uploadFiles', uploadFiles);
-  // console.log('remove');
-};
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
@@ -483,7 +431,8 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
 
 // 取消按钮
 const cancel = function () {
-  router.push('/examine-soil');
+  // router.push('/examine-soil');
+  router.go(-1);
 };
 
 const soilParams = computed<any>(() => {
@@ -541,14 +490,6 @@ async function setSoilData() {
   }
 }
 
-// 测土配方，处方模板，专家列表的select option的数据请求
-async function setExpertSoilTemplateSelectData() {
-  let { expertList, recipeTemList, cetuOrderList } = await getTestExpert();
-  selectOptions.expertList = expertList;
-  selectOptions.recipeTemList = recipeTemList;
-  selectOptions.cetuOrderList = cetuOrderList;
-}
-
 const userInfo = reactive({ mobile: 0, time: 0, name: '' });
 async function getSoilDetail() {
   if (uId.value) {
@@ -593,11 +534,10 @@ async function getSoilDetail() {
   ruleForm.Prescribing.expert = chufangInfo.expertId;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.leastSoilRecord = chufangInfo.lastCetuNumber;
-  integrationMedicine(r.drugInfo);
+  ruleForm.Prescribing.medicine = integrationMedicine(r.drugInfo);
 }
 onMounted(async () => {
   emit('update:hideAside', false);
-  setExpertSoilTemplateSelectData();
   getSoilDetail();
 });
 // 隐藏左边栏

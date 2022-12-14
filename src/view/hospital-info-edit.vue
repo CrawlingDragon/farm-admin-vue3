@@ -41,7 +41,7 @@
           {{ hospitalInfo.level }}
         </el-form-item>
         <el-form-item label="作物科室:" label-width="150px" prop="crop">
-          <CropTransfer v-model="hospitalInfo.crop" />
+          <CropTransfer v-model:kind="hospitalInfo.crop" />
         </el-form-item>
         <el-form-item label="营业执照:" label-width="150px" prop="businessImg">
           <UploadImageVue :images="hospitalInfo.businessImg" :limit="1" />

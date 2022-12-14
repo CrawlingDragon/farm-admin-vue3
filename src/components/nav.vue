@@ -1,40 +1,45 @@
 <template>
   <div class="nav">
     <div class="content flex align-center" v-if="active">
-      <div class="name">新型庄稼医院管理平台</div>
+      <div class="name">{{ title }}</div>
       <router-link to="/index" class="nav-item">首页</router-link>
       <router-link to="/set" class="nav-item">设置</router-link>
       <router-link to="/cashier-desk" class="nav-item">收银台</router-link>
       <div class="search-box">
-        <el-input v-model.trim="search" placeholder="会员手机号/姓名/身份证/会员ID" size="large" class="search"
-          @keydown.enter="searchFn">
+        <el-input
+          v-model.trim="search"
+          placeholder="会员手机号/姓名/身份证/会员ID"
+          size="large"
+          class="search"
+          @keydown.enter="searchFn"
+        >
           <template #append>
             <div @click="searchFn">搜索会员</div>
           </template>
         </el-input>
       </div>
     </div>
-    <div class="content flex align-center " v-if="!active">
-      <div class="name">绍兴市演示医院收银台</div>
+    <div class="content flex align-center" v-if="!active">
+      <div class="name">{{ hospitalName }}收银台</div>
       <div class="back">
         <router-link class="back-link" to="/index">
-          <el-icon>
-            <ArrowLeft />
-          </el-icon>新型庄稼医院管理平台</router-link>
+          <el-icon> <ArrowLeft /> </el-icon>{{ title }}</router-link
+        >
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { getGlobalTitle } from '@/http';
 const router = useRouter();
-const active = ref(true)
+const active = ref(true);
 router.beforeEach(async (to, from) => {
   if (to.path == '/cashier-desk') {
-    active.value = false
+    active.value = false;
   } else {
-    active.value = true
+    active.value = true;
   }
 });
 
@@ -46,7 +51,6 @@ const searchFn = () => {
   if (search.value == '') return;
   if (beforeSearchVal.value === search.value) {
     // 上一次搜索内容和 这一次一样，则不跳转
-    // console.log('same');
     return;
   }
   beforeSearchVal.value = search.value;
@@ -57,6 +61,15 @@ const searchFn = () => {
     },
   });
 };
+
+const title = ref('');
+const hospitalName = ref('');
+onMounted(async () => {
+  let r = await getGlobalTitle();
+  title.value = r.manageName;
+  hospitalName.value = r.cashierName;
+  // console.log('r', r);
+});
 </script>
 <style lang="scss" scoped>
 .nav {
@@ -115,10 +128,8 @@ const searchFn = () => {
         font-size: 16px;
         font-family: Microsoft YaHei;
         line-height: 80px;
-
-        i {
-          vertical-align: middle;
-        }
+        display: flex;
+        align-items: center;
       }
     }
 

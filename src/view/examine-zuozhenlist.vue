@@ -2,11 +2,17 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       坐诊记录
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip
+        class="box-item tab"
+        effect="dark"
+        content=""
+        placement="right-start"
+        v-if="!isVipPage"
+      >
         <template #content> 记录会员的线下坐诊数据，包含种类基本情况和开处方信息。 </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
-      <div class="export" @click="exportPDFFn">导出PDF</div>
+      <div class="export" @click="exportPDFFn" v-if="!isVipPage">导出PDF</div>
       <el-button type="primary" class="add" @click="goAddZuoPageFn">新增坐诊</el-button>
     </div>
     <div class="input-bar">
@@ -60,8 +66,9 @@
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import Pages from '@/components/pages.vue';
 import { getZuoXunList, getExportZuoXunPDF } from '@/http';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
@@ -73,11 +80,18 @@ const zuoListData = reactive({
   tableData: [],
 });
 
+//是否在vip的列表页面
+const isVipPage = computed(() => {
+  return route.meta.pageAddress === 'vip' ? true : false;
+});
+//页面参数uId，是用户的uId
+const uId = computed<any>(() => route.query.uId);
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
 
   let params = {
+    uid: uId.value,
     getType: '1',
     keyword: keyword.value,
     startTime,
@@ -122,12 +136,14 @@ onMounted(() => {
 function goAddZuoPageFn() {
   router.push({
     path: `/examine-zuozhen-add`,
+    query: { uId: uId.value },
   });
 }
 //路由到观测点详情 or 编辑观测点
 function goPintPage(pointId: number) {
   router.push({
     path: `/examine-zuozhen-detail/${pointId}`,
+    query: { uId: uId.value },
   });
 }
 
@@ -142,7 +158,7 @@ const exportPDFFn = async () => {
     endTime,
   };
   let r = await getExportZuoXunPDF(params);
-  console.log('r', r.downLink);
+  // console.log('r', r.downLink);
   window.open(r.downLink, '_target');
 };
 </script>

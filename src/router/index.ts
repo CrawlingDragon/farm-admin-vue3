@@ -12,10 +12,6 @@ const routes: RouteRecordRaw[] = [
     path: '/index',
     component: () => import('@/view/index.vue'),
   },
-  // {
-  //   path: '/set',
-  //   component: () => import('@/view/set.vue'),
-  // },
   {
     path: '/search',
     component: () => import('@/view/search.vue'),
@@ -47,15 +43,61 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/view/vip-edit.vue'),
   },
   {
-    path: '/vip-soil-add', //会员新增测土
-    component: () => import('@/view/vip-soil-add.vue'),
+    path: '/vip-soil-list', //会员:测土-列表
+    meta: { pageAddress: 'vip' },
+    component: () => import('@/view/vip-soil-list.vue'),
     children: [
       {
-        path: '/vip-soil-add',
-        component: import('@/components/soil-add.vue'),
+        path: '/vip-soil-list',
+        component: () => import('@/view/examine-soil.vue'),
       },
     ],
   },
+  {
+    path: '/vip-point-list', //会员:观测点-列表
+    meta: { pageAddress: 'vip' },
+    component: () => import('@/view/vip-point-list.vue'),
+    children: [
+      {
+        path: '/vip-point-list',
+        component: () => import('@/view/examine-point.vue'),
+      },
+    ],
+  },
+  {
+    path: '/vip-xunzhen-list', //会员:巡诊-列表
+    meta: { pageAddress: 'vip' },
+    component: () => import('@/view/vip-xunzhen-list.vue'),
+    children: [
+      {
+        path: '/vip-xunzhen-list',
+        component: () => import('@/view/examine-xunzhenlist.vue'),
+      },
+    ],
+  },
+  {
+    path: '/vip-zuozhen-list', //会员:坐诊-列表
+    meta: { pageAddress: 'vip' },
+    component: () => import('@/view/vip-zuozhen-list.vue'),
+    children: [
+      {
+        path: '/vip-zuozhen-list',
+        component: () => import('@/view/examine-zuozhenlist.vue'),
+      },
+    ],
+  },
+  {
+    path: '/vip-wangzhen-list', //会员:网诊-列表
+    meta: { pageAddress: 'vip' },
+    component: () => import('@/view/vip-wangzhen-list.vue'),
+    children: [
+      {
+        path: '/vip-wangzhen-list',
+        component: () => import('@/view/examine-wangzhen.vue'),
+      },
+    ],
+  },
+
   {
     path: '/vip-apply', // 审核会员申请
     component: () => import('@/view/vip-apply.vue'),
@@ -254,35 +296,8 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/set/hospital-TV-add/:adId', //TV广告图设置 编辑
-        // meta: { aside: 'aside-setting' },
         component: () => import('@/view/hospital-TV-add.vue'),
       },
-      // {
-      //   path: '/set/hospital-APP', //APP模块设置
-      //   // meta: { aside: 'aside-setting' },
-      //   component: () => import('@/view/hospital-APP.vue'),
-      // },
-      // {
-      //   path: '/set/hospital-PC', //PC端模块设置
-      //   // meta: { aside: 'aside-setting' },
-      //   component: () => import('@/view/hospital-PC.vue'),
-      // },
-      // {
-      //   path: '/set/hospital-live', //直播节目单
-      //   // meta: { aside: 'aside-setting' },
-      //   component: () => import('@/view/hospital-live.vue'),
-      // },
-      // // 服务
-      // {
-      //   path: '/set/service-user', //用户反馈
-      //   // meta: { aside: 'aside-setting' },
-      //   component: () => import('@/view/service-user.vue'),
-      // },
-      // {
-      //   path: '/set/service-QQ', //QQ在线客服
-      //   // meta: { aside: 'aside-setting' },
-      //   component: () => import('@/view/service-QQ.vue'),
-      // },
     ],
   },
 ];

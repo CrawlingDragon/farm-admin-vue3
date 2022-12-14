@@ -1,6 +1,6 @@
 <template>
   <div class="mb50">
-    <div class="nav-bar border">
+    <!-- <div class="nav-bar border">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-zuozhenlist' }">坐诊记录</el-breadcrumb-item>
@@ -10,7 +10,8 @@
             : '坐诊详情:' + ruleForm.enterInfo.zuoxunNumber
         }}</el-breadcrumb-item>
       </el-breadcrumb>
-    </div>
+    </div> -->
+    <AddZuozhenHeader :zuoxunNumber="ruleForm.enterInfo.zuoxunNumber" />
     <AddSecondBar
       v-if="routeName !== 'examine-zuozhen-add'"
       title="坐诊详情"
@@ -33,7 +34,7 @@
           <div class="left-bar">
             <div class="tip">种类病情资料</div>
             <el-form-item label="会员:" prop="nameId" v-if="!zuozhenId">
-              <UserSelectVue v-model:user="ruleForm.nameId" />
+              <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
             </el-form-item>
             <el-form-item label="会员:" v-else>
               {{ ruleForm.username }} {{ ruleForm.enterInfo.enterMobile }}
@@ -245,6 +246,7 @@ import { integrationMedicine } from '@/common/js/util';
 import { transformImageParams } from '@/common/js/util';
 import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
+import AddZuozhenHeader from '@/components/add-zuozhen-header.vue';
 
 let { kindOptions, unitOptions } = useKindUnitSelectOptions();
 let { expertListArr, cetuOrderListArr, recipeTemListArr } = useExpertTemplateTestSelectOptions();

@@ -2,13 +2,19 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       网诊管理
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip
+        class="box-item tab"
+        effect="dark"
+        content=""
+        placement="right-start"
+        v-if="!isVipPage"
+      >
         <template #content
           >记录专家田间巡诊数据，包含种类基本情况，<br />巡诊地点和开处方信息。</template
         >
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
-      <div class="export" @click="exportPDFFn">导出PDF</div>
+      <div class="export" @click="exportPDFFn" v-if="!isVipPage">导出PDF</div>
     </div>
     <div class="input-bar">
       <el-input
@@ -110,11 +116,12 @@ import WangInviteList from '@/components/wang-invite-expert.vue';
 import WangZhenAnswer from '@/components/wangZhen-answer.vue';
 import WangExpertAnsweredList from '@/components/wang-expert-answered-list.vue';
 import { getWangList, getWangPDF, getWangToAnswer } from '@/http';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
 const { recipeTemListArr } = useExpertTemplateTestSelectOptions();
 const router = useRouter();
+const route = useRoute();
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
@@ -149,12 +156,18 @@ const wangListData = reactive({
   totalData: 0,
   listData: [] as any,
 });
-
+//是否在vip的列表页面
+const isVipPage = computed(() => {
+  return route.meta.pageAddress === 'vip' ? true : false;
+});
+//页面参数uId，是用户的uId
+const uId = computed<any>(() => route.query.uId);
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
 
   let params = {
+    uid: uId.value,
     getType: '2',
     keyword: keyword.value,
     startTime,
@@ -243,6 +256,7 @@ const exportPDFFn = async () => {
   cursor: pointer;
 }
 .list-container {
+  margin-top: 30px;
   padding: 0 20px;
   .top-bar {
     display: flex;

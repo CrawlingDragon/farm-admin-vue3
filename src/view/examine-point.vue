@@ -2,7 +2,13 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       观测点
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip
+        class="box-item tab"
+        effect="dark"
+        content=""
+        placement="right-start"
+        v-if="!isVipPage"
+      >
         <template #content>
           观测点即试验示范地，同时设立对照组和观测点，并将作物信息，<br />测土信息、农资商品使用信息、日常观测信息全部公开，通过控<br />制变量法，直观的给农户展示放心农资的使用情况。
         </template>
@@ -45,7 +51,7 @@
     </div>
     <div class="table-box">
       <el-table :data="pointListData.tableData" style="width: 100%">
-        <el-table-column prop="observepointNumber" label="观测点ID" />
+        <el-table-column prop="observepointNumber" label="观测点ID" width="150px" />
         <el-table-column prop="title" label="名称" />
         <el-table-column prop="zuowu" label="种类" />
         <el-table-column prop="address" label="试验地点" />
@@ -74,8 +80,10 @@
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import Pages from '@/components/pages.vue';
 import { getObservePointList } from '@/http';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { useIfNeedUidRouteQuery } from '@/hooks/useAddRoute';
 const router = useRouter();
+const route = useRoute();
 const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
@@ -92,12 +100,18 @@ const pointListData = reactive({
   totalData: 0,
   tableData: [],
 });
-
+//是否在vip的列表页面
+const isVipPage = computed(() => {
+  return route.meta.pageAddress === 'vip' ? true : false;
+});
+//页面参数uId，是用户的uId
+const uId = computed(() => route.query.uId);
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
-
+  let uid = uId.value;
   let params = {
+    uid: uid as any,
     keyword: keyword.value,
     startTime,
     endTime,
@@ -138,15 +152,18 @@ onMounted(() => {
   getPointData();
 });
 
+let uIdQuery = useIfNeedUidRouteQuery();
 //路由到新增观测点
 function goAddPointPageFn(pointId: number | string) {
   if (pointId == 'add') {
     router.push({
       path: '/examine-point-add',
+      query: uIdQuery.value,
     });
   } else {
     router.push({
-      path: `/examine-point-add/${pointId}`,
+      path: `/examine-point-add/${pointId}123`,
+      query: uIdQuery.value,
     });
   }
 }
@@ -154,6 +171,7 @@ function goAddPointPageFn(pointId: number | string) {
 function goPintPage(pointId: number) {
   router.push({
     path: `/examine-point-detail/${pointId}`,
+    query: uIdQuery.value,
   });
 }
 </script>

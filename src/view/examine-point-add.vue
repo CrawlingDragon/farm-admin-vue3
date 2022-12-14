@@ -1,6 +1,6 @@
 <template>
   <div class="mb50">
-    <div class="nav-bar border">
+    <!-- <div class="nav-bar border">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-point' }">观测点</el-breadcrumb-item>
@@ -8,7 +8,8 @@
           routeName === 'examine-point-add' ? '新增观测点' : '观测点详情:' + ruleForm.pointNumber
         }}</el-breadcrumb-item>
       </el-breadcrumb>
-    </div>
+    </div> -->
+    <AddPointHeader :pointNumber="ruleForm.pointNumber" />
     <div class="point-container">
       <el-form
         ref="ruleFormRef"
@@ -99,7 +100,7 @@
               />
             </el-form-item>
             <el-form-item label="试验会员:" prop="nameId">
-              <UserSelectVue v-model:user="ruleForm.nameId" />
+              <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
             </el-form-item>
             <el-form-item label="描述:" prop="describe">
               <el-input
@@ -183,7 +184,8 @@
                 placeholder="输入用药描述"
               />
             </el-form-item>
-            <div class="medicine" v-if="ruleForm.leftUseFormInfo.medicine.length !== 0">
+            <Medicine v-model:medicineProp="ruleForm.leftUseFormInfo.medicine" />
+            <!-- <div class="medicine" v-if="ruleForm.leftUseFormInfo.medicine.length !== 0">
               <div class="bar title border">
                 <div class="item">商品名称</div>
                 <div class="item">商品规格</div>
@@ -209,12 +211,12 @@
                     >
                     </el-option>
                   </el-select>
-                  <!-- <el-select-v2
+                 <el-select-v2
                     v-model="item.drugSpecIds"
                     :options="item.sizeSelectOption"
                     class="unit"
-                  /> -->
-                </div>
+                  /> 
+           </div>
                 <div class="item">
                   <el-input v-model="item.drugQuantity" placeholder=""></el-input>
                 </div>
@@ -223,7 +225,7 @@
             </div>
             <el-form-item>
               <el-button @click="addMedicine('left')">添加用药</el-button>
-            </el-form-item>
+            </el-form-item> -->
           </div>
           <div class="right-main">
             <div class="tip">使用农资信息</div>
@@ -255,7 +257,9 @@
                 placeholder="输入用药描述"
               />
             </el-form-item>
-            <div class="medicine" v-if="ruleForm.rightUseFormInfo.medicine.length !== 0">
+            <Medicine v-model:medicineProp="ruleForm.rightUseFormInfo.medicine" />
+            <!-- <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" /> -->
+            <!-- <div class="medicine" v-if="ruleForm.rightUseFormInfo.medicine.length !== 0">
               <div class="bar title border">
                 <div class="item">商品名称</div>
                 <div class="item">商品规格</div>
@@ -290,7 +294,7 @@
             </div>
             <el-form-item>
               <el-button @click="addMedicine('right')">添加用药</el-button>
-            </el-form-item>
+            </el-form-item> -->
           </div>
         </div>
         <div class="submit-bar" v-if="!pointId">
@@ -339,8 +343,9 @@ import medicineSelectVue from '@/components/medicineSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import UploadImageVue from '@/components/uploadImage.vue';
 import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
-import { transformImageParams } from '@/common/js/util';
-
+import { integrationMedicine, transformImageParams } from '@/common/js/util';
+import AddPointHeader from '@/components/add-point-header.vue';
+import Medicine from '@/components/medicine.vue';
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
 const route = useRoute();
@@ -466,58 +471,58 @@ const rules = reactive<FormRules>({
 // };
 
 // 添加用药
-function addMedicine(target: string) {
-  let key: 'leftUseFormInfo' | 'rightUseFormInfo';
-  key = target === 'left' ? 'leftUseFormInfo' : 'rightUseFormInfo';
-  ruleForm[key].medicine.push({
-    drugName: '', //药品名字
-    drugId: '', //药品id
-    drugSpecIds: '', //药品规格
-    sizeSelectOption: [],
-    drugQuantity: 1, // 药品数量
-  });
-}
+// function addMedicine(target: string) {
+//   let key: 'leftUseFormInfo' | 'rightUseFormInfo';
+//   key = target === 'left' ? 'leftUseFormInfo' : 'rightUseFormInfo';
+//   ruleForm[key].medicine.push({
+//     drugName: '', //药品名字
+//     drugId: '', //药品id
+//     drugSpecIds: '', //药品规格
+//     sizeSelectOption: [],
+//     drugQuantity: 1, // 药品数量
+//   });
+// }
 
 // 删除用药
-function delMedicine(index: number, target: string) {
-  let key: 'leftUseFormInfo' | 'rightUseFormInfo';
-  key = target === 'left' ? 'leftUseFormInfo' : 'rightUseFormInfo';
-  ruleForm[key].medicine.splice(index, 1);
-}
+// function delMedicine(index: number, target: string) {
+//   let key: 'leftUseFormInfo' | 'rightUseFormInfo';
+//   key = target === 'left' ? 'leftUseFormInfo' : 'rightUseFormInfo';
+//   ruleForm[key].medicine.splice(index, 1);
+// }
 
 // 整合自定义用药数组 和 后端用药数组
-function integrationMedicine(drugInfo: any, target: 'leftUseFormInfo' | 'rightUseFormInfo') {
-  ruleForm[target].medicine = [];
-  if (drugInfo.length === 0) {
-    // ruleForm[target].medicine.push({
-    //   drugName: '', //药品名字
-    //   drugId: '', //药品id
-    //   drugSpecIds: '', //药品规格
-    //   sizeSelectOption: [],
-    //   drugQuantity: 1, // 药品数量
-    // });
-    return;
-  }
-  // console.log('drugInfo', drugInfo);
+// function integrationMedicine(drugInfo: any, target: 'leftUseFormInfo' | 'rightUseFormInfo') {
+//   ruleForm[target].medicine = [];
+//   if (drugInfo.length === 0) {
+//     // ruleForm[target].medicine.push({
+//     //   drugName: '', //药品名字
+//     //   drugId: '', //药品id
+//     //   drugSpecIds: '', //药品规格
+//     //   sizeSelectOption: [],
+//     //   drugQuantity: 1, // 药品数量
+//     // });
+//     return;
+//   }
+//   // console.log('drugInfo', drugInfo);
 
-  drugInfo.forEach((item: any) => {
-    // if (ruleForm[target].medicine.length > drugInfo.length) {
-    //   return;
-    // }
-    ruleForm[target].medicine.push({
-      drugName: item.drugName, //药品名字
-      drugId: item.drugId, //药品id
-      drugSpecIds: item.drugSpec, //药品规格
-      sizeSelectOption: [],
-      drugQuantity: +item.drugQuantity, // 药品数量
-    });
-    // ruleForm[target].medicine[index].drugName = item.drugName;
-    // ruleForm[target].medicine[index].drugSpecIds = item.drugSpec;
-    // ruleForm[target].medicine[index].drugQuantity = item.drugQuantity;
-  });
-  // console.log('ruleForm[target]', ruleForm[target]);
-  // console.log('ruleForm[target].medicine', ruleForm[target].medicine);
-}
+//   drugInfo.forEach((item: any) => {
+//     // if (ruleForm[target].medicine.length > drugInfo.length) {
+//     //   return;
+//     // }
+//     ruleForm[target].medicine.push({
+//       drugName: item.drugName, //药品名字
+//       drugId: item.drugId, //药品id
+//       drugSpecIds: item.drugSpec, //药品规格
+//       sizeSelectOption: [],
+//       drugQuantity: +item.drugQuantity, // 药品数量
+//     });
+//     // ruleForm[target].medicine[index].drugName = item.drugName;
+//     // ruleForm[target].medicine[index].drugSpecIds = item.drugSpec;
+//     // ruleForm[target].medicine[index].drugQuantity = item.drugQuantity;
+//   });
+//   // console.log('ruleForm[target]', ruleForm[target]);
+//   // console.log('ruleForm[target].medicine', ruleForm[target].medicine);
+// }
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, pageName?: string) => {
@@ -628,11 +633,11 @@ async function getPointDetail() {
   ruleForm.leftUseFormInfo.date = useDrugInfo.useDrugTime;
   ruleForm.leftUseFormInfo.describe = useDrugInfo.useDrugContent;
 
-  integrationMedicine(useDrugInfo.useYongyaoLists, 'leftUseFormInfo');
+  ruleForm.leftUseFormInfo.medicine = integrationMedicine(useDrugInfo.useYongyaoLists);
 
   ruleForm.rightUseFormInfo.date = useDrugInfo.contrastUseDrugTime;
   ruleForm.rightUseFormInfo.describe = useDrugInfo.contrastUseDrugContent;
-  integrationMedicine(useDrugInfo.contrastUseYongyaoLists, 'rightUseFormInfo');
+  ruleForm.rightUseFormInfo.medicine = integrationMedicine(useDrugInfo.contrastUseYongyaoLists);
 }
 
 //watch 第一次测土单号变化

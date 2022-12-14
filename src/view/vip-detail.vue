@@ -28,9 +28,9 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="soil === 1" @click="goPage('/examine-soil-add')"
-                      >测土</el-dropdown-item
-                    >
+                    <el-dropdown-item v-if="soil === 1" @click="goPage('/examine-soil-add')">
+                      测土
+                    </el-dropdown-item>
                     <el-dropdown-item @click="goPage('/examine-zuozhen-add')"
                       >坐诊</el-dropdown-item
                     >
@@ -48,23 +48,23 @@
           </div>
         </div>
         <div class="numbers">
-          <div class="item" v-if="soil === 1">
+          <div class="item" v-if="soil === 1" @click="goPage('/vip-soil-list')">
             <div class="num fb">{{ detailData.tempArray.cetu }}</div>
             <div class="p">测土</div>
           </div>
-          <div class="item">
+          <div class="item" @click="goPage('/vip-point-list')">
             <div class="num fb">{{ detailData.tempArray.viewpoint }}</div>
             <div class="p">观测点</div>
           </div>
-          <div class="item">
+          <div class="item" @click="goPage('/vip-zuozhen-list')">
             <div class="num fb">{{ detailData.tempArray.wenzhen }}</div>
             <div class="p">坐诊</div>
           </div>
-          <div class="item">
+          <div class="item" @click="goPage('/vip-xunzhen-list')">
             <div class="num fb">{{ detailData.tempArray.xunzhen }}</div>
             <div class="p">巡诊</div>
           </div>
-          <div class="item">
+          <div class="item" @click="goPage('/vip-wangzhen-list')">
             <div class="num fb">{{ detailData.tempArray.ask }}</div>
             <div class="p">网诊</div>
           </div>
@@ -154,7 +154,7 @@ const detailData = reactive<any>({
 // 去特定的路由
 function goPage(path: string) {
   router.push({
-    path,
+    path: path,
     query: { uId: id.value },
   });
 }
@@ -239,6 +239,7 @@ onUnmounted(() => {
         justify-content: center;
         align-items: center;
         border-right: 1px solid $border-color;
+        cursor: pointer;
         &:last-child {
           border: none;
         }

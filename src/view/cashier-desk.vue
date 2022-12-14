@@ -138,7 +138,8 @@ const search = () => {
 };
 // 监听会员选择展示信息
 watch(vipUid, (newVal) => {
-  vipUser.value = myUser.value.options.userOptions.filter((item: any) => item.uid == newVal)[0];
+  vipUser.value =
+    myUser.value.options.userOptions.filter((item: any) => item.uid == newVal)[0] || {};
 });
 // 监听列表信息计算金额
 watch(
