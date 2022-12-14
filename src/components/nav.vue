@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="content flex align-center " v-if="!active">
-      <div class="name">绍兴市演示医院收银台</div>
+      <div class="name">{{ hospitalName }}收银台</div>
       <div class="back">
         <router-link class="back-link" to="/index">
           <el-icon>
@@ -28,11 +28,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getHospitalDetail } from '@/http';
 const router = useRouter();
 const active = ref(true)
+const hospitalName = ref()//收银台医院名称
 router.beforeEach(async (to, from) => {
   if (to.path == '/cashier-desk') {
     active.value = false
+    let r = await getHospitalDetail()
+    hospitalName.value = r.hospitalName
+    // console.log('r', r)
   } else {
     active.value = true
   }
