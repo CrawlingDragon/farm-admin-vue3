@@ -65,6 +65,7 @@ declare module '@vue/runtime-core' {
     ExamineTemplateAdd: typeof import('./src/components/examine-template-add.vue')['default']
     ExpertSelect: typeof import('./src/components/expertSelect.vue')['default']
     Head: typeof import('./src/components/head.vue')['default']
+    ImgPreview: typeof import('./src/components/imgPreview.vue')['default']
     Kind: typeof import('./src/components/kind.vue')['default']
     KindSelect: typeof import('./src/components/kindSelect.vue')['default']
     LatestTestSoilSelect: typeof import('./src/components/latestTestSoilSelect.vue')['default']

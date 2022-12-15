@@ -8,23 +8,11 @@
       </el-breadcrumb>
     </div>
     <div class="point-container">
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="120px"
-        class="demo-ruleForm"
-        size="large"
-        status-icon
-      >
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" size="large"
+        status-icon>
         <el-affix target=".point-container">
           <div class="title-fiexed-bar border">
-            <AddSecondBar
-              title="观测点详情"
-              :mobile="ruleForm.centerMobile"
-              :time="ruleForm.centerTime"
-              class="left"
-            >
+            <AddSecondBar title="观测点详情" :mobile="ruleForm.centerMobile" :time="ruleForm.centerTime" class="left">
               <el-dropdown>
                 <span class="el-dropdown-link">
                   <span @click="goPageEdit" class="edit">编辑</span>
@@ -80,13 +68,7 @@
                 :options="unitAndKindSelectOption.unitOption"
               ></UnitSelect> -->
             </el-form-item>
-            <el-form-item
-              label="开始观察日期:"
-              prop="sampleDate"
-              v-model="ruleForm.sampleDate"
-              class="w300"
-              readonly
-            >
+            <el-form-item label="开始观察日期:" prop="sampleDate" v-model="ruleForm.sampleDate" class="w300" readonly>
               <!-- <el-date-picker
                 v-model="ruleForm.sampleDate"
                 type="date"
@@ -118,12 +100,14 @@
               {{ ruleForm.describe }}
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <el-image
+              <!-- <el-image
                 v-for="item in ruleForm.image"
                 :src="item.url"
                 fit="scale-down"
                 class="upload-image"
-              ></el-image>
+              ></el-image> -->
+              <imgPreview class="upload-image" v-for="(item, index) in ruleForm.image" :index="index"
+                :lists="ruleForm.image" strKey="url" :imgSrc="item.thumb_url"></imgPreview>
             </el-form-item>
           </div>
           <div class="right-main"></div>
@@ -140,14 +124,11 @@
             <el-form-item label="取样日期:" prop="">
               {{ ruleForm.leastSoilRecord.date }}
             </el-form-item>
-            <el-form-item label="铵态氮含量:" prop=""
-              >{{ ruleForm.leastSoilRecord.an }}
+            <el-form-item label="铵态氮含量:" prop="">{{ ruleForm.leastSoilRecord.an }}
             </el-form-item>
-            <el-form-item label="速效磷含量:" prop=""
-              >{{ ruleForm.leastSoilRecord.lin }}
+            <el-form-item label="速效磷含量:" prop="">{{ ruleForm.leastSoilRecord.lin }}
             </el-form-item>
-            <el-form-item label="有效钾含量:" prop=""
-              >{{ ruleForm.leastSoilRecord.jia }}
+            <el-form-item label="有效钾含量:" prop="">{{ ruleForm.leastSoilRecord.jia }}
             </el-form-item>
             <el-form-item label="pH值:" prop="">{{ ruleForm.leastSoilRecord.ph }} </el-form-item>
             <el-form-item label="盐分:" prop="">{{ ruleForm.leastSoilRecord.salt }} </el-form-item>
@@ -157,13 +138,8 @@
         <div class="use-farm-box border">
           <div class="left-main">
             <div class="tip">使用农资信息</div>
-            <el-form-item
-              label="采样日期:"
-              prop="leftUseFormInfo.date"
-              v-model="ruleForm.leftUseFormInfo.date"
-              class="w300"
-              readonly
-            >
+            <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="ruleForm.leftUseFormInfo.date" class="w300"
+              readonly>
               {{ ruleForm.leftUseFormInfo.date }}
             </el-form-item>
             <el-form-item label="描述:" prop="leftUseFormInfo.describe">
@@ -190,13 +166,8 @@
           </div>
           <div class="right-main">
             <div class="tip">使用农资信息</div>
-            <el-form-item
-              label="采样日期:"
-              prop="rightUseFormInfo.date"
-              v-model="ruleForm.rightUseFormInfo.date"
-              class="w300"
-              readonly
-            >
+            <el-form-item label="采样日期:" prop="rightUseFormInfo.date" v-model="ruleForm.rightUseFormInfo.date"
+              class="w300" readonly>
               {{ ruleForm.rightUseFormInfo.date }}
             </el-form-item>
             <el-form-item label="描述:" prop="rightUseFormInfo.describe">
@@ -227,53 +198,33 @@
           <template v-for="item in ruleForm.dailyContentInfo">
             <div class="left-main">
               <div class="tip">日常观测</div>
-              <el-form-item
-                label="采样日期:"
-                prop="leftUseFormInfo.date"
-                v-model="item.observeTime"
-                class="w300"
-                readonly
-              >
+              <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="item.observeTime" class="w300" readonly>
                 {{ item.observeTime }}
               </el-form-item>
               <el-form-item label="描述:" prop="leftUseFormInfo.describe">
                 {{ item.describe }}
               </el-form-item>
               <el-form-item label="图片:" prop="image">
-                <el-image
-                  v-for="img in item.images"
-                  :src="img.url"
-                  fit="scale-down"
-                  class="upload-image"
-                ></el-image>
+                <el-image v-for="img in item.images" :src="img.url" fit="scale-down" class="upload-image"></el-image>
               </el-form-item>
             </div>
             <div class="right-main">
               <div class="tip">
                 日常观测
-                <el-icon class="close-icon" @click="delDayPoint(item.dailyId)"
-                  ><CloseBold
-                /></el-icon>
+                <el-icon class="close-icon" @click="delDayPoint(item.dailyId)">
+                  <CloseBold />
+                </el-icon>
               </div>
-              <el-form-item
-                label="采样日期:"
-                prop="leftUseFormInfo.date"
-                v-model="item.contrastObserveTime"
-                class="w300"
-                readonly
-              >
+              <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="item.contrastObserveTime" class="w300"
+                readonly>
                 {{ item.contrastObserveTime }}
               </el-form-item>
               <el-form-item label="描述:" prop="leftUseFormInfo.describe">
                 {{ item.contrastDescribe }}
               </el-form-item>
               <el-form-item label="图片:" prop="image">
-                <el-image
-                  v-for="img in item.contrastImages"
-                  :src="img.url"
-                  fit="scale-down"
-                  class="upload-image"
-                ></el-image>
+                <el-image v-for="img in item.contrastImages" :src="img.url" fit="scale-down"
+                  class="upload-image"></el-image>
               </el-form-item>
             </div>
           </template>
@@ -299,9 +250,9 @@
             </div>
             <div class="right-main">
               <div class="tip">
-                测土信息<el-icon class="close-icon" @click="delTestSoil(item.logId)"
-                  ><CloseBold
-                /></el-icon>
+                测土信息<el-icon class="close-icon" @click="delTestSoil(item.logId)">
+                  <CloseBold />
+                </el-icon>
               </div>
               <el-form-item label="测土单号" prop="leastSoilRecord.soilId">
                 {{ item.conCetuNumber }}
@@ -330,40 +281,28 @@
             </div>
             <div class="status">
               <span>{{ ruleForm.conclusion.effectTips }}</span>
-              <el-icon class="close-icon" @click="delConclusion"><CloseBold /></el-icon>
+              <el-icon class="close-icon" @click="delConclusion">
+                <CloseBold />
+              </el-icon>
             </div>
           </div>
         </div>
         <div class="submit-bar" v-else>
           <!-- 这是新增页面的按钮 -->
           <div class="content">
-            <el-button type="primary" size="large" @click="dayDialogFormVisible = true" class="mr20"
-              >新增日常观测</el-button
-            >
-            <el-button size="large" @click="testSoilDialogFormVisible = true" class="mr20"
-              >新增测土</el-button
-            >
+            <el-button type="primary" size="large" @click="dayDialogFormVisible = true" class="mr20">新增日常观测</el-button>
+            <el-button size="large" @click="testSoilDialogFormVisible = true" class="mr20">新增测土</el-button>
             <el-button size="large" @click="conclusionDialogFormVisible = true">添加结论</el-button>
           </div>
         </div>
       </el-form>
     </div>
     <!-- 新增日常观测dialog -->
-    <AddDayWatch
-      v-model:dayDialogFormVisible="dayDialogFormVisible"
-      @save="addDayPointFetchFn"
-      :view-id="pointId"
-    />
-    <AddTestSoil
-      :view-id="pointId"
-      @save="addDayPointFetchFn"
-      v-model:testSoilDialogFormVisible="testSoilDialogFormVisible"
-    />
-    <AddConclusion
-      v-model:conclusionDialogFormVisible="conclusionDialogFormVisible"
-      :view-id="pointId"
-      @save="addDayPointFetchFn"
-    />
+    <AddDayWatch v-model:dayDialogFormVisible="dayDialogFormVisible" @save="addDayPointFetchFn" :view-id="pointId" />
+    <AddTestSoil :view-id="pointId" @save="addDayPointFetchFn"
+      v-model:testSoilDialogFormVisible="testSoilDialogFormVisible" />
+    <AddConclusion v-model:conclusionDialogFormVisible="conclusionDialogFormVisible" :view-id="pointId"
+      @save="addDayPointFetchFn" />
   </div>
 </template>
 <script setup lang="ts">
@@ -386,6 +325,7 @@ import {
 // import medicineSelectVue from '@/components/medicineSelect.vue';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import AddDayWatch from '@/components/add-day-watch.vue';
+import imgPreview from '@/components/imgPreview.vue';
 import AddTestSoil from '@/components/add-test-soil.vue';
 import AddConclusion from '@/components/add-conclusion.vue';
 // import LatestTestSoilSelectVue from '@/components/latestTestSoilSelect.vue';
@@ -494,7 +434,7 @@ const del = () => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 // 添加用药
@@ -682,7 +622,7 @@ function delDayPoint(dailyId: string) {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 //删除测土记录
 function delTestSoil(logId: string) {
@@ -698,7 +638,7 @@ function delTestSoil(logId: string) {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 //删除观测结论
 function delConclusion() {
@@ -714,7 +654,7 @@ function delConclusion() {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 
 onMounted(async () => {
@@ -735,6 +675,7 @@ onUnmounted(() => {
   align-items: center;
   background: #fff;
   border-top: none;
+
   .left {
     flex: 1;
     border-right: 1px solid #e5e5e5;
@@ -747,6 +688,7 @@ onUnmounted(() => {
     border-top: none;
     border-left: none;
   }
+
   .right {
     flex: 1;
     padding-left: 20px;
@@ -755,6 +697,7 @@ onUnmounted(() => {
     height: 100%;
     display: flex;
     align-items: center;
+
     .small-title {
       color: #999;
       margin-left: 10px;
@@ -763,38 +706,47 @@ onUnmounted(() => {
     }
   }
 }
+
 .basis-info {
   border-top: none;
   background: #fff;
   display: flex;
+
   .left-main {
     border-right: 1px solid #e5e5e5;
     flex: 1;
   }
+
   .right-main {
     flex: 1;
   }
 }
+
 .first-test-box {
   margin-top: 10px;
   background: #fff;
   display: flex;
+
   .left-main {
     flex: 1;
     border-right: 1px solid #e5e5e5;
   }
+
   .right-main {
     flex: 1;
   }
 }
+
 .use-farm-box {
   margin-top: 10px;
   background: #fff;
   display: flex;
+
   .left-main {
     flex: 1;
     border-right: 1px solid #e5e5e5;
   }
+
   .right-main {
     flex: 1;
   }
@@ -803,8 +755,10 @@ onUnmounted(() => {
 :deep(.date-wrap .el-input__wrapper) {
   width: 300px !important;
 }
+
 .medicine {
   margin-bottom: 20px;
+
   .bar {
     width: 80%;
     height: 40px;
@@ -816,28 +770,33 @@ onUnmounted(() => {
     padding-bottom: 5px;
     border: 1px solid #e5e5e5;
     border-top: none;
+
     .item {
       flex: 1;
       font-size: 14px;
       padding: 5px;
     }
+
     .del {
       width: 30px;
       text-align: center;
       cursor: pointer;
     }
   }
+
   .title {
     margin-top: 0;
     border-top: 1px solid #e5e5e5;
   }
 }
+
 .save {
   color: $theme-color;
   margin-right: 10px;
   font-weight: bold;
   cursor: pointer;
 }
+
 .upload-image {
   width: 100px;
   height: 100px;
@@ -845,54 +804,67 @@ onUnmounted(() => {
   border: 1px solid #e5e5e5;
   margin-bottom: 5px;
 }
+
 .edit,
 .el-icon--right {
   color: $theme-color;
   cursor: pointer;
 }
+
 .el-icon--right {
   margin-right: 10px;
 }
+
 .test-soil-box {
   flex-wrap: wrap;
   margin-top: 10px;
   background: #fff;
   display: flex;
+
   .left-main {
     width: 50%;
     border-right: 1px solid #e5e5e5;
   }
+
   .right-main {
     width: 50%;
   }
 }
+
 .conclusion {
   margin-top: 10px;
   background: #fff;
+
   .conclusion-content {
     display: flex;
     align-items: start;
     font-size: 16px;
     padding: 20px;
     padding-top: 0;
+
     .time {
       width: 180px;
     }
+
     .text {
       flex: 1;
+
       .p1 {
         color: #999;
         margin-bottom: 10px;
       }
     }
+
     .status {
       width: 180px;
       display: flex;
       justify-content: end;
       align-items: center;
+
       span {
         margin-right: 10px;
       }
+
       .icon {
         color: #999;
         cursor: pointer;
@@ -900,8 +872,10 @@ onUnmounted(() => {
     }
   }
 }
+
 .tip {
   position: relative;
+
   .close-icon {
     position: absolute;
     right: 10px;
