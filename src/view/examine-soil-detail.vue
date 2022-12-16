@@ -25,15 +25,8 @@
       <div class="last-active">{{ ruleForm.trackInfo.lastEffectStr }}</div>
     </AddSecondBar>
     <div class="content">
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="120px"
-        class="demo-ruleForm"
-        size="default"
-        status-icon
-      >
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
+        size="default" status-icon>
         <div class="top-box bg-w border">
           <div class="left-bar">
             <div class="tip">土壤信息</div>
@@ -61,13 +54,7 @@
             <el-form-item label="采样深度(cm):" prop="sampleNumber">
               {{ ruleForm.sampleNumber }}
             </el-form-item>
-            <el-form-item
-              label="采样日期:"
-              prop="sampleDate"
-              v-model="ruleForm.sampleDate"
-              class="w300"
-              readonly
-            >
+            <el-form-item label="采样日期:" prop="sampleDate" v-model="ruleForm.sampleDate" class="w300" readonly>
               {{ ruleForm.sampleDate }}
             </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
@@ -75,7 +62,8 @@
             </el-form-item>
 
             <el-form-item label="图片:" prop="image">
-              <el-image v-for="img in ruleForm.image" class="upload-img" :src="img" fit="cover">
+              <el-image v-for="(item, index) in ruleForm.image" class="upload-img" :src="item.thumb_url"
+                @click="getImgView(index, ruleForm.image)" fit="cover">
               </el-image>
               <span v-if="ruleForm.image.length == 0">暂无</span>
             </el-form-item>
@@ -180,14 +168,12 @@
         </div>
         <div class="border bg-w mt10">
           <div class="tip">诊疗跟踪({{ ruleForm.trackInfo.trackCount }})</div>
-          <div
-            v-for="track in ruleForm.trackInfo.trackLists"
-            :key="track.trackId"
-            class="track-wrap"
-          >
+          <div v-for="track in ruleForm.trackInfo.trackLists" :key="track.trackId" class="track-wrap">
             <div class="track-del" @click="delTrackFn(track.trackId)">
               {{ track.effectStr }}
-              <el-icon><CloseBold /></el-icon>
+              <el-icon>
+                <CloseBold />
+              </el-icon>
             </div>
             <el-form-item label="跟踪日期:" prop="" style="margin-bottom: 5px">
               <div>{{ track.trackTime }}</div>
@@ -203,13 +189,8 @@
         <div class="border bg-w mt10">
           <div class="tip">新增诊疗跟踪</div>
           <el-form-item label="跟踪日期:" prop="newDate">
-            <el-date-picker
-              v-model="ruleForm.newDate"
-              type="date"
-              placeholder="选择时间"
-              size="large"
-              value-format="YYYY-MM-DD"
-            />
+            <el-date-picker v-model="ruleForm.newDate" type="date" placeholder="选择时间" size="large"
+              value-format="YYYY-MM-DD" />
           </el-form-item>
           <el-form-item label="诊疗效果:" prop="newEffects">
             <el-radio-group v-model="ruleForm.newEffects">
@@ -219,14 +200,8 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="效果描述:" prop="newResult">
-            <el-input
-              v-model="ruleForm.newResult"
-              class="w300"
-              type="textarea"
-              rows="4"
-              maxlength="2000"
-              show-word-limit
-            />
+            <el-input v-model="ruleForm.newResult" class="w300" type="textarea" rows="4" maxlength="2000"
+              show-word-limit />
           </el-form-item>
           <el-form-item label="" prop="newResult">
             <el-button size="large" type="primary" @click="submitForm(ruleFormRef)">发布</el-button>
@@ -234,15 +209,19 @@
         </div>
       </el-form>
     </div>
+    <!-- 大图预览 -->
+    <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
 import { computed, reactive, ref, onUnmounted, onMounted } from 'vue';
 import { ElMessage, UploadProps, UploadRawFile, UploadFiles, ElMessageBox } from 'element-plus';
+import imgPreview from '@/components/imgPreview.vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
 import { getTestExpert, getTestSoilDetail, getDelSoil, getTrackDel, getTrackAdd } from '@/http';
 import AddSecondBar from '@/components/add-second-bar.vue';
+import { transformImageParams } from '@/common/js/util';
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
@@ -266,7 +245,7 @@ const ruleForm = reactive({
   sampleDate: '', //采样日期
   diagnosis: 1, // 初复诊
   describe: '', //描述
-  image: [], // 图片
+  image: [] as any, // 图片
   // aliossImage: [],
   testPeople: 0, //测试人x
   soilStatus: 1, //测土状态
@@ -343,7 +322,7 @@ const delFn = () => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 const router = useRouter();
@@ -416,7 +395,7 @@ const soilParams = computed<any>(() => {
     datecollected: ruleForm.sampleDate,
     isFrist: ruleForm.diagnosis,
     soildescribe: ruleForm.describe,
-    images: ruleForm.image.join(','),
+    images: transformImageParams(ruleForm.image),
     expertId: ruleForm.testPeople,
     status: ruleForm.soilStatus,
     soilResultsJson,
@@ -498,17 +477,27 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 大图预览
+const imgIndex = ref<number>()
+const imgLists = ref<any>()
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index
+  imgLists.value = lists
+}
 </script>
 <style lang="scss" scoped>
 .nav-bar {
   border-bottom: none;
 }
+
 .top-box {
   display: flex;
   justify-content: space-between;
-  & > div {
+
+  &>div {
     flex: 1;
   }
+
   .right-bar {
     .right-box {
       background: #f8f8f8;
@@ -516,56 +505,68 @@ onUnmounted(() => {
     }
   }
 }
+
 .bottom-box {
   display: flex;
   justify-content: space-between;
-  & > div {
+
+  &>div {
     flex: 1;
   }
+
   .right-bar {
     border-left: 1px solid $border-color;
   }
 }
+
 .standard {
   font-size: 12px;
   color: #999;
   line-height: 22px;
 }
+
 .result-input,
 .organic-input,
 .salt-input {
   position: relative;
 }
+
 .result-input::after {
   position: absolute;
   content: 'mg/kg';
   right: -50px;
   color: #333;
 }
+
 .organic-input::after {
   content: 'g/kg';
   right: -50px;
   color: #333;
   position: absolute;
 }
+
 .salt-input::after {
   content: 'ms/cm';
   position: absolute;
   right: -60px;
   color: #333;
 }
+
 .tip {
   position: relative;
   display: flex;
   align-items: center;
+
   .open-Prescribing {
     margin-left: 44px;
     // position: absolute;
     // top
   }
 }
+
 .medicine {
   margin-bottom: 10px;
+
   .bar {
     width: 80%;
     height: 40px;
@@ -584,6 +585,7 @@ onUnmounted(() => {
       align-items: center;
       justify-content: center;
       border-right: 1px solid #e5e5e5;
+
       &:last-child {
         border: none;
       }
@@ -595,26 +597,32 @@ onUnmounted(() => {
       cursor: pointer;
     }
   }
+
   .content-bar {
     border: 1px solid #e5e5e5;
     border-top: none;
   }
+
   .title {
     margin-top: 0;
   }
 }
+
 .add-medicine-btn {
   margin-top: 30px;
   margin-left: 20px;
   margin-bottom: 30px;
 }
+
 .upload-img {
   width: 70px;
   height: 70px;
   margin-right: 10px;
 }
+
 .track-wrap {
   position: relative;
+
   .track-del {
     position: absolute;
     cursor: pointer;
@@ -626,10 +634,12 @@ onUnmounted(() => {
     z-index: 2;
   }
 }
+
 .el-dropdown-link {
   color: $theme-color;
   cursor: pointer;
 }
+
 .last-active {
   position: absolute;
   right: 10px;

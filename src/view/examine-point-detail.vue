@@ -100,14 +100,8 @@
               {{ ruleForm.describe }}
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <!-- <el-image
-                v-for="item in ruleForm.image"
-                :src="item.url"
-                fit="scale-down"
-                class="upload-image"
-              ></el-image> -->
-              <imgPreview class="upload-image" v-for="(item, index) in ruleForm.image" :index="index"
-                :lists="ruleForm.image" strKey="url" :imgSrc="item.thumb_url"></imgPreview>
+              <el-image v-for="(item, index) in ruleForm.image" :key="item.url" :src="item.url"
+                @click="getImgView(index, ruleForm.image)" fit="scale-down" class="upload-image"></el-image>
             </el-form-item>
           </div>
           <div class="right-main"></div>
@@ -303,6 +297,8 @@
       v-model:testSoilDialogFormVisible="testSoilDialogFormVisible" />
     <AddConclusion v-model:conclusionDialogFormVisible="conclusionDialogFormVisible" :view-id="pointId"
       @save="addDayPointFetchFn" />
+    <!-- 大图预览 -->
+    <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
@@ -667,6 +663,13 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 大图预览
+const imgIndex = ref<number>()
+const imgLists = ref<any>()
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index
+  imgLists.value = lists
+}
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {

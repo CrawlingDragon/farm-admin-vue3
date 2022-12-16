@@ -51,16 +51,8 @@
                 {{ item.question }}
               </div>
               <div class="images" v-if="item.questionImgs.length !== 0">
-                <!-- <el-image
-                  fit="scale-down"
-                  class="img"
-                  v-for="img in item.questionImgs"
-                  :src="img.thumbImg"
-                ></el-image> -->
-                <imgPreview class="img" v-for="(img, index) in item.questionImgs" :key="img" :index="index"
-                  :lists="item.questionImgs" strKey="image" :imgSrc="img.thumbImg">
-                </imgPreview>
-
+                <el-image fit="scale-down" class="img" v-for="(items, index) in item.questionImgs"
+                  :src="items.thumb_url" @click="getImgView(index, item.questionImgs)"></el-image>
               </div>
               <div class="answer-icons" @click="item.showEditBox = !item.showEditBox">
                 <el-icon class="answer-icon">
@@ -81,6 +73,8 @@
     <Pages :total="wangListData.totalData" v-model:page="page"></Pages>
     <!-- 邀请的专家弹窗模块 -->
     <WangInviteList v-model:inviteShowFlag="inviteShowFlags" :questionIds="checkedList" />
+    <!-- 大图预览 -->
+    <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
@@ -211,6 +205,13 @@ const exportPDFFn = async () => {
   console.log('r', r.downLink);
   window.open(r.downLink, '_target');
 };
+// 大图预览
+const imgIndex = ref<number>()
+const imgLists = ref<any>()
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index
+  imgLists.value = lists
+}
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

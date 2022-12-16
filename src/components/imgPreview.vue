@@ -1,35 +1,38 @@
 <template>
-  <el-image :src="imgSrc" :preview-src-list="srcList" :initial-index="index" hide-on-click-modal :infinite="false"
-    fit="scale-down" />
+  <el-image-viewer v-if="showView" :url-list="srcList" :initial-index="index" hide-on-click-modal :infinite="false"
+    @close="close" teleported />
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch, ref } from 'vue';
 
-const prop = defineProps({
+const props = defineProps({
   index: {
     type: Number,
-    default: 0
+    default: null
   },
   lists: {
     type: Array,
     default: []
   },
-  strKey: {
-    type: String,
-    default: ''
-  },
-  imgSrc: {
-    type: String,
-    default: ''
-  }
 })
+const showView = ref(false)
+const emit = defineEmits(['update:index'])
 const srcList = computed(() => {
   let params = [] as any
-  prop.lists.map((item: any) => {
-    params.push(item[prop.strKey])
+  props.lists.map((item: any) => {
+    params.push(item.url)
   })
   return params
 })
+watch(() => props.index, (newVal) => {
+  if (newVal !== null) {
+    showView.value = true
+  }
+})
+const close = () => {
+  showView.value = false
+  emit('update:index', null)
+}
 
 
 </script>

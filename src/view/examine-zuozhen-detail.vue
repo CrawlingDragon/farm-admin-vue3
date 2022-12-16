@@ -8,22 +8,11 @@
       </el-breadcrumb>
     </div>
     <div class="point-container">
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="120px"
-        class="demo-ruleForm"
-        size="large"
-        status-icon
-      >
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" size="large"
+        status-icon>
         <div class="title-fiexed-bar border">
-          <AddSecondBar
-            title="坐诊详情"
-            :mobile="ruleForm.enterInfo.enterMobile"
-            :time="ruleForm.enterInfo.enterTime"
-            class="left"
-          >
+          <AddSecondBar title="坐诊详情" :mobile="ruleForm.enterInfo.enterMobile" :time="ruleForm.enterInfo.enterTime"
+            class="left">
             <el-dropdown>
               <span class="el-dropdown-link">
                 <span @click="goPageEdit" class="edit">编辑</span>
@@ -60,13 +49,7 @@
               {{ ruleForm.number }}
               {{ ruleForm.unit }}
             </el-form-item>
-            <el-form-item
-              label="坐诊日期:"
-              prop="time"
-              v-model="ruleForm.time"
-              class="w300"
-              readonly
-            >
+            <el-form-item label="坐诊日期:" prop="time" v-model="ruleForm.time" class="w300" readonly>
               {{ ruleForm.time }}
             </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
@@ -81,12 +64,8 @@
               {{ ruleForm.describe }}
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <el-image
-                v-for="item in ruleForm.image"
-                :src="item.url"
-                fit="scale-down"
-                class="upload-image"
-              ></el-image>
+              <el-image v-for="(item, index) in ruleForm.image" :src="item.thumb_url" fit="scale-down"
+                @click="getImgView(index, ruleForm.image)" class="upload-image"></el-image>
             </el-form-item>
           </div>
         </div>
@@ -134,29 +113,16 @@
               </div>
               <div class="status">
                 <span>{{ item.effectStr }}</span>
-                <el-icon class="close-icon" @click="delZuoTrack(item.trackId)"
-                  ><CloseBold
-                /></el-icon>
+                <el-icon class="close-icon" @click="delZuoTrack(item.trackId)">
+                  <CloseBold />
+                </el-icon>
               </div>
             </div>
           </template>
           <div class="tip">新增诊疗跟踪</div>
-          <el-form-item
-            label="跟踪日期:"
-            prop="addTrack.time"
-            v-model="ruleForm.addTrack.time"
-            class="w300"
-            readonly
-          >
-            <el-date-picker
-              v-model="ruleForm.addTrack.time"
-              type="date"
-              placeholder="选择时间"
-              size="large"
-              class="w300"
-              style="width: 300px"
-              value-format="YYYY-MM-DD"
-            />
+          <el-form-item label="跟踪日期:" prop="addTrack.time" v-model="ruleForm.addTrack.time" class="w300" readonly>
+            <el-date-picker v-model="ruleForm.addTrack.time" type="date" placeholder="选择时间" size="large" class="w300"
+              style="width: 300px" value-format="YYYY-MM-DD" />
           </el-form-item>
           <el-form-item label="诊疗效果:" prop="addTrack.effect">
             <el-radio-group v-model="ruleForm.addTrack.effect">
@@ -166,15 +132,8 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="效果描述:" prop="addTrack.describe">
-            <el-input
-              v-model="ruleForm.addTrack.describe"
-              class="w300"
-              type="textarea"
-              rows="4"
-              maxlength="2000"
-              show-word-limit
-              placeholder="请输入描述"
-            />
+            <el-input v-model="ruleForm.addTrack.describe" class="w300" type="textarea" rows="4" maxlength="2000"
+              show-word-limit placeholder="请输入描述" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">发布</el-button>
@@ -182,6 +141,8 @@
         </div>
       </el-form>
     </div>
+    <!-- 大图预览 -->
+    <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
@@ -192,6 +153,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { getZuoXunDetail, getDelZuoXunTrack, getAddZuoXunTrack } from '@/http';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import { transformImageParams } from '@/common/js/util';
+import imgPreview from '@/components/imgPreview.vue';
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
@@ -271,7 +233,7 @@ const del = () => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 // 整合自定义用药数组 和 后端用药数组
@@ -405,7 +367,7 @@ const delZuoTrack = async (trackId: string) => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 // 清空数据
@@ -423,6 +385,13 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 大图预览
+const imgIndex = ref<number>()
+const imgLists = ref<any>()
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index
+  imgLists.value = lists
+}
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {
@@ -431,6 +400,7 @@ onUnmounted(() => {
   align-items: center;
   background: #fff;
   border-top: none;
+
   .left {
     flex: 1;
     border-right: 1px solid #e5e5e5;
@@ -443,6 +413,7 @@ onUnmounted(() => {
     border-top: none;
     border-left: none;
   }
+
   .right {
     flex: 1;
     padding-left: 20px;
@@ -451,6 +422,7 @@ onUnmounted(() => {
     height: 100%;
     display: flex;
     align-items: center;
+
     .small-title {
       color: #999;
       margin-left: 10px;
@@ -459,38 +431,47 @@ onUnmounted(() => {
     }
   }
 }
+
 .basis-info {
   border-top: none;
   background: #fff;
   display: flex;
+
   .left-main {
     border-right: 1px solid #e5e5e5;
     flex: 1;
   }
+
   .right-main {
     flex: 1;
   }
 }
+
 .first-test-box {
   margin-top: 10px;
   background: #fff;
   display: flex;
+
   .left-main {
     flex: 1;
     border-right: 1px solid #e5e5e5;
   }
+
   .right-main {
     flex: 1;
   }
 }
+
 .use-farm-box {
   margin-top: 10px;
   background: #fff;
   display: flex;
+
   .left-main {
     flex: 1;
     border-right: 1px solid #e5e5e5;
   }
+
   .right-main {
     flex: 1;
   }
@@ -499,8 +480,10 @@ onUnmounted(() => {
 :deep(.date-wrap .el-input__wrapper) {
   width: 300px !important;
 }
+
 .medicine {
   margin-bottom: 20px;
+
   .bar {
     width: 80%;
     height: 40px;
@@ -512,28 +495,33 @@ onUnmounted(() => {
     padding-bottom: 5px;
     border: 1px solid #e5e5e5;
     border-top: none;
+
     .item {
       flex: 1;
       font-size: 14px;
       padding: 5px;
     }
+
     .del {
       width: 30px;
       text-align: center;
       cursor: pointer;
     }
   }
+
   .title {
     margin-top: 0;
     border-top: 1px solid #e5e5e5;
   }
 }
+
 .save {
   color: $theme-color;
   margin-right: 10px;
   font-weight: bold;
   cursor: pointer;
 }
+
 .upload-image {
   width: 100px;
   height: 100px;
@@ -541,47 +529,58 @@ onUnmounted(() => {
   border: 1px solid #e5e5e5;
   margin-bottom: 5px;
 }
+
 .edit,
 .el-icon--right {
   color: $theme-color;
   cursor: pointer;
 }
+
 .el-icon--right {
   margin-right: 10px;
 }
+
 .test-soil-box {
   // flex-wrap: wrap;
   margin-top: 10px;
   background: #fff;
   // display: flex;
 }
+
 .conclusion {
   margin-top: 10px;
   background: #fff;
+
   .conclusion-content {
     display: flex;
     align-items: start;
     font-size: 16px;
     padding: 20px;
     padding-top: 0;
+
     .time {
       width: 180px;
     }
+
     .text {
       flex: 1;
+
       .p1 {
         color: #999;
         margin-bottom: 10px;
       }
     }
+
     .status {
       width: 180px;
       display: flex;
       justify-content: end;
       align-items: center;
+
       span {
         margin-right: 10px;
       }
+
       .icon {
         color: #999;
         cursor: pointer;
@@ -589,8 +588,10 @@ onUnmounted(() => {
     }
   }
 }
+
 .tip {
   position: relative;
+
   .close-icon {
     position: absolute;
     right: 10px;
@@ -598,6 +599,7 @@ onUnmounted(() => {
     cursor: pointer;
   }
 }
+
 .last-active {
   position: absolute;
   right: 10px;
