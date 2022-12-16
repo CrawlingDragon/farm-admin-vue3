@@ -6,13 +6,8 @@
       <router-link to="/set" class="nav-item">设置</router-link>
       <router-link to="/cashier-desk" class="nav-item">收银台</router-link>
       <div class="search-box">
-        <el-input
-          v-model.trim="search"
-          placeholder="会员手机号/姓名/身份证/会员ID"
-          size="large"
-          class="search"
-          @keydown.enter="searchFn"
-        >
+        <el-input v-model.trim="search" placeholder="会员手机号/姓名/身份证/会员ID" size="large" class="search"
+          @keydown.enter="searchFn">
           <template #append>
             <div @click="searchFn">搜索会员</div>
           </template>
@@ -23,8 +18,9 @@
       <div class="name">{{ hospitalName }}收银台</div>
       <div class="back">
         <router-link class="back-link" to="/index">
-          <el-icon> <ArrowLeft /> </el-icon>{{ title }}</router-link
-        >
+          <el-icon>
+            <ArrowLeft />
+          </el-icon>{{ title }}</router-link>
       </div>
     </div>
   </div>
