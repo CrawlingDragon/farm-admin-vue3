@@ -70,7 +70,11 @@ async function addbeforeupload(result: any) {
   let date = new Date().getTime();
   let filepath = 'nft/' + date + '/' + result.name;
   let r = await client.value.put(filepath, result);
-  addInfos.value.push({ url: r.url });
+  // console.log('r', r);
+  if (!r.coder) {
+    addInfos.value.push({ url: r.url });
+  }
+
   // emit('update:images', props.images);
 }
 
@@ -81,6 +85,7 @@ onMounted(async () => {
   //第一次请求ali-oss账号相关，且session缓存
   if (sessionAlioss === '') {
     let r = await getAliossCount();
+    console.log('getAliossCount----', r);
     alioss = r.alioss;
     goodStorage.session.set('alioss', alioss);
   } else {
@@ -103,10 +108,14 @@ onMounted(async () => {
 });
 
 const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  // console.log('uploadFile', uploadFile);
+  // console.log('uploadFiles', uploadFiles);
   let index = uploadFiles.findIndex((item: any) => {
     return item.url == uploadFile.url;
   });
-  return ElMessageBox.confirm(`确定要删除这张${uploadFile.name}照片吗?`).then(
+  //编辑页的话，可能没有图片名字， uploadFile
+  let imgName = uploadFile.name ? uploadFile.name : '';
+  return ElMessageBox.confirm(`确定要删除这张${imgName}照片吗?`).then(
     () => {
       addInfos.value.splice(index, 1);
       return true;

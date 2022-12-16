@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       观测点
       <el-tooltip
@@ -28,6 +28,7 @@
         <el-date-picker
           v-model="dateVal"
           type="daterange"
+          style="width: 280px"
           range-separator="-"
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
@@ -130,11 +131,17 @@ function search() {
     getPointData();
   }
 }
+const loading = ref(true);
+//请求列表数据
 async function getPointData() {
+  loading.value = true;
   let r = await getObservePointList(params.value);
-  console.log('r', r);
-  pointListData.tableData = r.lists.data;
-  pointListData.totalData = r.lists.totalData;
+  // console.log('r', r);
+  setTimeout(() => {
+    loading.value = false;
+    pointListData.tableData = r.lists.data;
+    pointListData.totalData = r.lists.totalData;
+  }, 500);
 }
 
 watch(page, () => {

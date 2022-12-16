@@ -140,7 +140,7 @@ const soilParams = computed<any>(() => {
   let params = {
     adId: adId.value == undefined ? '' : adId.value,
     title: ruleForm.title,
-    images: ruleForm.images,
+    images: ruleForm.images.length === 0 ? '' : ruleForm.images[0].url,
     listorder: ruleForm.listorder,
     content: ruleForm.content,
   };
@@ -150,7 +150,7 @@ const soilParams = computed<any>(() => {
 // 提价测土结果请求
 async function setTVData() {
   let r = await getAddEditTv(soilParams.value);
-  console.log('r', r);
+  // console.log('r', r);
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
@@ -163,7 +163,7 @@ async function getZuozhenDetail() {
   // 没有zuozhenId，说明是新增页面不需要请求详情数据
   if (!adId.value) return;
   let r = await getTvDetail(adId.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   ruleForm.title = r.title;
   ruleForm.images = r.images == '' ? [] : [{ url: r.images }];
   ruleForm.listorder = r.listorder;

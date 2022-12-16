@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" title="新增处方模板" @close="closeHandle" width="30%">
+  <el-dialog v-model="showDialog" title="新增处方模板" @close="closeHandle" width="600px">
     <el-form
       ref="ruleFormRef"
       :model="ruleForm"

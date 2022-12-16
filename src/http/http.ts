@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { login } from '@/common/js/getToken';
-import { router } from '../router';
 import storage from 'good-storage';
 import { userInfoDefineStore } from '../store/index';
 import NProgress from 'nprogress';
@@ -69,7 +68,6 @@ export interface ResponseType<P = {}> {
 //返回一个Promise（发送post请求）
 export function fetchPost(url: string, params: any) {
   return new Promise((resolve, reject) => {
-    NProgress.start();
     axios
       .post(url, params)
       .then(
@@ -82,9 +80,6 @@ export function fetchPost(url: string, params: any) {
       )
       .catch((error) => {
         reject(error);
-      })
-      .finally(() => {
-        NProgress.done();
       });
   });
 }
@@ -92,7 +87,6 @@ export function fetchPost(url: string, params: any) {
 //返回一个Promise(发送get请求)
 export function fetchGet(url: string, params: any) {
   return new Promise((resolve, reject) => {
-    NProgress.start();
     axios
       .get(url, { params })
       .then(
@@ -105,9 +99,6 @@ export function fetchGet(url: string, params: any) {
       )
       .catch((error) => {
         reject(error);
-      })
-      .finally(() => {
-        NProgress.done();
       });
   });
 }
@@ -117,6 +108,7 @@ export function get(url: string, params?: any) {
   if (token) {
     params = { ...params, token };
   }
+
   return axios
     .get(url, { params })
     .then((res) => {
@@ -140,7 +132,7 @@ export function post(url: string, params?: any) {
   if (token) {
     params = { ...params, token };
   }
-  console.log('params', params);
+
   return axios
     .post(url, params)
     .then((res) => {

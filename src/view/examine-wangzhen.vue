@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       网诊管理
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start" v-if="!isVipPage">
@@ -14,8 +14,8 @@
       <el-input v-model="keyword" class="w300 m-2 mr20" size="large" placeholder="会员姓名/手机号码" />
       <div class="date-box">
         <label class="mr10">提问日期</label>
-        <el-date-picker v-model="dateVal" type="daterange" range-separator="-" start-placeholder="选择起始时间"
-          end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
+        <el-date-picker v-model="dateVal" style="width: 280px" type="daterange" range-separator="-"
+          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
       </div>
 
       <div class="select-box mr10">
@@ -156,15 +156,22 @@ function search() {
     getWangListData();
   }
 }
+
+const loading = ref(true);
+//获取列表数据
 async function getWangListData() {
+  loading.value = true;
   let r = await getWangList(params.value);
-  console.log('r', r);
-  wangListData.listData = r.lists.data;
-  wangListData.totalData = r.lists.totalData;
-  wangListData.listData.map((item: any) => {
-    item.checked = false;
-    item.showEditBox = false;
-  });
+  // console.log('r', r);
+  setTimeout(() => {
+    loading.value = false;
+    wangListData.listData = r.lists.data;
+    wangListData.totalData = r.lists.totalData;
+    wangListData.listData.map((item: any) => {
+      item.checked = false;
+      item.showEditBox = false;
+    });
+  }, 500);
 }
 
 watch(page, () => {
@@ -202,7 +209,7 @@ const exportPDFFn = async () => {
     isReply: status.value,
   };
   let r = await getWangPDF(params);
-  console.log('r', r.downLink);
+  // console.log('r', r.downLink);
   window.open(r.downLink, '_target');
 };
 // 大图预览

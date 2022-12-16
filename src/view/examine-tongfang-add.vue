@@ -261,7 +261,7 @@ async function getTongFangDetailData() {
   // 没有tfId，说明是新增页面不需要请求详情数据
   if (!tfId.value) return;
   let r = await getTongFangDetail(tfId.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   let enterInfo = r.enterInfo;
   let s = r.tongfangInfo;
   ruleForm.enterInfo = enterInfo;

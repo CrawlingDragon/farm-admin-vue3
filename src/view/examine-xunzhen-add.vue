@@ -419,7 +419,7 @@ const soilParams = computed<any>(() => {
 // 提价测土结果请求
 async function setZuozhenData() {
   let r = await getAddEditZuoXun(soilParams.value);
-  console.log('r', r);
+  // console.log('r', r);
   if (r.code) {
     ElMessage.error(r.msg);
     return Promise.reject('error');
@@ -437,7 +437,7 @@ async function getZuozhenDetail() {
   // 没有xunzhenId，说明是新增页面不需要请求详情数据
   if (!xunzhenId.value) return;
   let r = await getZuoXunDetail(xunzhenId.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   let enterInfo = r.enterInfo;
   let s = r.soilInfo;
   let chufangInfo = r.chufangInfo;

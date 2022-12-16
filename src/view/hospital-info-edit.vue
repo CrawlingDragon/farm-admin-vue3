@@ -163,7 +163,7 @@ const editParams = computed(() => {
 
 async function editHospitalInfo() {
   let r = await getHospitalEdit(editParams.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
@@ -172,7 +172,7 @@ async function editHospitalInfo() {
 }
 onMounted(async () => {
   let r = await getHospitalDetail();
-  console.log('r', r);
+  // console.log('r', r);
   hospitalInfo.account = r.username;
   hospitalInfo.name = r.hospitalName;
   hospitalInfo.icon = r.hospitalLogo == '' ? [] : [{ url: r.hospitalLogo }];

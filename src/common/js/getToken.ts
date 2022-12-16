@@ -81,7 +81,7 @@ export function fetchGetToken(code: string) {
               let data = res.data;
               if (data.code == 200) {
                 const userInfoStore = userInfoDefineStore();
-                console.log('data.data', data.data);
+                // console.log('data.data', data.data);
                 userInfoStore.setUserInfo(data.data); // 保存用户信息
                 resolve(data.data);
               }

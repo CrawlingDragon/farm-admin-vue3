@@ -285,6 +285,7 @@ const ruleForm = reactive({
   phone: '', // 手机号码
   sex: '男', // 性别
   card: '', //身份证
+  cardIsRequired: false,
   family: '', //家庭数量
   baseInfo: [
     {
@@ -331,8 +332,9 @@ function getSetInterval() {
 }
 
 const rules = reactive<FormRules>({
-  local: [{ required: true, message: '请选择省市区', trigger: 'change' }],
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  local: [{ required: true, message: '所在地区不能为空', trigger: 'change' }],
+  name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
+  card: [{ required: false, message: '身份证不能为空', trigger: 'change' }],
 });
 const options = reactive({
   kindOptions: [
@@ -426,6 +428,10 @@ async function submitEditData() {
 
 const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
   if (!formEl) return;
+  if (ruleForm.cardIsRequired) {
+    rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
+  }
+
   await formEl.validate((valid, fields) => {
     if (valid) {
       // 如果 detailData === 1，则需要接受验证码在修改，验证成功后 修改资料
@@ -513,6 +519,12 @@ onMounted(async () => {
   let { categoryArr, unitArr } = await getSelectInfo();
   options.kindOptions = categoryArr;
   options.unitOptions = unitArr;
+  if (r.userInfo.selfcard == '') {
+    console.log('r.userInfo.selfcard', r.userInfo.selfcard);
+    ruleForm.cardIsRequired = false;
+  } else {
+    ruleForm.cardIsRequired = true;
+  }
 });
 // 隐藏左边栏
 onUnmounted(() => {

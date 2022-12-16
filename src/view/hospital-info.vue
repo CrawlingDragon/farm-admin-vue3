@@ -78,7 +78,7 @@ const hospitalInfo = reactive({
 
 onMounted(async () => {
   let r = await getHospitalDetail();
-  console.log('r', r);
+  // console.log('r', r);
   hospitalInfo.account = r.username;
   hospitalInfo.name = r.hospitalName;
   hospitalInfo.icon = r.hospitalLogo;

@@ -416,7 +416,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
     if (valid) {
       // console.log('submit!');
       let r = setSoilData().then((res) => {
-        console.log('res', res);
+        // console.log('res', res);
         if (goPage) {
           setTimeout(() => {
             router.push('/examine-soil');
