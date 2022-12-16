@@ -9,13 +9,11 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddConclusion: typeof import('./src/components/add-conclusion.vue')['default']
     AddDayWatch: typeof import('./src/components/add-day-watch.vue')['default']
-    AddHeader: typeof import('./src/components/add-header.vue')['default']
     AddPointHeader: typeof import('./src/components/add-point-header.vue')['default']
     AddSecondBar: typeof import('./src/components/add-second-bar.vue')['default']
     AddSoilHeader: typeof import('./src/components/add-soil-header.vue')['default']
     AddTestSoil: typeof import('./src/components/add-test-soil.vue')['default']
     AddXunzhenHeader: typeof import('./src/components/add-xunzhen-header.vue')['default']
-    AddZuoxhenHeader: typeof import('./src/components/add-zuoxhen-header.vue')['default']
     AddZuozhenHeader: typeof import('./src/components/add-zuozhen-header.vue')['default']
     Aside: typeof import('./src/components/aside.vue')['default']
     AsideSetting: typeof import('./src/components/aside-setting.vue')['default']
@@ -85,5 +83,8 @@ declare module '@vue/runtime-core' {
     WangExpertAnsweredList: typeof import('./src/components/wang-expert-answered-list.vue')['default']
     WangInviteExpert: typeof import('./src/components/wang-invite-expert.vue')['default']
     WangZhenAnswer: typeof import('./src/components/wangZhen-answer.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

@@ -46,7 +46,7 @@ const emit = defineEmits(['update:hideAside']);
 onMounted(async () => {
   emit('update:hideAside', false);
   let r = await getVipDetail({ id: uId.value });
-  console.log('r', r);
+  // console.log('r', r);
   let user = r.userInfo;
   userInfo.userName = user.userName;
   userInfo.tel = user.tel;

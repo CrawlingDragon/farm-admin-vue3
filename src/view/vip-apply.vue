@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="apply-content border bg-w pd40">
+    <div
+      class="apply-content border bg-w pd40"
+      v-loading="loading"
+      element-loading-text="加载中..."
+    >
       <div class="head right-head">审核会员申请</div>
       <div class="input-bar">
         <el-input
@@ -239,12 +243,15 @@ const param = computed(() => {
 const operation = computed(() => (active: string) => {
   return active === '待审核' ? '编辑' : '详情';
 });
-
+const loading = ref(true);
+// 请求列表数据
 async function setApplyData() {
+  loading.value = true;
   let r = await getVipApply(param.value);
   vipApplyData.tableData = r.data;
   vipApplyData.totalData = r.totalData;
   vipApplyData.totalPage = r.totalPage;
+  loading.value = false;
 }
 
 // 搜索按钮函数

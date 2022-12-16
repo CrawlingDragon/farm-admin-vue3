@@ -145,7 +145,7 @@ const fetchParams = computed(() => {
 //发送请求
 async function setAddDayObservePoint() {
   let r = await addDayObservePoint(fetchParams.value);
-  console.log('r', r);
+  // console.log('r', r);
   if (r.code) {
     ElMessage.error(r.msg);
   } else {

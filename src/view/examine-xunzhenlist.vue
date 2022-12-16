@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       巡诊记录
       <el-tooltip
@@ -28,6 +28,7 @@
         <label class="mr10">巡诊日期</label>
         <el-date-picker
           v-model="dateVal"
+          style="width: 280px"
           type="daterange"
           range-separator="-"
           start-placeholder="选择起始时间"
@@ -111,12 +112,19 @@ function search() {
     getZuoListData();
   }
 }
+
+const loading = ref(true);
+//获取列表数据
 async function getZuoListData() {
   // console.log('params.value', params.value);
+  loading.value = true;
   let r = await getZuoXunList(params.value);
   // console.log('r', r);
-  zuoListData.tableData = r.lists.data;
-  zuoListData.totalData = r.lists.totalData;
+  setTimeout(() => {
+    loading.value = false;
+    zuoListData.tableData = r.lists.data;
+    zuoListData.totalData = r.lists.totalData;
+  }, 500);
 }
 
 watch(page, () => {
@@ -160,7 +168,7 @@ const exportPDFFn = async () => {
     endTime,
   };
   let r = await getExportZuoXunPDF(params);
-  console.log('r', r.downLink);
+  // console.log('r', r.downLink);
   window.open(r.downLink, '_target');
 };
 </script>

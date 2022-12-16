@@ -605,7 +605,7 @@ const pointParams = computed<any>(() => {
 // 提交测土结果请求
 async function setPintData() {
   let r = await addObservePoint(pointParams.value);
-  console.log('r', r);
+  // console.log('r', r);
   if (r.code) {
     ElMessage.error(r.msg);
     return Promise.reject('error');

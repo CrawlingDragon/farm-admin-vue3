@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head">会员管理</div>
     <div class="input-bar">
       <el-input
@@ -79,6 +79,7 @@ let soil = storage.session.get('soil');
 
 const route = useRoute();
 const router = useRouter();
+const loading = ref(true);
 
 const keyword = ref('');
 const dateVal = ref(''); //默认起始，结束时间，有数据后是 [起始时间,结束时间]
@@ -116,10 +117,12 @@ let vipAdminData = reactive({
 
 // 请求会员管理接口
 async function setVipAdminData() {
+  loading.value = true;
   let result = await getVipAdmin(params.value);
   vipAdminData.totalData = result.totalData;
   vipAdminData.totalPage = result.totalPage;
   vipAdminData.tableData = result.data;
+  loading.value = false;
 }
 
 // 搜索按钮函数

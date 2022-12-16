@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       <div class="tab" :class="{ active: active == 0 }" @click="choose(0)">全部测土</div>
       <div class="tab" :class="{ active: active == 1 }" @click="choose(1)">检测中</div>
@@ -28,9 +28,10 @@
         size="large"
         placeholder="用户姓名/手机号"
       />
-      <div class="date-box">
+      <div class="date-box mr50">
         <label class="mr10">申请时间</label>
         <el-date-picker
+          style="width: 280px"
           v-model="dateVal"
           type="daterange"
           range-separator="-"
@@ -134,7 +135,6 @@ const params = computed(() => {
 });
 // 点击tab切换
 function choose(activeVal: number) {
-  debugger;
   active.value = activeVal;
   status.value = options.value.filter((item) => item.value == activeVal)[0].value;
 }
@@ -146,10 +146,17 @@ function search() {
     setSoilData();
   }
 }
+
+const loading = ref(true);
+//获取列表数据
 async function setSoilData() {
+  loading.value = true;
   let r = await getSoilList(params.value);
-  soilData.tableData = r.lists.data;
-  soilData.totalData = r.lists.totalData;
+  setTimeout(() => {
+    loading.value = false;
+    soilData.tableData = r.lists.data;
+    soilData.totalData = r.lists.totalData;
+  }, 500);
 }
 
 watch(page, () => {

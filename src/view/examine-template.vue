@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       处方模板
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
@@ -60,11 +60,17 @@ const templateListData = reactive({
   tableData: [],
 });
 
+const loading = ref(true);
+// 获取模版列表内容
 async function getTemplateListData() {
+  loading.value = true;
   let r = await getTemplateListFetch(page.value);
-  console.log(r);
-  templateListData.tableData = r.data;
-  templateListData.totalData = r.totalData;
+  // console.log(r);
+  setTimeout(() => {
+    loading.value = false;
+    templateListData.tableData = r.data;
+    templateListData.totalData = r.totalData;
+  }, 500);
 }
 
 watch(page, () => {

@@ -30,9 +30,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getGlobalTitle } from '@/http';
+import { userInfoDefineStore } from '@/store/index';
+// import goodStorage from 'good-storage';
 const router = useRouter();
 const active = ref(true);
 router.beforeEach(async (to, from) => {
@@ -64,12 +66,23 @@ const searchFn = () => {
 
 const title = ref('');
 const hospitalName = ref('');
-onMounted(async () => {
+onMounted(() => {
+  setNavTitle();
+});
+
+async function setNavTitle() {
   let r = await getGlobalTitle();
   title.value = r.manageName;
   hospitalName.value = r.cashierName;
-  // console.log('r', r);
-});
+}
+
+const userInfoStore = userInfoDefineStore();
+watch(
+  () => userInfoStore.userInfo,
+  () => {
+    setNavTitle();
+  }
+);
 </script>
 <style lang="scss" scoped>
 .nav {

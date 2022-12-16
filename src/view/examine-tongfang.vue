@@ -1,5 +1,5 @@
 <template>
-  <div class="vip-admin border bg-w pd40">
+  <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       统防统治
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
@@ -15,9 +15,10 @@
         size="large"
         placeholder="统防统治ID/名称"
       />
-      <div class="date-box">
+      <div class="date-box mr50">
         <label class="mr10">开始防治日期</label>
         <el-date-picker
+          style="width: 280px"
           v-model="dateVal"
           type="daterange"
           range-separator="-"
@@ -57,7 +58,6 @@ import Pages from '@/components/pages.vue';
 import { getTongFangList } from '@/http';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const active = ref(0);
 const keyword = ref('');
 const dateVal = ref();
 
@@ -90,24 +90,24 @@ function search() {
     getZuoListData();
   }
 }
+
+const loading = ref(true);
+//获取列表内容
 async function getZuoListData() {
+  loading.value = true;
   let r = await getTongFangList(params.value);
-  console.log('r', r);
-  zuoListData.tableData = r.data;
-  zuoListData.totalData = r.totalData;
+  // console.log('r', r);
+  setTimeout(() => {
+    loading.value = false;
+    zuoListData.tableData = r.data;
+    zuoListData.totalData = r.totalData;
+  }, 500);
 }
 
 watch(page, () => {
   getZuoListData();
 });
 
-watch(active, () => {
-  if (page.value !== 1) {
-    page.value = 1;
-  } else {
-    getZuoListData();
-  }
-});
 onMounted(() => {
   getZuoListData();
 });
