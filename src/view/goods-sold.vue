@@ -2,35 +2,16 @@
   <div class="serve-registration border bg-w pd40">
     <div class="head right-head soil-right-head">已卖出的商品</div>
     <div class="input-bar">
-      <el-input
-        v-model="keyword"
-        class="w300 m-2 mr20"
-        size="large"
-        placeholder="会员手机号/订单号/商品名/商品编码"
-      />
+      <el-input v-model="keyword" class="w300 m-2 mr20" size="large" placeholder="会员手机号/订单号/商品名/商品编码" />
       <div class="date-box">
         <label class="mr10">购买日期</label>
-        <el-date-picker
-          style="width: 300px"
-          v-model="dateVal"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="选择起始时间"
-          end-placeholder="选择结束时间"
-          size="large"
-          class="mr10"
-          value-format="YYYY-MM-DD"
-        />
+        <el-date-picker style="width: 300px" v-model="dateVal" type="daterange" range-separator="-"
+          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
       </div>
       <div class="select-box mr10">
         <label class="mr10">备注</label>
         <el-select v-model="statuStatus" style="width: 100px" placeholder="Select" size="large">
-          <el-option
-            v-for="item in statuOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in statuOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
@@ -73,11 +54,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <div
-              class="commodity-item table-item"
-              v-for="list in item.productLists"
-              :key="list.productCode"
-            >
+            <div class="commodity-item table-item" v-for="list in item.productLists" :key="list.productCode">
               <el-row>
                 <el-col :span="16">
                   <div class="commodity-list">
@@ -107,7 +84,7 @@
             <div class="buyer-item table-item">{{ item.username }}<br />{{ item.mobile }}</div>
           </el-col>
           <el-col :span="3">
-            <div class="total-item table-item">{{ item.totalPrice }}</div>
+            <div class="total-item table-item">￥{{ item.totalPrice }}</div>
           </el-col>
           <el-col :span="3">
             <div class="payment-item table-item">{{ item.payTypeTips }}</div>
