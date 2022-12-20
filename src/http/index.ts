@@ -14,6 +14,8 @@ export { getExpertList } from './getExpertList'; //邀请专家列表
 export { getExpertDelete } from './getExpertDelete';
 export { getExpertInfo } from './getExpertInfo';
 export { getExportEdit } from './getExpertEdit';
+// 获取全平台的开关
+export { getSwitchInfo } from './getSwitch';
 
 //全平台的title文案
 export { getGlobalTitle } from './getGlobalTitle';

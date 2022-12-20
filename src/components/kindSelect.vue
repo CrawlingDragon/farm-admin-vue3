@@ -1,6 +1,6 @@
 <template>
   <!-- 种类的select的选择 -->
-  <el-select v-model="kind" placeholder="请选择种类" class="w300" @change="changeFn">
+  <el-select v-model="selectKind" placeholder="请选择种类" class="w300" @change="changeFn">
     <el-option-group v-for="group in kindOptions.options" :key="group.label" :label="group.label">
       <el-option
         v-for="item in group.options"
@@ -12,7 +12,7 @@
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed } from 'vue';
+import { reactive, onMounted, computed, ref } from 'vue';
 import { getSelectInfo } from '../http/getSelectInfo';
 
 const prop = defineProps({
@@ -29,7 +29,7 @@ const prop = defineProps({
 });
 
 const emit = defineEmits(['update:kind']);
-
+const selectKind = ref();
 let kindOptions = reactive({
   options: [
     // 作物select option
@@ -66,6 +66,7 @@ onMounted(async () => {
     kindOptions.options = prop.options as any;
     // console.log('prop');
   }
+  selectKind.value = prop.kind;
 });
 </script>
 <style lang="scss" scoped></style>

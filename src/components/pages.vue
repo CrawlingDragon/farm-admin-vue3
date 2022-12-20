@@ -1,4 +1,3 @@
-import { onMounted, onUnmounted } from 'vue';
 <template>
   <div class="pages-box">
     <div class="left">
@@ -11,14 +10,14 @@ import { onMounted, onUnmounted } from 'vue';
         layout="prev, pager, next"
         :total="total"
         class="mt-4"
-        v-model:current-page="page"
+        v-model:current-page="currentPage"
         @current-change="handleCurrentChange"
       />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { watch } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 const prop = defineProps({
   total: {
     type: Number,
@@ -29,6 +28,7 @@ const prop = defineProps({
     default: 0,
   },
 });
+const currentPage = ref(1);
 const emit = defineEmits(['update:page']);
 
 function handleCurrentChange(page: number) {
@@ -36,9 +36,9 @@ function handleCurrentChange(page: number) {
   emit('update:page', page);
 }
 
-// onMounted(() => {
-//   window.addEventListener('scroll', scrollToTop);
-// });
+onMounted(() => {
+  currentPage.value = prop.page;
+});
 
 // onUnmounted(() => {
 //   window.removeEventListener('scroll', scrollToTop);

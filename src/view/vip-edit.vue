@@ -214,7 +214,7 @@
                 class="mr20"
                 >保存</el-button
               >
-              <el-button @click="goPage('/vip-detail')" size="large">取消</el-button>
+              <el-button @click="goBack" size="large">取消</el-button>
             </div>
           </div>
         </el-form>
@@ -355,7 +355,7 @@ const options = reactive({
   ],
   unitOptions: [
     // 种养单位 select option
-    { label: '亩', value: '亩' },
+    { label: '亩', value: '1' },
   ],
 });
 
@@ -381,7 +381,7 @@ function addKind() {
   ruleForm.baseInfo.push({
     zuowuId: '', //种植种类
     mushu: '', // 种植数量
-    unitId: '亩', //单位})
+    unitId: '1', //单位})
     address: '',
     require: false,
   });
@@ -436,7 +436,7 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
     if (valid) {
       // 如果 detailData === 1，则需要接受验证码在修改，验证成功后 修改资料
       // 否则直接修改资料
-      if (detailData.isJoinOther === 1) {
+      if (detailData.isJoinOther == 1) {
         dialogFormVisible.value = true;
       } else {
         // 发送编辑数据ajax
@@ -526,6 +526,9 @@ onMounted(async () => {
     ruleForm.cardIsRequired = true;
   }
 });
+const goBack = () => {
+  router.go(-1);
+};
 // 隐藏左边栏
 onUnmounted(() => {
   emit('update:hideAside', true);
