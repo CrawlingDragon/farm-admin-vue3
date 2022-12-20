@@ -1,14 +1,8 @@
 <template>
-  <el-select-v2
-    v-model="unit"
-    :options="options.unitOptions"
-    class="unit"
-    @change="changeFn"
-    placeholder=""
-  />
+  <el-select-v2 v-model="unitSelect" :options="options.unitOptions" class="unit" @change="changeFn" placeholder="" />
 </template>
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, ref } from 'vue';
 import { getSelectInfo } from '../http/getSelectInfo';
 
 const prop = defineProps({
@@ -23,7 +17,7 @@ const prop = defineProps({
     },
   },
 });
-
+const unitSelect = ref<number | string>('')
 const emit = defineEmits(['update:unit']);
 
 let options = reactive({
@@ -50,6 +44,7 @@ onMounted(async () => {
   }
   // 加载数据之后，使用第一个数据，作为默认数据
   emit('update:unit', options.unitOptions[0].value);
+  unitSelect.value = prop.unit
 });
 </script>
 <style lang="scss" scoped>

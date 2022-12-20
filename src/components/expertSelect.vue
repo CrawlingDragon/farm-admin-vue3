@@ -1,17 +1,11 @@
 <template>
   <!-- 专家的select的选择 -->
-  <el-select
-    v-model="expert"
-    class="unit w300"
-    placeholder="姓名/手机号"
-    size="large"
-    @change="changeFn"
-  >
+  <el-select v-model="expertSelect" class="unit w300" placeholder="姓名/手机号" size="large" @change="changeFn">
     <el-option v-for="item in trimData" :key="item.value" :label="item.label" :value="item.value" />
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed } from 'vue';
+import { reactive, onMounted, computed, ref } from 'vue';
 import { getTestExpert } from '../http';
 
 const prop = defineProps({
@@ -28,7 +22,7 @@ const prop = defineProps({
 });
 
 const emit = defineEmits(['update:expert']);
-
+const expertSelect = ref<number | string>('')
 let options = reactive({
   expertOptions: [
     // 作物select option
@@ -63,6 +57,7 @@ onMounted(async () => {
     // console.log('select', expertList);
     options.expertOptions = expertList;
   }
+  expertSelect.value = prop.expert
 });
 </script>
 <style lang="scss" scoped>

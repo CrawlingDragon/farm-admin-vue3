@@ -1,18 +1,13 @@
 <template>
   <!-- 用药的select选择 -->
-  <el-select v-model="drugId" placeholder="请选择" class="unit" @change="changeFn">
-    <el-option
-      v-for="item in optionsComputed"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-      :disabled="item.disabled"
-    >
+  <el-select v-model="drugIdSelect" placeholder="请选择" class="unit" @change="changeFn">
+    <el-option v-for="item in optionsComputed" :key="item.value" :label="item.label" :value="item.value"
+      :disabled="item.disabled">
     </el-option>
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed, watch } from 'vue';
+import { reactive, onMounted, computed, watch, ref } from 'vue';
 import { getMedicineProduct } from '../http';
 
 const prop = defineProps({
@@ -43,7 +38,7 @@ const prop = defineProps({
     default: false,
   },
 });
-
+const drugIdSelect = ref<number | string>('')
 const emit = defineEmits([
   'update:drugName',
   'update:size',
@@ -131,6 +126,7 @@ onMounted(async () => {
   // console.log('getMedicineProduct', r);
   options.medicineOptions = r;
   addNoSelectToOption();
+  drugIdSelect.value = prop.drugId
 });
 watch(
   () => prop.drugId,
@@ -139,4 +135,6 @@ watch(
   }
 );
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

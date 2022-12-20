@@ -1,16 +1,11 @@
 <template>
-  <el-select v-model="drugSpecIds" class="unit" @change="changeFn">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-      :disabled="item.disabled"
-    ></el-option>
+  <el-select v-model="drugSpecIdsSelect" class="unit" @change="changeFn">
+    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"
+      :disabled="item.disabled"></el-option>
   </el-select>
 </template>
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 const props = defineProps({
   drugSpecIds: {
     type: String,
@@ -32,6 +27,7 @@ const props = defineProps({
     default: false,
   },
 });
+const drugSpecIdsSelect = ref<string>('')
 const emits = defineEmits(['update:drugSpecIds']);
 const options = computed(() => props.sizeSelectOption as any);
 const changeFn = (el: any) => {
@@ -46,5 +42,10 @@ watch(
     }
   }
 );
+onMounted(() => {
+  drugSpecIdsSelect.value = props.drugSpecIds
+})
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
