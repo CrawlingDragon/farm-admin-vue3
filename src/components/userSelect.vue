@@ -6,7 +6,7 @@
     remote
     :filter-method="filterMethed"
     filterable
-    v-model="user"
+    v-model="selectUser"
     placeholder="请选择会员"
     class="w300 select"
     @change="changeFn"
@@ -42,6 +42,7 @@ const prop = defineProps({
 });
 
 const emit = defineEmits(['update:user']);
+const selectUser = ref<string | number>('');
 let trimDatas = ref([
   {
     label: '',
@@ -90,6 +91,7 @@ onMounted(async () => {
   // console.log('r', r);
   options.userOptions = r;
   trimDatas.value = trimData.value;
+  selectUser.value = prop.user;
   emit('update:user', prop.user);
 });
 
