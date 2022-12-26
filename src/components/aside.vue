@@ -24,7 +24,7 @@
         </router-link>
       </template>
     </div>
-    <div class="item">
+    <div class="item" v-if="switchSetting.switchInfo?.order?.state == 1">
       <h5 class="title">商品中心</h5>
       <template v-for="item in aside?.commodity">
         <router-link
@@ -67,14 +67,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getLeftAside } from '@/http';
+import { getLeftAside, getSwitchInfo } from '@/http';
 import { AsideTS } from '@/http/getLeftAside';
 import { ref, onMounted, watch } from 'vue';
 import { asideRouter, getCustomRouterLink } from '@/router/router-list';
 import storage from 'good-storage';
-import { userInfoDefineStore } from '@/store/index';
+import { userInfoDefineStore, switchStore } from '@/store/index';
+import { ElMessage } from 'element-plus';
+
 const userInfoStore = userInfoDefineStore();
+const switchSetting = switchStore(); //是否显示测土诊疗等配置项
 const aside = ref<AsideTS>();
+
+//获取左边栏的栏目数据
 async function getLeftAsideData() {
   aside.value = await getLeftAside();
   storage.session.set('soil', getTestingsoilListsState(aside.value));
@@ -91,6 +96,7 @@ onMounted(() => {
   if (token) {
     getLeftAsideData();
   }
+  getSwitchSetting();
 });
 
 // watch 用户信息，有用户信息，则请求左边栏数据
@@ -100,6 +106,17 @@ watch(
     getLeftAsideData();
   }
 );
+
+async function getSwitchSetting() {
+  let r = await getSwitchInfo();
+  if (r.code) {
+    ElMessage.error(r.msg);
+  } else {
+    switchSetting.setSwitchInfo(r); //用pinia 保存switch开关信息
+  }
+
+  console.log('switchSeting', switchSetting.switchInfo);
+}
 </script>
 <style lang="scss" scoped>
 .aside {
