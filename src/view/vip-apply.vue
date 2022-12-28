@@ -105,7 +105,7 @@
           <span class="text">{{ dialogVal.address }}</span>
         </li>
         <li>
-          <span class="left">种养种类情况:</span>
+          <span class="left">种类情况:</span>
           <div class="kind">
             <div v-for="item in dialogVal.zuowuArr">{{ item.name }}（{{ item.mushu }}）</div>
           </div>
@@ -149,7 +149,7 @@
           <span class="text">{{ dialogVal.address }}</span>
         </li>
         <li>
-          <span class="left">种养种类情况:</span>
+          <span class="left">种类情况:</span>
           <div class="kind md10 mt10">
             <div v-for="item in dialogVal.zuowuArr">{{ item.name }}（{{ item.mushu }}）</div>
           </div>
@@ -175,7 +175,11 @@
         </span>
       </template>
     </el-dialog>
-    <el-dialog v-model="dialogFormVisible" title="请填写拒绝xx会员申请的理由" style="width: 400px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="`请填写拒绝${activeVipName}会员申请的理由`"
+      style="width: 400px"
+    >
       <el-form>
         <el-form-item>
           <el-input
@@ -223,6 +227,7 @@ const dialogVisible = ref(false);
 const dialogDetailVisible = ref(false);
 const dialogFormVisible = ref(false);
 
+const activeVipName = ref(''); //选中的会员名字
 const refusedVal = ref(''); // 拒绝理由
 
 const param = computed(() => {
@@ -269,6 +274,7 @@ const dialogVal = ref<any>('');
 //表格内的操作按钮 ，审核 或者 详情
 function doOperation(status: string, detail: any) {
   console.log('detail', detail);
+  activeVipName.value = detail.userName; //选中的会员名字
   dialogVal.value = detail;
   if (status === '已通过' || status === '已拒绝') {
     dialogDetailVisible.value = true;
@@ -279,9 +285,11 @@ function doOperation(status: string, detail: any) {
 
 // 通过申请
 async function passApplyFn() {
-  let r = await getVipApplyAction({ applyId: dialogVal.value.applyId, status: 1 });
+  let r = await getVipApplyAction({ applyId: dialogVal.value.applyId, status: 99 });
   if (!r.code) {
     setApplyData();
+  } else {
+    ElMessage.error(r.msg);
   }
 }
 //拒绝申请
@@ -293,13 +301,14 @@ function noPassApplyFn() {
 async function refused() {
   let r = await getVipApplyAction({
     applyId: dialogVal.value.applyId,
-    status: 99,
+    status: 1,
     reason: refusedVal.value,
   });
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
     setApplyData();
+    ElMessage.success('已拒绝');
   }
   dialogFormVisible.value = false;
 }

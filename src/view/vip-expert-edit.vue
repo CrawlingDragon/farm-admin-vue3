@@ -130,7 +130,7 @@ async function submitEdit() {
     company: ruleForm.company,
     position: ruleForm.job, // [string]		职称
     bio: ruleForm.info, // [string]		简介
-    zuowuStr: ruleForm.kind.join(','),
+    zuowuIds: ruleForm.kind.join(','),
   });
   if (r.code) {
     ElMessage.error(r.msg);

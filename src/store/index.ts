@@ -48,7 +48,7 @@ export const tokenDefineStore = defineStore('tokenDefineStore', () => {
 
 // 全局switch 开关，比如测土，坐诊巡诊
 export const switchStore = defineStore('switchStore', () => {
-  let switchInfo = ref([]);
+  let switchInfo = ref<any>([]);
   const setSwitchInfo = (switchObj: any) => {
     switchInfo.value = switchObj;
   };
