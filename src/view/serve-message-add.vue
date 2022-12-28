@@ -9,30 +9,13 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form
-          :rules="rules"
-          ref="ruleFormRef"
-          label-width="118px"
-          size="large"
-          :model="ruleForm"
-        >
+        <el-form :rules="rules" ref="ruleFormRef" label-width="118px" size="large" :model="ruleForm">
           <el-form-item label="标题:" prop="title">
-            <el-input
-              v-model="ruleForm.title"
-              size="large"
-              maxlength="18"
-              show-word-limit
-              class="w300 m-2 mr20"
-              placeholder="请输入标题"
-            ></el-input>
+            <el-input v-model="ruleForm.title" size="large" maxlength="18" show-word-limit class="w300 m-2 mr20"
+              placeholder="请输入标题"></el-input>
           </el-form-item>
           <el-form-item label="关键词:" prop="keywords">
-            <el-input
-              v-model="ruleForm.keywords"
-              size="large"
-              class="w300 m-2 mr20"
-              placeholder="请输入关键词"
-            ></el-input>
+            <el-input v-model="ruleForm.keywords" size="large" class="w300 m-2 mr20" placeholder="请输入关键词"></el-input>
           </el-form-item>
           <el-form-item label="内容:" prop="content">
             <RichText v-model:valueHtml="ruleForm.content"></RichText>
@@ -45,9 +28,7 @@
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)"
-            >保存</el-button
-          >
+          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)">保存</el-button>
           <el-button size="large" @click="goLink('/serve-message')">取消</el-button>
         </div>
       </div>
@@ -81,7 +62,7 @@ const rules = reactive<FormRules>({
   content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
 });
 const ruleFormRef = ref<FormInstance>();
-let ruleForm: any = reactive({
+let ruleForm = reactive<any>({
   title: '', //标题
   keywords: '', //关键词
   content: '', //信息内容
@@ -135,13 +116,13 @@ const params = computed(() => {
     title: ruleForm.title,
     keywords: ruleForm.keywords,
     content: ruleForm.content,
-    thumb: ruleForm.thumb[0].url,
+    thumb: ruleForm.thumb[0]?.url,
   };
   return param;
 });
 // 保存提交方法
 async function setSaveNews() {
-  // console.log(params.value)
+  // console.log('params', params.value)
   let r = await getSaveNews(params.value);
   if (r.code) {
     ElMessage.error(r.msg);
@@ -157,6 +138,7 @@ async function setSaveNews() {
 
 // 保存
 async function saveMessage(formEl: FormInstance | undefined) {
+  console.log('params', params.value)
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
