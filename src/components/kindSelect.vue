@@ -12,7 +12,7 @@
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed, ref } from 'vue';
+import { reactive, onMounted, computed, ref, watch } from 'vue';
 import { getSelectInfo } from '../http/getSelectInfo';
 
 const prop = defineProps({
@@ -68,5 +68,12 @@ onMounted(async () => {
   }
   selectKind.value = prop.kind;
 });
+
+watch(
+  () => prop.kind,
+  () => {
+    selectKind.value = prop.kind;
+  }
+);
 </script>
 <style lang="scss" scoped></style>

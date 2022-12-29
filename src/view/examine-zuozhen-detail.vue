@@ -4,15 +4,26 @@
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-zuozhenlist' }">坐诊记录</el-breadcrumb-item>
-        <el-breadcrumb-item> 观测点详情:{{ ruleForm.enterInfo.zuoxunNumber }}</el-breadcrumb-item>
+        <el-breadcrumb-item> 坐诊详情:{{ ruleForm.enterInfo.zuoxunNumber }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="point-container">
-      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" size="large"
-        status-icon>
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+        size="large"
+        status-icon
+      >
         <div class="title-fiexed-bar border">
-          <AddSecondBar title="坐诊详情" :mobile="ruleForm.enterInfo.enterMobile" :time="ruleForm.enterInfo.enterTime"
-            class="left">
+          <AddSecondBar
+            title="坐诊详情"
+            :mobile="ruleForm.enterInfo.enterMobile"
+            :time="ruleForm.enterInfo.enterTime"
+            class="left"
+          >
             <el-dropdown>
               <span class="el-dropdown-link">
                 <span @click="goPageEdit" class="edit">编辑</span>
@@ -49,7 +60,13 @@
               {{ ruleForm.number }}
               {{ ruleForm.unit }}
             </el-form-item>
-            <el-form-item label="坐诊日期:" prop="time" v-model="ruleForm.time" class="w300" readonly>
+            <el-form-item
+              label="坐诊日期:"
+              prop="time"
+              v-model="ruleForm.time"
+              class="w300"
+              readonly
+            >
               {{ ruleForm.time }}
             </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
@@ -64,8 +81,13 @@
               {{ ruleForm.describe }}
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <el-image v-for="(item, index) in ruleForm.image" :src="item.thumb_url" fit="scale-down"
-                @click="getImgView(index, ruleForm.image)" class="upload-image"></el-image>
+              <el-image
+                v-for="(item, index) in ruleForm.image"
+                :src="item.thumb_url"
+                fit="scale-down"
+                @click="getImgView(index, ruleForm.image)"
+                class="upload-image"
+              ></el-image>
             </el-form-item>
           </div>
         </div>
@@ -120,9 +142,22 @@
             </div>
           </template>
           <div class="tip">新增诊疗跟踪</div>
-          <el-form-item label="跟踪日期:" prop="addTrack.time" v-model="ruleForm.addTrack.time" class="w300" readonly>
-            <el-date-picker v-model="ruleForm.addTrack.time" type="date" placeholder="选择时间" size="large" class="w300"
-              style="width: 300px" value-format="YYYY-MM-DD" />
+          <el-form-item
+            label="跟踪日期:"
+            prop="addTrack.time"
+            v-model="ruleForm.addTrack.time"
+            class="w300"
+            readonly
+          >
+            <el-date-picker
+              v-model="ruleForm.addTrack.time"
+              type="date"
+              placeholder="选择时间"
+              size="large"
+              class="w300"
+              style="width: 300px"
+              value-format="YYYY-MM-DD"
+            />
           </el-form-item>
           <el-form-item label="诊疗效果:" prop="addTrack.effect">
             <el-radio-group v-model="ruleForm.addTrack.effect">
@@ -132,8 +167,15 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="效果描述:" prop="addTrack.describe">
-            <el-input v-model="ruleForm.addTrack.describe" class="w300" type="textarea" rows="4" maxlength="2000"
-              show-word-limit placeholder="请输入描述" />
+            <el-input
+              v-model="ruleForm.addTrack.describe"
+              class="w300"
+              type="textarea"
+              rows="4"
+              maxlength="2000"
+              show-word-limit
+              placeholder="请输入描述"
+            />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">发布</el-button>
@@ -233,7 +275,7 @@ const del = () => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 // 整合自定义用药数组 和 后端用药数组
@@ -367,7 +409,7 @@ const delZuoTrack = async (trackId: string) => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 // 清空数据
@@ -386,12 +428,12 @@ onUnmounted(() => {
   emit('update:hideAside', true);
 });
 // 大图预览
-const imgIndex = ref<number>()
-const imgLists = ref<any>()
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const getImgView = (index: number, lists: any) => {
-  imgIndex.value = index
-  imgLists.value = lists
-}
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {

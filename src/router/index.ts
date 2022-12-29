@@ -139,6 +139,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/examine-point-add', //新增观测点
+    name: 'examine-point-add',
     component: () => import('@/view/examine-point-add.vue'),
   },
   {

@@ -443,7 +443,7 @@ async function setUnitAndKindSelectData() {
 }
 const rules = reactive<FormRules>({
   pointName: [{ required: true, message: '观测点名称', trigger: 'change' }],
-  kind: [{ required: true, message: '种类不能为空', trigger: 'change' }],
+  kind: [{ required: true, message: '种类不能为空', trigger: 'blur' }],
   address: [{ required: true, message: '试验地点不能为空', trigger: 'change' }],
   number: [{ required: true, message: '数量不能为空', trigger: 'blur' }],
   sampleDate: [{ required: true, message: '开始观察日期不能为空', trigger: 'change' }],

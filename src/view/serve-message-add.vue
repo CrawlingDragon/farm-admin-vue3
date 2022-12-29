@@ -85,7 +85,7 @@ let ruleForm: any = reactive({
   title: '', //标题
   keywords: '', //关键词
   content: '', //信息内容
-  thumb: [], //缩略图链接
+  thumb: [{ url: '' }], //缩略图链接
 });
 // const valueHtmls = ref('')
 onMounted(async () => {
@@ -135,7 +135,7 @@ const params = computed(() => {
     title: ruleForm.title,
     keywords: ruleForm.keywords,
     content: ruleForm.content,
-    thumb: ruleForm.thumb[0].url,
+    thumb: ruleForm.thumb[0] ? ruleForm.thumb[0].url : '',
   };
   return param;
 });

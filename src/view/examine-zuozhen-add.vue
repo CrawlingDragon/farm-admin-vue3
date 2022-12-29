@@ -299,8 +299,8 @@ const ruleForm = reactive({
 
 const rules = reactive<FormRules>({
   nameId: [{ required: true, message: '会员不能为空', trigger: 'change' }],
-  nowKind: [{ required: true, message: '坐诊种类不能为空', trigger: 'change' }],
-  number: [{ required: true, message: '数量不能为空', trigger: 'change' }],
+  nowKind: [{ required: true, message: '坐诊种类不能为空', trigger: 'blur' }],
+  number: [{ required: true, message: '数量不能为空', trigger: 'blur' }],
   plantType: [{ required: true, message: '种养模式不能为空', trigger: 'change' }],
   degree: [{ required: true, message: '病发程度不能为空', trigger: 'change' }],
   time: [{ required: true, message: '坐诊日期不能为空', trigger: 'change' }],
@@ -327,22 +327,6 @@ const del = () => {
     .catch(() => {});
 };
 
-// 添加用药
-// function addMedicine() {
-//   ruleForm.Prescribing.medicine.push({
-//     drugName: '', //药品名字
-//     drugId: '', //药品id
-//     drugSpecIds: '', //药品规格
-//     sizeSelectOption: [],
-//     drugQuantity: 1, // 药品数量
-//   });
-// }
-
-// // 删除用药
-// function delMedicine(index: number) {
-//   ruleForm.Prescribing.medicine.splice(index, 1);
-// }
-
 // 选择模板
 function selectPrescribing(detail: any) {
   console.log('detail', detail);
@@ -350,25 +334,13 @@ function selectPrescribing(detail: any) {
   ruleForm.Prescribing.result = content;
   ruleForm.Prescribing.medicine = integrationMedicine(drugInfo);
 }
-// 整合自定义用药数组 和 后端用药数组
-// function integrationMedicine(drugInfo: any, target: 'Prescribing') {
-//   ruleForm[target].medicine = [];
-//   if (drugInfo.length === 0) {
-//     return;
-//   }
-//   drugInfo.forEach((item: any) => {
-//     ruleForm[target].medicine.push({
-//       drugName: item.drugName, //药品名字
-//       drugId: item.drugId, //药品id
-//       drugSpec: item.drugSpec,
-//       drugSpecIds: item.drugSpecIds, //药品规格
-//       sizeSelectOption: [],
-//       drugQuantity: +item.drugQuantity, // 药品数量
-//       selectMyself: false,
-//     });
-//   });
-//   // console.log('ruleForm[target].medicine', ruleForm[target].medicine);
-// }
+
+//成功之后，清空数据
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  // console.log('ruleform', ruleForm);
+  formEl.resetFields();
+};
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
@@ -382,6 +354,8 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
           setTimeout(() => {
             router.push('/examine-zuozhenlist');
           }, 600);
+        } else {
+          resetForm(ruleFormRef.value);
         }
       });
     } else {

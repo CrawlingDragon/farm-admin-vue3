@@ -9,7 +9,7 @@
         >巡诊记录</el-breadcrumb-item
       >
       <el-breadcrumb-item>{{
-        routeName === 'examine-point-add' ? '新增巡诊' : '巡诊详情:' + zuoxunNumber
+        routeName === 'examine-xunzhen-add' ? '新增巡诊' : '巡诊详情:' + zuoxunNumber
       }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>

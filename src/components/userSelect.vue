@@ -95,6 +95,14 @@ onMounted(async () => {
   emit('update:user', prop.user);
 });
 
+watch(
+  () => prop.user,
+  () => {
+    // console.log('prop.user', prop.user);
+    selectUser.value = prop.user;
+    emit('update:user', prop.user);
+  }
+);
 defineExpose({
   options,
   mySelect,
