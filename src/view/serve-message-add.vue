@@ -81,7 +81,7 @@ const rules = reactive<FormRules>({
   content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
 });
 const ruleFormRef = ref<FormInstance>();
-let ruleForm: any = reactive({
+let ruleForm = reactive<any>({
   title: '', //标题
   keywords: '', //关键词
   content: '', //信息内容
@@ -116,10 +116,12 @@ async function setNewsInfo() {
       }, 1000);
     }
     let arr = [];
-    arr.push({
-      name: new Date(),
-      url: r.thumb,
-    });
+    if (r.thumb) {
+      arr.push({
+        name: new Date(),
+        url: r.thumb,
+      });
+    }
     ruleForm.title = r.title;
     ruleForm.keywords = r.keywords;
     ruleForm.content = r.content;
@@ -141,7 +143,7 @@ const params = computed(() => {
 });
 // 保存提交方法
 async function setSaveNews() {
-  // console.log(params.value)
+  // console.log('params', params.value)
   let r = await getSaveNews(params.value);
   if (r.code) {
     ElMessage.error(r.msg);
@@ -157,6 +159,7 @@ async function setSaveNews() {
 
 // 保存
 async function saveMessage(formEl: FormInstance | undefined) {
+  console.log('params', params.value);
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {

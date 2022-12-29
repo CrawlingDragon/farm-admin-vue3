@@ -3,7 +3,7 @@
     <div class="head right-head soil-right-head">
       <div class="tab" :class="{ active: active == 0 }" @click="choose(0)">挂号记录</div>
       <div class="tab" :class="{ active: active == 1 }" @click="choose(1)">专家排班</div>
-      <el-button type="primary" class="add" @click="goSoilPage()">新增专家排班</el-button>
+      <el-button v-if="active == 1" type="primary" class="add" @click="goSoilPage()">新增专家排班</el-button>
     </div>
     <div class="input-bar">
       <el-input v-model="keyword" class="w200 m-2 mr20" size="large" :placeholder=keywordPlaceholder />
@@ -65,8 +65,8 @@
     <el-dialog v-model="dialogFormVisible" title="新增专家排班">
       <el-form ref="ruleFormRef" label-width="118px" :rules="rules" size="large" :model="ruleForm">
         <el-form-item label="门诊日期:" prop="outpatientTime">
-          <el-date-picker :clearable="false" value-format="YYYY-MM-DD" v-model="ruleForm.outpatientTime" type="date"
-            placeholder="请选择日期" />
+          <el-date-picker :disabled-date="disabledDate" :clearable="false" value-format="YYYY-MM-DD"
+            v-model="ruleForm.outpatientTime" type="date" placeholder="请选择日期" />
         </el-form-item>
         <el-form-item label="时段:" prop="apm">
           <el-select v-model="ruleForm.apm" class="m-2" placeholder="请选择时段" size="default">
@@ -353,7 +353,17 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      setAddExpert()
+      if (new Date(ruleForm.outpatientTime).getTime() < new Date(new Date().toLocaleDateString()).getTime()) {
+        ElMessageBox.confirm('该时间段已过期，请确定后再提交', '信息').then(
+          async () => {
+            setAddExpert()
+          }
+        ).catch(() => {
+
+        })
+      } else {
+        setAddExpert()
+      }
       // console.log('formEl', formEl)
       // console.log('ruleForm', ruleForm)
     } else {
@@ -365,7 +375,7 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
 async function setAddExpert() {
   let r = await getAddExpert(ruleForm)
   if (!r.msg) {
-    ElMessage('保存成功');
+    ElMessage({ message: '保存成功', type: 'success' });
     dialogFormVisible.value = false
     setTimeout(() => {
       setSubscribeLists();
@@ -373,6 +383,10 @@ async function setAddExpert() {
   } else {
     ElMessage(r.msg);
   }
+}
+// 新增排班时间选择限制
+const disabledDate = (time: Date) => {
+  return time.getTime() < new Date(new Date().toLocaleDateString()).getTime()
 }
 
 

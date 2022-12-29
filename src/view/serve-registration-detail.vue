@@ -39,6 +39,7 @@
             <el-radio-group v-model="detailData.statusTips" class="ml-4">
               <el-radio :label="3" size="large">已过期</el-radio>
               <el-radio :label="1" size="large">已就诊</el-radio>
+              <!-- <el-radio :label="2" size="large">待就诊</el-radio> -->
             </el-radio-group>
           </span>
         </div>
