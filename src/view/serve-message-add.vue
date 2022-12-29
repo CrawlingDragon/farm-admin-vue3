@@ -97,10 +97,12 @@ async function setNewsInfo() {
       }, 1000);
     }
     let arr = [];
-    arr.push({
-      name: new Date(),
-      url: r.thumb,
-    });
+    if (r.thumb) {
+      arr.push({
+        name: new Date(),
+        url: r.thumb,
+      });
+    }
     ruleForm.title = r.title;
     ruleForm.keywords = r.keywords;
     ruleForm.content = r.content;

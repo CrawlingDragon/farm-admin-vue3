@@ -9,82 +9,39 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form
-          :rules="rules"
-          ref="ruleFormRef"
-          label-width="150px"
-          size="large"
-          :model="ruleForm"
-        >
+        <el-form :rules="rules" ref="ruleFormRef" label-width="150px" size="large" :model="ruleForm">
           <el-form-item label="培训主题:" prop="title">
-            <el-input
-              v-model="ruleForm.title"
-              size="large"
-              maxlength="40"
-              show-word-limit
-              class="w300 m-2 mr20"
-              placeholder="请输入培训主题"
-            ></el-input>
+            <el-input v-model="ruleForm.title" size="large" maxlength="40" show-word-limit class="w300 m-2 mr20"
+              placeholder="请输入培训主题"></el-input>
           </el-form-item>
           <el-form-item label="培训图:" prop="image">
             <UploadImageVue :limit="1" v-model:images="ruleForm.image" />
             <div class="tips">尺寸建议:685px*300px</div>
           </el-form-item>
           <el-form-item label="培训时间:" prop="dateVal">
-            <el-date-picker
-              style="width: 400px; flex-grow: 0"
-              v-model="ruleForm.dateVal"
-              type="datetimerange"
-              start-placeholder="选择起始时间"
-              end-placeholder="选择结束时间"
-              size="large"
-              class="mr10"
-              value-format="YYYY-MM-DD HH:mm:ss"
-            />
+            <el-date-picker style="width: 400px; flex-grow: 0" v-model="ruleForm.dateVal" type="datetimerange"
+              start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10"
+              value-format="YYYY-MM-DD HH:mm:ss" />
           </el-form-item>
           <el-form-item label="主讲师:" prop="trainTeacher">
-            <el-input
-              v-model="ruleForm.trainTeacher"
-              maxlength="20"
-              show-word-limit
-              size="large"
-              class="w300 m-2 mr20"
-              placeholder="请输入讲师姓名"
-            >
+            <el-input v-model="ruleForm.trainTeacher" maxlength="20" show-word-limit size="large" class="w300 m-2 mr20"
+              placeholder="请输入讲师姓名">
             </el-input>
           </el-form-item>
           <el-form-item label="内容:" prop="content">
-            <el-input
-              style="width: 600px"
-              v-model="ruleForm.content"
-              maxlength="2000"
-              show-word-limit
-              :autosize="{ minRows: 5, maxRows: 50 }"
-              type="textarea"
-              placeholder="请输入描述内容"
-            />
+            <el-input style="width: 600px" v-model="ruleForm.content" maxlength="2000" show-word-limit
+              :autosize="{ minRows: 5, maxRows: 50 }" type="textarea" placeholder="请输入描述内容" />
           </el-form-item>
           <el-form-item label="培训方式:" prop="trainType">
-            <el-radio-group
-              v-model="ruleForm.trainType"
-              class="m-2"
-              placeholder="请选择模板"
-              size="large"
-              @change="trainTypeChabge"
-            >
+            <el-radio-group v-model="ruleForm.trainType" class="m-2" placeholder="请选择模板" size="large"
+              @change="trainTypeChabge">
               <el-radio size="large" label="2">线下培训</el-radio>
               <el-radio size="large" label="1">线上直播</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="labelAddress + ':'" prop="trainAddress">
-            <el-input
-              v-model="ruleForm.trainAddress"
-              maxlength="40"
-              show-word-limit
-              size="large"
-              class="w300 m-2 mr20"
-              :placeholder="'请输入' + labelAddress"
-            >
+            <el-input v-model="ruleForm.trainAddress" :maxlength="labelAddress == '培训地点' ? '40' : ''" show-word-limit
+              size="large" class="w300 m-2 mr20" :placeholder="'请输入' + labelAddress">
             </el-input>
           </el-form-item>
         </el-form>
@@ -92,9 +49,7 @@
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)"
-            >保存</el-button
-          >
+          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)">保存</el-button>
           <el-button size="large" @click="goLink('/serve-people')">取消</el-button>
         </div>
       </div>
@@ -207,6 +162,7 @@ function trainTypeChabge(val: any) {
   } else {
     labelAddress.value = '培训地点';
   }
+  ruleForm.trainAddress = ''
 }
 // 获取详情信息
 async function setTrainDetail() {
