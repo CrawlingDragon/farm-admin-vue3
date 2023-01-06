@@ -31,7 +31,7 @@
         <div class="del" @click="delMedicine(index)">x</div>
       </div>
     </div>
-    <el-button class="add-medicine-btn" @click="addMedicine">添加用药</el-button>
+    <el-button class="add-medicine-btn" @click="addMedicine" v-bind="$attrs">添加用药</el-button>
   </div>
 </template>
 <script setup lang="ts">

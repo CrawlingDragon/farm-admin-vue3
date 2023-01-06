@@ -80,7 +80,7 @@
             <el-form-item label="描述:" prop="describe">
               {{ ruleForm.describe }}
             </el-form-item>
-            <el-form-item label="图片:" prop="image">
+            <el-form-item label="图片:" prop="image" v-show="ruleForm.image.length != 0">
               <el-image
                 v-for="(item, index) in ruleForm.image"
                 :src="item.thumb_url"
@@ -107,7 +107,7 @@
         </div>
         <div class="dayTest test-soil-box border">
           <div class="tip">用药信息</div>
-          <div class="medicine">
+          <div class="medicine" v-show="ruleForm.Prescribing.medicine.length != 0">
             <div class="bar title border">
               <div class="item">商品名称</div>
               <div class="item">商品规格</div>
@@ -192,7 +192,7 @@ import { computed, reactive, ref, onUnmounted, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
-import { getZuoXunDetail, getDelZuoXunTrack, getAddZuoXunTrack } from '@/http';
+import { getZuoXunDetail, getDelZuoXunTrack, getAddZuoXunTrack, getDelZuoXun } from '@/http';
 import AddSecondBar from '@/components/add-second-bar.vue';
 import { transformImageParams } from '@/common/js/util';
 import imgPreview from '@/components/imgPreview.vue';
@@ -263,9 +263,9 @@ const rules = reactive<FormRules>({
 
 //顶部的删除按钮
 const del = () => {
-  ElMessageBox.confirm('是否要删除坐诊记录', '提示')
+  ElMessageBox.confirm('是否要删除坐诊', '提示')
     .then(async (res) => {
-      let r = await getDelZuoXunTrack(zuozhenId.value as any);
+      let r = await getDelZuoXun(zuozhenId.value as any);
       if (r.code) {
         ElMessage.error(r.msg);
       } else {

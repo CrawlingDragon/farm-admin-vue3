@@ -89,12 +89,20 @@
                 type="date"
                 placeholder="选择时间"
                 size="large"
-                class="w300"
-                style="width: 300px"
                 value-format="YYYY-MM-DD"
+                class="date-wrap-300"
               />
             </el-form-item>
-
+            <el-form-item label="巡诊地点:" prop="address">
+              <el-input
+                v-model="ruleForm.address"
+                label="right"
+                placeholder="请输入巡诊地点"
+                class="w300"
+                maxlength="100"
+                show-word-limit
+              />
+            </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
               <el-radio-group v-model="ruleForm.diagnosis">
                 <el-radio :label="1">初诊</el-radio>
@@ -147,36 +155,7 @@
               </LatestTestSoilSelectVue>
             </el-form-item>
             <div class="tip">用药信息</div>
-            <!-- <div class="medicine" v-if="false">
-              <div class="bar title border">
-                <div class="item">商品名称</div>
-                <div class="item">商品规格</div>
-                <div class="item">数量</div>
-                <div class="del"></div>
-              </div> -->
-            <!-- <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
-                <div class="item">
-                  <medicineSelectVue
-                    v-model:drugName="item.drugName"
-                    v-model:drugId="item.drugId"
-                    v-model:size="item.sizeSelectOption"
-                  />
-                </div>
-                <div class="item">
-                  <DrugSizeSelect
-                    :sizeSelectOption="item.sizeSelectOption"
-                    v-model:drugSpecIds="item.drugSpecIds"
-                  />
-                </div>
-                <div class="item">
-                  <el-input v-model="item.drugQuantity" placeholder=""></el-input>
-                </div>
-                <div class="del" @click="delMedicine(index)">x</div>
-              </div>
-            </div>
-            <el-button class="add-medicine-btn" @click="addMedicine" v-if="false"
-              >添加用药</el-button
-            > -->
+
             <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
           </div>
 
@@ -303,6 +282,7 @@ const rules = reactive<FormRules>({
   plantType: [{ required: true, message: '种养模式不能为空', trigger: 'change' }],
   degree: [{ required: true, message: '病发程度不能为空', trigger: 'change' }],
   time: [{ required: true, message: '巡诊日期不能为空', trigger: 'change' }],
+  address: [{ required: true, message: '巡诊地点不能为空', trigger: 'blur' }],
   describe: [{ required: true, message: '描述不能为空', trigger: 'change' }],
   diagnosis: [{ required: true, message: '初复诊不能为空', trigger: 'change' }],
   'Prescribing.expert': [{ required: true, message: '巡诊专家不能为空', trigger: 'change' }],
@@ -375,12 +355,14 @@ const soilParams = computed<any>(() => {
   let params = {
     zxId: xunzhenId.value == undefined ? '' : xunzhenId.value,
     uid: ruleForm.nameId,
+    addType: 2,
     zuowuId: ruleForm.nowKind,
     mushu: ruleForm.number,
     unit: ruleForm.unit,
     plantType: ruleForm.plantType,
     degree: ruleForm.degree,
     wenzhenTime: ruleForm.time,
+    address: ruleForm.address,
     isFrist: ruleForm.diagnosis,
     content: ruleForm.describe,
     images: transformImageParams(ruleForm.image),
@@ -428,6 +410,7 @@ async function getZuozhenDetail() {
   ruleForm.unit = s.unitId;
   ruleForm.number = s.mushu;
   ruleForm.time = s.wenzhenTime;
+  ruleForm.address = s.address;
   ruleForm.diagnosis = +s.isFrist;
   ruleForm.describe = s.content;
   ruleForm.image = s.images;

@@ -50,7 +50,7 @@
         <el-table-column prop="degreeTips" label="病发程度" />
         <el-table-column prop="isFristTips" label="初复诊" />
         <!-- 检查项目，接口暂时没提供数据 -->
-        <el-table-column prop="updateTime" label="检查项目" />
+        <el-table-column prop="checkItem" label="检查项目" />
         <el-table-column prop="yongyao" label="用药记录" />
         <el-table-column prop="expertName" label="巡诊专家" />
         <el-table-column prop="wenzhenTime" label="巡诊日期" width="120px" />

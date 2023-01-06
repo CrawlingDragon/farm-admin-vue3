@@ -100,7 +100,10 @@
               />
             </el-form-item>
             <el-form-item label="试验会员:" prop="nameId">
-              <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
+              <UserSelectVue
+                v-model:user="ruleForm.nameId"
+                :disabled="!!uId || routeName !== 'examine-point-add'"
+              />
             </el-form-item>
             <el-form-item label="描述:" prop="describe">
               <el-input
@@ -113,7 +116,7 @@
               />
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <UploadImageVue v-model:images="ruleForm.image" />
+              <UploadImageVue v-model:images="ruleForm.image" :limit="4" />
             </el-form-item>
           </div>
           <div class="right-main"></div>
@@ -184,7 +187,9 @@
                 placeholder="输入用药描述"
               />
             </el-form-item>
-            <Medicine v-model:medicineProp="ruleForm.leftUseFormInfo.medicine" />
+            <el-form-item prop="leftUseFormInfo.medicine" label-width="100px">
+              <Medicine v-model:medicineProp="ruleForm.leftUseFormInfo.medicine" />
+            </el-form-item>
             <!-- <div class="medicine" v-if="ruleForm.leftUseFormInfo.medicine.length !== 0">
               <div class="bar title border">
                 <div class="item">商品名称</div>
@@ -257,7 +262,9 @@
                 placeholder="输入用药描述"
               />
             </el-form-item>
-            <Medicine v-model:medicineProp="ruleForm.rightUseFormInfo.medicine" />
+            <el-form-item label-width="100px">
+              <Medicine v-model:medicineProp="ruleForm.rightUseFormInfo.medicine" />
+            </el-form-item>
             <!-- <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" /> -->
             <!-- <div class="medicine" v-if="ruleForm.rightUseFormInfo.medicine.length !== 0">
               <div class="bar title border">
@@ -441,6 +448,18 @@ async function setUnitAndKindSelectData() {
   // selectOptions.recipeTemList = recipeTemList;
   unitAndKindSelectOption.kindOption = categoryArr;
 }
+//自定义左边用药不能为空
+const validatorMedicine = (rule: any, value: any, callback: any) => {
+  if (value.length !== 0) {
+    if (value[0].drugId == '' || value[0].drugSpecIds == '') {
+      callback(new Error('请至少添加一种用药'));
+    } else {
+      callback();
+    }
+  } else {
+    callback();
+  }
+};
 const rules = reactive<FormRules>({
   pointName: [{ required: true, message: '观测点名称', trigger: 'change' }],
   kind: [{ required: true, message: '种类不能为空', trigger: 'blur' }],
@@ -449,6 +468,10 @@ const rules = reactive<FormRules>({
   sampleDate: [{ required: true, message: '开始观察日期不能为空', trigger: 'change' }],
   nameId: [{ required: true, message: '试验会员不能为空', trigger: 'change' }],
   'leftUseFormInfo.date': [{ required: true, message: '开始用药日期不能为空', trigger: 'change' }],
+  'leftUseFormInfo.medicine': [
+    { required: true, message: '请至少添加一种用药', trigger: 'blur' },
+    { validator: validatorMedicine, trigger: 'change' },
+  ],
   'leftUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
   'rightUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
 });

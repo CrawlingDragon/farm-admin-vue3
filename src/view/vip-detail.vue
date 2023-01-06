@@ -83,27 +83,40 @@
           >编辑</el-button
         >
         <div class="tip">基本信息</div>
-        <div class="info-box">
-          <div class="label">详细地址:</div>
-          <div class="right-text">{{ detailData.userInfo.address }}</div>
-        </div>
-        <div class="info-box">
+
+        <div class="info-box" v-if="detailData.userInfo.userName != ''">
           <div class="label">姓名:</div>
           <div class="right-text">{{ detailData.userInfo.userName }}</div>
         </div>
-        <div class="info-box">
+        <div class="info-box" v-if="detailData.userInfo.tel != ''">
           <div class="label">手机:</div>
           <div class="right-text">{{ detailData.userInfo.tel }}</div>
+        </div>
+        <div class="info-box" v-if="detailData.userInfo.selfcard != ''">
+          <div class="label">身份证:</div>
+          <div class="right-text">{{ detailData.userInfo.selfcard }}</div>
+        </div>
+        <div class="info-box" v-if="detailData.userInfo.resideprovince != ''">
+          <div class="label">所在地:</div>
+          <div class="right-text">
+            {{ detailData.userInfo.resideprovince }}{{ detailData.userInfo.residecity
+            }}{{ detailData.userInfo.residedist }}{{ detailData.userInfo.residecommunity }}
+          </div>
+        </div>
+        <div class="info-box" v-if="detailData.userInfo.address != ''">
+          <div class="label">详细地址:</div>
+          <div class="right-text">{{ detailData.userInfo.address }}</div>
         </div>
         <div class="info-box">
           <div class="label">性别:</div>
           <div class="right-text">{{ detailData.userInfo.sex }}</div>
         </div>
-        <div class="info-box">
-          <div class="label">身份证:</div>
-          <div class="right-text">{{ detailData.userInfo.selfcard }}</div>
+
+        <div class="info-box" v-if="detailData.userInfo.familycount != ''">
+          <div class="label">家庭成员:</div>
+          <div class="right-text">{{ detailData.userInfo.familycount }}</div>
         </div>
-        <div class="info-box">
+        <div class="info-box" v-if="detailData.userInfo.userfrom != ''">
           <div class="label">会员来源:</div>
           <div class="right-text">{{ detailData.userInfo.userfrom }}</div>
         </div>
