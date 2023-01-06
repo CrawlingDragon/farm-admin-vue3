@@ -64,12 +64,13 @@
                 <el-radio label="3">整片发生</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="数量:" prop="number">
+            <el-form-item label="病发数量:" prop="number">
               <el-input
-                v-model.number="ruleForm.number"
+                v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
                 class="grow-number w200 mr30"
+                @keyup="numberKeyup"
               />
               <UnitSelect
                 v-model:unit="ruleForm.unit"
@@ -297,10 +298,24 @@ const ruleForm = reactive({
   templates: {}, // 选中的处方模板
 });
 
+//自定义验证数字为小数点后两位
+const numberKeyup = () => {
+  ruleForm.number = ruleForm.number
+    .toString()
+    .replace(/[^\d.]/g, '')
+    .replace(/\.{2,}/g, '.')
+    .replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+};
 const rules = reactive<FormRules>({
   nameId: [{ required: true, message: '会员不能为空', trigger: 'change' }],
   nowKind: [{ required: true, message: '坐诊种类不能为空', trigger: 'blur' }],
-  number: [{ required: true, message: '数量不能为空', trigger: 'blur' }],
+  number: [
+    { required: true, message: '数量不能为空', trigger: 'blur' },
+    // {
+    //   validator: validatorNumberFixed2,
+    //   trigger: 'blur',
+    // },
+  ],
   plantType: [{ required: true, message: '种养模式不能为空', trigger: 'change' }],
   degree: [{ required: true, message: '病发程度不能为空', trigger: 'change' }],
   time: [{ required: true, message: '坐诊日期不能为空', trigger: 'change' }],
@@ -374,6 +389,7 @@ const soilParams = computed<any>(() => {
   let params = {
     zxId: zuozhenId.value == undefined ? '' : zuozhenId.value,
     uid: ruleForm.nameId,
+    addType: 1,
     zuowuId: ruleForm.nowKind,
     mushu: ruleForm.number,
     unit: ruleForm.unit,

@@ -8,11 +8,23 @@
       </el-breadcrumb>
     </div>
     <div class="point-container">
-      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" size="large"
-        status-icon>
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+        size="large"
+        status-icon
+      >
         <el-affix target=".point-container">
           <div class="title-fiexed-bar border">
-            <AddSecondBar title="观测点详情" :mobile="ruleForm.centerMobile" :time="ruleForm.centerTime" class="left">
+            <AddSecondBar
+              title="观测点详情"
+              :mobile="ruleForm.centerMobile"
+              :time="ruleForm.centerTime"
+              class="left"
+            >
               <el-dropdown>
                 <span class="el-dropdown-link">
                   <span @click="goPageEdit" class="edit">编辑</span>
@@ -68,7 +80,13 @@
                 :options="unitAndKindSelectOption.unitOption"
               ></UnitSelect> -->
             </el-form-item>
-            <el-form-item label="开始观察日期:" prop="sampleDate" v-model="ruleForm.sampleDate" class="w300" readonly>
+            <el-form-item
+              label="开始观察日期:"
+              prop="sampleDate"
+              v-model="ruleForm.sampleDate"
+              class="w300"
+              readonly
+            >
               <!-- <el-date-picker
                 v-model="ruleForm.sampleDate"
                 type="date"
@@ -100,8 +118,14 @@
               {{ ruleForm.describe }}
             </el-form-item>
             <el-form-item label="图片:" prop="image">
-              <el-image v-for="(item, index) in ruleForm.image" :key="item.url" :src="item.url"
-                @click="getImgView(index, ruleForm.image)" fit="scale-down" class="upload-image"></el-image>
+              <el-image
+                v-for="(item, index) in ruleForm.image"
+                :key="item.url"
+                :src="item.url"
+                @click="getImgView(index, ruleForm.image)"
+                fit="scale-down"
+                class="upload-image"
+              ></el-image>
             </el-form-item>
           </div>
           <div class="right-main"></div>
@@ -118,11 +142,14 @@
             <el-form-item label="取样日期:" prop="">
               {{ ruleForm.leastSoilRecord.date }}
             </el-form-item>
-            <el-form-item label="铵态氮含量:" prop="">{{ ruleForm.leastSoilRecord.an }}
+            <el-form-item label="铵态氮含量:" prop=""
+              >{{ ruleForm.leastSoilRecord.an }}
             </el-form-item>
-            <el-form-item label="速效磷含量:" prop="">{{ ruleForm.leastSoilRecord.lin }}
+            <el-form-item label="速效磷含量:" prop=""
+              >{{ ruleForm.leastSoilRecord.lin }}
             </el-form-item>
-            <el-form-item label="有效钾含量:" prop="">{{ ruleForm.leastSoilRecord.jia }}
+            <el-form-item label="有效钾含量:" prop=""
+              >{{ ruleForm.leastSoilRecord.jia }}
             </el-form-item>
             <el-form-item label="pH值:" prop="">{{ ruleForm.leastSoilRecord.ph }} </el-form-item>
             <el-form-item label="盐分:" prop="">{{ ruleForm.leastSoilRecord.salt }} </el-form-item>
@@ -132,8 +159,13 @@
         <div class="use-farm-box border">
           <div class="left-main">
             <div class="tip">使用农资信息</div>
-            <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="ruleForm.leftUseFormInfo.date" class="w300"
-              readonly>
+            <el-form-item
+              label="采样日期:"
+              prop="leftUseFormInfo.date"
+              v-model="ruleForm.leftUseFormInfo.date"
+              class="w300"
+              readonly
+            >
               {{ ruleForm.leftUseFormInfo.date }}
             </el-form-item>
             <el-form-item label="描述:" prop="leftUseFormInfo.describe">
@@ -160,8 +192,13 @@
           </div>
           <div class="right-main">
             <div class="tip">使用农资信息</div>
-            <el-form-item label="采样日期:" prop="rightUseFormInfo.date" v-model="ruleForm.rightUseFormInfo.date"
-              class="w300" readonly>
+            <el-form-item
+              label="采样日期:"
+              prop="rightUseFormInfo.date"
+              v-model="ruleForm.rightUseFormInfo.date"
+              class="w300"
+              readonly
+            >
               {{ ruleForm.rightUseFormInfo.date }}
             </el-form-item>
             <el-form-item label="描述:" prop="rightUseFormInfo.describe">
@@ -192,14 +229,25 @@
           <template v-for="item in ruleForm.dailyContentInfo">
             <div class="left-main">
               <div class="tip">日常观测</div>
-              <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="item.observeTime" class="w300" readonly>
+              <el-form-item
+                label="采样日期:"
+                prop="leftUseFormInfo.date"
+                v-model="item.observeTime"
+                class="w300"
+                readonly
+              >
                 {{ item.observeTime }}
               </el-form-item>
               <el-form-item label="描述:" prop="leftUseFormInfo.describe">
                 {{ item.describe }}
               </el-form-item>
               <el-form-item label="图片:" prop="image">
-                <el-image v-for="img in item.images" :src="img.url" fit="scale-down" class="upload-image"></el-image>
+                <el-image
+                  v-for="img in item.images"
+                  :src="img.url"
+                  fit="scale-down"
+                  class="upload-image"
+                ></el-image>
               </el-form-item>
             </div>
             <div class="right-main">
@@ -209,16 +257,25 @@
                   <CloseBold />
                 </el-icon>
               </div>
-              <el-form-item label="采样日期:" prop="leftUseFormInfo.date" v-model="item.contrastObserveTime" class="w300"
-                readonly>
+              <el-form-item
+                label="采样日期:"
+                prop="leftUseFormInfo.date"
+                v-model="item.contrastObserveTime"
+                class="w300"
+                readonly
+              >
                 {{ item.contrastObserveTime }}
               </el-form-item>
               <el-form-item label="描述:" prop="leftUseFormInfo.describe">
                 {{ item.contrastDescribe }}
               </el-form-item>
               <el-form-item label="图片:" prop="image">
-                <el-image v-for="img in item.contrastImages" :src="img.url" fit="scale-down"
-                  class="upload-image"></el-image>
+                <el-image
+                  v-for="img in item.contrastImages"
+                  :src="img.url"
+                  fit="scale-down"
+                  class="upload-image"
+                ></el-image>
               </el-form-item>
             </div>
           </template>
@@ -284,19 +341,33 @@
         <div class="submit-bar" v-else>
           <!-- 这是新增页面的按钮 -->
           <div class="content">
-            <el-button type="primary" size="large" @click="dayDialogFormVisible = true" class="mr20">新增日常观测</el-button>
-            <el-button size="large" @click="testSoilDialogFormVisible = true" class="mr20">新增测土</el-button>
+            <el-button type="primary" size="large" @click="dayDialogFormVisible = true" class="mr20"
+              >新增日常观测</el-button
+            >
+            <el-button size="large" @click="testSoilDialogFormVisible = true" class="mr20"
+              >新增测土</el-button
+            >
             <el-button size="large" @click="conclusionDialogFormVisible = true">添加结论</el-button>
           </div>
         </div>
       </el-form>
     </div>
     <!-- 新增日常观测dialog -->
-    <AddDayWatch v-model:dayDialogFormVisible="dayDialogFormVisible" @save="addDayPointFetchFn" :view-id="pointId" />
-    <AddTestSoil :view-id="pointId" @save="addDayPointFetchFn"
-      v-model:testSoilDialogFormVisible="testSoilDialogFormVisible" />
-    <AddConclusion v-model:conclusionDialogFormVisible="conclusionDialogFormVisible" :view-id="pointId"
-      @save="addDayPointFetchFn" />
+    <AddDayWatch
+      v-model:dayDialogFormVisible="dayDialogFormVisible"
+      @save="addDayPointFetchFn"
+      :view-id="pointId"
+    />
+    <AddTestSoil
+      :view-id="pointId"
+      @save="addDayPointFetchFn"
+      v-model:testSoilDialogFormVisible="testSoilDialogFormVisible"
+    />
+    <AddConclusion
+      v-model:conclusionDialogFormVisible="conclusionDialogFormVisible"
+      :view-id="pointId"
+      @save="addDayPointFetchFn"
+    />
     <!-- 大图预览 -->
     <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
@@ -418,7 +489,7 @@ const rules = reactive<FormRules>({
 
 //顶部的删除按钮
 const del = () => {
-  ElMessageBox.confirm('是否要删除测土配方', '提示')
+  ElMessageBox.confirm('是否要删除观测点', '提示')
     .then(async (res) => {
       let r = await delObservePoint(pointId.value as any);
       if (r.code) {
@@ -430,7 +501,7 @@ const del = () => {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 // 添加用药
@@ -618,7 +689,7 @@ function delDayPoint(dailyId: string) {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 }
 //删除测土记录
 function delTestSoil(logId: string) {
@@ -634,7 +705,7 @@ function delTestSoil(logId: string) {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 }
 //删除观测结论
 function delConclusion() {
@@ -650,7 +721,7 @@ function delConclusion() {
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 }
 
 onMounted(async () => {
@@ -664,12 +735,12 @@ onUnmounted(() => {
   emit('update:hideAside', true);
 });
 // 大图预览
-const imgIndex = ref<number>()
-const imgLists = ref<any>()
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const getImgView = (index: number, lists: any) => {
-  imgIndex.value = index
-  imgLists.value = lists
-}
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {
