@@ -37,9 +37,9 @@
           <span class="label">状态: </span>
           <span class="content content-status">
             <el-radio-group v-model="detailData.statusTips" class="ml-4">
-              <el-radio :label="3" size="large">已过期</el-radio>
+              <el-radio v-if="statusShow == 2" :label="2" size="large">待就诊</el-radio>
+              <el-radio v-if="statusShow == 3 || statusShow == 1" :label="3" size="large">已过期</el-radio>
               <el-radio :label="1" size="large">已就诊</el-radio>
-              <!-- <el-radio :label="2" size="large">待就诊</el-radio> -->
             </el-radio-group>
           </span>
         </div>
@@ -55,7 +55,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, onUnmounted, computed, reactive } from 'vue';
+import { onMounted, onUnmounted, computed, reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSubscribeDetail, getSubscribeDetailSave } from '@/http';
 import { ElMessage } from 'element-plus'
@@ -72,6 +72,7 @@ const detailData = reactive<any>({
   visitTime: '',//挂号时间
   statusTips: '',//状态
 });
+const statusShow = ref<number>()
 
 let id = computed(() => route.query.id);
 
@@ -86,7 +87,8 @@ onMounted(async () => {
   detailData.expertName = r.expertName
   detailData.visitTime = r.registerTime
   detailData.statusTips = r.status
-  console.log(detailData)
+  statusShow.value = r.status
+  // console.log(detailData)
 })
 
 // 隐藏侧边栏

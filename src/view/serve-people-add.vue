@@ -183,6 +183,11 @@ async function setTrainDetail() {
     ruleForm.trainType = String(r.trainType); //培训方式[1:线上直播 2:线下培训]
     ruleForm.trainAddress = r.trainAddress; //直播链接 或者线下培训地址
     title.value = '培训详情';
+    if (r.trainType == 1) {
+      labelAddress.value = '直播链接';
+    } else if (r.trainType == 2) {
+      labelAddress.value = '培训地点';
+    }
   } else {
     title.value = '新增培训';
   }

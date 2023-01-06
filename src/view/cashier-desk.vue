@@ -2,12 +2,12 @@
   <div class="content">
     <div class="border search">
       <div class="icon"></div>
-      <el-input
-        v-model="commodityCode"
-        class="w300 m-2 mr20"
-        size="large"
-        placeholder="扫描/输入编码或输入商品名称"
-      />
+      <!-- <el-input v-model="commodityCode" class="w300 m-2 mr20" size="large" placeholder="扫描/输入编码或输入商品名称" /> -->
+      <el-select class="w300 m-2 mr20" size="large" v-model="commodityCode" @change="searchChange" filterable remote
+        placeholder="扫描/输入编码或输入商品名称" :remote-method="setProductLists" :loading="searchLoading" no-data-text="暂无商品">
+        <el-option v-for="item in tableDataOption" :key="item.specSn" :label="item.productName" :value="item">
+        </el-option>
+      </el-select>
       <el-button size="large" @click="search">确定</el-button>
       <div class="money">
         <span class="label">应付金额:</span>
@@ -27,60 +27,29 @@
     </div>
     <div class="table-box border">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="specSn"
-          width="100"
-          label="编码"
-        />
+        <el-table-column header-align="center" align="center" prop="specSn" width="100" label="编码" />
         <el-table-column header-align="center" align="center" prop="productName" label="商品名称" />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="unitPrice"
-          width="100"
-          label="单价"
-        />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="buyNum"
-          width="200"
-          label="数量"
-        >
+        <el-table-column header-align="center" align="center" prop="unitPrice" width="100" label="单价" />
+        <el-table-column header-align="center" align="center" prop="buyNum" width="200" label="数量">
           <template #default="scope">
             <div>
               <el-input-number v-model="scope.row.buyNum" :min="1" />
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="totalPrice"
-          width="100"
-          label="金额"
-        >
+        <el-table-column header-align="center" align="center" prop="totalPrice" width="100" label="金额">
           <template #default="scope">
             <div>
               {{ calc(scope.row.buyNum, scope.row.unitPrice, '*') }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="productName"
-          width="100"
-          label="操作"
-        >
+        <el-table-column header-align="center" align="center" prop="productName" width="100" label="操作">
           <template #default="scope">
             <div>
               <span class="cursor color del" @click="deleteComm(scope.row.specSn)">删除</span>
             </div>
-          </template> </el-table-column
-        >>
+          </template> </el-table-column>>
       </el-table>
     </div>
     <div class="border settlement">
@@ -110,7 +79,7 @@
 import { ref, onMounted, onUnmounted, watch, reactive } from 'vue';
 import { getProductLists, getCashierOrder } from '@/http';
 import UserSelectVue from '@/components/userSelect.vue';
-import { duplicateRemoval, calc } from '@/common/js/util';
+import { calc } from '@/common/js/util';
 import { ElMessage } from 'element-plus';
 
 const emit = defineEmits(['update:hideAside']);
@@ -125,16 +94,18 @@ let vipUser = ref({
   userName: '',
   mobile: '',
 });
-const tableData = ref([]); // 列表信息
+const tableData = ref([]) as any; // 列表信息
+const tableDataOption = ref([]) as any; // 列表信息
 const totalPrice = ref(0.0); // 总金额
 const totalNumber = ref(0); // 总件数
 let paramsJson = ref(); //结算参数
 const factMoney = ref(); //实收金额
 const zoonMoney = ref<any>(0.0); //找零
+const searchLoading = ref<boolean>(false)
 
 // 确定搜索
 const search = () => {
-  setProductLists();
+  // setProductLists();
 };
 // 监听会员选择展示信息
 watch(vipUid, (newVal) => {
@@ -151,7 +122,7 @@ watch(
     newVal.map((item: any) => {
       price = calc(price, calc(item.unitPrice, item.buyNum, '*'), '+');
       number = number + item.buyNum;
-      params.push({ specSn: item.specSn, buyNum: item.buyNum });
+      params.push({ productId: item.productId, specSn: item.specSn, buyNum: item.buyNum });
     });
     totalPrice.value = price;
     totalNumber.value = number;
@@ -174,21 +145,21 @@ const watchMoney = () => {
 // 结算
 const settlement = () => {
   if (tableData.value.length != 0) {
-    if (vipUid.value) {
-      let params = {
-        goodsJson: paramsJson.value,
-        uid: vipUid.value,
-      };
-      setCashierOrder(params);
-      // console.log(params)
-    } else {
-      ElMessage({
-        message: '请选择会员',
-        type: 'warning',
-        offset: 200,
-      });
-      myUser.value.mySelect.focus();
-    }
+    // if (vipUid.value) {
+    let params = {
+      goodsJson: paramsJson.value,
+      uid: vipUid.value,
+    };
+    setCashierOrder(params);
+    // console.log(params)
+    // } else {
+    //   ElMessage({
+    //     message: '请选择会员',
+    //     type: 'warning',
+    //     offset: 200,
+    //   });
+    //   myUser.value.mySelect.focus();
+    // }
   } else {
     ElMessage({
       message: '请选择商品',
@@ -212,29 +183,41 @@ const setCashierOrder = async (params: any) => {
   }
 };
 // 获取商品列表
-async function setProductLists() {
-  let r = await getProductLists({ keyword: commodityCode.value });
-  // console.log('r', r)
-  if (r.length == 0) {
-    ElMessage({
-      message: '暂无该商品',
-      type: 'warning',
-      offset: 200,
-    });
-  } else {
-    tableData.value = duplicateRemoval([].concat(...r, ...tableData.value), 'specSn');
+async function setProductLists(query: string) {
+  if (query) {
+    searchLoading.value = true
+    tableDataOption.value = await getProductLists({ keyword: query })
+    searchLoading.value = false
   }
-  // console.log(tableData.value)
 }
 // 删除
 const deleteComm = (value: any) => {
-  tableData.value.forEach((item: any, index) => {
+  tableData.value.forEach((item: any, index: any) => {
     if (item.specSn == value) {
       tableData.value.splice(index, 1);
     }
   });
 };
-
+// 选中
+const searchChange = () => {
+  // tableData.value.push(commodityCode.value)
+  tableData.value = duplicateRemoval([].concat(...tableData.value, commodityCode.value), 'specSn');
+  commodityCode.value = ''
+}
+// 数组根据元素某个属性查重
+function duplicateRemoval(tempArr: any, key: string) {
+  let newArr = [];
+  for (let i = 0; i < tempArr.length; i++) {
+    if (newArr.indexOf(tempArr[i][key]) == -1) {
+      newArr.push(tempArr[i][key]);
+    } else {
+      tempArr[newArr.indexOf(tempArr[i][key])].buyNum++
+      tempArr.splice(i, 1);
+      i--;
+    };
+  };
+  return tempArr;
+};
 onMounted(async () => {
   emit('update:hideAside', false);
 });

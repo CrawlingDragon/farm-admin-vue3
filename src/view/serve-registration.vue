@@ -28,7 +28,7 @@
     </div>
     <div class="table-box" v-if="active == 0">
       <el-table :data="soilData.tableData" style="width: 100%">
-        <el-table-column header-align="center" align="center" prop="orderSn" label="挂号单号" />
+        <el-table-column width="180" header-align="center" align="center" prop="orderSn" label="挂号单号" />
         <el-table-column header-align="center" align="center" prop="username" label="会员" />
         <el-table-column header-align="center" align="center" prop="visitTimeTips" width="200" label="就诊时间" />
         <el-table-column header-align="center" align="center" prop="number" label="号码" />
@@ -62,7 +62,7 @@
       </el-table>
     </div>
     <Pages :total="soilData.totalData" v-model:page="page"></Pages>
-    <el-dialog v-model="dialogFormVisible" title="新增专家排班">
+    <el-dialog v-model="dialogFormVisible" :title="expertTitle">
       <el-form ref="ruleFormRef" label-width="118px" :rules="rules" size="large" :model="ruleForm">
         <el-form-item label="门诊日期:" prop="outpatientTime">
           <el-date-picker :disabled-date="disabledDate" :clearable="false" value-format="YYYY-MM-DD"
@@ -203,6 +203,7 @@ let ruleForm = reactive({
   expertId: '',//专家
   schId: '',//排班ID,为空则表示新增
 });
+const expertTitle = ref<string>()
 const expertAddtime = ref('')
 const ruleFormRef = ref<FormInstance>();
 
@@ -247,6 +248,7 @@ function goSoilPage() {
   //     params: {},
   //   });
   // } else {
+  expertTitle.value = '新增专家排班'
   expertAddtime.value = ''
   ruleForm.outpatientTime = '' //时间
   ruleForm.apm = "1" //时段
@@ -326,6 +328,7 @@ function deleteExpert(id: string | number) {
 }
 // 专家排班详情
 async function detailExpert(row: any) {
+  expertTitle.value = '排班详情'
   if (row.status == 3) {
     // console.log('不可编辑', row)
     detailData.outpatientTime = row.outpatientTime
