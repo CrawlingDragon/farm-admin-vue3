@@ -118,3 +118,5 @@ export { getHospitalDetail, getHospitalEdit } from './getHospitalInfo';
 export { getTvListFetch, getTvDel, getAddEditTv, getTvDetail } from './getTv';
 // 收银台
 export { getProductLists, getCashierOrder } from './getCashier';
+// 修改密码
+export { getPassword } from './getPassword';
