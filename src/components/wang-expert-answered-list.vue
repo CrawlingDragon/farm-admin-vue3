@@ -16,8 +16,9 @@
           <el-image
             fit="scale-down"
             class="img"
-            v-for="img in item.replyImgs"
-            :src="img.thumbImg"
+            v-for="(img,index) in item.replyImgs" :key="index"
+            :src="img.thumb_url"
+            @click="getImgView(index, item.replyImgs)"
           ></el-image>
         </div>
         <div class="answer-icons" v-if="item.yongyaoList.length !== 0">
@@ -27,10 +28,21 @@
       </div>
     </li>
   </ul>
+  <!-- 大图预览 -->
+  <imgPreview v-model:index="imgIndex" :lists="imgLists" />
 </template>
 <script setup lang="ts">
+import imgPreview from '@/components/imgPreview.vue';
 import MedicineShow from '@/components/medicine-show.vue';
+import { ref } from 'vue';
 const props = defineProps<{ listData: any }>();
+// 大图预览
+const imgIndex = ref<number>()
+const imgLists = ref<any>()
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index
+  imgLists.value = lists
+}
 </script>
 <style lang="scss" scoped>
 .content-child {

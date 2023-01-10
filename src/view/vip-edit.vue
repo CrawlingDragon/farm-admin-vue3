@@ -381,7 +381,7 @@ function addKind() {
   ruleForm.baseInfo.push({
     zuowuId: '', //种植种类
     mushu: '', // 种植数量
-    unitId: '1', //单位})
+    unitId: '亩', //单位})
     address: '',
     require: false,
   });

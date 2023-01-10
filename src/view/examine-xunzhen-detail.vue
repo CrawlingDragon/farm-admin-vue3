@@ -153,6 +153,7 @@
               v-model="ruleForm.addTrack.time"
               type="date"
               placeholder="选择时间"
+              :disabled-date="disabledDate"
               size="large"
               class="w300"
               style="width: 300px"
@@ -436,6 +437,10 @@ const getImgView = (index: number, lists: any) => {
   imgIndex.value = index;
   imgLists.value = lists;
 };
+// 新增诊疗跟踪日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {

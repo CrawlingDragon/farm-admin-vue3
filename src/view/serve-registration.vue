@@ -200,7 +200,7 @@ let ruleForm = reactive({
   apm: "", //时段
   isRepeat: '', //重复是否
   status: '',//状态
-  expertId: '',//专家
+  expertId: '' as any,//专家
   schId: '',//排班ID,为空则表示新增
 });
 const expertTitle = ref<string>()
@@ -346,7 +346,7 @@ async function detailExpert(row: any) {
     ruleForm.apm = r.apm
     ruleForm.isRepeat = String(r.isRepeat)
     ruleForm.status = String(r.status)
-    ruleForm.expertId = r.expertId
+    ruleForm.expertId = { value: r.expertId, label: r.expertName }
     expertAddtime.value = r.addTime
     dialogFormVisible.value = true
   }
@@ -376,6 +376,9 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
 }
 
 async function setAddExpert() {
+  if (ruleForm.expertId instanceof Object) {
+    ruleForm.expertId = ruleForm.expertId.value
+  }
   let r = await getAddExpert(ruleForm)
   if (!r.msg) {
     ElMessage({ message: '保存成功', type: 'success' });

@@ -22,7 +22,7 @@
           />
         </el-form-item>
         <el-form-item label="图片:" prop="leftImgs">
-          <UploadImageVue v-model:images="dayForm.leftImgs" :small="true"
+          <UploadImageVue v-model:images="dayForm.leftImgs" :limit="1" :small="true"
         /></el-form-item>
         <el-form-item label="描述:" prop="leftDescribe">
           <el-input
@@ -55,7 +55,7 @@
           />
         </el-form-item>
         <el-form-item label="图片:" prop="rightImgs">
-          <UploadImageVue v-model:images="dayForm.rightImgs" :small="true" />
+          <UploadImageVue v-model:images="dayForm.rightImgs" :limit="1" :small="true" />
         </el-form-item>
         <el-form-item label="描述:" prop="rightDescribe">
           <el-input

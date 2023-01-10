@@ -16,7 +16,7 @@ import { getTestExpert } from '../http';
 
 const prop = defineProps({
   expert: {
-    type: [Number, String],
+    type: [Number, String, Object],
     default: '',
   },
   options: {
@@ -28,7 +28,7 @@ const prop = defineProps({
 });
 
 const emit = defineEmits(['update:expert']);
-const expertSelect = ref<number | string>('');
+const expertSelect = ref<any>('');
 let options = reactive({
   expertOptions: [
     // 作物select option
