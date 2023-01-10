@@ -3,7 +3,7 @@
     <el-form :model="formState" label-width="118px" ref="ruleFormRef" :rules="rules" class="context">
       <div class="title">修改密码</div>
       <el-form-item label="账号：" class="item">
-        <div class="text">{{ userInfo?.mobile }}</div>
+        <div class="text">{{ useUserInfoStore.userInfo?.mobile }}</div>
       </el-form-item>
       <el-form-item label="原密码：" prop="oldPwd" class="item">
         <el-input v-model.trim="formState.oldPwd" size="large" placeholder="请输入原密码" type="password" />
@@ -25,14 +25,15 @@ import { userInfoDefineStore } from '../store/index';
 import type { FormInstance, FormRules } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { loginOut } from '@/common/js/getToken';
+import { storeToRefs } from 'pinia';
 interface FormState {
   oldPwd: string;
   newPwd: string;
   repeatPwd: string;
 }
-let userInfo = ref<any>()
+// let userInfo = ref<any>()
 const useUserInfoStore = userInfoDefineStore();
-userInfo.value = useUserInfoStore.userInfo;
+// let { userInfo } = storeToRefs(useUserInfoStore);
 
 const formState = reactive<FormState>({
   oldPwd: '',
@@ -112,9 +113,9 @@ const emit = defineEmits(['update:hideAside']);
 onMounted(async () => {
   emit('update:hideAside', false);
 });
-watch(() => useUserInfoStore.userInfo, (newVal: any) => {
-  userInfo.value = newVal
-}, { deep: true })
+// watch(() => useUserInfoStore.userInfo, (newVal: any) => {
+//   userInfo.value = newVal
+// }, { deep: true })
 // 隐藏侧边栏
 onUnmounted(() => {
   emit('update:hideAside', true);

@@ -95,8 +95,8 @@ onMounted(() => {
   let token = storage.get('token');
   if (token) {
     getLeftAsideData();
+    getSwitchSetting();
   }
-  getSwitchSetting();
 });
 
 // watch 用户信息，有用户信息，则请求左边栏数据
@@ -104,6 +104,7 @@ watch(
   () => userInfoStore.userInfo,
   () => {
     getLeftAsideData();
+    getSwitchSetting();
   }
 );
 
@@ -115,7 +116,7 @@ async function getSwitchSetting() {
     switchSetting.setSwitchInfo(r); //用pinia 保存switch开关信息
   }
 
-  console.log('switchSeting', switchSetting.switchInfo);
+  // console.log('switchSeting', switchSetting.switchInfo);
 }
 </script>
 <style lang="scss" scoped>
