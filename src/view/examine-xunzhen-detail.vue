@@ -134,6 +134,13 @@
                 <div class="p2">{{ item.content }}</div>
               </div>
               <div class="status">
+                <el-icon color="#599524" v-if="item.effectStr == '已调理'"><Select /></el-icon>
+                <el-icon color="#599524" v-if="item.effectStr == '待跟进'">
+                  <Clock />
+                </el-icon>
+                <el-icon color="#da993c" v-if="item.effectStr == '没效果'">
+                  <Warning />
+                </el-icon>
                 <span>{{ item.effectStr }}</span>
                 <el-icon class="close-icon" @click="delZuoTrack(item.trackId)">
                   <CloseBold />
@@ -628,9 +635,10 @@ const disabledDate = (time: Date) => {
 
       span {
         margin-right: 10px;
+        margin-left: 10px;
       }
 
-      .icon {
+            .close-icon {
         color: #999;
         cursor: pointer;
       }

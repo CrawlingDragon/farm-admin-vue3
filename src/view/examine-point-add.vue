@@ -59,7 +59,7 @@
               <el-input
                 v-model="ruleForm.address"
                 class="w300"
-                placeholder="请填写实验低点"
+                placeholder="请填写试验地点"
                 maxlength="100"
                 show-word-limit
               />

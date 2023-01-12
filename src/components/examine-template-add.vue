@@ -67,8 +67,8 @@ const ruleForm = reactive({
   medicine: [] as any,
 });
 const rules = reactive<FormRules>({
-  name: [{ required: true, message: '看诊结果不能为空', trigger: 'blur' }],
-  content: [{ required: true, message: '处方名不能为空', trigger: 'blur' }],
+  name: [{ required: true, message: '处方名不能为空', trigger: 'blur' }],
+  content: [{ required: true, message: '看诊结果不能为空', trigger: 'blur' }],
 });
 
 // WATCH  模版id，如果不等于AddTemplateId，也就是0，如果不是，就请求详情

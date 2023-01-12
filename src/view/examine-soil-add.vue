@@ -266,11 +266,11 @@
               size="large"
               @click="submitForm(ruleFormRef, 'goPage')"
               class="mr20"
-              >确定添加</el-button
+              >保存</el-button
             >
-            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
+            <!-- <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
               >确定并继续添加</el-button
-            >
+            > -->
             <el-button size="large" @click="cancel">取消</el-button>
           </div>
         </div>
@@ -480,6 +480,9 @@ const soilParams = computed<any>(() => {
 
 // 提价测土结果请求
 async function setSoilData() {
+  if (soilParams.value.expertId instanceof Object) {
+    soilParams.value.expertId = soilParams.value.expertId.value
+  }
   let r = await getAddSoil(soilParams.value);
   if (r.code) {
     ElMessage.error(r.msg);
@@ -521,7 +524,7 @@ async function getSoilDetail() {
   ruleForm.diagnosis = +s.isFrist;
   ruleForm.describe = s.soildescribe;
   ruleForm.image = s.images;
-  ruleForm.testPeople = +s.expertId;
+  ruleForm.testPeople = { value: s.expertId, label: s.expertName };
   ruleForm.soilStatus = +r.status;
   ruleForm.soilResult.an = cetuResult.atdVal;
   ruleForm.soilResult.lin = cetuResult.sxlVal;

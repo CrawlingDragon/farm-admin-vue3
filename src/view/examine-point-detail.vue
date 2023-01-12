@@ -160,7 +160,7 @@
           <div class="left-main">
             <div class="tip">使用农资信息</div>
             <el-form-item
-              label="采样日期:"
+              label="观察日期:"
               prop="leftUseFormInfo.date"
               v-model="ruleForm.leftUseFormInfo.date"
               class="w300"
@@ -193,7 +193,7 @@
           <div class="right-main">
             <div class="tip">使用农资信息</div>
             <el-form-item
-              label="采样日期:"
+              label="观察日期:"
               prop="rightUseFormInfo.date"
               v-model="ruleForm.rightUseFormInfo.date"
               class="w300"
@@ -230,7 +230,7 @@
             <div class="left-main">
               <div class="tip">日常观测</div>
               <el-form-item
-                label="采样日期:"
+                label="观察日期:"
                 prop="leftUseFormInfo.date"
                 v-model="item.observeTime"
                 class="w300"
@@ -243,9 +243,10 @@
               </el-form-item>
               <el-form-item label="图片:" prop="image">
                 <el-image
-                  v-for="img in item.images"
+                  v-for="(img,index) in item.images"
                   :src="img.url"
                   fit="scale-down"
+                  @click="getImgView(index, item.images)"
                   class="upload-image"
                 ></el-image>
               </el-form-item>
@@ -258,7 +259,7 @@
                 </el-icon>
               </div>
               <el-form-item
-                label="采样日期:"
+                label="观察日期:"
                 prop="leftUseFormInfo.date"
                 v-model="item.contrastObserveTime"
                 class="w300"
@@ -271,8 +272,9 @@
               </el-form-item>
               <el-form-item label="图片:" prop="image">
                 <el-image
-                  v-for="img in item.contrastImages"
+                  v-for="(img,index) in item.contrastImages" :key="img.url"
                   :src="img.url"
+                  @click="getImgView(index, item.contrastImages)"
                   fit="scale-down"
                   class="upload-image"
                 ></el-image>
@@ -331,6 +333,13 @@
               <div class="p2">{{ ruleForm.conclusion.observeconclusion }}</div>
             </div>
             <div class="status">
+              <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"><Select /></el-icon>
+              <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '待跟进'">
+                <Clock />
+              </el-icon>
+              <el-icon color="#da993c" v-if="ruleForm.conclusion.effectTips == '没效果'">
+                <Warning />
+              </el-icon>
               <span>{{ ruleForm.conclusion.effectTips }}</span>
               <el-icon class="close-icon" @click="delConclusion">
                 <CloseBold />
@@ -937,9 +946,9 @@ const getImgView = (index: number, lists: any) => {
 
       span {
         margin-right: 10px;
+        margin-left: 10px;
       }
-
-      .icon {
+            .close-icon {
         color: #999;
         cursor: pointer;
       }

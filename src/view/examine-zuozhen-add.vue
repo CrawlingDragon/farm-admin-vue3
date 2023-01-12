@@ -280,7 +280,7 @@ const ruleForm = reactive({
   image: [] as any, // 图片
   Prescribing: {
     // 处方信息
-    expert: '', //处方专家
+    expert: '' as any, //处方专家
     result: '', // 看诊结果
     soilRecord: '', //测土记录
     medicine: [
@@ -409,6 +409,9 @@ const soilParams = computed<any>(() => {
 
 // 提价测土结果请求
 async function setZuozhenData() {
+  if (soilParams.value.expertId instanceof Object) {
+    soilParams.value.expertId = soilParams.value.expertId.value
+  }
   let r = await getAddEditZuoXun(soilParams.value);
   // console.log('r', r);
   if (r.code) {
@@ -445,7 +448,7 @@ async function getZuozhenDetail() {
   ruleForm.diagnosis = +s.isFrist;
   ruleForm.describe = s.content;
   ruleForm.image = s.images;
-  ruleForm.Prescribing.expert = chufangInfo.expertId;
+  ruleForm.Prescribing.expert = { value: chufangInfo.expertId, label: chufangInfo.expertName };
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.soilRecord = chufangInfo.cetuNumber;
   ruleForm.Prescribing.medicine = integrationMedicine(r.drugInfo);

@@ -68,7 +68,7 @@
             <el-form-item label="农户数:" prop="describe">
               {{ ruleForm.farmersNum }}
             </el-form-item>
-            <el-form-item label="描述:" prop="describe">
+            <el-form-item label="描述:" prop="describe" v-if="ruleForm.describe">
               {{ ruleForm.describe }}
             </el-form-item>
           </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="bar" v-for="(item, index) in ruleForm.Prescribing.medicine">
               <div class="item">{{ item.drugName }}</div>
-              <div class="item">{{ item.drugSpecIds }}</div>
+              <div class="item">{{ item.drugSpec }}</div>
               <div class="item">{{ item.drugPrice }}</div>
               <div class="item">
                 {{ item.drugQuantity }}

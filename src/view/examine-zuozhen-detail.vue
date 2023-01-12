@@ -134,6 +134,13 @@
                 <div class="p2">{{ item.content }}</div>
               </div>
               <div class="status">
+                <el-icon color="#599524" v-if="item.effectStr == '已调理'"><Select /></el-icon>
+                <el-icon color="#599524" v-if="item.effectStr == '待跟进'">
+                  <Clock />
+                </el-icon>
+                <el-icon color="#da993c" v-if="item.effectStr == '没效果'">
+                  <Warning />
+                </el-icon>
                 <span>{{ item.effectStr }}</span>
                 <el-icon class="close-icon" @click="delZuoTrack(item.trackId)">
                   <CloseBold />
@@ -153,6 +160,7 @@
               v-model="ruleForm.addTrack.time"
               type="date"
               placeholder="选择时间"
+              :disabled-date="disabledDate"
               size="large"
               class="w300"
               style="width: 300px"
@@ -434,6 +442,10 @@ const getImgView = (index: number, lists: any) => {
   imgIndex.value = index;
   imgLists.value = lists;
 };
+// 新增诊疗跟踪日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {
@@ -621,9 +633,10 @@ const getImgView = (index: number, lists: any) => {
 
       span {
         margin-right: 10px;
+        margin-left: 10px;
       }
 
-      .icon {
+            .close-icon {
         color: #999;
         cursor: pointer;
       }

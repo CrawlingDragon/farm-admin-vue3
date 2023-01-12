@@ -34,7 +34,7 @@
             <el-form-item label="位置:" prop="address">
               {{ ruleForm.address }}
             </el-form-item>
-            <el-form-item prop="name" label="北纬:">
+            <el-form-item prop="name" label="北纬:" v-if="ruleForm.latitude && ruleForm.longitude">
               {{ ruleForm.latitude || '暂无' }}
               <span>东经:</span>
               {{ ruleForm.longitude || '暂无' }}
@@ -42,7 +42,7 @@
             <el-form-item label="现种养种类:" prop="nowKind">
               {{ ruleForm.nowKind }}
             </el-form-item>
-            <el-form-item label="前种养种类:" prop="beforeKind">
+            <el-form-item label="前种养种类:" prop="beforeKind" v-if="ruleForm.beforeKind">
               {{ ruleForm.beforeKind }}
             </el-form-item>
             <el-form-item label="数量:" prop="number">
@@ -61,7 +61,7 @@
               {{ ruleForm.diagnosis }}
             </el-form-item>
 
-            <el-form-item label="图片:" prop="image">
+            <el-form-item label="图片:" prop="image" v-if="ruleForm.image.length > 0">
               <el-image v-for="(item, index) in ruleForm.image" class="upload-img" :src="item.thumb_url"
                 @click="getImgView(index, ruleForm.image)" fit="cover">
               </el-image>
@@ -70,7 +70,7 @@
             <el-form-item label="测试人:" prop="testPeople">
               {{ ruleForm.testPeople }}
             </el-form-item>
-            <el-form-item label="描述:" prop="describe">
+            <el-form-item label="描述:" prop="describe" v-if="ruleForm.describe">
               {{ ruleForm.describe }}
             </el-form-item>
             <div class="tip">检测信息</div>
@@ -169,9 +169,16 @@
         <div class="border bg-w mt10">
           <div class="tip">诊疗跟踪({{ ruleForm.trackInfo.trackCount }})</div>
           <div v-for="track in ruleForm.trackInfo.trackLists" :key="track.trackId" class="track-wrap">
-            <div class="track-del" @click="delTrackFn(track.trackId)">
-              {{ track.effectStr }}
-              <el-icon>
+            <div class="track-del">
+              <el-icon color="#599524" v-if="track.effectStr == '已调理'"><Select /></el-icon>
+              <el-icon color="#599524" v-if="track.effectStr == '待跟进'">
+                <Clock />
+              </el-icon>
+              <el-icon color="#da993c" v-if="track.effectStr == '没效果'">
+                <Warning />
+              </el-icon>
+              <span>{{ track.effectStr }}</span>
+              <el-icon class="close-icon" @click="delTrackFn(track.trackId)">
                 <CloseBold />
               </el-icon>
             </div>
@@ -181,7 +188,7 @@
             <el-form-item label="诊疗效果:" prop="" style="margin-bottom: 5px">
               <div>{{ track.effectStr }}</div>
             </el-form-item>
-            <el-form-item label="效果描述:" prop="" style="margin-bottom: 40px">
+            <el-form-item label="效果描述:" prop="" style="margin-bottom: 40px" v-if="track.content">
               <div>{{ track.content }}</div>
             </el-form-item>
           </div>
@@ -625,13 +632,21 @@ const getImgView = (index: number, lists: any) => {
 
   .track-del {
     position: absolute;
-    cursor: pointer;
     right: 20px;
     top: 5px;
     color: #333;
     display: flex;
     align-items: center;
     z-index: 2;
+    span {
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    
+      .close-icon {
+        color: #999;
+        cursor: pointer;
+      }
   }
 }
 

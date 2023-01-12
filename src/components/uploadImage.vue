@@ -71,21 +71,23 @@ async function addbeforeupload(result: any) {
 }
 
 onMounted(async () => {
-  let alioss;
-  let sessionAlioss = goodStorage.session.get('alioss', '');
+  // let alioss;
+  // let sessionAlioss = goodStorage.session.get('alioss', '');
 
-  //第一次请求ali-oss账号相关，且session缓存
-  if (sessionAlioss === '') {
-    let r = await getAliossCount();
-    console.log('getAliossCount----', r);
-    alioss = r.alioss;
-    goodStorage.session.set('alioss', alioss);
-  } else {
-    //如果已经缓存，则取缓存赋值 ali-oss
-    alioss = sessionAlioss;
-  }
+  // //第一次请求ali-oss账号相关，且session缓存
+  // if (sessionAlioss === '') {
+  //   let r = await getAliossCount();
+  //   console.log('getAliossCount----', r);
+  //   alioss = r.alioss;
+  //   goodStorage.session.set('alioss', alioss);
+  // } else {
+  //   //如果已经缓存，则取缓存赋值 ali-oss
+  //   alioss = sessionAlioss;
+  // }
 
-  let { accessKeyId, accessKeySecret, bucket, region, stsToken } = alioss;
+  // 防止过期重新获取
+  let r = await getAliossCount();
+  let { accessKeyId, accessKeySecret, bucket, region, stsToken } = r.alioss;
   client.value = new OSS({
     // yourRegion填写Bucket所在地域。以华东1（杭州）为例，yourRegion填写为oss-cn-hangzhou。
     region,
@@ -110,7 +112,7 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(`确定要删除这张${imgName}照片吗?`).then(
     () => {
       addInfos.value.splice(index, 1);
-      hideUploadEdit.value = addInfos.length >= props.limit
+      hideUploadEdit.value = addInfos.length + 1 >= props.limit
       return true;
     },
     () => false
@@ -126,7 +128,7 @@ watch(imgList, (newVal, oldVal) => {
   // console.log('imgList-newVal', newVal);
   // console.log('imgList-oldVal', oldVal);
   emit('update:images', addInfos);
-  hideUploadEdit.value = newVal.length >= props.limit
+  hideUploadEdit.value = newVal.length + 1 >= props.limit
 });
 
 //watch props，当有默认图片数据的时候，赋值给upload插件
@@ -138,7 +140,7 @@ watch(
     // if (newVal.length == 0) return;
     addInfos.value = newVal;
     imgList.value = newVal as any;
-    hideUploadEdit.value = imgList.value.length >= props.limit
+    hideUploadEdit.value = imgList.value.length + 1 >= props.limit
   }
 );
 </script>

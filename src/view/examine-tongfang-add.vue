@@ -196,11 +196,11 @@ const ruleForm = reactive({
 });
 
 const rules = reactive<FormRules>({
-  nameId: [{ required: true, message: '名称不能为空', trigger: 'change' }],
+  title: [{ required: true, message: '名称不能为空', trigger: 'change' }],
   nowKind: [{ required: true, message: '种类不能为空', trigger: 'change' }],
   time: [{ required: true, message: '开始防治日期不能为空', trigger: 'change' }],
   number: [{ required: true, message: '防治数量不能为空', trigger: 'change' }],
-  farmersNumber: [{ required: true, message: '农户数量不能为空', trigger: 'change' }],
+  farmersNum: [{ required: true, message: '农户数量不能为空', trigger: 'change' }],
 });
 
 const router = useRouter();
