@@ -58,7 +58,7 @@
             <el-form-item label="试验地点:" prop="address">
               {{ ruleForm.address }}
             </el-form-item>
-            <el-form-item prop="latitude" label="北纬:">
+            <el-form-item prop="latitude" label="北纬:" v-if="ruleForm.latitude && ruleForm.longitude">
               <!-- <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12'42”" /> -->
               <div class="mr10">{{ ruleForm.latitude }}</div>
               <span class="mr10">东经:</span>
@@ -106,7 +106,7 @@
               ></ExpertSelect> -->
               {{ ruleForm.testPeople }}
             </el-form-item>
-            <el-form-item label="描述:" prop="describe">
+            <el-form-item label="描述:" prop="describe" v-if="ruleForm.describe">
               <!-- <el-input
                 v-model="ruleForm.describe"
                 class="w300"
@@ -117,7 +117,7 @@
               /> -->
               {{ ruleForm.describe }}
             </el-form-item>
-            <el-form-item label="图片:" prop="image">
+            <el-form-item label="图片:" prop="image" v-if="ruleForm.image.length != 0">
               <el-image
                 v-for="(item, index) in ruleForm.image"
                 :key="item.url"
@@ -133,26 +133,28 @@
         <div class="first-test-box border">
           <div class="left-main">
             <div class="tip">首次测土信息</div>
-            <el-form-item label="测土单号" prop="leastSoilRecord.soilId">
-              {{ ruleForm.leastSoilRecord.soilId }}
+            <el-form-item label="测土单号:" prop="leastSoilRecord.soilId">
+              {{ ruleForm.leastSoilRecord.soilId || '无' }}
             </el-form-item>
-            <el-form-item label="测土状态:" prop="">
+            <el-form-item label="测土状态:" prop="" v-if="ruleForm.leastSoilRecord.soilId">
               {{ ruleForm.leastSoilRecord.status }}
             </el-form-item>
-            <el-form-item label="取样日期:" prop="">
+            <el-form-item label="取样日期:" prop="" v-if="ruleForm.leastSoilRecord.soilId">
               {{ ruleForm.leastSoilRecord.date }}
             </el-form-item>
-            <el-form-item label="铵态氮含量:" prop=""
+            <el-form-item label="铵态氮含量:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
               >{{ ruleForm.leastSoilRecord.an }}
             </el-form-item>
-            <el-form-item label="速效磷含量:" prop=""
+            <el-form-item label="速效磷含量:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
               >{{ ruleForm.leastSoilRecord.lin }}
             </el-form-item>
-            <el-form-item label="有效钾含量:" prop=""
+            <el-form-item label="有效钾含量:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
               >{{ ruleForm.leastSoilRecord.jia }}
             </el-form-item>
-            <el-form-item label="pH值:" prop="">{{ ruleForm.leastSoilRecord.ph }} </el-form-item>
-            <el-form-item label="盐分:" prop="">{{ ruleForm.leastSoilRecord.salt }} </el-form-item>
+            <el-form-item label="pH值:" prop="" v-if="ruleForm.leastSoilRecord.soilId">{{ ruleForm.leastSoilRecord.ph }}
+            </el-form-item>
+            <el-form-item label="盐分:" prop="" v-if="ruleForm.leastSoilRecord.soilId">{{ ruleForm.leastSoilRecord.salt }}
+            </el-form-item>
           </div>
           <div class="right-main"></div>
         </div>
@@ -341,7 +343,7 @@
                 <Warning />
               </el-icon>
               <span>{{ ruleForm.conclusion.effectTips }}</span>
-              <el-icon class="close-icon" @click="delConclusion">
+              <el-icon class="close-icon" @click="delConclusions">
                 <CloseBold />
               </el-icon>
             </div>
@@ -717,10 +719,10 @@ function delTestSoil(logId: string) {
     .catch(() => {});
 }
 //删除观测结论
-function delConclusion() {
+function delConclusions() {
   ElMessageBox.confirm('是否要删除观测结论', '提示')
     .then(async (res) => {
-      let r = await delDayObservePoint(pointId.value);
+      let r = await delConclusion(pointId.value);
       if (r.code) {
         ElMessage.error(r.msg);
       } else {

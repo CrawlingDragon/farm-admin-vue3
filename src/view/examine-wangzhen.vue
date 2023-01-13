@@ -3,7 +3,7 @@
     <div class="head right-head soil-right-head">
       网诊管理
       <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start" v-if="!isVipPage">
-        <template #content>记录专家田间巡诊数据，包含种类基本情况，<br />巡诊地点和开处方信息。</template>
+        <template #content>网诊管理即网诊，会员通过手机益农宝向<br />庄稼医院提问，请相关专家进行解答。</template>
         <el-icon class="icon color">
           <QuestionFilled />
         </el-icon>
@@ -98,8 +98,8 @@ const status = ref(0);
 const page = ref(1);
 const options = ref([
   { label: '全部', value: 0 },
-  { label: '未回复', value: 1 },
-  { label: '已回复', value: 2 },
+  { label: '未回复', value: 2 },
+  { label: '已回复', value: 1 },
 ]);
 
 const inviteShowFlags = ref(false);

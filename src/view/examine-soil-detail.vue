@@ -4,7 +4,7 @@
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/examine-soil' }">测土配方</el-breadcrumb-item>
-        <el-breadcrumb-item> 测土详情: {{ ruleForm.cetuId }}</el-breadcrumb-item>
+        <el-breadcrumb-item> 测土详情: {{ ruleForm.testingsoilNumber }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <AddSecondBar title="测土配方" :mobile="userInfo.mobile" :time="userInfo.time">
@@ -67,7 +67,7 @@
               </el-image>
               <span v-if="ruleForm.image.length == 0">暂无</span>
             </el-form-item>
-            <el-form-item label="测试人:" prop="testPeople">
+            <el-form-item label="测试专家:" prop="testPeople">
               {{ ruleForm.testPeople }}
             </el-form-item>
             <el-form-item label="描述:" prop="describe" v-if="ruleForm.describe">
@@ -239,6 +239,7 @@ const cetuId = computed(() => route.params.cetuId);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
+  testingsoilNumber: '',//测土数字
   nameId: '', //姓名
   address: '', //位置
   latitude: '', //经度
@@ -254,7 +255,7 @@ const ruleForm = reactive({
   describe: '', //描述
   image: [] as any, // 图片
   // aliossImage: [],
-  testPeople: 0, //测试人x
+  testPeople: 0, //测试专家x
   soilStatus: 1, //测土状态
   newDate: '', //新增诊疗跟踪方案-跟踪日期
   newEffects: 1, //新增诊疗跟踪方案-诊疗效果
@@ -421,9 +422,11 @@ async function getSoilDetail() {
   let soilInfo = r.soilInfo;
   let cetuResult = r.cetuResult;
   let chufangInfo = r.chufangInfo;
+  let enterInfo = r.enterInfo;
+  ruleForm.testingsoilNumber = enterInfo.testingsoilNumber;
   ruleForm.cetuId = soilInfo.cetuId;
-  userInfo.mobile = soilInfo.mobile;
-  userInfo.time = soilInfo.datecollected;
+  userInfo.mobile = enterInfo.enterMobile;
+  userInfo.time = enterInfo.enterTime;
   userInfo.name = soilInfo.username;
   ruleForm.address = soilInfo.address;
   ruleForm.latitude = soilInfo.northLat;

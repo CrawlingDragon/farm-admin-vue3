@@ -26,7 +26,7 @@
         v-model="keyword"
         class="w300 m-2 mr20"
         size="large"
-        placeholder="用户姓名/手机号"
+        placeholder="测土单号/会员姓名"
       />
       <div class="date-box mr50">
         <label class="mr10">申请时间</label>
@@ -60,6 +60,7 @@
         <el-table-column prop="cetuNumber" label="测土单号" width="150px" />
         <el-table-column prop="category" label="现种种类" />
         <el-table-column prop="address" label="地址" />
+        <el-table-column prop="userName" label="会员" />
         <el-table-column prop="isFrist" label="初复诊" />
         <el-table-column prop="dateCollected" label="取样日期" />
         <el-table-column prop="expertName" label="测试专家" />

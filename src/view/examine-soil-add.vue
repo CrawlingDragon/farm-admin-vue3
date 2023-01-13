@@ -9,7 +9,7 @@
         }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div> -->
-    <AddSoilHeader :cetu-id="ruleForm.cetuId" />
+    <AddSoilHeader :cetu-id="ruleForm.testingsoilNumber" />
     <AddSecondBar
       title="测土配方"
       :mobile="userInfo.mobile"
@@ -129,13 +129,14 @@
             <el-form-item label="图片:" prop="image">
               <UploadImageVue v-model:images="ruleForm.image" />
             </el-form-item>
-            <el-form-item label="测试人:" prop="testPeople">
+            <el-form-item label="测试专家:" prop="testPeople">
               <ExpertSelect
                 v-model:expert="ruleForm.testPeople"
                 v-if="expertListArr.length != 0"
                 :options="expertListArr"
               ></ExpertSelect>
             </el-form-item>
+            <div class="tip">检测信息</div>
             <el-form-item label="测土状态:" prop="soilStatus">
               <el-radio-group v-model="ruleForm.soilStatus">
                 <el-radio :label="1">检测中</el-radio>
@@ -143,7 +144,6 @@
                 <el-radio :label="3">给处方</el-radio>
               </el-radio-group>
             </el-form-item>
-            <div class="tip">检测信息</div>
           </div>
 
           <div class="right-bar">
@@ -311,6 +311,7 @@ const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
+  testingsoilNumber: '',//测土数字
   nameId: '', //姓名
   address: '', //位置
   latitude: '', //经度
@@ -326,7 +327,7 @@ const ruleForm = reactive({
   describe: '', //描述
   image: [] as any, // 图片
   // aliossImage: [],
-  testPeople: '' as any, //测试人
+  testPeople: '' as any, //测试专家
   soilStatus: 1, //测土状态
   soilResult: {
     // 测土配方结果
@@ -375,7 +376,7 @@ const rules = reactive<FormRules>({
   sampleNumber: [{ required: true, message: '采样深度不能为空', trigger: 'change' }],
   sampleDate: [{ required: true, message: '采样日期不能为空', trigger: 'change' }],
   diagnosis: [{ required: true, message: '初复诊不能为空', trigger: 'change' }],
-  testPeople: [{ required: true, message: '测试人不能为空', trigger: 'change' }],
+  testPeople: [{ required: true, message: '测试专家不能为空', trigger: 'change' }],
   soilStatus: [{ required: true, message: '测土状态不能为空', trigger: 'change' }],
   'soilResult.an': [{ required: true, message: '氨态碳不能为空', trigger: 'change' }],
   'soilResult.lin': [{ required: true, message: '速效磷不能为空', trigger: 'change' }],
@@ -502,14 +503,16 @@ async function getSoilDetail() {
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!cetuId.value) return;
   let r = await getTestSoilDetail(cetuId.value as any);
-  // console.log('r', r);
+  console.log('r', r);
   let s = r.soilInfo;
   let cetuResult = r.cetuResult;
   let chufangInfo = r.chufangInfo;
+  let enterInfo = r.enterInfo;
   ruleForm.nameId = s.uid;
   ruleForm.cetuId = s.cetuId;
-  userInfo.mobile = s.mobile;
-  userInfo.time = s.datecollected;
+  ruleForm.testingsoilNumber = enterInfo.testingsoilNumber;
+  userInfo.mobile = enterInfo.enterMobile;
+  userInfo.time = enterInfo.enterTime;
   userInfo.name = s.username;
   ruleForm.address = s.address;
   ruleForm.latitude = s.northLat;

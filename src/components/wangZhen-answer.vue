@@ -14,7 +14,8 @@
           <div class="icon-item" @click="showUploadBtn = true">
             <el-icon><Picture /></el-icon>
           </div>
-          <div class="icon-item" @click="addMedicineFn">💊</div>
+          <!-- <div class="icon-item" @click="addMedicineFn">💊</div> -->
+          <div class="icon-item icon-yao" @click="addMedicineFn"></div>
           <div class="icon-item">
             <el-popover placement="right" :width="400" trigger="hover">
               <template #reference>
@@ -159,6 +160,10 @@ const selectTemplate = (val: any) => {
         cursor: pointer;
         font-size: 23px;
       }
+.icon-yao {
+  background: url(@/assets/answer-icon.png) no-repeat;
+  background-position: -139px -16px;
+}
     }
 
     :deep().el-textarea__inner {

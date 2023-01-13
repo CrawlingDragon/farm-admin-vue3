@@ -5,8 +5,14 @@
     class="unit w300"
     placeholder="姓名/手机号"
     size="large"
+    filterable
     @change="changeFn"
   >
+    <template #prefix>
+      <el-icon>
+        <Search />
+      </el-icon>
+    </template>
     <el-option v-for="item in trimData" :key="item.value" :label="item.label" :value="item.value" />
   </el-select>
 </template>

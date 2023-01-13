@@ -246,7 +246,7 @@ const param = computed(() => {
 
 // 操作文案
 const operation = computed(() => (active: string) => {
-  return active === '待审核' ? '编辑' : '详情';
+  return active === '待审核' ? '审核' : '详情';
 });
 const loading = ref(true);
 // 请求列表数据
