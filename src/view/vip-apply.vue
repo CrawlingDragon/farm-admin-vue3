@@ -209,13 +209,14 @@ import { ElMessage } from 'element-plus';
 
 const keyword = ref('');
 const dateVal = ref(''); //默认起始，结束时间，有数据后是 [起始时间,结束时间]
-const vipActive = ref({ value: 0, label: '全部' });
+const vipActive = ref(0);
 const page = ref(1);
+// 审核状态 【1：已拒绝 2：待审核 99：审核通过】
 const options = [
   { value: 0, label: '全部' },
-  { value: 1, label: '待审核' },
-  { value: 2, label: '已通过' },
-  { value: 99, label: '已拒绝' },
+  { value: 1, label: '已拒绝' },
+  { value: 2, label: '待审核' },
+  { value: 99, label: '已通过' },
 ];
 const vipApplyData = reactive({
   tableData: [],
@@ -239,7 +240,7 @@ const param = computed(() => {
     endTime,
     page: page.value,
     pageCount: 10,
-    status: vipActive.value.value,
+    status: vipActive.value,
   };
   return params;
 });

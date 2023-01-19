@@ -106,7 +106,7 @@ const delTemplate = (templateId: number) => {
 //打开模版详情
 const openTemplateDetail = (templateId: number) => {
   // 判断是否超过20个模版，弹出提示
-  if (templateListData.totalData == 20) {
+  if (templateListData.totalData == 20 && templateId == 0) {
     ElMessageBox.alert('最多创建20个模板,请先删除后添加', '提示', { confirmButtonText: '知道了' });
     return;
   }

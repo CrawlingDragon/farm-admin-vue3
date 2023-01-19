@@ -75,7 +75,9 @@
         </div>
         <div class="tip">最近诊疗记录</div>
         <ul class="look-ul">
-          <li v-for="item in detailData.recentlog">{{ item.viewtime }}: {{ item.title }}</li>
+          <li v-if="detailData.recentlog.length == 0">暂无诊疗记录</li>
+          <li v-else v-for="item in detailData.recentlog">{{ item.viewtime }}<i style="display:inline-block;width:20px;"></i>{{
+            item.title }}</li>
         </ul>
       </div>
       <div class="right-bar">
@@ -120,21 +122,25 @@
           <div class="label">会员来源:</div>
           <div class="right-text">{{ detailData.userInfo.userfrom }}</div>
         </div>
-        <div class="tip">种养种类情况</div>
-        <div class="crop" v-for="item in detailData.userInfo.zuowu">
+        <div class="tip">种类情况</div>
+        <div class="crop" v-for="(item,index) in detailData.userInfo.zuowu" :key="item.zuowuId">
           <div class="info-box">
-            <div class="label">种类名:</div>
+            <div class="label">种类名称{{ index+1 }}:</div>
             <div class="right-text">{{ item.zuowuName }}</div>
           </div>
-          <div class="info-box">
-            <div class="label">种养数量:</div>
+          <div class="info-box" v-if="item.mushu">
+            <div class="label">数量:</div>
             <div class="right-text">{{ item.mushu }}{{ item.unitName }}</div>
           </div>
+          <div class="info-box" v-if="item.address">
+            <div class="label">种类地址:</div>
+            <div class="right-text">{{ item.address }}</div>
+          </div>
         </div>
-        <div class="tip">备注信息</div>
+        <div class="tip" v-if="detailData.userInfo.remarks">备注信息</div>
         <div class="info-box">
           <div class="label"></div>
-          <div class="right-text">{{ detailData.userInfo.remarks || '无' }}</div>
+          <div class="right-text">{{ detailData.userInfo.remarks}}</div>
         </div>
       </div>
     </div>
@@ -265,6 +271,7 @@ onUnmounted(() => {
     .look-ul {
       padding-left: 30px;
       li {
+        list-style: disc;
         margin-bottom: 10px;
         font-size: 14px;
         color: $f-color-second;

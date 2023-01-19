@@ -53,7 +53,7 @@
       <el-form-item label="家庭成员数:" prop="family">
         <el-input v-model.number="ruleForm.family" label="right" placeholder="请输入家庭成员数量" />
       </el-form-item>
-      <div class="tip">基本信息</div>
+      <div class="tip">种类情况</div>
       <template v-for="(item, index) in ruleForm.baseInfo">
         <el-form-item
           :label="`种类名称${index + 1}:`"
@@ -77,7 +77,7 @@
                 ]
           "
         >
-          <el-select v-model="item.zuowuId" placeholder="请选择种类">
+          <!-- <el-select v-model="item.zuowuId" placeholder="请选择种类">
             <el-option-group
               v-for="group in options.kindOptions"
               :key="group.label"
@@ -90,7 +90,9 @@
                 :value="item.value"
               />
             </el-option-group>
-          </el-select>
+          </el-select> -->
+          <KindSelect v-model:kind="item.zuowuId" :options="kindOptions" v-if="kindOptions.length != 0">
+          </KindSelect>
           <el-icon class="close" v-if="index !== 0" @click="deleteBaseInfo(index)"
             ><CloseBold
           /></el-icon>
@@ -113,7 +115,7 @@
       <el-button type="primary" class="add" @click="addKind">添加种类</el-button>
       <div class="tip">备注信息</div>
       <el-form-item prop="message">
-        <el-input v-model="ruleForm.message" type="textarea" rows="5" />
+        <el-input v-model="ruleForm.message" type="textarea" rows="5" show-word-limit maxlength="2000" />
       </el-form-item>
 
       <div class="submit-bar">
@@ -134,8 +136,11 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { getSelectInfo } from '../http/getSelectInfo';
 import { area } from '@/common/js/area_level4';
 import { getAddVip } from '../http/getAddVip';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
+import KindSelect from '@/components/kindSelect.vue';
+import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
+const { kindOptions } = useKindUnitSelectOptions();
 
 const router = useRouter();
 
@@ -153,7 +158,7 @@ const ruleForm = reactive({
     {
       zuowuId: '', //种植种类
       mushu: '', // 种植数量
-      unitId: '亩', //单位
+      unitId: 1, //单位
       address: '', //种植地址
       require: false,
     },
@@ -208,7 +213,7 @@ function addKind() {
   ruleForm.baseInfo.push({
     zuowuId: '', //种植种类
     mushu: '', // 种植数量
-    unitId: '亩', //单位})
+    unitId: 1, //单位})
     address: '',
     require: false,
   });
@@ -242,7 +247,11 @@ async function submitVipInfo() {
 
   let r = await getAddVip(params);
   if (r.code) {
-    ElMessage.error(r.msg);
+    // ElMessage.error(r.msg);
+    ElMessageBox.alert(r.msg, '录入会员', {
+      confirmButtonText: '知道了',
+      showClose: false,
+    })
     return Promise.reject();
   } else {
     ElMessage({
@@ -264,7 +273,7 @@ function clearForm() {
     {
       zuowuId: '', //种植种类
       mushu: '', // 种植数量
-      unitId: '亩', //单位
+      unitId: 1, //单位
       address: '', //种植地址
       require: false,
     },

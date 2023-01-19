@@ -101,6 +101,7 @@ watch(
     medicine.value = newVal as any;
   },
   {
+    immediate: true,
     deep: true,
   }
 );

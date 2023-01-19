@@ -75,7 +75,9 @@
         </div>
         <div class="tip">最近诊疗记录</div>
         <ul class="look-ul">
-          <li v-for="item in detailData.recentlog">{{ item.viewtime }}: {{ item.title }}</li>
+          <li v-if="detailData.recentlog.length == 0">暂无诊疗记录</li>
+          <li v-else v-for="item in detailData.recentlog">{{ item.viewtime }}<i style="display:inline-block;width:20px;"></i>{{
+            item.title }}</li>
         </ul>
       </div>
       <div class="right-bar">
@@ -202,6 +204,8 @@
               type="textarea"
               rows="5"
               class="w300"
+              show-word-limit
+              maxlength="2000"
               placeholder="请输入备注信息"
             />
           </el-form-item>
@@ -291,7 +295,7 @@ const ruleForm = reactive({
     {
       zuowuId: '', //种植种类
       mushu: '', // 种植数量
-      unitId: '亩', //单位
+      unitId: 1, //单位
       address: '', //种植地址
       require: false,
     },
@@ -355,7 +359,7 @@ const options = reactive({
   ],
   unitOptions: [
     // 种养单位 select option
-    { label: '亩', value: '1' },
+    { label: '亩', value: 1 },
   ],
 });
 
@@ -381,7 +385,7 @@ function addKind() {
   ruleForm.baseInfo.push({
     zuowuId: '', //种植种类
     mushu: '', // 种植数量
-    unitId: '亩', //单位})
+    unitId: 1, //单位})
     address: '',
     require: false,
   });
@@ -409,7 +413,7 @@ async function submitEditData() {
     selfcard: ruleForm.card,
     sex: ruleForm.sex === '男' ? 1 : 2,
     familycount: ruleForm.family,
-    zuowuJson: ruleForm.baseInfo,
+    zuowuJson: JSON.stringify(ruleForm.baseInfo) as any,
     remarks: ruleForm.message,
     codeVerify: ruleForm.codeVerify,
   });
@@ -427,6 +431,7 @@ async function submitEditData() {
 }
 
 const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
+  console.log(ruleForm.baseInfo)
   if (!formEl) return;
   if (ruleForm.cardIsRequired) {
     rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
@@ -515,6 +520,7 @@ onMounted(async () => {
   ruleForm.sex = r.userInfo.sex; // 性别
   ruleForm.card = r.userInfo.selfcard; //身份证
   ruleForm.family = r.userInfo.familycount; //家庭数量
+  ruleForm.baseInfo = r.userInfo.zuowu || []//种类情况
   ruleForm.message = r.userInfo.remarks;
   let { categoryArr, unitArr } = await getSelectInfo();
   options.kindOptions = categoryArr;
@@ -586,6 +592,7 @@ onUnmounted(() => {
     .look-ul {
       padding-left: 30px;
       li {
+        list-style: disc;
         margin-bottom: 10px;
         font-size: 14px;
         color: $f-color-second;

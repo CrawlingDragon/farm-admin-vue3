@@ -24,7 +24,7 @@
       <el-button size="large" @click="search">搜索</el-button>
     </div>
     <div class="table-box">
-      <el-table :data="vipAdminData.tableData" style="width: 100%">
+      <el-table empty-text="抱歉，没有找到相关会员" :data="vipAdminData.tableData" style="width: 100%">
         <el-table-column prop="imUserId" label="会员ID" />
         <el-table-column prop="userName" label="姓名" width="70px" />
         <el-table-column prop="tel" label="手机号码" width="150px" />

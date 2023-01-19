@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" title="新增处方模板" @close="closeHandle" width="600px">
+  <el-dialog v-model="showDialog" :title="titleDialog" @close="closeHandle" width="600px">
     <el-form
       ref="ruleFormRef"
       :model="ruleForm"
@@ -48,6 +48,7 @@ import Medicine from '@/components/medicine.vue';
 import { ElMessage } from 'element-plus';
 
 const AddTemplateId = 0;
+const titleDialog = ref('新增处方模板')
 const props = defineProps({
   showDialog: {
     type: Boolean,
@@ -73,12 +74,20 @@ const rules = reactive<FormRules>({
 
 // WATCH  模版id，如果不等于AddTemplateId，也就是0，如果不是，就请求详情
 watch(
-  () => props.templateId,
-  () => {
-    if (props.templateId !== AddTemplateId) {
-      getDetailFetch();
-      // let r = await getTemplateExamineDetail(props.templateId);
-      // console.log('r1111', r);
+  () => props.showDialog,
+  (newVal) => {
+    if (newVal) {
+      if (props.templateId !== AddTemplateId) {
+        titleDialog.value = '处方模板详情'
+        getDetailFetch();
+        // let r = await getTemplateExamineDetail(props.templateId);
+        // console.log('r1111', r);
+      } else {
+        titleDialog.value = '新增处方模板'
+        ruleForm.name = '';
+        ruleForm.content = '';
+        ruleForm.medicine = [];
+      }
     }
   }
 );
@@ -111,11 +120,16 @@ const addEditFetch = async () => {
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('保存成功');
+    if (props.templateId !== AddTemplateId) {
+      ElMessage.success('已保存');
+    } else {
+      ElMessage.success('已添加');
+    }
     emits('update:showDialog', false);
     emits('addEditSuccess', true);
     let ruleRef = ruleFormRef.value as any;
     ruleRef.resetFields();
+    ruleForm.medicine = [];
   }
 };
 
