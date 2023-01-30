@@ -39,7 +39,7 @@ let options: any = reactive({
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    data: [],
   },
   yAxis: {
     type: 'value',
@@ -49,7 +49,7 @@ let options: any = reactive({
       name: 'Search Engine',
       type: 'line',
       stack: 'Total',
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      data: [],
       color: '#599524'
     },
   ],

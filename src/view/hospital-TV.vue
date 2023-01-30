@@ -10,15 +10,15 @@
         </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
-      <el-button type="primary" class="add" @click="goAddAdPage">新增广告图</el-button>
+      <el-button :type="addBUtton" :disabled="addBUtton == 'info'" class="add" @click="goAddAdPage">新增广告图</el-button>
     </div>
     <div class="table-box">
-      <el-table :data="TVListData.tableData">
+      <el-table :data="TVListData.tableData" :header-cell-style="{color:'#000'}">
         <el-table-column prop="listorder" label="排序" width="110px" />
         <el-table-column prop="userName" label="广告图">
           <template #default="scope">
             <div class="image-box">
-              <el-image :src="scope.row.images" fit="scale-down" class="img"></el-image>
+              <el-image :src="scope.row.images" fit="fill" class="img"></el-image>
               <p class="title">{{ scope.row.title }}</p>
             </div>
           </template>
@@ -27,7 +27,7 @@
         <el-table-column prop="status" label="操作" width="110px">
           <template #default="scope">
             <div class="flex">
-              <div class="color cursor mr20" @click="goTVAddEditPage(scope.row.adId)">详情</div>
+              <div class="color cursor mr20" @click="goTVAddEditPage(scope.row.adId)">编辑</div>
               <div class="color cursor" @click="delTVFn(scope.row.adId)">删除</div>
             </div>
           </template>
@@ -43,6 +43,7 @@ import Pages from '@/components/pages.vue';
 import { getTvListFetch, getTvDel } from '@/http';
 import { useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import type { StringConstructor } from 'element-plus';
 import TvTipImg from '@/assets/tv-tip-img.png';
 const router = useRouter();
 
@@ -52,7 +53,7 @@ const TVListData = reactive({
   totalData: 0,
   tableData: [],
 });
-
+const addBUtton = ref<StringConstructor>('primary')
 // 点击搜索按钮
 function search() {
   if (page.value !== 1) {
@@ -66,6 +67,11 @@ async function getTVListData() {
   // console.log('r', r);
   TVListData.tableData = r.adLists;
   TVListData.totalData = r.adNum;
+  if (r.adNum == 3) {
+    addBUtton.value = 'info'
+  } else {
+    addBUtton.value = 'primary'
+  }
 }
 
 const delTVFn = (adId: number) => {
@@ -123,7 +129,7 @@ function goTVAddEditPage(adId: number) {
 }
 .image-box {
   display: flex;
-  align-items: start;
+  align-items: center;
   .img {
     width: 170px;
     height: 84px;

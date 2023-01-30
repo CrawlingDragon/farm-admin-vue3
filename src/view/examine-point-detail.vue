@@ -39,6 +39,18 @@
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
+              <template #states>
+                <div class="status">
+                  <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"><Select /></el-icon>
+                  <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '待跟进'">
+                    <Clock />
+                  </el-icon>
+                  <el-icon color="#da993c" v-if="ruleForm.conclusion.effectTips == '没效果'">
+                    <Warning />
+                  </el-icon>
+                  <span>{{ ruleForm.conclusion.effectTips }}</span>
+                </div>
+              </template>
             </AddSecondBar>
             <div class="right">
               对照组信息
@@ -940,21 +952,23 @@ const getImgView = (index: number, lists: any) => {
       }
     }
 
+    }
+    }
+  
     .status {
       width: 180px;
       display: flex;
       justify-content: end;
       align-items: center;
-
+  
       span {
         margin-right: 10px;
         margin-left: 10px;
       }
-            .close-icon {
+  
+      .close-icon {
         color: #999;
         cursor: pointer;
-      }
-    }
   }
 }
 

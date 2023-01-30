@@ -34,7 +34,8 @@
               />
             </el-form-item>
             <el-form-item label="图片:" prop="images">
-              <UploadImageVue v-model:images="ruleForm.images" />
+              <UploadImageVue :limit="1" v-model:images="ruleForm.images" />
+              <div class="tips">尺寸建议:850px*420px</div>
             </el-form-item>
             <el-form-item label="排序:" prop="listorder">
               <el-radio-group v-model="ruleForm.listorder">
@@ -189,6 +190,11 @@ onMounted(async () => {
       margin: 10px;
     }
   }
+        .tips {
+          font-size: 12px;
+          color: $f-color-three;
+          padding-left: 10px;
+        }
 }
 
 .tip {

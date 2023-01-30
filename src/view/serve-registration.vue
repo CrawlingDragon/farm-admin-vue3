@@ -356,7 +356,7 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (new Date(ruleForm.outpatientTime).getTime() < new Date(new Date().toLocaleDateString()).getTime()) {
+      if (new Date(ruleForm.outpatientTime).getTime() < new Date(new Date().toLocaleDateString()).getTime() && ruleForm.isRepeat == '0') {
         ElMessageBox.confirm('该时间段已过期，请确定后再提交', '信息').then(
           async () => {
             setAddExpert()

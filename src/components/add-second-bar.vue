@@ -10,6 +10,7 @@
       <div class="time">{{ time }}</div>
       <div class="text">录入</div>
     </template>
+    <slot name="states"></slot>
   </div>
 </template>
 <script setup lang="ts">

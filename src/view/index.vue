@@ -3,7 +3,11 @@
     <div class="top-bar">
       <div class="left">
         <div class="img-box">
-          <el-image :src="info.logo" fit="cover" class="hospital-img" round> </el-image>
+          <el-image :src="info.logo" fit="cover" class="hospital-img">
+            <template #error>
+              <div class="image-slot"></div>
+            </template>
+          </el-image>
           <el-icon class="icon"><SuccessFilled /></el-icon>
         </div>
         <p class="name">{{ info.hospitalName }}</p>

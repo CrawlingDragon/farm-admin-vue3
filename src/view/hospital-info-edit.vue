@@ -35,6 +35,8 @@
             label="right"
             placeholder="请输入详细地址"
             class="w300"
+            maxlength="100"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item label="级别:" label-width="150px" prop="level">
@@ -72,7 +74,7 @@
             v-model="hospitalInfo.contactAddress"
             placeholder="请输入通讯地址"
             class="w300"
-            maxlength="30"
+            maxlength="100"
             show-word-limit
           />
         </el-form-item>
@@ -168,6 +170,9 @@ async function editHospitalInfo() {
     ElMessage.error(r.msg);
   } else {
     ElMessage.success('保存成功');
+    router.push({
+      path: `/set/hospital-info`,
+    });
   }
 }
 onMounted(async () => {
@@ -186,6 +191,7 @@ onMounted(async () => {
   hospitalInfo.phone = r.tel;
   hospitalInfo.info = r.introduce;
   hospitalInfo.contactAddress = r.linkAddress;
+  hospitalInfo.detailRegion = r.address
 });
 // 取消按钮
 const cancel = function () {

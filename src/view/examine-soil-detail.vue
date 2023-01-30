@@ -196,7 +196,7 @@
         <div class="border bg-w mt10">
           <div class="tip">新增诊疗跟踪</div>
           <el-form-item label="跟踪日期:" prop="newDate">
-            <el-date-picker v-model="ruleForm.newDate" type="date" placeholder="选择时间" size="large"
+            <el-date-picker :disabled-date="disabledDate" v-model="ruleForm.newDate" type="date" placeholder="选择时间" size="large"
               value-format="YYYY-MM-DD" />
           </el-form-item>
           <el-form-item label="诊疗效果:" prop="newEffects">
@@ -493,6 +493,10 @@ const imgLists = ref<any>()
 const getImgView = (index: number, lists: any) => {
   imgIndex.value = index
   imgLists.value = lists
+}
+// 新增诊疗跟踪日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
 }
 </script>
 <style lang="scss" scoped>
