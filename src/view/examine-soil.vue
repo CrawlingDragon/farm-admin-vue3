@@ -40,6 +40,7 @@
           size="large"
           class="mr10"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
       <div class="select-box mr10">
@@ -204,6 +205,10 @@ function goSoilPage(page: string, cetuId?: number | string) {
         query: ifNeedUidRouteQuery.value,
       });
   }
+}
+// 新增日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
 }
 </script>
 <style lang="scss" scoped>

@@ -67,6 +67,7 @@
                 class="w300"
                 style="width: 300px"
                 value-format="YYYY-MM-DD"
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="防治数量:" prop="number">
@@ -130,7 +131,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, 'goPage')"
+              @click="submitForm(ruleFormRef)"
               class="mr20"
               >保存</el-button
             >
@@ -215,12 +216,24 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
           setTimeout(() => {
             router.push('/examine-tongfang');
           }, 600);
+        } else {
+          resetForm(ruleFormRef.value);
         }
       });
     } else {
       console.log('error submit!', fields);
     }
   });
+};
+//成功之后，清空数据
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  // console.log('ruleform', ruleForm);
+  formEl.resetFields();
+  // debugger;
+  if (tfId.value) {
+    router.push(`/examine-tongfang-detail/${tfId.value}`);
+  }
 };
 
 // 取消按钮
@@ -252,7 +265,11 @@ async function setTongFangData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已经添加');
+    if (tfId.value) {
+      ElMessage.success('已保存');
+    } else {
+      ElMessage.success('已添加');
+    }
     return Promise.resolve('ok');
   }
 }
@@ -284,6 +301,10 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .nav-bar {

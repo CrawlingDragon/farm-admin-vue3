@@ -91,6 +91,7 @@
                 size="large"
                 value-format="YYYY-MM-DD"
                 class="date-wrap-300"
+                :disabled-date="disabledDate" 
               />
             </el-form-item>
             <el-form-item label="巡诊地点:" prop="address">
@@ -192,7 +193,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, 'goPage')"
+              @click="submitForm(ruleFormRef)"
               class="mr20"
               >保存</el-button
             >
@@ -322,6 +323,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
 
   // debugger;
+  if (xunzhenId.value) {
+    router.push(`/examine-xunzhen-detail/${xunzhenId.value}`);
+  }
 };
 
 const router = useRouter();
@@ -333,7 +337,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
       let r = setZuozhenData().then((res) => {
         if (goPage) {
           setTimeout(() => {
-            router.push('/examine-zuozhenlist');
+            router.push('/examine-xunzhenlist');
           }, 600);
         } else {
           resetForm(ruleFormRef.value);
@@ -430,6 +434,10 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .nav-bar {

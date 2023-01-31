@@ -28,7 +28,7 @@
               :time="pointId ? ruleForm.centerTime : ''"
               class="left"
               :onlyShowTitle="pointId ? true : false"
-              ><div class="save" @click="submitForm(ruleFormRef, 'examine-point-detail')">保存</div>
+              ><div class="save" @click="submitForm(ruleFormRef, '/examine-point-detail')">保存</div>
             </AddSecondBar>
             <div class="right">
               对照组信息
@@ -97,6 +97,7 @@
                 class="w300 date-wrap"
                 style="width: 300px"
                 value-format="YYYY-MM-DD"
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="试验会员:" prop="nameId">
@@ -129,6 +130,7 @@
                 v-if="selectOptions.cetuOrderList.length != 0"
                 v-model:soilTestRecord="ruleForm.leastSoilRecord.soilId"
                 :soilSelectOption="selectOptions.cetuOrderList"
+                :clearable="true"
               >
               </LatestTestSoilSelectVue>
             </el-form-item>
@@ -174,6 +176,7 @@
                 class="w300"
                 style="width: 300px"
                 value-format="YYYY-MM-DD"
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="描述:" prop="leftUseFormInfo.describe">
@@ -249,6 +252,7 @@
                 class="w300"
                 style="width: 300px"
                 value-format="YYYY-MM-DD"
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="描述:" prop="rightUseFormInfo.describe">
@@ -325,7 +329,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, '/examine-point')"
+              @click="submitForm(ruleFormRef, '/examine-point-detail')"
               class="mr20"
               >保存</el-button
             >
@@ -555,9 +559,15 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
       console.log('submit!');
       setPintData().then((res) => {
         if (pageName) {
-          setTimeout(() => {
-            router.push({ path: pageName });
-          }, 500);
+          if (pointId.value) {
+            setTimeout(() => {
+              router.push({ path: `${pageName}/${pointId.value}` });
+            }, 500);
+          } else {
+            setTimeout(() => {
+              router.push({ path: pageName });
+            }, 500);
+          }
         }
       });
     } else {
@@ -692,6 +702,10 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {

@@ -19,10 +19,11 @@
             size="default"
             class="date-wrap"
             value-format="YYYY-MM-DD"
+            :disabled-date="disabledDate" 
           />
         </el-form-item>
         <el-form-item label="图片:" prop="leftImgs">
-          <UploadImageVue v-model:images="dayForm.leftImgs" :limit="1" :small="true"
+          <UploadImageVue v-model:images="dayForm.leftImgs" :small="true"
         /></el-form-item>
         <el-form-item label="描述:" prop="leftDescribe">
           <el-input
@@ -52,10 +53,11 @@
             class="w300 date-wrap"
             style="width: 300px"
             value-format="YYYY-MM-DD"
+            :disabled-date="disabledDate" 
           />
         </el-form-item>
         <el-form-item label="图片:" prop="rightImgs">
-          <UploadImageVue v-model:images="dayForm.rightImgs" :limit="1" :small="true" />
+          <UploadImageVue v-model:images="dayForm.rightImgs" :small="true" />
         </el-form-item>
         <el-form-item label="描述:" prop="rightDescribe">
           <el-input
@@ -167,6 +169,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const cancel = () => {
   emits('update:dayDialogFormVisible', false);
 };
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .form-box {

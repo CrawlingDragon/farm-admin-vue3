@@ -96,19 +96,13 @@ async function setNewsInfo() {
         router.go(-1);
       }, 1000);
     }
-    let arr = [];
-    if (r.thumb) {
-      arr.push({
-        name: new Date(),
-        url: r.thumb,
-      });
-    }
     ruleForm.title = r.title;
     ruleForm.keywords = r.keywords;
     ruleForm.content = r.content;
-    ruleForm.thumb = arr;
+    ruleForm.thumb = r.thumb == '' ? [] : [{ url: r.thumb }];
   } else {
     title.value = '发布信息';
+    ruleForm.thumb = []
   }
 }
 const params = computed(() => {
@@ -118,7 +112,7 @@ const params = computed(() => {
     title: ruleForm.title,
     keywords: ruleForm.keywords,
     content: ruleForm.content,
-    thumb: ruleForm.thumb[0] ? ruleForm.thumb[0].url : '',
+    thumb: ruleForm.thumb.length === 0 ? '' : ruleForm.thumb[0].url,
   };
   return param;
 });
@@ -129,7 +123,7 @@ async function setSaveNews() {
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('保存成功');
+    ElMessage.success('发布成功');
     setTimeout(() => {
       router.push({
         path: '/serve-message',

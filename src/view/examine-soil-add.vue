@@ -107,6 +107,7 @@
                 class="w300"
                 style="width: 300px"
                 value-format="YYYY-MM-DD"
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
@@ -550,6 +551,10 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .nav-bar {

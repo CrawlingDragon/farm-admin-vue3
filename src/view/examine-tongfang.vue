@@ -27,6 +27,7 @@
           size="large"
           class="mr10"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
 
@@ -123,6 +124,10 @@ function goPintPage(tfId: number) {
   router.push({
     path: `/examine-tongfang-detail/${tfId}`,
   });
+}
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
 }
 </script>
 <style lang="scss" scoped>

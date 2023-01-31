@@ -34,6 +34,7 @@
           size="large"
           class="mr10"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
 
@@ -169,6 +170,10 @@ const exportPDFFn = async () => {
   // console.log('r', r.downLink);
   window.open(r.downLink, '_target');
 };
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

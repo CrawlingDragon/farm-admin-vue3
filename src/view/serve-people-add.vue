@@ -102,7 +102,7 @@ const params = computed(() => {
   let params = {
     trainId: ruleForm.trainId, //培训ID, 为空则表示新增培训
     title: ruleForm.title, //培训主题
-    image: ruleForm.image[0].url, //培训主图地址
+    image: ruleForm.image.length === 0 ? '' : ruleForm.image[0].url, //培训主图地址
     startTime, //培训开始时间 , 格式: 2022-10-22 10:20:50
     endTime, //培训结束时间 , 格式: 2022-10-22 10:20:50
     trainTeacher: ruleForm.trainTeacher, //讲师姓名
@@ -168,14 +168,9 @@ function trainTypeChabge(val: any) {
 async function setTrainDetail() {
   if (id.value) {
     let r = await getTrainDetail({ trainId: id.value });
-    let arr = [];
-    arr.push({
-      name: new Date(),
-      url: r.image,
-    });
     ruleForm.trainId = id.value; //培训ID, 为空则表示新增培训
     ruleForm.title = r.title; //培训主题
-    ruleForm.image = arr; //培训主图地址
+    ruleForm.image = r.image == '' ? [] : [{ url: r.image }]; //培训主图地址
     ruleForm.trainTeacher = r.trainTeacher;
     ruleForm.content = r.description; //描述
     ruleForm.dateVal.push(r.startTime); //培训时间
@@ -190,6 +185,7 @@ async function setTrainDetail() {
     }
   } else {
     title.value = '新增培训';
+    ruleForm.image = []
   }
 }
 </script>

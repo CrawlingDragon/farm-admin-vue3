@@ -35,6 +35,7 @@
           size="large"
           class="mr10"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate" 
         />
       </div>
       <div class="select-box mr10">
@@ -180,6 +181,10 @@ function goPintPage(pointId: number) {
     path: `/examine-point-detail/${pointId}`,
     query: uIdQuery.value,
   });
+}
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
 }
 </script>
 <style lang="scss" scoped>

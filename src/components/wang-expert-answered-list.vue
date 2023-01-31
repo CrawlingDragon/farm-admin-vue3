@@ -2,7 +2,7 @@
   <ul class="content-child">
     <li v-for="(item, index) in listData">
       <div class="avatar">
-        <el-avatar :src="item.avatar" />
+        <el-avatar :src="item.avatar" fit="fill" />
       </div>
       <div class="info-mid">
         <div class="name-bar">
@@ -14,7 +14,7 @@
         </div>
         <div class="images" v-if="item.replyImgs.length !== 0">
           <el-image
-            fit="scale-down"
+            fit="fill"
             class="img"
             v-for="(img,index) in item.replyImgs" :key="index"
             :src="img.thumb_url"

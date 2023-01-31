@@ -1,7 +1,7 @@
 <template>
   <!-- 最近测土记录 select -->
   <!-- <el-select-v2 v-model="soilTestRecord" :options="testOptions" class="unit" @change="changeFn" /> -->
-  <el-select v-model="soilTestRecordSelect" placeholder="请选择测土记录" class="unit" @change="changeFn">
+  <el-select :clearable="clearable" v-model="soilTestRecordSelect" placeholder="请选择测土记录" class="unit" @change="changeFn">
     <el-option :label="item.label" :value="item.value" v-for="item in testOptions"> </el-option>
   </el-select>
 </template>
@@ -13,6 +13,10 @@ const prop = defineProps({
   soilTestRecord: {
     type: String,
     default: '',
+  },
+  clearable: {
+    type: Boolean,
+    default: false,
   },
   soilSelectOption: {
     type: Array,

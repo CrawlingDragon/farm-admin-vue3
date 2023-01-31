@@ -20,6 +20,7 @@
             size="default"
             class="date-wrap"
             value-format="YYYY-MM-DD"
+            :disabled-date="disabledDate"
           />
         </el-form-item>
         <el-form-item label="用药效果:" prop="radio">
@@ -129,6 +130,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const cancel = () => {
   emits('update:conclusionDialogFormVisible', false);
 };
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
+}
 </script>
 <style lang="scss" scoped>
 .form-box {

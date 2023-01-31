@@ -39,7 +39,7 @@
               <el-checkbox :key="checkList[index]" :label="checkList[index]"> </el-checkbox>
             </div>
             <div class="avatar">
-              <el-avatar :src="item.userFace" />
+              <el-avatar :src="item.userFace" fit="fill" />
             </div>
             <div class="info-mid">
               <div class="name-bar">
@@ -51,7 +51,7 @@
                 {{ item.question }}
               </div>
               <div class="images" v-if="item.questionImgs.length !== 0">
-                <el-image fit="scale-down" class="img" v-for="(items, index) in item.questionImgs"
+                <el-image fit="fill" class="img" v-for="(items, index) in item.questionImgs"
                   :src="items.thumb_url" @click="getImgView(index, item.questionImgs)"></el-image>
               </div>
               <div class="answer-icons" @click="item.showEditBox = !item.showEditBox">

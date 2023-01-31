@@ -162,7 +162,10 @@ async function setTVData() {
 
 async function getZuozhenDetail() {
   // 没有zuozhenId，说明是新增页面不需要请求详情数据
-  if (!adId.value) return;
+  if (!adId.value) {
+    ruleForm.images = []
+    return;
+  };
   let r = await getTvDetail(adId.value as any);
   // console.log('r', r);
   ruleForm.title = r.title;

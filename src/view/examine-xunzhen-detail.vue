@@ -69,6 +69,9 @@
             >
               {{ ruleForm.time }}
             </el-form-item>
+            <el-form-item label="巡诊地点:" prop="address">
+              {{ ruleForm.address }}
+            </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
               <!-- <ExpertSelect
                 v-if="selectOptions.expertList.length !== 0"

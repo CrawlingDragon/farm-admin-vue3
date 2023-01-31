@@ -113,7 +113,7 @@ export function transformImageParams(images: any[]) {
   images.forEach((item) => {
     arr.push(item.url);
   });
-  return arr.join(',');
+  return arr.join(';');
 }
 
 // 数组根据元素某个属性去重
