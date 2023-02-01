@@ -23,7 +23,9 @@ axios.interceptors.request.use(
     if (config.method === 'post') {
       config.data = QS.stringify(config.data);
     }
-
+    if (config.url == '/api/auth/questionExportPdf') {
+      config.timeout = 60 * 1000
+    }
     return config;
   },
   (error) => {

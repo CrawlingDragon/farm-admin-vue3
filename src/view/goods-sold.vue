@@ -15,7 +15,7 @@
         </el-select>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
-      <el-tooltip class="box-item" effect="dark" content="导出购买数据" placement="top">
+      <el-tooltip class="box-item" effect="customized" content="导出购买数据" placement="top">
         <div class="export" @click="expertBuyData"></div>
       </el-tooltip>
     </div>

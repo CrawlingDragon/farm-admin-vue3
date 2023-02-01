@@ -4,7 +4,7 @@
       坐诊记录
       <el-tooltip
         class="box-item tab"
-        effect="dark"
+        effect="customized"
         content=""
         placement="right-start"
         v-if="!isVipPage"

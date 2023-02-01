@@ -212,6 +212,7 @@ onMounted(async () => {
   detailData.userInfo = r.userInfo;
   detailData.tempArray = r.tempArray;
   detailData.recentlog = r.recentlog;
+  detailData.canDelete = r.canDelete;
 });
 // 隐藏左边栏
 onUnmounted(() => {

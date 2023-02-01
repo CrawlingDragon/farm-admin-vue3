@@ -260,12 +260,20 @@
             </div>
           </div>
         </div>
-        <div class="submit-bar">
+        <div class="submit-bar" v-if="!cetuId">
+          <!-- 这是新增页面的按钮 -->
+          <div class="content">
+            <el-button type="primary" size="large" @click="submitForm(ruleFormRef, 'goPage')" class="mr20">确定添加</el-button>
+            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20">确定并继续添加</el-button>
+            <el-button size="large" @click="cancel">取消</el-button>
+          </div>
+        </div>
+        <div class="submit-bar" v-else>
           <div class="content">
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, 'goPage')"
+              @click="submitForm(ruleFormRef)"
               class="mr20"
               >保存</el-button
             >
@@ -423,12 +431,22 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
           setTimeout(() => {
             router.push('/examine-soil');
           }, 500);
+        } else {
+          resetForm(ruleFormRef.value);
         }
       });
     } else {
       console.log('error submit!', fields);
     }
   });
+};
+//成功之后，清空数据
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (cetuId.value) {
+    router.push(`/examine-soil-detail/${cetuId.value}`);
+  } else {
+    router.go(0)
+  }
 };
 
 // 取消按钮
@@ -490,7 +508,11 @@ async function setSoilData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已经添加');
+    if (cetuId.value) {
+      ElMessage.success('已保存');
+    } else {
+      ElMessage.success('已添加');
+    }
     return Promise.resolve('ok');
   }
 }

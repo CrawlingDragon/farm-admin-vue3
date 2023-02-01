@@ -2,7 +2,7 @@
   <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       统防统治
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
         <template #content>记录庄稼医院的统防统治数据。</template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>

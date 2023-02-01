@@ -32,7 +32,7 @@
     <div class="data-content">
       <div class="title">
         整体趋势
-        <el-tooltip class="box-item" effect="dark" content="导出历史所有数据" placement="top">
+        <el-tooltip class="box-item" effect="customized" content="导出历史所有数据" placement="top">
           <div class="export" @click="exportData('all')"></div>
         </el-tooltip>
       </div>
@@ -49,12 +49,12 @@
               v-for="item in selectOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
+              :value="item"
             />
           </el-select>
           <el-tooltip
             class="box-item"
-            effect="dark"
+            effect="customized"
             :content="`导出${selectValue.label}`"
             placement="top"
           >
@@ -165,7 +165,7 @@ const selectOptions = [
 ];
 
 watch(selectValue, (newVal: any) => {
-  params.timeType = newVal;
+  params.timeType = newVal.value;
   setIndexData();
 });
 

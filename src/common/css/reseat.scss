@@ -175,3 +175,15 @@ body {
 .date-wrap-300 .el-input__wrapper {
   width: 300px !important;
 }
+.el-popper.is-customized {
+  /* Set padding to ensure the height is 32px */
+  padding: 6px 12px;
+  background: #679e39;
+  color: #fff;
+  font-size: 14px;
+}
+
+.el-popper.is-customized .el-popper__arrow::before {
+  background: #679e39;
+  right: 0;
+}

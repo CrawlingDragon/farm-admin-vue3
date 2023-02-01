@@ -2,7 +2,7 @@
   <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       网诊管理
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start" v-if="!isVipPage">
+      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start" v-if="!isVipPage">
         <template #content>网诊管理即网诊，会员通过手机益农宝向<br />庄稼医院提问，请相关专家进行解答。</template>
         <el-icon class="icon color">
           <QuestionFilled />

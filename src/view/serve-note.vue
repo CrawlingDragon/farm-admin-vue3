@@ -2,9 +2,9 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       短信管理
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
-        <template #content> 将最新农资商品、培训、测土配方取报告等信息发短信给会员，会员会收到相应的手机短信。</template>
-        <el-icon class="icon">
+      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
+        <template #content> 将最新农资商品、培训、测土配方取报告等信息发<br />短信给会员，会员会收到相应的手机短信。</template>
+        <el-icon class="icon color">
           <QuestionFilled />
         </el-icon>
       </el-tooltip>

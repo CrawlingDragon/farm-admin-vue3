@@ -70,6 +70,9 @@ const searchFn = () => {
   });
 };
 
+watch(() => router, (newVal) => {
+  search.value = ''
+}, { deep: true })
 const title = ref('');
 const hospitalName = ref('');
 onMounted(() => {

@@ -2,7 +2,7 @@
   <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       处方模板
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
         <template #content
           >提前设置好用药和看诊结果，生成处方模板；<br />稍后在坐诊、巡诊、测土配方、网诊开处方可<br />以一键使用该模板。</template
         >

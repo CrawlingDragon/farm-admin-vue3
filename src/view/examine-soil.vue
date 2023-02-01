@@ -7,14 +7,14 @@
       <div class="tab" :class="{ active: active == 3 }" @click="choose(3)">已给处方</div>
       <el-tooltip
         class="box-item tab"
-        effect="dark"
+        effect="customized"
         content=""
         placement="right-start"
         v-if="!isVipPage"
       >
         <template #content>
-          测土配方模块记录农户的土壤养分检测结果和处方数据。<br />土壤检测结果数据包含：氮磷钾PH和盐分；
-          <br />处方数据：针对检测结果医院专家开处方，对土壤进行调理。
+          测土配方模块记录农户的土壤养分检测结果和处方<br />数据。土壤检测结果数据包含：氮磷钾PH和盐分；
+          <br />处方数据：针对检测结果医院专家开处方，对土壤<br />进行调理。
         </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
