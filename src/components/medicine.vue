@@ -17,6 +17,7 @@
             v-model:drugSpec="item.drugSpec"
             v-model:selectMyself="item.selectMyself"
           />
+          <!-- 数据没变，但是下拉框的数据正确改变了 -->
         </div>
         <div class="item">
           <DrugSizeSelect
@@ -37,7 +38,7 @@
 <script setup lang="ts">
 import medicineSelectVue from '@/components/medicineSelect.vue';
 import DrugSizeSelect from '@/components/drugSizeSelect.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, shallowReactive } from 'vue';
 
 const props = defineProps({
   medicineProp: {
@@ -69,7 +70,20 @@ const medicine = ref<Medicine[]>([]);
 const emits = defineEmits(['update:medicineProp']);
 // 删除用药
 function delMedicine(index: number) {
-  medicine.value.splice(index, 1);
+  // console.log('index', index);
+  // console.log('medicine.value-before', medicine.value);
+  // let copy = medicine.value.concat([]);
+  medicine.value.forEach((item) => {
+    item.selectMyself = false;
+  });
+  //
+  // console.log('copy', copy);
+  // medicine.value = copy;
+  // emits('update:medicineProp', medicine.value);
+  setTimeout(() => {
+    medicine.value.splice(index, 1);
+    // console.log('medicine.value---after', medicine.value);
+  }, 10);
 }
 // 添加用药
 function addMedicine() {
@@ -87,13 +101,18 @@ watch(
   medicine,
   (newVal) => {
     // console.log('newVal', newVal);
+    // debugger;
     emits('update:medicineProp', newVal);
   },
   {
+    // immediate: true,
     deep: true,
   }
 );
 
+// onMounted(() => {
+//   medicine.value = shallowReactive(props.medicineProp) as any;
+// });
 watch(
   () => props.medicineProp,
   (newVal) => {
@@ -101,7 +120,7 @@ watch(
     medicine.value = newVal as any;
   },
   {
-    immediate: true,
+    // immediate: true,
     deep: true,
   }
 );

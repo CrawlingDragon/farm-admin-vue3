@@ -1,7 +1,12 @@
 <template>
   <el-select v-model="drugSpecIdsSelect" class="unit" @change="changeFn">
-    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"
-      :disabled="item.disabled"></el-option>
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+      :disabled="item.disabled"
+    ></el-option>
   </el-select>
 </template>
 <script setup lang="ts">
@@ -27,7 +32,7 @@ const props = defineProps({
     default: false,
   },
 });
-const drugSpecIdsSelect = ref<string>('')
+const drugSpecIdsSelect = ref<string>('');
 const emits = defineEmits(['update:drugSpecIds']);
 const options = computed(() => props.sizeSelectOption as any);
 const changeFn = (el: any) => {
@@ -38,14 +43,24 @@ watch(
   () => props.sizeSelectOption,
   () => {
     if (props.selectMyself) {
+      // console.log('1', 1);
       emits('update:drugSpecIds', '');
     }
+    drugSpecIdsSelect.value = props.drugSpecIds;
+    //  drugSpecIdsSelect.value = newVal
+  }
+);
+watch(
+  // watch 规格id
+  () => props.drugSpecIds,
+  (newVal, oldVal) => {
+    // console.log('newVal=====', newVal);
+    // console.log('oldVal=====', oldVal);
+    drugSpecIdsSelect.value = newVal;
   }
 );
 onMounted(() => {
-  drugSpecIdsSelect.value = props.drugSpecIds
-})
+  drugSpecIdsSelect.value = props.drugSpecIds;
+});
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

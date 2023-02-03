@@ -205,7 +205,7 @@
 import Pages from '@/components/pages.vue';
 import { ref, computed, onMounted, reactive, watch } from 'vue';
 import { getVipApply, getVipApplyAction } from '../http';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 const keyword = ref('');
 const dateVal = ref(''); //默认起始，结束时间，有数据后是 [起始时间,结束时间]
@@ -250,6 +250,7 @@ const operation = computed(() => (active: string) => {
   return active === '待审核' ? '审核' : '详情';
 });
 const loading = ref(true);
+
 // 请求列表数据
 async function setApplyData() {
   loading.value = true;
@@ -270,20 +271,37 @@ function search() {
   }
 }
 
+const isLatest = ref(1); //是否是最新一条申请 [1:是 0:否]
+const isPass = ref(1); //该手机会员此前是否已经审核通过 [1:是 0:否]
 // 弹窗内容
 const dialogVal = ref<any>('');
 //表格内的操作按钮 ，审核 或者 详情
 function doOperation(status: string, detail: any) {
   console.log('detail', detail);
+  isLatest.value = detail.isLatest;
+  isPass.value = detail.isPass;
   activeVipName.value = detail.userName; //选中的会员名字
   dialogVal.value = detail;
+  if (isLatest.value == 0) {
+    // 如果不是最新的申请，则先提示是否要审核
+    ElMessageBox.confirm('姓名手机号不是最新的会员申请，你确定要审核吗？', '提示')
+      .then(() => {
+        alertApplyWindow(status);
+      })
+      .catch(() => {});
+  } else if (isPass.value == 1) {
+  } else {
+    alertApplyWindow(status);
+  }
+}
+
+function alertApplyWindow(status: string) {
   if (status === '已通过' || status === '已拒绝') {
     dialogDetailVisible.value = true;
   } else {
     dialogVisible.value = true;
   }
 }
-
 // 通过申请
 async function passApplyFn() {
   let r = await getVipApplyAction({ applyId: dialogVal.value.applyId, status: 99 });
