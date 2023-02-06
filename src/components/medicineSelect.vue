@@ -1,13 +1,18 @@
 <template>
   <!-- 用药的select选择 -->
   <el-select v-model="drugIdSelect" placeholder="请选择" class="unit" @change="changeFn">
-    <el-option v-for="item in optionsComputed" :key="item.value" :label="item.label" :value="item.value"
-      :disabled="item.disabled">
+    <el-option
+      v-for="item in optionsComputed"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+      :disabled="item.disabled"
+    >
     </el-option>
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed, watch, ref } from 'vue';
+import { reactive, onMounted, computed, watch, ref, onUpdated } from 'vue';
 import { getMedicineProduct } from '../http';
 
 const prop = defineProps({
@@ -38,11 +43,12 @@ const prop = defineProps({
     default: false,
   },
 });
-const drugIdSelect = ref<number | string>('')
+const drugIdSelect = ref<number | string>('');
 const emit = defineEmits([
   'update:drugName',
   'update:size',
   'update:drugId',
+  'update:drugSpecIds',
   'update:selectMyself',
 ]);
 
@@ -52,7 +58,9 @@ let options = reactive({
     {
       label: '药品1',
       value: '',
+      drugId: '',
       specLists: [],
+      drugSpecIds: '',
     },
   ] as any,
 });
@@ -80,7 +88,7 @@ const selected = (el: string | number) => {
 const optionsComputed = computed(() => {
   let arr: any = [];
   options.medicineOptions.forEach((item: any) => {
-    if (item.drugName) {
+    if (item.drugId != '') {
       arr.push({
         label: item.drugName,
         value: item.drugId,
@@ -103,6 +111,7 @@ const HasDrugFilter = (drugId: string | number) => {
   return boolean;
 };
 const changeFn = (el: any) => {
+  // console.log('el', el);
   emit('update:drugId', el);
   emit('update:size', selected(el));
   emit('update:selectMyself', true);
@@ -115,6 +124,7 @@ function addNoSelectToOption() {
     options.medicineOptions.push({
       drugName: prop.drugName,
       drugId: prop.drugId,
+      drugSpecIds: prop.drugSpecIds,
       specLists: [{ drugSpecIds: prop.drugSpecIds, drugSpec: prop.drugSpec, disabled: true }],
       disabled: true,
     });
@@ -125,16 +135,26 @@ onMounted(async () => {
   let r = await getMedicineProduct();
   // console.log('getMedicineProduct', r);
   options.medicineOptions = r;
+
   addNoSelectToOption();
-  drugIdSelect.value = prop.drugId
+  drugIdSelect.value = prop.drugId;
+  // console.log('onMounted');
 });
+
 watch(
   () => prop.drugId,
-  () => {
+  (newVal) => {
+    // console.log('watch=======');
     addNoSelectToOption();
+    drugIdSelect.value = newVal;
+    // console.log('nedicineSelect.specid', prop.drugSpecIds);
   }
 );
+// watch(
+//   () => prop.drugSpecIds,
+//   (newVal) => {
+//     console.log('nedicineSelect.specid', newVal);
+//   }
+// );
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

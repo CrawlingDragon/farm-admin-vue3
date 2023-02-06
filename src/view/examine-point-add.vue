@@ -28,7 +28,9 @@
               :time="pointId ? ruleForm.centerTime : ''"
               class="left"
               :onlyShowTitle="pointId ? true : false"
-              ><div class="save" @click="submitForm(ruleFormRef, '/examine-point-detail')">保存</div>
+              ><div class="save" @click="submitForm(ruleFormRef, '/examine-point-detail')">
+                保存
+              </div>
             </AddSecondBar>
             <div class="right">
               对照组信息
@@ -665,7 +667,6 @@ async function getPointDetail() {
   // integrationMedicine(r.drugInfo);
   ruleForm.leftUseFormInfo.date = useDrugInfo.useDrugTime;
   ruleForm.leftUseFormInfo.describe = useDrugInfo.useDrugContent;
-
   ruleForm.leftUseFormInfo.medicine = integrationMedicine(useDrugInfo.useYongyaoLists);
 
   ruleForm.rightUseFormInfo.date = useDrugInfo.contrastUseDrugTime;
@@ -704,8 +705,8 @@ onUnmounted(() => {
 });
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {
