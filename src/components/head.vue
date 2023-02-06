@@ -45,7 +45,8 @@
           </div>
           <el-dropdown v-else>
             <div class="ant-dropdown-link flex align-center" style="height: 50px">
-              <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" />
+              <!-- <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" /> -->
+              <img style="width:35px;height:35px;border-radius: 50%;object-fit: fill;" :src="userInfoStore.userInfo.avatar">
               {{ userInfoStore.userInfo.mobile }}
               <el-icon class="icon2"><ArrowDown /></el-icon>
               <!-- <down-outlined class="icon2" /> -->
@@ -65,8 +66,14 @@
             </a>
             <template #dropdown placement="bottom-end">
               <div class="web-drop-box box3">
-                <div class="item" @click="goPage(urls.vip_center)">医院管理中心</div>
-                <div class="item" @click="goPage(urls.vip_admin)">会员管理</div>
+                <!-- <div class="item" @click="goPage(urls.vip_center)">医院管理中心</div>
+                                                                                    <div class="item" @click="goPage(urls.vip_admin)">会员管理</div> -->
+                <div class="item">
+                  <router-link to="/index">医院管理中心</router-link>
+                </div>
+                <div class="item">
+                  <router-link to="/vip-admin">会员管理</router-link>
+                </div>
                 <a :href="urls.vip_base" class="item">基地管理中心</a>
               </div>
             </template>

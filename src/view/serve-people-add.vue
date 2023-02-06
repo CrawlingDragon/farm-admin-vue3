@@ -162,9 +162,15 @@ function trainTypeChabge(val: any) {
   } else {
     labelAddress.value = '培训地点';
   }
-  ruleForm.trainAddress = ''
+  if (trainTypeShow.value == val) {
+    ruleForm.trainAddress = trainAddressShow.value
+  } else {
+    ruleForm.trainAddress = ''
+  }
 }
 // 获取详情信息
+const trainAddressShow = ref()
+const trainTypeShow = ref()
 async function setTrainDetail() {
   if (id.value) {
     let r = await getTrainDetail({ trainId: id.value });
@@ -176,6 +182,8 @@ async function setTrainDetail() {
     ruleForm.dateVal.push(r.startTime); //培训时间
     ruleForm.dateVal.push(r.endTime); //培训时间
     ruleForm.trainType = String(r.trainType); //培训方式[1:线上直播 2:线下培训]
+    trainTypeShow.value = String(r.trainType);
+    trainAddressShow.value = r.trainAddress;
     ruleForm.trainAddress = r.trainAddress; //直播链接 或者线下培训地址
     title.value = '培训详情';
     if (r.trainType == 1) {

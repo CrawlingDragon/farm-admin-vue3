@@ -289,7 +289,7 @@ const ruleForm = reactive({
   phone: '', // 手机号码
   sex: '男', // 性别
   card: '', //身份证
-  cardIsRequired: false,
+  // cardIsRequired: false,
   family: '', //家庭数量
   baseInfo: [
     {
@@ -433,9 +433,9 @@ async function submitEditData() {
 const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
   console.log(ruleForm.baseInfo)
   if (!formEl) return;
-  if (ruleForm.cardIsRequired) {
-    rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
-  }
+  // if (ruleForm.cardIsRequired) {
+  //   rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
+  // }
 
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -509,7 +509,7 @@ onMounted(async () => {
   // 隐藏左边栏
   emit('update:hideAside', false);
   let r = await getVipDetail({ id: id.value });
-  console.log('r', r);
+  // console.log('r', r);
   detailData.userInfo = r.userInfo;
   detailData.tempArray = r.tempArray;
   detailData.recentlog = r.recentlog;
@@ -526,10 +526,12 @@ onMounted(async () => {
   options.kindOptions = categoryArr;
   options.unitOptions = unitArr;
   if (r.userInfo.selfcard == '') {
-    console.log('r.userInfo.selfcard', r.userInfo.selfcard);
-    ruleForm.cardIsRequired = false;
+    // console.log('r.userInfo.selfcard', r.userInfo.selfcard);
+    // ruleForm.cardIsRequired = false;
+    rules.card = [{ required: false, message: '身份证不能为空', trigger: 'change' }];
   } else {
-    ruleForm.cardIsRequired = true;
+    // ruleForm.cardIsRequired = true;
+    rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
   }
 });
 const goBack = () => {

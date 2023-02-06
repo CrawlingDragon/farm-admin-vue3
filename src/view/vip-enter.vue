@@ -170,6 +170,7 @@ const rules = reactive<FormRules>({
   local: [{ required: true, message: '请选择省市区', trigger: 'change' }],
   name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
   phone: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
+  card: [{ required: true, message: '身份证不能为空', trigger: 'blur' }],
 });
 watch(
   () => ruleForm.baseInfo,

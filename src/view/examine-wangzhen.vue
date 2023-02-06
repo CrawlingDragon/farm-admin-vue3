@@ -39,7 +39,8 @@
               <el-checkbox :key="checkList[index]" :label="checkList[index]"> </el-checkbox>
             </div>
             <div class="avatar">
-              <el-avatar :src="item.userFace" fit="fill" />
+              <!-- <el-avatar :src="item.userFace" fit="fill" /> -->
+              <img style="width:35px;height:35px;border-radius: 50%;object-fit: fill;" :src="item.userFace" />
             </div>
             <div class="info-mid">
               <div class="name-bar">
