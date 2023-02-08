@@ -4,6 +4,7 @@
     v-model="selectKind"
     :filter-method="filterMethed"
     filterable
+    clearable
     placeholder="请选择种类"
     class="w300"
     @change="changeFn"

@@ -43,7 +43,6 @@ import Pages from '@/components/pages.vue';
 import { getTvListFetch, getTvDel } from '@/http';
 import { useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import type { StringConstructor } from 'element-plus';
 import TvTipImg from '@/assets/tv-tip-img.png';
 const router = useRouter();
 
@@ -53,7 +52,7 @@ const TVListData = reactive({
   totalData: 0,
   tableData: [],
 });
-const addBUtton = ref<StringConstructor>('primary')
+const addBUtton = ref<any>('primary')
 // 点击搜索按钮
 function search() {
   if (page.value !== 1) {

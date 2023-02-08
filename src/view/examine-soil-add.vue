@@ -542,7 +542,7 @@ async function getSoilDetail() {
   ruleForm.latitude = s.northLat;
   ruleForm.longitude = s.eastLng;
   ruleForm.nowKind = s.zuowuId;
-  ruleForm.beforeKind = s.beforeZuowuId;
+  ruleForm.beforeKind = s.beforeZuowuId == 0 ? '' : s.beforeZuowuId;
   ruleForm.unit = s.unitId;
   ruleForm.number = s.mushu;
   ruleForm.terrain = +s.dixing;

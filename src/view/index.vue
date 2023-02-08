@@ -184,9 +184,13 @@ const {
 // 数据概况 栏目的导航
 const GoPage = (label: string) => {
   let path = getCustomRouterLink(label, indexRightBarRouter);
-  router.push({
-    path,
-  });
+  if (label == 'product') {
+    window.open(path)
+  } else {
+    router.push({
+      path,
+    });
+  }
 };
 
 const activeName = ref('newuser');
