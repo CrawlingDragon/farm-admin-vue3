@@ -465,8 +465,9 @@ const soilParams = computed<any>(() => {
     saltVal: ruleForm.soilResult.salt,
     resultVal: ruleForm.soilResult.soilDescribe,
   });
+  let isPublicNum = ruleForm.Prescribing.open[0] == '公开处方' ? 1 : 0;
   let chufangInfoJson = JSON.stringify({
-    isPublic: ruleForm.Prescribing.open[0],
+    isPublic: isPublicNum,
     expertId: ruleForm.Prescribing.expert,
     chufangResult: ruleForm.Prescribing.result,
     lastCetuNumber: ruleForm.Prescribing.leastSoilRecord,
@@ -526,7 +527,7 @@ async function getSoilDetail() {
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!cetuId.value) return;
   let r = await getTestSoilDetail(cetuId.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   let s = r.soilInfo;
   let cetuResult = r.cetuResult;
   let chufangInfo = r.chufangInfo;
@@ -559,7 +560,7 @@ async function getSoilDetail() {
   ruleForm.soilResult.organic = cetuResult.organicVal;
   ruleForm.soilResult.salt = cetuResult.saltVal;
   ruleForm.soilResult.soilDescribe = cetuResult.resultVal;
-  ruleForm.Prescribing.open = chufangInfo.isPublic ? ['公开处方'] : [];
+  ruleForm.Prescribing.open = chufangInfo.isPublic == 1 ? ['公开处方'] : [];
   ruleForm.Prescribing.expert = chufangInfo.expertId;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.leastSoilRecord = chufangInfo.lastCetuNumber;

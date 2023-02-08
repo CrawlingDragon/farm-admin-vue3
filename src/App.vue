@@ -1,6 +1,6 @@
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container v-if="loginFailed">
       <el-header style="height: auto"><Header /></el-header>
       <Nav />
       <el-container class="main-content">
@@ -15,6 +15,17 @@
         </el-main>
       </el-container>
     </el-container>
+    <el-container v-if="!loginFailed">
+      <el-dialog :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false" align-center
+        v-model="dialogVisible" title="提示" width="30%">
+        <span>仅支持医院运营账号登录！</span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button type="primary" @click="loginOut">知道了</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </el-container>
   </div>
 </template>
 <script setup lang="ts">
@@ -27,15 +38,18 @@ import AsideSetting from '@/components/aside-setting.vue';
 import { userInfoDefineStore } from './store/index';
 import storage from 'good-storage';
 import { useRoute } from 'vue-router';
+import { loginOut } from '@/common/js/getToken';
 const route = useRoute();
 const userInfoStore = userInfoDefineStore();
 
 // 个别页面是否需要隐藏左边栏
 const hideAside = ref(true);
+const dialogVisible = ref(true);
+let loginFailed = storage.get('loginFailed')
 
 async function getUseInfo() {
   let token = storage.get('token');
-  if (token == '') return;
+  if (!token) return;
   let result = await getUserInfo();
   userInfoStore.setUserInfo(result);
 }

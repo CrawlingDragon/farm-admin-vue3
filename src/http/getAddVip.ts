@@ -22,3 +22,11 @@ interface Params {
 export function getAddVip(params: Params) {
   return get('/api/auth/addMember', params);
 }
+
+interface Telparams {
+  token?: string;
+  tel: number | string;
+}
+export function getUserInfoByTel(params: Telparams) {
+  return get('/api/auth/getUserInfoByTel', params);
+}

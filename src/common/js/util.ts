@@ -238,3 +238,13 @@ export function integrationMedicine(drugInfo: any) {
   });
   return result;
 }
+// 防抖函数
+export function debounce(fun: Function, wait: number) {
+  let timer: any = null;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fun()
+    }, wait)
+  }
+}

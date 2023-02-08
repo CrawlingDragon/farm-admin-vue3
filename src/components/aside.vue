@@ -86,9 +86,28 @@ async function getLeftAsideData() {
 }
 
 function getTestingsoilListsState(aside: any) {
-  let state;
-  state = aside.examine.filter((item: any) => item.label === 'testingsoilLists')[0].state;
-  return state;
+  // let state;
+  // state = aside.examine.filter((item: any) => item.label === 'testingsoilLists')[0].state;
+  let arr = {} as any;
+  aside.examine.forEach((item: any) => {
+    if (item.label === 'testingsoilLists') {
+      arr['testingsoilLists'] = item.state == 1 ? true : false
+    }
+    if (item.label === 'observepointLists') {
+      arr['observepointLists'] = item.state == 1 ? true : false
+    }
+    if (item.label === 'zuozhenLists') {
+      arr['zuozhenLists'] = item.state == 1 ? true : false
+    }
+    if (item.label === 'xunzhenLists') {
+      arr['xunzhenLists'] = item.state == 1 ? true : false
+    }
+    if (item.label === 'questionLists') {
+      arr['questionLists'] = item.state == 1 ? true : false
+    }
+  })
+  // console.log('arr', arr)
+  return arr;
 }
 
 onMounted(() => {

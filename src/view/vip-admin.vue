@@ -43,16 +43,16 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="handleCommand('soil', scope.row.id)" v-if="soil === 1"
+                    <el-dropdown-item @click="handleCommand('soil', scope.row.id)" v-if="soil.testingsoilLists"
                       >测土</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('zuozhen', scope.row.id)"
+                    <el-dropdown-item @click="handleCommand('zuozhen', scope.row.id)" v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('xunzhen', scope.row.id)"
+                    <el-dropdown-item @click="handleCommand('xunzhen', scope.row.id)" v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('point', scope.row.id)"
+                    <el-dropdown-item @click="handleCommand('point', scope.row.id)" v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -157,6 +157,7 @@ function goPageDetail(id: number) {
 function handleCommand(command: string | number | object, uId: number) {
   router.push({
     path: `/examine-${command}-add`,
+    query: { uId: uId }
   });
 }
 </script>

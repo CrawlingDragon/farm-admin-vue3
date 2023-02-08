@@ -28,16 +28,16 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="soil === 1" @click="goPage('/examine-soil-add')"
+                    <el-dropdown-item @click="goPage('/examine-soil-add')" v-if="soil.testingsoilLists"
                       >测土</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')"
+                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')" v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')"
+                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')" v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-point-add')"
+                    <el-dropdown-item @click="goPage('/examine-point-add')" v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -48,23 +48,23 @@
           </div>
         </div>
         <div class="numbers">
-          <div class="item" v-if="soil === 1">
+          <div class="item" v-if="soil.testingsoilLists">
             <div class="num fb">{{ detailData.tempArray.cetu }}</div>
             <div class="p">测土</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="soil.observepointLists">
             <div class="num fb">{{ detailData.tempArray.viewpoint }}</div>
             <div class="p">观测点</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="soil.zuozhenLists">
             <div class="num fb">{{ detailData.tempArray.wenzhen }}</div>
             <div class="p">坐诊</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="soil.xunzhenLists">
             <div class="num fb">{{ detailData.tempArray.xunzhen }}</div>
             <div class="p">巡诊</div>
           </div>
-          <div class="item">
+          <div class="item" v-if="soil.questionLists">
             <div class="num fb">{{ detailData.tempArray.ask }}</div>
             <div class="p">网诊</div>
           </div>
@@ -92,7 +92,7 @@
         >
           <div class="tip">基本信息</div>
           <el-form-item label="姓名:" prop="name">
-            <el-input v-model="ruleForm.name" label="right" class="w300" placeholder="请输入姓名" />
+            <el-input @change="nameChane" v-model="ruleForm.name" label="right" class="w300" placeholder="请输入姓名" />
           </el-form-item>
           <el-form-item label="手机号码:" prop="phone">
             <p>{{ ruleForm.phone }}</p>
@@ -132,6 +132,7 @@
               label="right"
               class="w300"
               placeholder="请输入身份证"
+              @change="nameChane"
             />
           </el-form-item>
           <el-form-item label="家庭成员数:" prop="family">
@@ -429,9 +430,14 @@ async function submitEditData() {
     // }, 1000);
   }
 }
+// 姓名和身份证改变
+const nameChaneShow = ref<boolean>(false)
+const nameChane = () => {
+  nameChaneShow.value = true
+  // console.log(nameChaneShow.value)
+}
 
 const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
-  console.log(ruleForm.baseInfo)
   if (!formEl) return;
   // if (ruleForm.cardIsRequired) {
   //   rules.card = [{ required: true, message: '身份证不能为空', trigger: 'change' }];
@@ -439,9 +445,9 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
 
   await formEl.validate((valid, fields) => {
     if (valid) {
-      // 如果 detailData === 1，则需要接受验证码在修改，验证成功后 修改资料
+      // 如果 detailData === 1并且姓名或身份证修改了，则需要接受验证码在修改，验证成功后 修改资料
       // 否则直接修改资料
-      if (detailData.isJoinOther == 1) {
+      if (detailData.isJoinOther == 1 && nameChaneShow.value) {
         dialogFormVisible.value = true;
       } else {
         // 发送编辑数据ajax
@@ -513,8 +519,11 @@ onMounted(async () => {
   detailData.userInfo = r.userInfo;
   detailData.tempArray = r.tempArray;
   detailData.recentlog = r.recentlog;
+  detailData.canDelete = r.canDelete//是否可以删除
   ruleForm.name = r.userInfo.userName; //姓名
-  ruleForm.local = [r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any; //所在地区
+  ruleForm.local = r.userInfo.residecommunity
+    ? [r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist, r.residecommunity] as any
+    : [r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any; //所在地区
   ruleForm.address = r.userInfo.address; //详细地址
   ruleForm.phone = r.userInfo.tel; // 手机号码
   ruleForm.sex = r.userInfo.sex; // 性别

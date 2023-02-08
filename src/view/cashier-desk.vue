@@ -79,8 +79,8 @@
 import { ref, onMounted, onUnmounted, watch, reactive } from 'vue';
 import { getProductLists, getCashierOrder } from '@/http';
 import UserSelectVue from '@/components/userSelect.vue';
-import { calc } from '@/common/js/util';
-import { ElMessage } from 'element-plus';
+import { calc, debounce } from '@/common/js/util';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 const emit = defineEmits(['update:hideAside']);
 // 商品输入框关键字
@@ -116,6 +116,7 @@ watch(vipUid, (newVal) => {
 watch(
   tableData,
   (newVal) => {
+    if (newVal.length == 0) return 
     let price: any = 0;
     let number = 0;
     let params: any = [];
@@ -143,31 +144,38 @@ const watchMoney = () => {
   }
 };
 // 结算
-const settlement = () => {
+const settlement = debounce(() => {
   if (tableData.value.length != 0) {
-    // if (vipUid.value) {
-    let params = {
-      goodsJson: paramsJson.value,
-      uid: vipUid.value,
-    };
-    setCashierOrder(params);
-    // console.log(params)
-    // } else {
-    //   ElMessage({
-    //     message: '请选择会员',
-    //     type: 'warning',
-    //     offset: 200,
-    //   });
-    //   myUser.value.mySelect.focus();
-    // }
+    if (vipUid.value) {
+      let params = {
+        goodsJson: paramsJson.value,
+        uid: vipUid.value,
+      };
+      setCashierOrder(params);
+    } else {
+      ElMessageBox.confirm('你还没有输入会员，请添加会员后再提交', '提示', {
+        cancelButtonText: '继续提交',
+        confirmButtonText: '添加会员',
+        type: 'warning',
+      }).then(() => {
+        myUser.value.mySelect.focus();
+      }).catch(() => {
+        let params = {
+          goodsJson: paramsJson.value,
+          uid: vipUid.value,
+        };
+        setCashierOrder(params);
+      })
+    }
   } else {
     ElMessage({
       message: '请选择商品',
       type: 'warning',
       offset: 200,
+      duration: 2000,
     });
   }
-};
+}, 1500);
 // 结算方法
 const setCashierOrder = async (params: any) => {
   let r = await getCashierOrder(params);
@@ -177,7 +185,7 @@ const setCashierOrder = async (params: any) => {
       message: '已结算',
       type: 'success',
     });
-    location.reload();
+    cleanOut()
   } else {
     ElMessage.error(r.msg);
   }
@@ -218,6 +226,24 @@ function duplicateRemoval(tempArr: any, key: string) {
   };
   return tempArr;
 };
+// 清空函数
+const cleanOut = () => {
+  vipUid.value = null
+  vipUser.value = {
+    vipNumber: '',
+    userName: '',
+    mobile: '',
+  }
+  tableData.value = []
+  tableDataOption.value = []
+  totalPrice.value = 0.0
+  zoonMoney.value = 0.0
+  totalNumber.value = 0
+  paramsJson.value = null
+  factMoney.value = null
+  searchLoading.value = false
+
+}
 onMounted(async () => {
   emit('update:hideAside', false);
 });

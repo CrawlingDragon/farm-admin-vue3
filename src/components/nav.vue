@@ -39,6 +39,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getGlobalTitle } from '@/http';
 import { userInfoDefineStore, switchStore } from '@/store/index';
+import storage from 'good-storage';
 
 const switchSetting = switchStore(); //是否显示测土诊疗等配置项
 const router = useRouter();
@@ -80,6 +81,8 @@ onMounted(() => {
 });
 
 async function setNavTitle() {
+  let token = storage.get('token');
+  if (!token) return
   let r = await getGlobalTitle();
   title.value = r.manageName;
   hospitalName.value = r.cashierName;

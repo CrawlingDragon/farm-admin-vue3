@@ -12,7 +12,7 @@
       status-icon
     >
       <el-form-item label="手机号码:" prop="phone">
-        <el-input v-model.number="ruleForm.phone" label="right" placeholder="请输入手机号码" />
+        <el-input @change="getPhone" v-model.number="ruleForm.phone" label="right" placeholder="请输入手机号码" />
       </el-form-item>
       <el-form-item label="姓名:" prop="name">
         <el-input v-model="ruleForm.name" label="right" placeholder="请输入姓名" />
@@ -135,7 +135,7 @@ import { reactive, ref, onMounted, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { getSelectInfo } from '../http/getSelectInfo';
 import { area } from '@/common/js/area_level4';
-import { getAddVip } from '../http/getAddVip';
+import { getAddVip, getUserInfoByTel } from '../http/getAddVip';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
 import KindSelect from '@/components/kindSelect.vue';
@@ -208,6 +208,22 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
     }
   });
 };
+// 手机号获取信息
+async function getPhone(val: string | number) {
+  let r = await getUserInfoByTel({ tel: val })
+  if (r.isExist == 1) {
+    ruleForm.name = r.realname//姓名
+    ruleForm.local = r.residecommunity
+      ? [r.resideprovince, r.residecity, r.residedist, r.residecommunity] as any
+      : [r.resideprovince, r.residecity, r.residedist] as any; //所在地区
+    ruleForm.address = r.address //详细地址
+    ruleForm.sex = r.gender == 1 ? '男' : '女' // 性别
+    ruleForm.card = r.idcard //身份证
+    ruleForm.family = r.familycount //家庭数量
+  } else {
+    // console.log('不存在')
+  }
+}
 
 // 添加种类按钮
 function addKind() {

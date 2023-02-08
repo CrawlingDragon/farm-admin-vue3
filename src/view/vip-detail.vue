@@ -28,16 +28,15 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="soil === 1" @click="goPage('/examine-soil-add')">
-                      测土
+                    <el-dropdown-item @click="goPage('/examine-soil-add')" v-if="soil.testingsoilLists">测土
                     </el-dropdown-item>
-                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')"
+                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')" v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')"
+                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')" v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-point-add')"
+                    <el-dropdown-item @click="goPage('/examine-point-add')" v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -48,23 +47,23 @@
           </div>
         </div>
         <div class="numbers">
-          <div class="item" v-if="soil === 1" @click="goPage('/vip-soil-list')">
+          <div class="item" v-if="soil.testingsoilLists" @click="goPage('/vip-soil-list')">
             <div class="num fb">{{ detailData.tempArray.cetu }}</div>
             <div class="p">测土</div>
           </div>
-          <div class="item" @click="goPage('/vip-point-list')">
+          <div class="item" v-if="soil.observepointLists" @click="goPage('/vip-point-list')">
             <div class="num fb">{{ detailData.tempArray.viewpoint }}</div>
             <div class="p">观测点</div>
           </div>
-          <div class="item" @click="goPage('/vip-zuozhen-list')">
+          <div class="item" v-if="soil.zuozhenLists" @click="goPage('/vip-zuozhen-list')">
             <div class="num fb">{{ detailData.tempArray.wenzhen }}</div>
             <div class="p">坐诊</div>
           </div>
-          <div class="item" @click="goPage('/vip-xunzhen-list')">
+          <div class="item" v-if="soil.xunzhenLists" @click="goPage('/vip-xunzhen-list')">
             <div class="num fb">{{ detailData.tempArray.xunzhen }}</div>
             <div class="p">巡诊</div>
           </div>
-          <div class="item" @click="goPage('/vip-wangzhen-list')">
+          <div class="item" v-if="soil.questionLists" @click="goPage('/vip-wangzhen-list')">
             <div class="num fb">{{ detailData.tempArray.ask }}</div>
             <div class="p">网诊</div>
           </div>

@@ -316,11 +316,12 @@ router.beforeEach(async (to, from) => {
   const urlParamsCode = getUrlQuery('code'); // 获取浏览器code 参数
   //如果路由跳转是相同的，就取消
   if (to.path === from.path) return;
-
-  if (urlParamsCode && token == '') {
+  // console.log('token', token)
+  // console.log('urlParamsCode', urlParamsCode)
+  if (urlParamsCode && !token) {
     // 去请求token
     let r = await fetchGetToken(urlParamsCode);
-  } else if (token == '') {
+  } else if (!token) {
     const url = encodeURIComponent(window.location.origin + decodeURIComponent(to.fullPath));
     let redirect_uri = storage.get('redirect_uri', url);
     // 跳转到用户中心

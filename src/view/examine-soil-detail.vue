@@ -418,7 +418,7 @@ async function getSoilDetail() {
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!cetuId.value) return;
   let r = await getTestSoilDetail(cetuId.value as any);
-  console.log('r', r);
+  // console.log('r', r);
   let soilInfo = r.soilInfo;
   let cetuResult = r.cetuResult;
   let chufangInfo = r.chufangInfo;
@@ -452,7 +452,7 @@ async function getSoilDetail() {
   ruleForm.soilResult.salt = cetuResult.saltVal;
   ruleForm.soilResult.soilDescribe = cetuResult.resultVal;
 
-  ruleForm.Prescribing.open = chufangInfo.isPublic == '' ? ['公开处方'] : [];
+  ruleForm.Prescribing.open = chufangInfo.isPublic == 1 ? ['公开处方'] : [];
   ruleForm.Prescribing.expert = chufangInfo.expertName;
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.leastSoilRecord = chufangInfo.lastCetuNumber;
