@@ -123,7 +123,11 @@ async function setSaveNews() {
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('发布成功');
+    if (id.value) {
+      ElMessage.success('保存成功');
+    } else {
+      ElMessage.success('发布成功');
+    }
     setTimeout(() => {
       router.push({
         path: '/serve-message',

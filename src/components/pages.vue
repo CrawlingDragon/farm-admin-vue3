@@ -47,6 +47,7 @@ watch(
   () => prop.page,
   () => {
     // console.log('prop.page', prop.page);
+    currentPage.value = prop.page;
     document.documentElement.scrollTop = 0;
   }
 );

@@ -22,8 +22,8 @@
             <li v-if="item.state === 1" @click="GoPage(item.label)">
               <div class="number">{{ item.value }}</div>
               <div class="small-title">{{ item.words }}</div>
-              <div class="answer" v-if="item.label === 'expert'">待审核 {{ item.checkNum }}</div>
-              <div class="answer" v-if="item.label === 'ask'">未回复 {{ item.noreply }}</div>
+              <div class="answer1" v-if="item.label === 'expert'">待审核 {{ item.checkNum }}</div>
+              <div class="answer" v-if="item.label === 'ask'" @click.stop="GoPage(item.label,2)">未回复 {{ item.noreply }}</div>
             </li>
           </template>
         </ul>
@@ -182,14 +182,19 @@ const {
 } = toRefs(fetchData);
 
 // 数据概况 栏目的导航
-const GoPage = (label: string) => {
+const GoPage = (label: string, status?: number) => {
   let path = getCustomRouterLink(label, indexRightBarRouter);
   if (label == 'product') {
     window.open(path)
-  } else {
+  } else if (status) {
     router.push({
       path,
+      query: { status: status }
     });
+  } else {
+    router.push({
+      path
+    })
   }
 };
 
@@ -301,15 +306,30 @@ async function exportData(timeType: string) {
           font-size: 24px;
           margin-bottom: 25px;
         }
-        .answer {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 20px;
-          text-align: center;
-          font-size: 14px;
-          font-weight: 400;
-          color: $theme-color;
+                                .answer1 {
+                                  position: absolute;
+                                  left: 0;
+                                  right: 0;
+                                  bottom: 20px;
+                                  text-align: center;
+                                  font-size: 14px;
+                                  font-weight: 400;
+                                  color: $theme-color;
+                                }
+                
+                                .answer {
+                                  position: absolute;
+                                  left: 0;
+                                  right: 0;
+                                  bottom: 20px;
+                                  text-align: center;
+                                  font-size: 14px;
+                                  font-weight: 400;
+                                  color: $theme-color;
+                
+                                  &:hover {
+                                    text-decoration: underline;
+                                  }
         }
       }
     }

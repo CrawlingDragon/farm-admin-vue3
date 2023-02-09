@@ -57,3 +57,14 @@ export const switchStore = defineStore('switchStore', () => {
     setSwitchInfo,
   };
 });
+// 登录状态
+export const loginState = defineStore('loginState', () => {
+  let loginStates = ref<any>();
+  const setLoginStates = (states: any) => {
+    loginStates.value = states;
+  };
+  return {
+    loginStates,
+    setLoginStates,
+  };
+});
