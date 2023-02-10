@@ -70,7 +70,7 @@
                 label="right"
                 placeholder="请输入数字"
                 class="grow-number w200 mr30"
-                @keyup="numberKeyup"
+                @input="numberKeyup"
               />
               <UnitSelect
                 v-model:unit="ruleForm.unit"

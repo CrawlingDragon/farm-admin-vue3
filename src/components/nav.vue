@@ -19,7 +19,7 @@
           @keydown.enter="searchFn"
         >
           <template #append>
-            <div @click="searchFn">搜索会员</div>
+            <div class="search-but" @click="searchFn">搜索会员</div>
           </template>
         </el-input>
       </div>
@@ -53,16 +53,16 @@ router.beforeEach(async (to, from) => {
 });
 
 const search = ref('');
-const beforeSearchVal = ref(''); // 用于保存上一次搜索内容
+// const beforeSearchVal = ref(''); // 用于保存上一次搜索内容
 
 // 搜索函数
 const searchFn = () => {
   if (search.value == '') return;
-  if (beforeSearchVal.value === search.value) {
-    // 上一次搜索内容和 这一次一样，则不跳转
-    return;
-  }
-  beforeSearchVal.value = search.value;
+  // if (beforeSearchVal.value === search.value) {
+  //   // 上一次搜索内容和 这一次一样，则不跳转
+  //   return;
+  // }
+  // beforeSearchVal.value = search.value;
   router.push({
     path: '/vip-admin',
     query: {
@@ -139,6 +139,9 @@ watch(
       top: 50%;
       width: 380px;
       transform: translateY(-50%);
+      .search-but {
+          color: $theme-second-color;
+        }
     }
 
     .back {

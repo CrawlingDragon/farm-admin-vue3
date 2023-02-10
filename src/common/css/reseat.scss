@@ -190,3 +190,12 @@ body {
 .unit .is-transparent {
   color: #000 !important;
 }
+.el-table__header-wrapper {
+  thead {
+    th {
+      div {
+        color: #333;
+      }
+    }
+  }
+}

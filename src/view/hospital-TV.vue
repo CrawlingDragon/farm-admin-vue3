@@ -2,9 +2,9 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       TV广告图设置
-      <el-tooltip class="box-item tab" effect="dark" content="" placement="right-start">
+      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
         <template #content>
-          最多添加6张电视机广告图，其中中农在线可添加3张，<br />位置为前三个，庄稼医院可控制后三张。<br />
+          <h3>最多添加6张电视机广告图，其中中农在线可添加3张，<br />位置为前三个，庄稼医院可控制后三张。</h3>
           <div class="p1">广告图区域见下图：</div>
           <el-image :src="TvTipImg" fit="cover" class="TvTipImg"></el-image>
         </template>
@@ -139,14 +139,14 @@ function goTVAddEditPage(adId: number) {
   }
 }
 .p1 {
-  font-size: 12px;
+  font-size: 14px;
   // color: #333;
-  line-height: 20px;
+  line-height: 40px;
 }
 .TvTipImg {
   display: block;
   width: 348px;
   height: 195px;
-  margin-top: 5px;
+  margin-bottom: 10px;
 }
 </style>
