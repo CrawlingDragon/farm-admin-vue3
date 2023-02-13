@@ -1,4 +1,4 @@
-import { userInfoDefineStore } from './../../store/index';
+import { userInfoDefineStore, loginState } from './../../store/index';
 import { router } from '../../router';
 import Axios from 'axios';
 import leansAxios from '../../http/http';
@@ -9,12 +9,12 @@ export function loginOut() {
   //退出登录
   //判断url是否为需要登录的页面，是就改写成index
   let url = deleteUrlCode();
-  if (router.currentRoute.value.meta.needLogin) {
-    url = window.location.origin + import.meta.env.DEV;
-  }
+  // if (router.currentRoute.value.meta.needLogin) {
+  //   url = window.location.origin + import.meta.env.DEV;
+  // }
   // 清空token
   storage.set('token', '');
-  console.log('window.localStorage.getItem(token)', window.localStorage.getItem('token'));
+  // console.log('window.localStorage.getItem(token)', window.localStorage.getItem('token'));
 
   //退出登录的地址
   window.location.href = `${UserCenterUrl}/sso_logout?redirect_url=${url}&state=123`;
@@ -22,20 +22,21 @@ export function loginOut() {
 
 //处理链接，删除其中的code参数，然后返回其他部分
 export function deleteUrlCode() {
-  const query = window.location.search.substring(1);
-  const queryArr = query.split('&');
-  let str = '';
-  for (let i = 0; i < queryArr.length; i++) {
-    const r = queryArr[i].split('=');
-    if (r[0] == 'code') {
-      continue;
-    }
-    str += '&' + r.join('=');
-  }
-  let arr = window.location.href.split('?');
-  let result = arr[0] + (arr.length === 1 ? '' : '?') + str.substring(1);
+  // const query = window.location.search.substring(1);
+  // const queryArr = query.split('&');
+  // let str = '';
+  // for (let i = 0; i < queryArr.length; i++) {
+  //   const r = queryArr[i].split('=');
+  //   if (r[0] == 'code') {
+  //     continue;
+  //   }
+  //   str += '&' + r.join('=');
+  // }
+  // let arr = window.location.href.split('?');
+  // let result = arr[0] + (arr.length === 1 ? '' : '?') + str.substring(1);
   // debugger;
   // result = encodeURIComponent(result);
+  const result = encodeURIComponent(window.location.origin + decodeURIComponent('/index'));
   storage.set('redirect_uri', result);
   return result;
 }
@@ -79,15 +80,16 @@ export function fetchGetToken(code: string) {
             })
             .then((res: any) => {
               let data = res.data;
+              const loginStateStore = loginState();
               if (data.code == 200) {
                 const userInfoStore = userInfoDefineStore();
                 // console.log('data.data', data.data);
                 userInfoStore.setUserInfo(data.data); // 保存用户信息
-                storage.set('loginFailed', true); //医院账户登录
+                loginStateStore.setLoginStates('agree'); //医院账户登录
                 resolve(data.data);
               }
               if (data.code == 405) {
-                // storage.set('loginFailed', false)//非医院账户登录
+                loginStateStore.setLoginStates('refuse'); //非医院账户登录
               }
             });
         }

@@ -197,3 +197,12 @@ body {
 //   border: none;
 //   border-radius: 4px;
 // }
+.el-table__header-wrapper {
+  thead {
+    th {
+      div {
+        color: #333;
+      }
+    }
+  }
+}

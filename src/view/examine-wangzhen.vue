@@ -175,6 +175,8 @@ const isVipPage = computed(() => {
 });
 //页面参数uId，是用户的uId
 const uId = computed<any>(() => route.query.uId);
+// statusRoute首页未回复跳转参数
+const statusRoute = computed<any>(() => route.query.status);
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
@@ -230,6 +232,9 @@ watch(active, () => {
   }
 });
 onMounted(() => {
+  if (statusRoute.value) {
+    status.value = Number(statusRoute.value)
+  }
   getWangListData();
 });
 

@@ -148,6 +148,7 @@ import {
   getAddExpert,
 } from '@/http';
 import { ElMessageBox, ElMessage, } from 'element-plus';
+import ExpertSelect from '@/components/expertSelect.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 
 const active = ref(0);

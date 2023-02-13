@@ -64,10 +64,11 @@
             </el-form-item>
             <el-form-item label="数量:" prop="number">
               <el-input
-                v-model.number="ruleForm.number"
+                v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
                 class="grow-number w200 mr30"
+                @input="numberKeyup"
               />
               <UnitSelect
                 v-model:unit="ruleForm.unit"
@@ -355,7 +356,7 @@ const ruleForm = reactive({
   Prescribing: {
     // 处方信息
     open: ['公开处方'],
-    expert: '', //处方专家
+    expert: '' as any, //处方专家
     result: '', // 看诊结果
     leastSoilRecord: '', //最近测土记录
     medicine: [
@@ -471,9 +472,15 @@ const soilParams = computed<any>(() => {
     resultVal: ruleForm.soilResult.soilDescribe,
   });
   let isPublicNum = ruleForm.Prescribing.open[0] == '公开处方' ? 1 : 0;
+  let expertId;
+  if (ruleForm.Prescribing.expert instanceof Object) {
+    expertId = ruleForm.Prescribing.expert.value;
+  } else {
+    expertId = ruleForm.Prescribing.expert;
+  }
   let chufangInfoJson = JSON.stringify({
     isPublic: isPublicNum,
-    expertId: ruleForm.Prescribing.expert,
+    expertId: expertId,
     chufangResult: ruleForm.Prescribing.result,
     lastCetuNumber: ruleForm.Prescribing.leastSoilRecord,
   });
@@ -566,7 +573,7 @@ async function getSoilDetail() {
   ruleForm.soilResult.salt = cetuResult.saltVal;
   ruleForm.soilResult.soilDescribe = cetuResult.resultVal;
   ruleForm.Prescribing.open = chufangInfo.isPublic == 1 ? ['公开处方'] : [];
-  ruleForm.Prescribing.expert = chufangInfo.expertId;
+  ruleForm.Prescribing.expert = { value: chufangInfo.expertId, label: chufangInfo.expertName };
   ruleForm.Prescribing.result = chufangInfo.chufangResult;
   ruleForm.Prescribing.leastSoilRecord = chufangInfo.lastCetuNumber;
   ruleForm.Prescribing.medicine = integrationMedicine(r.drugInfo);
@@ -582,6 +589,14 @@ onUnmounted(() => {
 // 日期限制
 const disabledDate = (time: Date) => {
   return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
+//自定义验证数字为小数点后两位
+const numberKeyup = () => {
+  ruleForm.number = ruleForm.number
+    .toString()
+    .replace(/[^\d.]/g, '')
+    .replace(/\.{2,}/g, '.')
+    .replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
 };
 </script>
 <style lang="scss" scoped>

@@ -284,6 +284,7 @@ async function submitVipInfo() {
     ElMessageBox.alert(r.msg, '录入会员', {
       confirmButtonText: '知道了',
       showClose: false,
+      type: 'warning',
     });
     return Promise.reject();
   } else {

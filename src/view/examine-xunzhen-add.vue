@@ -71,10 +71,11 @@
             </el-form-item>
             <el-form-item label="数量:" prop="number">
               <el-input
-                v-model.number="ruleForm.number"
+                v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
                 class="grow-number w200 mr30"
+                @input="numberKeyup"
               />
               <UnitSelect
                 v-model:unit="ruleForm.unit"
@@ -447,6 +448,14 @@ onUnmounted(() => {
 // 日期限制
 const disabledDate = (time: Date) => {
   return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
+//自定义验证数字为小数点后两位
+const numberKeyup = () => {
+  ruleForm.number = ruleForm.number
+    .toString()
+    .replace(/[^\d.]/g, '')
+    .replace(/\.{2,}/g, '.')
+    .replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
 };
 </script>
 <style lang="scss" scoped>
