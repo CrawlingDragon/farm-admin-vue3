@@ -105,6 +105,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       submitAnswerFn();
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -133,7 +134,9 @@ const submitAnswerFn = async () => {
 };
 //选择了模板后的 用药赋值函数
 const selectTemplate = (val: any) => {
+  console.log('val', val);
   showMedicineBtn.value = true;
+  ruleForm.content = val.content;
   setTimeout(() => {
     ruleForm.medicine = integrationMedicine(val.drugInfo);
   }, 100);
@@ -160,10 +163,10 @@ const selectTemplate = (val: any) => {
         cursor: pointer;
         font-size: 23px;
       }
-.icon-yao {
-  background: url(@/assets/answer-icon.png) no-repeat;
-  background-position: -139px -16px;
-}
+      .icon-yao {
+        background: url(@/assets/answer-icon.png) no-repeat;
+        background-position: -139px -16px;
+      }
     }
 
     :deep().el-textarea__inner {

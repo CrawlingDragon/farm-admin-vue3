@@ -318,9 +318,12 @@ router.beforeEach(async (to, from) => {
   if (to.path === from.path) return;
   // console.log('token', token)
   // console.log('urlParamsCode', urlParamsCode)
+  let arr = ['/detail_path'];
   if (urlParamsCode && !token) {
     // 去请求token
     let r = await fetchGetToken(urlParamsCode);
+    if (arr.includes(to.path)) {
+    }
   } else if (!token) {
     const url = encodeURIComponent(window.location.origin + decodeURIComponent(to.fullPath));
     let redirect_uri = storage.get('redirect_uri', url);

@@ -46,14 +46,17 @@
           <el-dropdown v-else>
             <div class="ant-dropdown-link flex align-center" style="height: 50px">
               <!-- <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" /> -->
-              <img style="width:35px;height:35px;border-radius: 50%;object-fit: fill;" :src="userInfoStore.userInfo.avatar">
+              <img
+                style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
+                :src="userInfoStore.userInfo.avatar"
+              />
               {{ userInfoStore.userInfo.mobile }}
               <el-icon class="icon2"><ArrowDown /></el-icon>
               <!-- <down-outlined class="icon2" /> -->
             </div>
-            <template #dropdown>
+            <template #dropdown class="box22">
               <div class="web-drop-box box2">
-                <router-link class="item" to="/change-password">修改密码</router-link>
+                <router-link class="item password-item" to="/change-password">修改密码</router-link>
                 <div class="item" @click="loginOut">退出</div>
               </div>
             </template>
@@ -74,7 +77,9 @@
                 <div class="item">
                   <router-link to="/vip-admin">会员管理</router-link>
                 </div>
-                <a :href="urls.vip_base" class="item">基地管理中心</a>
+                <a :href="urls.vip_base" class="item a-item" target="_blank"
+                  >基地管理中心 <el-icon><ArrowRight /></el-icon
+                ></a>
               </div>
             </template>
           </el-dropdown>
@@ -215,16 +220,18 @@ const goPage = (url: string) => {
 }
 .box2,
 .box3 {
-  width: 113px;
+  // width: 115px;
   height: 88px;
   background: #ffffff;
   padding: 5px 0;
+  min-width: 116px;
+  width: 100%;
   /* position: absolute; */
   /* right: 0; */
 }
-.box3 {
-  height: 138px;
-}
+// .box3 {
+//   height: 138px;
+// }
 .box2 .item,
 .box3 .item {
   line-height: 40px;
@@ -233,12 +240,21 @@ const goPage = (url: string) => {
   color: #333333;
   padding-left: 20px;
   cursor: pointer;
+  // width: 116px;
+  display: block;
 }
 
 .box2 .item:hover,
 .box3 .item:hover {
   background: $theme-color;
   color: #fff;
+}
+.box2 .password-item {
+  border-bottom: 1px solid #e5e5e5;
+}
+.box3 {
+  padding-bottom: 0;
+  height: auto;
 }
 .right {
   font-size: 16px;
@@ -282,5 +298,13 @@ a:hover {
 }
 .header .ant-dropdown-link:hover {
   color: #333;
+}
+.box3 .item {
+  width: 133px;
+}
+.box3 .a-item {
+  border-top: 1px solid #e5e5e5;
+  display: inline-flex;
+  align-items: center;
 }
 </style>

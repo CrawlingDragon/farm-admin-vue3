@@ -81,6 +81,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       setAddTestSoilObservePoint();
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });

@@ -370,6 +370,7 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
       // console.log('formEl', formEl)
       // console.log('ruleForm', ruleForm)
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   })

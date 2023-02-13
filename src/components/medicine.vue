@@ -32,7 +32,9 @@
         <div class="del" @click="delMedicine(index)">x</div>
       </div>
     </div>
-    <el-button class="add-medicine-btn" @click="addMedicine" v-bind="$attrs">添加用药</el-button>
+    <el-button class="add-medicine-btn" @click="addMedicine" :class="{ borderRed: errRule }"
+      >添加用药</el-button
+    >
   </div>
 </template>
 <script setup lang="ts">
@@ -54,6 +56,10 @@ const props = defineProps({
         // },
       ];
     },
+  },
+  errRule: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -154,5 +160,8 @@ watch(
   margin-top: 30px;
   margin-left: 20px;
   margin-bottom: 30px;
+  &.borderRed {
+    border: 1px solid red;
+  }
 }
 </style>

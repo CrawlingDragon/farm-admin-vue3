@@ -12,7 +12,12 @@
       status-icon
     >
       <el-form-item label="手机号码:" prop="phone">
-        <el-input @change="getPhone" v-model.number="ruleForm.phone" label="right" placeholder="请输入手机号码" />
+        <el-input
+          @change="getPhone"
+          v-model.number="ruleForm.phone"
+          label="right"
+          placeholder="请输入手机号码"
+        />
       </el-form-item>
       <el-form-item label="姓名:" prop="name">
         <el-input v-model="ruleForm.name" label="right" placeholder="请输入姓名" />
@@ -91,7 +96,11 @@
               />
             </el-option-group>
           </el-select> -->
-          <KindSelect v-model:kind="item.zuowuId" :options="kindOptions" v-if="kindOptions.length != 0">
+          <KindSelect
+            v-model:kind="item.zuowuId"
+            :options="kindOptions"
+            v-if="kindOptions.length != 0"
+          >
           </KindSelect>
           <el-icon class="close" v-if="index !== 0" @click="deleteBaseInfo(index)"
             ><CloseBold
@@ -115,7 +124,13 @@
       <el-button type="primary" class="add" @click="addKind">添加种类</el-button>
       <div class="tip">备注信息</div>
       <el-form-item prop="message">
-        <el-input v-model="ruleForm.message" type="textarea" rows="5" show-word-limit maxlength="2000" />
+        <el-input
+          v-model="ruleForm.message"
+          type="textarea"
+          rows="5"
+          show-word-limit
+          maxlength="2000"
+        />
       </el-form-item>
 
       <div class="submit-bar">
@@ -204,22 +219,23 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
 };
 // 手机号获取信息
 async function getPhone(val: string | number) {
-  let r = await getUserInfoByTel({ tel: val })
+  let r = await getUserInfoByTel({ tel: val });
   if (r.isExist == 1) {
-    ruleForm.name = r.realname//姓名
+    ruleForm.name = r.realname; //姓名
     ruleForm.local = r.residecommunity
-      ? [r.resideprovince, r.residecity, r.residedist, r.residecommunity] as any
-      : [r.resideprovince, r.residecity, r.residedist] as any; //所在地区
-    ruleForm.address = r.address //详细地址
-    ruleForm.sex = r.gender == 1 ? '男' : '女' // 性别
-    ruleForm.card = r.idcard //身份证
-    ruleForm.family = r.familycount //家庭数量
+      ? ([r.resideprovince, r.residecity, r.residedist, r.residecommunity] as any)
+      : ([r.resideprovince, r.residecity, r.residedist] as any); //所在地区
+    ruleForm.address = r.address; //详细地址
+    ruleForm.sex = r.gender == 1 ? '男' : '女'; // 性别
+    ruleForm.card = r.idcard; //身份证
+    ruleForm.family = r.familycount; //家庭数量
   } else {
     // console.log('不存在')
   }
@@ -268,7 +284,7 @@ async function submitVipInfo() {
     ElMessageBox.alert(r.msg, '录入会员', {
       confirmButtonText: '知道了',
       showClose: false,
-    })
+    });
     return Promise.reject();
   } else {
     ElMessage({

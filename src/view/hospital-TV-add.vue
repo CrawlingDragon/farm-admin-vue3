@@ -110,6 +110,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
     if (valid) {
       let r = setTVData().then((res) => {});
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });

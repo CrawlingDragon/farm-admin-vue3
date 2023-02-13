@@ -18,7 +18,12 @@
       :mobile="ruleForm.enterInfo.enterMobile"
       :time="ruleForm.enterInfo.enterTime"
       class="left"
-      ><div class="save mr10" @click="submitForm(ruleFormRef)">保存</div>
+      ><div
+        class="save mr10"
+        @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId)"
+      >
+        保存
+      </div>
     </AddSecondBar>
     <div class="content">
       <el-form
@@ -91,7 +96,7 @@
                 size="large"
                 value-format="YYYY-MM-DD"
                 class="date-wrap-300"
-                :disabled-date="disabledDate" 
+                :disabled-date="disabledDate"
               />
             </el-form-item>
             <el-form-item label="巡诊地点:" prop="address">
@@ -149,7 +154,6 @@
             </el-form-item>
             <el-form-item label="测土记录" prop="leastSoilRecord">
               <LatestTestSoilSelectVue
-                v-if="cetuOrderListArr.length != 0"
                 v-model:soilTestRecord="ruleForm.Prescribing.soilRecord"
                 :soilSelectOption="cetuOrderListArr"
               >
@@ -178,7 +182,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, 'goPage')"
+              @click="submitForm(ruleFormRef, '/examine-xunzhenlist')"
               class="mr20"
               >确定添加</el-button
             >
@@ -193,7 +197,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef)"
+              @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId)"
               class="mr20"
               >保存</el-button
             >
@@ -298,7 +302,7 @@ const del = () => {
       if (r.code) {
         ElMessage.error(r.msg);
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success('已删除');
         router.replace({ path: '/examine-soil' });
       }
       // console.log('r', r);
@@ -315,17 +319,22 @@ function selectPrescribing(detail: any) {
   ruleForm.Prescribing.medicine = integrationMedicine(drugInfo);
 }
 
-//成功之后，清空数据
-
+//成功之后，重置清空数据
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   // console.log('ruleform', ruleForm);
+  ruleForm.Prescribing.soilRecord = '';
+  ruleForm.Prescribing.medicine = [];
   formEl.resetFields();
+  if (uId.value) {
+    // 有uId，说明是从会员管理页面过来的，置空数据后，需要保留选择的会员
+    ruleForm.nameId = +uId.value as any;
+  }
 
   // debugger;
-  if (xunzhenId.value) {
-    router.push(`/examine-xunzhen-detail/${xunzhenId.value}`);
-  }
+  // if (xunzhenId.value) {
+  //   router.push(`/examine-xunzhen-detail/${xunzhenId.value}`);
+  // }
 };
 
 const router = useRouter();
@@ -337,13 +346,14 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
       let r = setZuozhenData().then((res) => {
         if (goPage) {
           setTimeout(() => {
-            router.push('/examine-xunzhenlist');
+            router.push(goPage);
           }, 600);
         } else {
           resetForm(ruleFormRef.value);
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -381,7 +391,7 @@ const soilParams = computed<any>(() => {
 // 提价测土结果请求
 async function setZuozhenData() {
   if (soilParams.value.expertId instanceof Object) {
-    soilParams.value.expertId = soilParams.value.expertId.value
+    soilParams.value.expertId = soilParams.value.expertId.value;
   }
   let r = await getAddEditZuoXun(soilParams.value);
   // console.log('r', r);
@@ -389,7 +399,7 @@ async function setZuozhenData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已经添加');
+    ElMessage.success('已添加');
     return Promise.resolve('ok');
   }
 }
@@ -436,8 +446,8 @@ onUnmounted(() => {
 });
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {

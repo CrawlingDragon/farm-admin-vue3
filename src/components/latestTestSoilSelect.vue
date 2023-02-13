@@ -1,12 +1,18 @@
 <template>
   <!-- 最近测土记录 select -->
   <!-- <el-select-v2 v-model="soilTestRecord" :options="testOptions" class="unit" @change="changeFn" /> -->
-  <el-select :clearable="clearable" v-model="soilTestRecordSelect" placeholder="请选择测土记录" class="unit" @change="changeFn">
+  <el-select
+    :clearable="clearable"
+    v-model="soilTestRecordSelect"
+    placeholder="请选择测土记录"
+    class="unit"
+    @change="changeFn"
+  >
     <el-option :label="item.label" :value="item.value" v-for="item in testOptions"> </el-option>
   </el-select>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed, ref } from 'vue';
+import { reactive, onMounted, computed, ref, watch } from 'vue';
 import { getTestExpert } from '../http';
 
 const prop = defineProps({
@@ -21,13 +27,11 @@ const prop = defineProps({
   soilSelectOption: {
     type: Array,
     default: function () {
-      return [
-
-      ];
+      return [];
     },
   },
 });
-const soilTestRecordSelect = ref<string>('')
+const soilTestRecordSelect = ref<string>('');
 const emit = defineEmits(['update:soilTestRecord']);
 
 let options = reactive({
@@ -59,18 +63,27 @@ const testOptions = computed<any>(() => {
 });
 
 onMounted(async () => {
-  if (prop.soilSelectOption.length == 0) {
-    // console.log('await');
-    let r = await getTestExpert();
-    console.log('getMedicineProduct', r);
-    options.testOptions = r.cetuOrderList;
-  } else {
-    // console.log('prop');
+  // if (prop.soilSelectOption.length == 0) {
+  //   // console.log('await');
+  //   let r = await getTestExpert();
+  //   console.log('getMedicineProduct', r);
+  //   options.testOptions = r.cetuOrderList;
+  // } else {
+  //   // console.log('prop');
+  //   options.testOptions = prop.soilSelectOption as any;
+  // }
+});
+watch(
+  () => prop.soilTestRecord,
+  () => {
+    soilTestRecordSelect.value = prop.soilTestRecord;
+  }
+);
+watch(
+  () => prop.soilSelectOption,
+  () => {
     options.testOptions = prop.soilSelectOption as any;
   }
-  soilTestRecordSelect.value = prop.soilTestRecord
-});
+);
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

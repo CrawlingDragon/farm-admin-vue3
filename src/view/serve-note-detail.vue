@@ -121,6 +121,7 @@ async function sendOut(formEl: FormInstance | undefined) {
       // console.log(params, '66')
       setNoteSmsSend(params)
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   })

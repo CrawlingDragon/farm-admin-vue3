@@ -8,7 +8,7 @@
       </div> -->
       <div class="edit-btn" @click="goEditPageFn">编辑</div>
     </div>
-    <div class="content pt20">
+    <div class="content pt20 pr20">
       <el-form-item label="申请账号:" label-width="150px">
         {{ hospitalInfo.account }}
       </el-form-item>
@@ -20,6 +20,9 @@
       </el-form-item>
       <el-form-item label="所在区域:" label-width="150px" v-show="hospitalInfo.region != ''"
         >{{ hospitalInfo.region }}
+      </el-form-item>
+      <el-form-item label="详细地址:" label-width="150px" v-show="hospitalInfo.address != ''"
+        >{{ hospitalInfo.address }}
       </el-form-item>
       <el-form-item label="医院级别:" label-width="150px" v-show="hospitalInfo.level != ''"
         >{{ hospitalInfo.level }}
@@ -71,6 +74,7 @@ const hospitalInfo = reactive({
   realName: '',
   card: '',
   workAddress: '', //工作单位
+  address: '', //详细地址
   phone: '',
   info: '',
   contactAddress: '',
@@ -91,6 +95,7 @@ onMounted(async () => {
   hospitalInfo.workAddress = r.company;
   hospitalInfo.phone = r.tel;
   hospitalInfo.info = r.introduce;
+  hospitalInfo.address = r.address;
   hospitalInfo.contactAddress = r.linkAddress;
 });
 

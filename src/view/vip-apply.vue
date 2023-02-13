@@ -116,11 +116,48 @@
         </li>
       </ul>
       <template #footer>
-        <span class="dialog-footer">
+        <span class="dialog-footer" v-show="firstBtnVisible">
           <div class="title">是否通过会员申请？</div>
-          <el-button type="primary" @click="passApplyFn">通过</el-button>
+          <el-button type="primary" @click="clickPassApplyBtnFn">通过</el-button>
           <el-button @click="noPassApplyFn">拒绝</el-button>
         </span>
+        <div class="pass-box" v-show="passBoxVisible">
+          <!-- 确定之后，判断最新会员的显示框 -->
+          <div class="pass-text">{{ activeVipName }}不是最新的会员申请,你确定要通过吗?</div>
+          <div class="btn-bar">
+            <el-button
+              @click="
+                firstBtnVisible = true;
+                passBoxVisible = false;
+              "
+              >取消</el-button
+            >
+            <el-button type="primary" @click="passApplyFn">确认</el-button>
+          </div>
+        </div>
+        <div class="refused-box" v-show="dialogFormVisible">
+          <!-- 拒绝填写拒绝理由的弹窗 -->
+          <el-input
+            v-model="refusedVal"
+            autocomplete="off"
+            type="textarea"
+            class="w300"
+            show-word-limit
+            maxlength="30"
+            :rows="4"
+          />
+          <div class="btn-bar">
+            <el-button
+              type="primary"
+              @click="
+                firstBtnVisible = true;
+                dialogFormVisible = false;
+              "
+              >取消</el-button
+            >
+            <el-button class="btn-red" @click="refused">确认拒绝</el-button>
+          </div>
+        </div>
       </template>
     </el-dialog>
     <el-dialog v-model="dialogDetailVisible" title="Shipping address">
@@ -176,7 +213,7 @@
       </template>
     </el-dialog>
     <el-dialog
-      v-model="dialogFormVisible"
+      v-if="false"
       :title="`请填写拒绝${activeVipName}会员申请的理由`"
       style="width: 400px"
     >
@@ -186,7 +223,6 @@
             v-model="refusedVal"
             autocomplete="off"
             type="textarea"
-            class="w300"
             show-word-limit
             maxlength="30"
             :rows="4"
@@ -226,7 +262,9 @@ const vipApplyData = reactive({
 
 const dialogVisible = ref(false);
 const dialogDetailVisible = ref(false);
+const firstBtnVisible = ref(true); //第一层通过拒绝按钮
 const dialogFormVisible = ref(false);
+const passBoxVisible = ref(false);
 
 const activeVipName = ref(''); //选中的会员名字
 const refusedVal = ref(''); // 拒绝理由
@@ -280,41 +318,57 @@ function doOperation(status: string, detail: any) {
   console.log('detail', detail);
   isLatest.value = detail.isLatest;
   isPass.value = detail.isPass;
-  activeVipName.value = detail.userName; //选中的会员名字
+  activeVipName.value = detail.userName + detail.tel; //选中的会员名字
   dialogVal.value = detail;
-  if (isLatest.value == 0) {
-    // 如果不是最新的申请，则先提示是否要审核
-    ElMessageBox.confirm('姓名手机号不是最新的会员申请，你确定要审核吗？', '提示')
-      .then(() => {
-        alertApplyWindow(status);
-      })
-      .catch(() => {});
-  } else if (isPass.value == 1) {
-  } else {
-    alertApplyWindow(status);
-  }
+
+  alertApplyWindow(status);
 }
 
 function alertApplyWindow(status: string) {
   if (status === '已通过' || status === '已拒绝') {
     dialogDetailVisible.value = true;
+  } else if (isLatest.value == 0) {
+    // 如果不是最新的申请，则先提示是否要审核
+    ElMessageBox.confirm(activeVipName.value + '不是最新的会员申请，你确定要审核吗？', '提示')
+      .then(() => {
+        dialogVisible.value = true;
+      })
+      .catch(() => {});
   } else {
     dialogVisible.value = true;
+    //若该用户已通过，点击本次待审核记录，点击“通过/拒绝”弹窗提示“该用户已通过，无需重复审核，本次申请自动拒绝
+    // 知道了”点击知道了，状态改为“已拒绝”同时拒绝理由为“该用户已通过，无需重复审核，本次申请自动拒绝”
+  }
+}
+//点击第一层通过按钮
+function clickPassApplyBtnFn() {
+  if (isLatest.value == 0) {
+    //如果不是最新的会员申请，则显示二级提示
+    passBoxVisible.value = true;
+    firstBtnVisible.value = false;
+    return;
+  } else {
+    passApplyFn();
   }
 }
 // 通过申请
 async function passApplyFn() {
   let r = await getVipApplyAction({ applyId: dialogVal.value.applyId, status: 99 });
   if (!r.code) {
-    setApplyData();
+    ElMessage.success('已通过');
+    setTimeout(() => {
+      dialogVisible.value = false;
+      setApplyData();
+    }, 200);
   } else {
     ElMessage.error(r.msg);
   }
 }
 //拒绝申请
 function noPassApplyFn() {
+  firstBtnVisible.value = false;
   dialogFormVisible.value = true;
-  dialogVisible.value = false;
+  // dialogVisible.value = false;
 }
 // 拒绝理由的函数
 async function refused() {
@@ -328,14 +382,20 @@ async function refused() {
   } else {
     setApplyData();
     ElMessage.success('已拒绝');
+    dialogVisible.value = false;
   }
-  dialogFormVisible.value = false;
 }
 // watch page变化
 watch(page, () => {
   setApplyData();
 });
-
+watch(dialogVisible, () => {
+  if (dialogVisible.value == false) {
+    firstBtnVisible.value = true;
+    dialogFormVisible.value = false;
+    passBoxVisible.value = false;
+  }
+});
 onMounted(() => {
   setApplyData();
 });
@@ -367,6 +427,24 @@ onMounted(() => {
     top: 50%;
     transform: translateY(-50%);
     color: #333;
+  }
+  .btn-red {
+    border: 1px solid red;
+  }
+}
+.pass-box,
+.refused-box {
+  text-align: left;
+  border-top: 1px solid #e5e5e5;
+  .pass-text {
+    padding: 10px 0;
+  }
+  .btn-bar {
+    text-align: right;
+  }
+  .el-textarea {
+    width: 100%;
+    margin: 10px 0;
   }
 }
 </style>

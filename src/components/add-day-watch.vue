@@ -128,6 +128,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       setAddDayObservePoint();
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });

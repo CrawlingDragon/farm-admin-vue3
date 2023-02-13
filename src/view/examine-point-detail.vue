@@ -595,6 +595,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -640,7 +641,7 @@ async function setPintData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已经添加');
+    ElMessage.success('添加');
     return Promise.resolve('ok');
   }
 }

@@ -157,7 +157,7 @@ const del = () => {
       if (r.code) {
         ElMessage.error(r.msg);
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success('已删除');
         router.replace({ path: '/examine-tongfang' });
       }
       // console.log('r', r);

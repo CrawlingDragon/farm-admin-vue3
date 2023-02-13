@@ -193,49 +193,11 @@
               />
             </el-form-item>
             <el-form-item prop="leftUseFormInfo.medicine" label-width="100px">
-              <Medicine v-model:medicineProp="ruleForm.leftUseFormInfo.medicine" />
+              <Medicine
+                v-model:medicineProp="ruleForm.leftUseFormInfo.medicine"
+                :errRule="ruleForm.medicineErrRule"
+              />
             </el-form-item>
-            <!-- <div class="medicine" v-if="ruleForm.leftUseFormInfo.medicine.length !== 0">
-              <div class="bar title border">
-                <div class="item">商品名称</div>
-                <div class="item">商品规格</div>
-                <div class="item">数量</div>
-                <div class="del"></div>
-              </div>
-
-              <div class="bar" v-for="(item, index) in ruleForm.leftUseFormInfo.medicine">
-                <div class="item">
-                  <medicineSelectVue
-                    v-model:drugName="item.drugName"
-                    v-model:drugId="item.drugId"
-                    v-model:size="item.sizeSelectOption"
-                  />
-                </div>
-                <div class="item">
-                  <el-select v-model="item.drugSpecIds" placeholder="请选择" class="unit">
-                    <el-option
-                      v-for="it in item.sizeSelectOption"
-                      :key="it.value"
-                      :label="it.label"
-                      :value="it.value"
-                    >
-                    </el-option>
-                  </el-select>
-                 <el-select-v2
-                    v-model="item.drugSpecIds"
-                    :options="item.sizeSelectOption"
-                    class="unit"
-                  /> 
-           </div>
-                <div class="item">
-                  <el-input v-model="item.drugQuantity" placeholder=""></el-input>
-                </div>
-                <div class="del" @click="delMedicine(index, 'left')">x</div>
-              </div>
-            </div>
-            <el-form-item>
-              <el-button @click="addMedicine('left')">添加用药</el-button>
-            </el-form-item> -->
           </div>
           <div class="right-main">
             <div class="tip">使用农资信息</div>
@@ -271,43 +233,6 @@
             <el-form-item label-width="100px">
               <Medicine v-model:medicineProp="ruleForm.rightUseFormInfo.medicine" />
             </el-form-item>
-            <!-- <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" /> -->
-            <!-- <div class="medicine" v-if="ruleForm.rightUseFormInfo.medicine.length !== 0">
-              <div class="bar title border">
-                <div class="item">商品名称</div>
-                <div class="item">商品规格</div>
-                <div class="item">数量</div>
-                <div class="del"></div>
-              </div>
-
-              <div class="bar" v-for="(item, index) in ruleForm.rightUseFormInfo.medicine">
-                <div class="item">
-                  <medicineSelectVue
-                    v-model:drugName="item.drugName"
-                    v-model:drugId="item.drugId"
-                    v-model:size="item.sizeSelectOption"
-                  />
-                </div>
-                <div class="item">
-                  <el-select v-model="item.drugSpecIds" placeholder="请选择" class="unit">
-                    <el-option
-                      v-for="it in item.sizeSelectOption"
-                      :key="it.value"
-                      :label="it.label"
-                      :value="it.value"
-                    >
-                    </el-option>
-                  </el-select>
-                </div>
-                <div class="item">
-                  <el-input v-model="item.drugQuantity" placeholder=""></el-input>
-                </div>
-                <div class="del" @click="delMedicine(index, 'right')">x</div>
-              </div>
-            </div>
-            <el-form-item>
-              <el-button @click="addMedicine('right')">添加用药</el-button>
-            </el-form-item> -->
           </div>
         </div>
         <div class="submit-bar" v-if="!pointId">
@@ -424,6 +349,7 @@ const ruleForm = reactive({
       // },
     ] as any,
   },
+  medicineErrRule: false, //用药是否显示表格验证失败
 });
 
 // 用于select的option设置，数据化
@@ -458,12 +384,18 @@ async function setUnitAndKindSelectData() {
 const validatorMedicine = (rule: any, value: any, callback: any) => {
   if (value.length !== 0) {
     if (value[0].drugId == '' || value[0].drugSpecIds == '') {
+      ruleForm.medicineErrRule = true;
       callback(new Error('请至少添加一种用药'));
+      console.log('1', 1);
     } else {
+      console.log('2', 2);
+      ruleForm.medicineErrRule = false;
       callback();
     }
   } else {
-    callback();
+    console.log('3', 3);
+    ruleForm.medicineErrRule = true;
+    callback(new Error('请至少添加一种用药'));
   }
 };
 const rules = reactive<FormRules>({
@@ -475,8 +407,8 @@ const rules = reactive<FormRules>({
   nameId: [{ required: true, message: '试验会员不能为空', trigger: 'change' }],
   'leftUseFormInfo.date': [{ required: true, message: '开始用药日期不能为空', trigger: 'change' }],
   'leftUseFormInfo.medicine': [
-    { required: true, message: '请至少添加一种用药', trigger: 'blur' },
-    { validator: validatorMedicine, trigger: 'change' },
+    // { required: true, message: '请至少添加一种用药', trigger: 'blur' },
+    { validator: validatorMedicine, trigger: 'blur' },
   ],
   'leftUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
   'rightUseFormInfo.describe': [{ required: true, message: '用药描述不能为空', trigger: 'change' }],
@@ -555,7 +487,9 @@ const rules = reactive<FormRules>({
 
 const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined, pageName?: string) => {
-  if (!formEl) return;
+  if (!formEl) {
+    return;
+  }
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!');
@@ -570,17 +504,24 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
               router.push({ path: pageName });
             }, 500);
           }
+        } else {
+          //点击确认并继续添加按钮，清空数据
+          resetData(ruleFormRef.value);
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
 };
 
-// //保存观测点数据
-// function save() {}
-
+//情况数据
+function resetData(formEl: FormInstance | undefined) {
+  if (!formEl) return;
+  formEl.resetFields();
+  ruleForm.rightUseFormInfo.medicine = [];
+}
 // 取消按钮
 const cancel = function () {
   router.go(-1);
@@ -623,7 +564,7 @@ async function setPintData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已经添加');
+    ElMessage.success('已添加');
     return Promise.resolve('ok');
   }
 }

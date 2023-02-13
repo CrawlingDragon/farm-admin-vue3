@@ -28,16 +28,24 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="goPage('/examine-soil-add')" v-if="soil.testingsoilLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-soil-add')"
+                      v-if="soil.testingsoilLists"
                       >测土</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')" v-if="soil.zuozhenLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-zuozhen-add')"
+                      v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')" v-if="soil.xunzhenLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-xunzhen-add')"
+                      v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-point-add')" v-if="soil.observepointLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-point-add')"
+                      v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -76,8 +84,9 @@
         <div class="tip">最近诊疗记录</div>
         <ul class="look-ul">
           <li v-if="detailData.recentlog.length == 0">暂无诊疗记录</li>
-          <li v-else v-for="item in detailData.recentlog">{{ item.viewtime }}<i style="display:inline-block;width:20px;"></i>{{
-            item.title }}</li>
+          <li v-else v-for="item in detailData.recentlog">
+            {{ item.viewtime }}<i style="display: inline-block; width: 20px"></i>{{ item.title }}
+          </li>
         </ul>
       </div>
       <div class="right-bar">
@@ -92,7 +101,13 @@
         >
           <div class="tip">基本信息</div>
           <el-form-item label="姓名:" prop="name">
-            <el-input @change="nameChane" v-model="ruleForm.name" label="right" class="w300" placeholder="请输入姓名" />
+            <el-input
+              @change="nameChane"
+              v-model="ruleForm.name"
+              label="right"
+              class="w300"
+              placeholder="请输入姓名"
+            />
           </el-form-item>
           <el-form-item label="手机号码:" prop="phone">
             <p>{{ ruleForm.phone }}</p>
@@ -280,7 +295,7 @@ const detailData = reactive<any>({
   tempArray: '',
   recentlog: '',
   canDelete: 0, //是否能删除 0不能删除，1可以
-  isJoinOther: 1, // 是否加入其他
+  isJoinOther: 0, // 是否加入其他
 });
 
 const ruleForm = reactive({
@@ -422,6 +437,9 @@ async function submitEditData() {
     ElMessage.error(r.msg);
   } else {
     ElMessage.success('编辑成功');
+    setTimeout(() => {
+      goBack();
+    }, 200);
     // setTimeout(() => {
     //   router.replace({
     //     path: '/vip-detail',
@@ -431,11 +449,11 @@ async function submitEditData() {
   }
 }
 // 姓名和身份证改变
-const nameChaneShow = ref<boolean>(false)
+const nameChaneShow = ref<boolean>(false);
 const nameChane = () => {
-  nameChaneShow.value = true
+  nameChaneShow.value = true;
   // console.log(nameChaneShow.value)
-}
+};
 
 const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
   if (!formEl) return;
@@ -454,6 +472,7 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
         submitEditData();
       }
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -519,18 +538,25 @@ onMounted(async () => {
   detailData.userInfo = r.userInfo;
   detailData.tempArray = r.tempArray;
   detailData.recentlog = r.recentlog;
-  detailData.canDelete = r.canDelete//是否可以删除
+  detailData.canDelete = r.canDelete; //是否可以删除
+  detailData.isJoinOther = r.isJoinOther;
   ruleForm.name = r.userInfo.userName; //姓名
   ruleForm.local = r.userInfo.residecommunity
-    ? [r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist, r.residecommunity] as any
-    : [r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any; //所在地区
+    ? ([
+        r.userInfo.resideprovince,
+        r.userInfo.residecity,
+        r.userInfo.residedist,
+        r.residecommunity,
+      ] as any)
+    : ([r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any); //所在地区
   ruleForm.address = r.userInfo.address; //详细地址
   ruleForm.phone = r.userInfo.tel; // 手机号码
   ruleForm.sex = r.userInfo.sex; // 性别
   ruleForm.card = r.userInfo.selfcard; //身份证
   ruleForm.family = r.userInfo.familycount; //家庭数量
-  ruleForm.baseInfo = r.userInfo.zuowu || []//种类情况
+  ruleForm.baseInfo = r.userInfo.zuowu || []; //种类情况
   ruleForm.message = r.userInfo.remarks;
+
   let { categoryArr, unitArr } = await getSelectInfo();
   options.kindOptions = categoryArr;
   options.unitOptions = unitArr;
@@ -544,7 +570,11 @@ onMounted(async () => {
   }
 });
 const goBack = () => {
-  router.go(-1);
+  // router.go(-1);
+  router.push({
+    path: '/vip-detail',
+    query: { id: id.value },
+  });
 };
 // 隐藏左边栏
 onUnmounted(() => {

@@ -2,8 +2,16 @@
   <div class="vip-admin border bg-w pd40" v-loading="loading" element-loading-text="加载中...">
     <div class="head right-head soil-right-head">
       网诊管理
-      <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start" v-if="!isVipPage">
-        <template #content>网诊管理即网诊，会员通过手机益农宝向<br />庄稼医院提问，请相关专家进行解答。</template>
+      <el-tooltip
+        class="box-item tab"
+        effect="customized"
+        content=""
+        placement="right-start"
+        v-if="!isVipPage"
+      >
+        <template #content
+          >网诊管理即网诊，会员通过手机益农宝向<br />庄稼医院提问，请相关专家进行解答。</template
+        >
         <el-icon class="icon color">
           <QuestionFilled />
         </el-icon>
@@ -11,24 +19,45 @@
       <div class="export" @click="exportPDFFn" v-if="!isVipPage">导出PDF</div>
     </div>
     <div class="input-bar">
-      <el-input v-model="keyword" class="w300 m-2 mr20" size="large" placeholder="会员姓名/手机号码" />
+      <el-input
+        v-model="keyword"
+        class="w300 m-2 mr20"
+        size="large"
+        placeholder="会员姓名/手机号码"
+      />
       <div class="date-box">
         <label class="mr10">提问日期</label>
-        <el-date-picker v-model="dateVal" style="width: 280px" type="daterange" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
+        <el-date-picker
+          v-model="dateVal"
+          style="width: 280px"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="选择起始时间"
+          end-placeholder="选择结束时间"
+          size="large"
+          class="mr10"
+          value-format="YYYY-MM-DD"
+        />
       </div>
 
       <div class="select-box mr10">
         <label class="mr10">状态</label>
         <el-select v-model="status" style="width: 130px" placeholder="Select" size="large">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
     <div class="list-container">
       <div class="top-bar">
-        <el-checkbox v-model="checkAll" class="check" @change="handleCheckAllChange">全选</el-checkbox>
+        <el-checkbox v-model="checkAll" class="check" @change="handleCheckAllChange"
+          >全选</el-checkbox
+        >
         <div class="times">已选中{{ checkedList.length }}条</div>
         <el-button type="" @click="inviteExpertFn"> 邀请专家回复</el-button>
       </div>
@@ -40,7 +69,10 @@
             </div>
             <div class="avatar">
               <!-- <el-avatar :src="item.userFace" fit="fill" /> -->
-              <img style="width:35px;height:35px;border-radius: 50%;object-fit: fill;" :src="item.userFace" />
+              <img
+                style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
+                :src="item.userFace"
+              />
             </div>
             <div class="info-mid">
               <div class="name-bar">
@@ -52,8 +84,13 @@
                 {{ item.question }}
               </div>
               <div class="images" v-if="item.questionImgs.length !== 0">
-                <el-image fit="fill" class="img" v-for="(items, index) in item.questionImgs"
-                  :src="items.thumb_url" @click="getImgView(index, item.questionImgs)"></el-image>
+                <el-image
+                  fit="fill"
+                  class="img"
+                  v-for="(items, index) in item.questionImgs"
+                  :src="items.thumb_url"
+                  @click="getImgView(index, item.questionImgs)"
+                ></el-image>
               </div>
               <div class="answer-icons" @click="item.showEditBox = !item.showEditBox">
                 <el-icon class="answer-icon">
@@ -62,9 +99,15 @@
                 ({{ item.replyNum }})
               </div>
               <div class="edit-box" v-show="item.showEditBox">
-                <WangZhenAnswer :recipeTemListArr="recipeTemListArr" v-if="item.showEditBox"
-                  :question-id="item.questionId" />
-                <WangExpertAnsweredList :list-data="item.replyLists" v-if="item.replyLists.length !== 0" />
+                <WangZhenAnswer
+                  :recipeTemListArr="recipeTemListArr"
+                  v-if="item.showEditBox"
+                  :question-id="item.questionId"
+                />
+                <WangExpertAnsweredList
+                  :list-data="item.replyLists"
+                  v-if="item.replyLists.length !== 0"
+                />
               </div>
             </div>
           </li>
@@ -203,7 +246,6 @@ const exportPDFFn = async () => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
   let params = {
-    getType: '2',
     keyword: keyword.value,
     startTime,
     endTime,
@@ -214,12 +256,12 @@ const exportPDFFn = async () => {
   window.open(r.downLink, '_target');
 };
 // 大图预览
-const imgIndex = ref<number>()
-const imgLists = ref<any>()
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const getImgView = (index: number, lists: any) => {
-  imgIndex.value = index
-  imgLists.value = lists
-}
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {
@@ -267,7 +309,7 @@ const getImgView = (index: number, lists: any) => {
       display: none;
     }
 
-    &>li {
+    & > li {
       border: 1px solid transparent;
       border-bottom: 1px solid #e5e5e5;
       display: flex;

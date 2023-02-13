@@ -128,11 +128,7 @@
         </div>
         <div class="submit-bar" v-else>
           <div class="content">
-            <el-button
-              type="primary"
-              size="large"
-              @click="submitForm(ruleFormRef)"
-              class="mr20"
+            <el-button type="primary" size="large" @click="submitForm(ruleFormRef)" class="mr20"
               >保存</el-button
             >
 
@@ -221,6 +217,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -303,8 +300,8 @@ onUnmounted(() => {
 });
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {

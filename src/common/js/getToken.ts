@@ -83,11 +83,11 @@ export function fetchGetToken(code: string) {
                 const userInfoStore = userInfoDefineStore();
                 // console.log('data.data', data.data);
                 userInfoStore.setUserInfo(data.data); // 保存用户信息
-                storage.set('loginFailed', true)//医院账户登录
+                storage.set('loginFailed', true); //医院账户登录
                 resolve(data.data);
               }
               if (data.code == 405) {
-                storage.set('loginFailed', false)//非医院账户登录
+                // storage.set('loginFailed', false)//非医院账户登录
               }
             });
         }

@@ -83,6 +83,7 @@ const onFinish = async (formEl: FormInstance | undefined) => {
     if (valid) {
       setPassword()
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });

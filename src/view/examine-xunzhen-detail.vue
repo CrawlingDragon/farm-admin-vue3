@@ -338,6 +338,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -449,8 +450,8 @@ const getImgView = (index: number, lists: any) => {
 };
 // 新增诊疗跟踪日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .title-fiexed-bar {
@@ -641,7 +642,7 @@ const disabledDate = (time: Date) => {
         margin-left: 10px;
       }
 
-            .close-icon {
+      .close-icon {
         color: #999;
         cursor: pointer;
       }

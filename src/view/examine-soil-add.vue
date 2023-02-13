@@ -263,18 +263,22 @@
         <div class="submit-bar" v-if="!cetuId">
           <!-- 这是新增页面的按钮 -->
           <div class="content">
-            <el-button type="primary" size="large" @click="submitForm(ruleFormRef, 'goPage')" class="mr20">确定添加</el-button>
-            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20">确定并继续添加</el-button>
+            <el-button
+              type="primary"
+              size="large"
+              @click="submitForm(ruleFormRef, 'goPage')"
+              class="mr20"
+              >确定添加</el-button
+            >
+            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
+              >确定并继续添加</el-button
+            >
             <el-button size="large" @click="cancel">取消</el-button>
           </div>
         </div>
         <div class="submit-bar" v-else>
           <div class="content">
-            <el-button
-              type="primary"
-              size="large"
-              @click="submitForm(ruleFormRef)"
-              class="mr20"
+            <el-button type="primary" size="large" @click="submitForm(ruleFormRef)" class="mr20"
               >保存</el-button
             >
             <!-- <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
@@ -320,7 +324,7 @@ const routeName = computed(() => route.name);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
-  testingsoilNumber: '',//测土数字
+  testingsoilNumber: '', //测土数字
   nameId: '', //姓名
   address: '', //位置
   latitude: '', //经度
@@ -436,6 +440,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         }
       });
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
@@ -445,7 +450,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (cetuId.value) {
     router.push(`/examine-soil-detail/${cetuId.value}`);
   } else {
-    router.go(0)
+    router.go(0);
   }
 };
 
@@ -502,7 +507,7 @@ const soilParams = computed<any>(() => {
 // 提价测土结果请求
 async function setSoilData() {
   if (soilParams.value.expertId instanceof Object) {
-    soilParams.value.expertId = soilParams.value.expertId.value
+    soilParams.value.expertId = soilParams.value.expertId.value;
   }
   let r = await getAddSoil(soilParams.value);
   if (r.code) {
@@ -576,8 +581,8 @@ onUnmounted(() => {
 });
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {

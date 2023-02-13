@@ -185,7 +185,7 @@ const {
 const GoPage = (label: string) => {
   let path = getCustomRouterLink(label, indexRightBarRouter);
   if (label == 'product') {
-    window.open(path)
+    window.open(path);
   } else {
     router.push({
       path,
@@ -274,7 +274,7 @@ async function exportData(timeType: string) {
       display: flex;
       li {
         flex: 1;
-        max-width: 109px;
+        // max-width: 109px;
         padding: 0 5px;
         line-height: 1.1;
         height: 100%;

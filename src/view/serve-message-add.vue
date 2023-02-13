@@ -139,6 +139,7 @@ async function saveMessage(formEl: FormInstance | undefined) {
     if (valid) {
       setSaveNews();
     } else {
+      ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
   });
