@@ -71,9 +71,13 @@ const searchFn = () => {
   });
 };
 
-watch(() => router, (newVal) => {
-  search.value = ''
-}, { deep: true })
+watch(
+  () => router,
+  (newVal) => {
+    search.value = '';
+  },
+  { deep: true }
+);
 const title = ref('');
 const hospitalName = ref('');
 onMounted(() => {
@@ -81,8 +85,8 @@ onMounted(() => {
 });
 
 async function setNavTitle() {
-  let token = storage.get('token');
-  if (!token) return
+  let token = storage.session.get('token');
+  if (!token) return;
   let r = await getGlobalTitle();
   title.value = r.manageName;
   hospitalName.value = r.cashierName;
@@ -140,8 +144,8 @@ watch(
       width: 380px;
       transform: translateY(-50%);
       .search-but {
-          color: $theme-second-color;
-        }
+        color: $theme-second-color;
+      }
     }
 
     .back {

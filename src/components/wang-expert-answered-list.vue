@@ -2,7 +2,7 @@
   <ul class="content-child">
     <li v-for="(item, index) in listData">
       <div class="avatar">
-        <el-avatar :src="item.avatar" fit="fill" />
+        <el-avatar :src="item.avatar" fit="cover" />
       </div>
       <div class="info-mid">
         <div class="name-bar">
@@ -16,7 +16,8 @@
           <el-image
             fit="fill"
             class="img"
-            v-for="(img,index) in item.replyImgs" :key="index"
+            v-for="(img, index) in item.replyImgs"
+            :key="index"
             :src="img.thumb_url"
             @click="getImgView(index, item.replyImgs)"
           ></el-image>
@@ -37,12 +38,12 @@ import MedicineShow from '@/components/medicine-show.vue';
 import { ref } from 'vue';
 const props = defineProps<{ listData: any }>();
 // 大图预览
-const imgIndex = ref<number>()
-const imgLists = ref<any>()
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const getImgView = (index: number, lists: any) => {
-  imgIndex.value = index
-  imgLists.value = lists
-}
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 </script>
 <style lang="scss" scoped>
 .content-child {

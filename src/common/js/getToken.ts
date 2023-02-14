@@ -13,7 +13,7 @@ export function loginOut() {
   //   url = window.location.origin + import.meta.env.DEV;
   // }
   // 清空token
-  storage.set('token', '');
+  storage.session.set('token', '');
   // console.log('window.localStorage.getItem(token)', window.localStorage.getItem('token'));
 
   //退出登录的地址
@@ -62,7 +62,7 @@ export function fetchGetToken(code: string) {
       .then((res) => {
         if (res.data.code === 500) {
           // 置空token，和尝试退出登录
-          storage.set('token', '');
+          storage.session.set('token', '');
           loginOut();
           alert('获取token失败,请重新登录');
         } else if (res.status === 200) {
@@ -70,7 +70,7 @@ export function fetchGetToken(code: string) {
           let token = res.data.access_token;
           // let tokenStorage = useStorage('token', '');
           // tokenStorage.value = token;
-          storage.set('token', token);
+          storage.session.set('token', token);
           // let tokenStore = tokenDefineStore();
           // tokenStore.setToken(token);
           // 请求接口，获取对应token的用户信息，并保存

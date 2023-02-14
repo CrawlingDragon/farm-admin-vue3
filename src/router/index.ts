@@ -312,22 +312,16 @@ export const router: Router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   const urlParamsCode = getUrlQuery('code'); // 获取浏览器code 参数
   //如果路由跳转是相同的，就取消
   if (to.path === from.path) return;
-  // console.log('token', token)
-  // console.log('urlParamsCode', urlParamsCode)
-  let arr = ['/detail_path'];
   if (urlParamsCode && !token) {
     // 去请求token
     let r = await fetchGetToken(urlParamsCode);
-    if (arr.includes(to.path)) {
-    }
   } else if (!token) {
     // 跳转到首页
     const url = encodeURIComponent(window.location.origin + decodeURIComponent('/index'));
-    // const url = encodeURIComponent(window.location.origin + decodeURIComponent(to.fullPath));
     let redirect_uri = storage.get('redirect_uri', url);
     // 跳转到用户中心
     login('password', redirect_uri);

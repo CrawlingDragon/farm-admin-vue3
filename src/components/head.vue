@@ -115,11 +115,11 @@ import { getAssetsImage } from '@/common/js/util';
 
 // const router = useRouter();
 const userInfoStore = userInfoDefineStore();
-let token = storage.get('token');
+let token = storage.session.get('token');
 // console.log('token', token);
 // userInfo store
 const goPage = (url: string) => {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (token != '') {
     if (userInfoStore.userInfo.isUserAccount === 1) {
       // 个人账户

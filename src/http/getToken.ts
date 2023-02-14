@@ -6,7 +6,7 @@ import { getUrlQuery } from '../common/js/getToken';
 export function fetchGetToken() {
   const url = storage.get('redirect_uri');
   const code = getUrlQuery('code');
-  const token = storage.get('token');
+  const token = storage.session.get('token');
   if (token != '') {
     return false;
   }

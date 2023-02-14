@@ -66,12 +66,12 @@
         <el-table-column prop="dateCollected" label="取样日期" />
         <el-table-column prop="expertName" label="测试专家" />
         <el-table-column prop="yongyao" label="用药" />
-        <el-table-column prop="status" label="测土状态">
-          <template #default="scope"
+        <el-table-column prop="statusTips" label="测土状态">
+          <!-- <template #default="scope"
             >{{
               scope.row.status == 1 ? '检测中' : scope.row.status == 2 ? '检测完成' : '已给处方'
             }}
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column prop="status" label="操作">
           <template #default="scope">
@@ -208,8 +208,8 @@ function goSoilPage(page: string, cetuId?: number | string) {
 }
 // 新增日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

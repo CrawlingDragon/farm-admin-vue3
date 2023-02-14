@@ -47,7 +47,7 @@ const { loginStates } = storeToRefs(loginStateStore);
 const hideAside = ref(true);
 
 async function getUseInfo() {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (!token) return;
   // let result = await getUserInfo();
   // 请求接口，获取对应token的用户信息，并保存
