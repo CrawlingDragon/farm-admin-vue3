@@ -144,6 +144,24 @@
       </div>
     </el-form>
   </div>
+  <el-dialog v-model="msgDialogVisible" :close-on-click-modal="false" title="录入会员" width="30%">
+    <div class="msgDialog">
+      <p class="top">
+        <el-icon :size="30" color="#FF6600">
+          <WarningFilled />
+        </el-icon>
+        <span>{{ msgDialogContent[0] }}</span>
+      </p>
+      <p>{{ msgDialogContent[1] }}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="msgDialogVisible = false">
+          知道了
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script setup lang="ts">
 import { reactive, ref, onMounted, watch } from 'vue';
@@ -261,6 +279,9 @@ function deleteBaseInfo(index: number) {
   ruleForm.baseInfo.splice(index, 1);
 }
 
+// 录入提示
+const msgDialogVisible = ref<any>(false)
+const msgDialogContent = ref<any>([])
 // 提交会员录入信息
 async function submitVipInfo() {
   let params = {
@@ -281,11 +302,17 @@ async function submitVipInfo() {
   let r = await getAddVip(params);
   if (r.code) {
     // ElMessage.error(r.msg);
-    ElMessageBox.alert(r.msg, '录入会员', {
-      confirmButtonText: '知道了',
-      showClose: false,
-      type: 'warning',
-    });
+    if (typeof (r.msg) == 'string') {
+      msgDialogVisible.value = false
+      ElMessageBox.alert(r.msg, '录入会员', {
+        confirmButtonText: '知道了',
+        showClose: false,
+        type: 'warning',
+      });
+    } else {
+      msgDialogVisible.value = true
+      msgDialogContent.value = r.msg
+    }
     return Promise.reject();
   } else {
     ElMessage({
@@ -377,6 +404,20 @@ const options = reactive({
     right: 0;
     font-size: 20px;
     cursor: pointer;
+  }
+}
+.msgDialog {
+  font-size: 16px;
+
+  .top {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 20px;
+      font-weight: 600;
+    }
   }
 }
 </style>

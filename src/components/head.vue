@@ -56,7 +56,8 @@
             </div>
             <template #dropdown class="box22">
               <div class="web-drop-box box2">
-                <router-link class="item password-item" to="/change-password">修改密码</router-link>
+                <!-- <router-link class="item password-item" to="/change-password">修改密码</router-link> -->
+                <a href="#" class="item password-item">修改密码</a>
                 <div class="item" @click="loginOut">退出</div>
               </div>
             </template>

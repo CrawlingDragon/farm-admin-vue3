@@ -228,6 +228,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   // console.log('ruleform', ruleForm);
   formEl.resetFields();
+  ruleForm.Prescribing.medicine = []
   // debugger;
   if (tfId.value) {
     router.push(`/examine-tongfang-detail/${tfId.value}`);

@@ -3,7 +3,7 @@
     <el-form :model="formState" label-width="118px" ref="ruleFormRef" :rules="rules" class="context">
       <div class="title">修改密码</div>
       <el-form-item label="账号：" class="item">
-        <div class="text">{{ useUserInfoStore.userInfo?.mobile }}</div>
+        <div class="text">{{ useUserInfoStore.userInfo?.mobile || refuseUserInfoStore.userInfo?.mobile }}</div>
       </el-form-item>
       <el-form-item label="原密码：" prop="oldPwd" class="item">
         <el-input v-model.trim="formState.oldPwd" size="large" placeholder="请输入原密码" type="password" />
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
 import { getPassword } from '@/http'
-import { userInfoDefineStore } from '../store/index';
+import { userInfoDefineStore, refuseUserDefineInfoStore } from '../store/index';
 import type { FormInstance, FormRules } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { loginOut } from '@/common/js/getToken';
@@ -33,6 +33,7 @@ interface FormState {
 }
 // let userInfo = ref<any>()
 const useUserInfoStore = userInfoDefineStore();
+const refuseUserInfoStore = refuseUserDefineInfoStore()
 // let { userInfo } = storeToRefs(useUserInfoStore);
 
 const formState = reactive<FormState>({

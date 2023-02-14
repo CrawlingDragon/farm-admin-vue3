@@ -546,7 +546,7 @@ onMounted(async () => {
         r.userInfo.resideprovince,
         r.userInfo.residecity,
         r.userInfo.residedist,
-        r.residecommunity,
+      r.userInfo.residecommunity,
       ] as any)
     : ([r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any); //所在地区
   ruleForm.address = r.userInfo.address; //详细地址

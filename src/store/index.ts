@@ -68,3 +68,22 @@ export const loginState = defineStore('loginState', () => {
     setLoginStates,
   };
 });
+// 禁止登录的用户信息
+export const refuseUserDefineInfoStore = defineStore('refuseUserInfoStore', () => {
+  //用户信息
+  const userInfo = ref<userInfo>({});
+
+  const setUserInfo = (info: userInfo) => {
+    userInfo.value = info;
+  };
+
+  const clearUserInfo = () => {
+    userInfo.value = {};
+  };
+
+  return {
+    userInfo,
+    setUserInfo,
+    clearUserInfo,
+  };
+});

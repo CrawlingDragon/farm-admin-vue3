@@ -1,4 +1,4 @@
-import { userInfoDefineStore, loginState } from './../../store/index';
+import { userInfoDefineStore, loginState, refuseUserDefineInfoStore } from './../../store/index';
 import { router } from '../../router';
 import Axios from 'axios';
 import leansAxios from '../../http/http';
@@ -90,6 +90,8 @@ export function fetchGetToken(code: string) {
               }
               if (data.code == 405) {
                 loginStateStore.setLoginStates('refuse'); //非医院账户登录
+                const refuseUserInfoStore = refuseUserDefineInfoStore()
+                refuseUserInfoStore.setUserInfo(data.data); // 保存用户信息
               }
             });
         }
