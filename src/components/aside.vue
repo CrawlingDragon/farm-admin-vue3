@@ -111,7 +111,7 @@ function getTestingsoilListsState(aside: any) {
 }
 
 onMounted(() => {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (token) {
     getLeftAsideData();
     getSwitchSetting();

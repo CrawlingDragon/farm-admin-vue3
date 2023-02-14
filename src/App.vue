@@ -50,7 +50,7 @@ const { loginStates } = storeToRefs(loginStateStore);
 const hideAside = ref(true);
 
 async function getUseInfo() {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (!token) return;
   let result = await getUserInfo();
   userInfoStore.setUserInfo(result);

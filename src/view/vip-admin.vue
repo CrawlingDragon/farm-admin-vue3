@@ -24,12 +24,16 @@
       <el-button size="large" @click="search">搜索</el-button>
     </div>
     <div class="table-box">
-      <el-table empty-text="抱歉，没有找到相关会员" :data="vipAdminData.tableData" style="width: 100%">
+      <el-table
+        empty-text="抱歉，没有找到相关会员"
+        :data="vipAdminData.tableData"
+        style="width: 100%"
+      >
         <el-table-column prop="imUserId" label="会员ID" />
         <el-table-column prop="userName" label="姓名" width="70px" />
         <el-table-column prop="tel" label="手机号码" width="150px" />
         <el-table-column prop="selfcard" label="身份证" />
-        <el-table-column prop="address" label="所在地" />
+        <el-table-column prop="ssq" label="所在地" />
         <el-table-column prop="zuowuName" label="种类名" />
         <el-table-column prop="joinTime" label="加入时间" />
         <el-table-column prop="recentlog" label="最近诊疗记录" />
@@ -43,16 +47,24 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="handleCommand('soil', scope.row.id)" v-if="soil.testingsoilLists"
+                    <el-dropdown-item
+                      @click="handleCommand('soil', scope.row.id)"
+                      v-if="soil.testingsoilLists"
                       >测土</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('zuozhen', scope.row.id)" v-if="soil.zuozhenLists"
+                    <el-dropdown-item
+                      @click="handleCommand('zuozhen', scope.row.id)"
+                      v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('xunzhen', scope.row.id)" v-if="soil.xunzhenLists"
+                    <el-dropdown-item
+                      @click="handleCommand('xunzhen', scope.row.id)"
+                      v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="handleCommand('point', scope.row.id)" v-if="soil.observepointLists"
+                    <el-dropdown-item
+                      @click="handleCommand('point', scope.row.id)"
+                      v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -157,7 +169,7 @@ function goPageDetail(id: number) {
 function handleCommand(command: string | number | object, uId: number) {
   router.push({
     path: `/examine-${command}-add`,
-    query: { uId: uId }
+    query: { uId: uId },
   });
 }
 </script>

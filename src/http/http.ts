@@ -24,7 +24,7 @@ axios.interceptors.request.use(
       config.data = QS.stringify(config.data);
     }
     if (config.url == '/api/auth/questionExportPdf') {
-      config.timeout = 60 * 1000
+      config.timeout = 60 * 1000;
     }
     return config;
   },
@@ -42,8 +42,8 @@ axios.interceptors.response.use(
     // 缺少token,返回403
     if (res.data.code == 530) {
       // uId过期操作
-      alert('用户token过期,请重新登录');
-      storage.set('token', '');
+      // alert('用户token过期,请重新登录');
+      storage.session.set('token', '');
       setTimeout(() => {
         // store.dispatch('cleanUserInfo');
         const userInfoStore = userInfoDefineStore();
@@ -106,7 +106,7 @@ export function fetchGet(url: string, params: any) {
 }
 
 export function get(url: string, params?: any) {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (token) {
     params = { ...params, token };
   }
@@ -130,7 +130,7 @@ export function get(url: string, params?: any) {
 }
 
 export function post(url: string, params?: any) {
-  let token = storage.get('token');
+  let token = storage.session.get('token');
   if (token) {
     params = { ...params, token };
   }

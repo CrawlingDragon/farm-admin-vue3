@@ -5,7 +5,7 @@
         <el-table-column type="selection"> </el-table-column>
         <el-table-column prop="avatar" label="头像" width="80px">
           <template #default="scope">
-            <el-avatar :src="scope.row.avatar" shape="square" :size="50"></el-avatar>
+            <el-avatar :src="scope.row.avatar" :size="50"></el-avatar>
           </template>
         </el-table-column>
         <el-table-column prop="realname" label="姓名" width="80px" />

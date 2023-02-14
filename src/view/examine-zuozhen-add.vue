@@ -430,7 +430,7 @@ async function setZuozhenData() {
     ElMessage.error(r.msg);
     return Promise.reject('error');
   } else {
-    ElMessage.success('已添加');
+    ElMessage.success('已保存');
     return Promise.resolve('ok');
   }
 }

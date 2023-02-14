@@ -491,9 +491,9 @@ const makeSureEdit = () => {
   if (ruleForm.codeVerify == '') {
     return;
   }
+  submitEditData();
   ruleForm.codeVerify = '';
   dialogFormVisible.value = false;
-  submitEditData();
 };
 
 // 去特定的路由

@@ -28,15 +28,24 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="goPage('/examine-soil-add')" v-if="soil.testingsoilLists">测土
+                    <el-dropdown-item
+                      @click="goPage('/examine-soil-add')"
+                      v-if="soil.testingsoilLists"
+                      >测土
                     </el-dropdown-item>
-                    <el-dropdown-item @click="goPage('/examine-zuozhen-add')" v-if="soil.zuozhenLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-zuozhen-add')"
+                      v-if="soil.zuozhenLists"
                       >坐诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-xunzhen-add')" v-if="soil.xunzhenLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-xunzhen-add')"
+                      v-if="soil.xunzhenLists"
                       >巡诊</el-dropdown-item
                     >
-                    <el-dropdown-item @click="goPage('/examine-point-add')" v-if="soil.observepointLists"
+                    <el-dropdown-item
+                      @click="goPage('/examine-point-add')"
+                      v-if="soil.observepointLists"
                       >观测点</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -75,8 +84,9 @@
         <div class="tip">最近诊疗记录</div>
         <ul class="look-ul">
           <li v-if="detailData.recentlog.length == 0">暂无诊疗记录</li>
-          <li v-else v-for="item in detailData.recentlog">{{ item.viewtime }}<i style="display:inline-block;width:20px;"></i>{{
-            item.title }}</li>
+          <li v-else v-for="item in detailData.recentlog">
+            {{ item.viewtime }}<i style="display: inline-block; width: 20px"></i>{{ item.title }}
+          </li>
         </ul>
       </div>
       <div class="right-bar">
@@ -122,24 +132,26 @@
           <div class="right-text">{{ detailData.userInfo.userfrom }}</div>
         </div>
         <div class="tip">种类情况</div>
-        <div class="crop" v-for="(item,index) in detailData.userInfo.zuowu" :key="item.zuowuId">
-          <div class="info-box">
-            <div class="label">种类名称{{ index+1 }}:</div>
-            <div class="right-text">{{ item.zuowuName }}</div>
+        <template v-if="detailData.userInfo?.zuowu.length != 0">
+          <div class="crop" v-for="(item, index) in detailData.userInfo.zuowu" :key="item.zuowuId">
+            <div class="info-box">
+              <div class="label">种类名称{{ index + 1 }}:</div>
+              <div class="right-text">{{ item.zuowuName }}</div>
+            </div>
+            <div class="info-box" v-if="item.mushu">
+              <div class="label">数量:</div>
+              <div class="right-text">{{ item.mushu }}{{ item.unitName }}</div>
+            </div>
+            <div class="info-box" v-if="item.address">
+              <div class="label">种类地址:</div>
+              <div class="right-text">{{ item.address }}</div>
+            </div>
           </div>
-          <div class="info-box" v-if="item.mushu">
-            <div class="label">数量:</div>
-            <div class="right-text">{{ item.mushu }}{{ item.unitName }}</div>
-          </div>
-          <div class="info-box" v-if="item.address">
-            <div class="label">种类地址:</div>
-            <div class="right-text">{{ item.address }}</div>
-          </div>
-        </div>
+        </template>
         <div class="tip" v-if="detailData.userInfo.remarks">备注信息</div>
         <div class="info-box">
           <div class="label"></div>
-          <div class="right-text">{{ detailData.userInfo.remarks}}</div>
+          <div class="right-text">{{ detailData.userInfo.remarks }}</div>
         </div>
       </div>
     </div>
@@ -162,7 +174,7 @@ let soil = storage.session.get('soil');
 let id = computed(() => route.query.id);
 //detail data
 const detailData = reactive<any>({
-  userInfo: '',
+  userInfo: { zuowu: [] },
   tempArray: '',
   recentlog: '',
   canDelete: 0, //是否能删除 0不能删除，1可以
