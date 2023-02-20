@@ -17,21 +17,21 @@
               <div class="web-drop-box box1">
                 <div class="title">生产</div>
                 <div class="href-box">
-                  <a :href="urls.hospital">庄稼医院</a>
-                  <a :href="urls.fall_ill">病虫害图库</a>
-                  <a :href="urls.video">农技视频</a>
+                  <a :href="urls.hospital" target="_blank">庄稼医院</a>
+                  <a :href="urls.fall_ill" target="_blank">病虫害图库</a>
+                  <a :href="urls.video" target="_blank">农技视频</a>
                 </div>
                 <div class="title">供销</div>
                 <div class="href-box">
-                  <a href="https://mall.114nz.com/Index/Index/index.html" class="shop">
+                  <a :href="urls.farm_store" class="shop" target="_blank">
                     农资商城
                     <div class="shop-icon"></div>
                   </a>
-                  <a href="https://mall.114nz.com/Index/Category/index/id/2.html">农药</a>
-                  <a href="https://mall.114nz.com/Index/Category/index/id/1.html">肥料</a>
-                  <a href="https://mall.114nz.com/Index/Category/index/id/32.html">农膜</a>
+                  <a :href="urls.farm_medicine" target="_blank">农药</a>
+                  <a :href="urls.farm_manure" target="_blank">肥料</a>
+                  <a :href="urls.farm_membrane" target="_blank">农膜</a>
                 </div>
-                <a href="https://www.114nz.com/" class="shop-index">中农在线官网 ></a>
+                <a :href="urls.farm_index" class="shop-index" target="_blank">中农在线官网 ></a>
               </div>
             </template>
           </el-dropdown>
@@ -56,7 +56,10 @@
             </div>
             <template #dropdown class="box22">
               <div class="web-drop-box box2">
-                <router-link class="item password-item" to="/change-password">修改密码</router-link>
+                <!-- <router-link class="item password-item" to="/change-password"></router-link> -->
+                <a :href="urls.change_password" class="item password-item" target="_blank"
+                  >修改密码</a
+                >
                 <div class="item" @click="loginOut">退出</div>
               </div>
             </template>

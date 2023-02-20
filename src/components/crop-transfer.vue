@@ -1,8 +1,13 @@
 <template>
-  <el-transfer v-model="kind" :data="transferData" :titles="['选择擅长种类', '选择左侧的种类']" />
+  <el-transfer
+    v-model="transferKind"
+    :data="transferData"
+    :titles="['选择擅长种类', '选择左侧的种类']"
+    @change="chooseTransfer"
+  />
 </template>
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { getSelectInfo } from '../http/getSelectInfo';
 
 const props = defineProps<{ kind: any[] }>();
@@ -14,9 +19,12 @@ const props = defineProps<{ kind: any[] }>();
 //   },
 // },
 // }
-
 const emits = defineEmits(['update:kind']);
-// 穿梭框的默认值
+
+//穿梭框右边已经选择的值
+const transferKind = ref<any[]>([]);
+
+// 穿梭框的默认值,也就是左边可供选择的值
 const transfer = ref<any>([]);
 // 请求的穿梭框的数据重新组织
 const transferData = computed(() => {
@@ -29,9 +37,21 @@ const transferData = computed(() => {
   });
   return arr;
 });
+
+const chooseTransfer = (val: any[]) => {
+  console.log('val', val);
+  emits('update:kind', val);
+};
 onMounted(async () => {
   let r = await getSelectInfo();
   transfer.value = r.categoryArr;
 });
+
+watch(
+  () => props.kind,
+  () => {
+    transferKind.value = props.kind;
+  }
+);
 </script>
 <style lang="scss" scoped></style>

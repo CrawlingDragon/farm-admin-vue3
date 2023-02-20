@@ -152,7 +152,7 @@ const editParams = computed(() => {
     hospitalName: hospitalInfo.name,
     hospitalLogo: hospitalInfo.icon[0].url,
     address: hospitalInfo.detailRegion,
-    zuowuStr: hospitalInfo.crop,
+    zuowu: hospitalInfo.crop.join(','),
     yyzzPic: hospitalInfo.businessImg[0].url,
     realname: hospitalInfo.realName,
     company: hospitalInfo.workAddress,
@@ -192,7 +192,7 @@ onMounted(async () => {
   hospitalInfo.phone = r.tel;
   hospitalInfo.info = r.introduce;
   hospitalInfo.contactAddress = r.linkAddress;
-  hospitalInfo.detailRegion = r.address
+  hospitalInfo.detailRegion = r.address;
 });
 // 取消按钮
 const cancel = function () {

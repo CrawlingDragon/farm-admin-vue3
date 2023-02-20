@@ -1,28 +1,42 @@
 interface urls {
-  vip_center: string;
-  vip_admin: string;
-  vip_base: string;
   hospital: string;
   fall_ill: string;
   video: string;
+  farm_store: string; //农资商城
+  farm_medicine: string; //农药
+  farm_manure: string; //肥料
+  farm_membrane: string; //农膜
+  farm_index: string; //中农在线官网
+  change_password: string;
+  vip_base: string;
 }
+// 农资商城;
+// 农药;
+// 肥料;
+// 农膜;
 let dev_arr = {
   hospital: '', //庄稼医院
   fall_ill: '', //病虫害图库
   video: '', //农技视频
-  vip_center: 'http://web.nzsoso.com/index.php?m=mpublic&c=business&a=init#-en', // 会员中心
-  vip_admin: 'http://web.nzsoso.com/index.php?m=member&c=content&a=member_import_lists', // 会员管理
-  // vip_base: 'http://beta.11236.org.cn/', //基地
-  vip_base: 'https://betajdtong.114nz.com/', //基地
+  farm_store: 'https://mall.114nz.com/Index/Index/index.html', //农资商城
+  farm_medicine: 'https://mall.114nz.com/Index/Category/index/id/2.html', //农药
+  farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
+  farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
+  farm_index: 'https://www.114nz.com/',
+  change_password: '', //修改密码
+  vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 let prod_arr = {
   hospital: '', //庄稼医院
   fall_ill: '', //病虫害图库
   video: '', //农技视频
-  vip_center: 'http://ai.114nz.com/index.php?m=mpublic&c=business&a=init#-en', // 会员中心
-  vip_admin: 'http://ai.114nz.com/index.php?m=mpublic&c=com_index&userid=63580', // 会员管理
-  // vip_base: 'http://ai.11236.org.cn/', //基地
-  vip_base: 'https://jdtong.114nz.com/', //基地
+  farm_store: 'https://mall.114nz.com/Index/Index/index.html', //农资商城
+  farm_medicine: 'https://mall.114nz.com/Index/Category/index/id/2.html', //农药
+  farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
+  farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
+  farm_index: 'https://www.114nz.com/',
+  change_password: 'https://www.114nz.com?from=admin', //修改密码
+  vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 
 export const urls: urls = import.meta.env.MODE === 'development' ? dev_arr : prod_arr;
