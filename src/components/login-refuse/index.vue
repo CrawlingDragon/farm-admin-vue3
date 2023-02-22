@@ -5,7 +5,8 @@
       <header-refuse />
     </el-header>
     <el-main>
-      <div class="login-refuse" v-if="refuseShow">
+      <!-- <div class="login-refuse" v-if="refuseShow"> -->
+      <div class="login-refuse">
         <div class="top">
           <el-icon :size="50" color="#FF6600">
             <WarningFilled />
@@ -24,10 +25,10 @@
 </template>
 <script setup lang="ts">
 import { loginOut } from '@/common/js/getToken';
-import HeaderRefuse from '@/components/HeaderRefuse.vue';
+import HeaderRefuse from '@/components/head.vue';
 // import changePassword from '@/view/change-password.vue';
-import { ref } from 'vue';
-const refuseShow = ref(true)
+// import { ref } from 'vue';
+// const refuseShow = ref(true)
 
 
 </script>
