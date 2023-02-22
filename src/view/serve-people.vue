@@ -107,7 +107,7 @@ function deleteExpert(params: string) {
     async () => {
       let r = await getTrainDel({ trainId: params })
       ElMessage({
-        message: '删除成功',
+        message: '已删除',
         type: 'success'
       })
       page.value = 1

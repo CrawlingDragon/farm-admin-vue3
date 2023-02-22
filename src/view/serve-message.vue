@@ -82,7 +82,7 @@ function deleteMsg(params: any) {
     .then(async () => {
       let r = await getMessageDelete({ newId: params.newId });
       ElMessage({
-        message: r instanceof Array ? '删除成功' : r.msg,
+        message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
       });
       page.value = 1;

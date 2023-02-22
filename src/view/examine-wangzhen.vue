@@ -70,7 +70,7 @@
             <div class="avatar">
               <!-- <el-avatar :src="item.userFace" fit="fill" /> -->
               <img
-                style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
+                style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover"
                 :src="item.userFace"
               />
             </div>
@@ -233,7 +233,7 @@ watch(active, () => {
 });
 onMounted(() => {
   if (statusRoute.value) {
-    status.value = Number(statusRoute.value)
+    status.value = Number(statusRoute.value);
   }
   getWangListData();
 });

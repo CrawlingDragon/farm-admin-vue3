@@ -147,18 +147,16 @@
   <el-dialog v-model="msgDialogVisible" :close-on-click-modal="false" title="录入会员" width="30%">
     <div class="msgDialog">
       <p class="top">
-        <el-icon :size="30" color="#FF6600">
+        <el-icon :size="25" color="#ff6600">
           <WarningFilled />
         </el-icon>
         <span>{{ msgDialogContent[0] }}</span>
       </p>
-      <p>{{ msgDialogContent[1] }}</p>
+      <p class="bottom">{{ msgDialogContent[1] }}</p>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="msgDialogVisible = false">
-          知道了
-        </el-button>
+        <el-button type="primary" @click="msgDialogVisible = false"> 知道了 </el-button>
       </span>
     </template>
   </el-dialog>
@@ -201,9 +199,9 @@ const ruleForm = reactive({
 
 const rules = reactive<FormRules>({
   local: [{ required: true, message: '请选择省市区', trigger: 'change' }],
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-  phone: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
-  card: [{ required: true, message: '身份证不能为空', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+  phone: [{ required: true, message: '请输入手机号码', trigger: 'change' }],
+  card: [{ required: true, message: '身份证不能为空', trigger: 'change' }],
 });
 watch(
   () => ruleForm.baseInfo,
@@ -237,7 +235,12 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      // ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage({
+        type: 'warning',
+        // grouping: true,
+        message: '提交失败,请修改后再提交',
+      });
       console.log('error submit!', fields);
     }
   });
@@ -280,8 +283,8 @@ function deleteBaseInfo(index: number) {
 }
 
 // 录入提示
-const msgDialogVisible = ref<any>(false)
-const msgDialogContent = ref<any>([])
+const msgDialogVisible = ref<any>(false);
+const msgDialogContent = ref<any>([]);
 // 提交会员录入信息
 async function submitVipInfo() {
   let params = {
@@ -302,16 +305,16 @@ async function submitVipInfo() {
   let r = await getAddVip(params);
   if (r.code) {
     // ElMessage.error(r.msg);
-    if (typeof (r.msg) == 'string') {
-      msgDialogVisible.value = false
+    if (typeof r.msg == 'string') {
+      msgDialogVisible.value = false;
       ElMessageBox.alert(r.msg, '录入会员', {
         confirmButtonText: '知道了',
         showClose: false,
         type: 'warning',
       });
     } else {
-      msgDialogVisible.value = true
-      msgDialogContent.value = r.msg
+      msgDialogVisible.value = true;
+      msgDialogContent.value = r.msg;
     }
     return Promise.reject();
   } else {
@@ -415,9 +418,18 @@ const options = reactive({
     align-items: center;
 
     span {
-      margin-left: 20px;
-      font-weight: 600;
+      margin-left: 16px;
+      // font-weight: 600;
+      font-size: 16px;
+      color: #333;
     }
+  }
+  & > .bottom {
+    font-size: 14px;
+    font-family: SimSun;
+    font-weight: 400;
+    color: #999999;
+    margin-left: 43px;
   }
 }
 </style>

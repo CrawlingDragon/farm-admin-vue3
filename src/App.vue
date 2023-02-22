@@ -4,19 +4,21 @@
       <el-header style="height: auto">
         <Header />
       </el-header>
-        <Nav />
-        <!-- <Nav v-if="navShow" /> -->
-        <el-container class="main-content">
-          <el-aside width="140px" class="aside" v-if="hideAside" v-show="aside !== 'aside-setting'">
-            <Aside />
-          </el-aside>
-          <el-aside width="140px" class="aside" v-show="aside === 'aside-setting'">
-            <AsideSetting />
-          </el-aside>
-          <el-main class="el-main">
+      <Nav />
+      <!-- <Nav v-if="navShow" /> -->
+      <el-container class="main-content">
+        <el-aside width="140px" class="aside" v-if="hideAside" v-show="aside !== 'aside-setting'">
+          <Aside />
+        </el-aside>
+        <el-aside width="140px" class="aside" v-show="aside === 'aside-setting'">
+          <AsideSetting />
+        </el-aside>
+        <el-main class="el-main">
+          <el-config-provider :message="config">
             <router-view v-model:hideAside="hideAside"></router-view>
-          </el-main>
-        </el-container>
+          </el-config-provider>
+        </el-main>
+      </el-container>
     </el-container>
     <el-container v-if="loginStates == 'refuse'">
       <RefuseIndex></RefuseIndex>
@@ -26,23 +28,26 @@
 <script setup lang="ts">
 import Nav from '@/components/nav.vue';
 import Header from '@/components/head.vue';
-import RefuseIndex from '@/components/login-refuse/index.vue'
+import RefuseIndex from '@/components/login-refuse/index.vue';
 // import { getUserInfo } from '@/http';
 import leansAxios from '@/http/http';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, reactive } from 'vue';
 import Aside from '@/components/aside.vue';
 import AsideSetting from '@/components/aside-setting.vue';
 import { userInfoDefineStore, loginState, refuseUserDefineInfoStore } from './store/index';
 import storage from 'good-storage';
 import { useRoute } from 'vue-router';
-import { storeToRefs } from "pinia"
+import { storeToRefs } from 'pinia';
 const route = useRoute();
 const userInfoStore = userInfoDefineStore();
-const refuseUserInfoStore = refuseUserDefineInfoStore()
+const refuseUserInfoStore = refuseUserDefineInfoStore();
 // 响应式登录状态
-const loginStateStore = loginState()
+const loginStateStore = loginState();
 const { loginStates } = storeToRefs(loginStateStore);
 
+const config = reactive({
+  max: 1,
+});
 // 个别页面是否需要隐藏左边栏
 const hideAside = ref(true);
 
@@ -102,6 +107,5 @@ onMounted(async () => {
     padding-left: 0;
     padding-right: 0;
   }
-
 }
 </style>

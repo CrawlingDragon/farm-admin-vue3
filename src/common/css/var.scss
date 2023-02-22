@@ -22,6 +22,14 @@ $border-color: #e5e5e5;
 
   // --el-button-hover-bg-color: #3e7211 !important;
 }
+// .el-message .el-message__badge {
+//   display: none;
+//   opacity: 0;
+// }
 // .el-dialog {
 //   --el-dialog-width: 60% !important;
 // }
+.el-message-box__status.el-message-box-icon--warning {
+  --el-messagebox-color: #ff6600;
+  color: #ff6600;
+}

@@ -9,11 +9,27 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form :rules="rules" ref="ruleFormRef" label-width="118px" size="large" :model="ruleForm">
+        <el-form
+          :rules="rules"
+          ref="ruleFormRef"
+          label-width="118px"
+          size="large"
+          :model="ruleForm"
+        >
           <el-form-item label="选择模板:" prop="smsTempId">
-            <el-select v-model="ruleForm.smsTempId" class="m-2" placeholder="请选择模板" size="default"
-              @change="changeTemplate">
-              <el-option v-for="item in templateLists" :key="item.smsTempId" :label="item.name" :value="item.smsTempId">
+            <el-select
+              v-model="ruleForm.smsTempId"
+              class="m-2"
+              placeholder="请选择模板"
+              size="default"
+              @change="changeTemplate"
+            >
+              <el-option
+                v-for="item in templateLists"
+                :key="item.smsTempId"
+                :label="item.name"
+                :value="item.smsTempId"
+              >
               </el-option>
             </el-select>
           </el-form-item>
@@ -23,20 +39,25 @@
             </div>
           </el-form-item>
           <el-form-item label="收件人:" prop="userMobiles">
-            <el-transfer size="large" v-model="ruleForm.userMobiles" :data="userVips" filterable
-              :titles="['请选择收件人(会员)', '请勾选左侧的收件人']" />
+            <el-transfer
+              size="large"
+              v-model="ruleForm.userMobiles"
+              :data="userVips"
+              filterable
+              :titles="['请选择收件人(会员)', '请勾选左侧的收件人']"
+            />
           </el-form-item>
-
         </el-form>
       </div>
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="sendOut(ruleFormRef)">发送</el-button>
+          <el-button type="primary" size="large" class="mr20" @click="sendOut(ruleFormRef)"
+            >发送</el-button
+          >
           <el-button size="large" @click="goLink('/serve-note')">取消</el-button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -47,7 +68,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { getNoteSmsTemplate, getHospitalUser, getNoteSmsSend } from '@/http';
 import { ElMessage } from 'element-plus';
 
-const router = useRouter()
+const router = useRouter();
 const emit = defineEmits(['update:hideAside']);
 const rules = reactive<FormRules>({
   smsTempId: [{ required: true, message: '请选择模板', trigger: 'blur' }],
@@ -60,83 +81,82 @@ let ruleForm = reactive({
   userMobiles: [], //收件人手机号
   content: '', //信息内容
 });
-const templateLists = ref<any>([])
-const userVips = ref([])
+const templateLists = ref<any>([]);
+const userVips = ref([]);
 
 onMounted(async () => {
   emit('update:hideAside', false);
-  setNoteSmsTemplate()
-  setHospitalUser()
-})
+  setNoteSmsTemplate();
+  setHospitalUser();
+});
 // 隐藏侧边栏
 onUnmounted(() => {
   emit('update:hideAside', true);
-})
+});
 // 获取短信模板
 const setNoteSmsTemplate = async () => {
-  let r = await getNoteSmsTemplate()
-  templateLists.value = r
-}
+  let r = await getNoteSmsTemplate();
+  templateLists.value = r;
+};
 // 获取会员列表
 async function setHospitalUser() {
-  let r = await getHospitalUser()
-  let arr: any = []
+  let r = await getHospitalUser();
+  let arr: any = [];
   r.forEach((item: any) => {
     arr.push({
       key: item.mobile,
       label: `${item.userName} ${item.mobile}`,
-      disabled: false
-    })
+      disabled: false,
+    });
   });
-  userVips.value = arr
+  userVips.value = arr;
 }
 
 // 跳转页面
 function goLink(params: string) {
   router.push({
-    path: params
-  })
+    path: params,
+  });
 }
 // 选择模板
 function changeTemplate(val: any) {
   templateLists.value.map((item: any) => {
     if (item.smsTempId == val) {
-      ruleForm.content = item.content
+      ruleForm.content = item.content;
     }
-  })
+  });
 }
 // 发送
 async function sendOut(formEl: FormInstance | undefined) {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      let str: string = ''
-      ruleForm.userMobiles.map(item => {
-        str = str + item + ','
-      })
+      let str: string = '';
+      ruleForm.userMobiles.map((item) => {
+        str = str + item + ',';
+      });
       let params = {
         smsTempId: ruleForm.smsTempId,
-        userMobiles: str
-      }
+        userMobiles: str,
+      };
       // console.log(params, '66')
-      setNoteSmsSend(params)
+      setNoteSmsSend(params);
     } else {
       ElMessage.warning('提交失败,请修改后再提交');
       console.log('error submit!', fields);
     }
-  })
+  });
 }
 // 发送方法
 async function setNoteSmsSend(params: any) {
-  let r = await getNoteSmsSend(params)
+  let r = await getNoteSmsSend(params);
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('修改成功！');
-    goLink('/serve-note')
+    ElMessage.success('已发送');
+    goLink('/serve-note');
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -169,4 +189,3 @@ async function setNoteSmsSend(params: any) {
   }
 }
 </style>
-

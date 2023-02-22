@@ -135,7 +135,7 @@ async function submitEdit() {
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('修改成功！');
+    ElMessage.success('已保存');
   }
   setTimeout(() => {
     goBackExpertList();

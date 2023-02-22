@@ -436,7 +436,7 @@ async function submitEditData() {
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('编辑成功');
+    ElMessage.success('已保存');
     setTimeout(() => {
       goBack();
     }, 200);
@@ -546,7 +546,7 @@ onMounted(async () => {
         r.userInfo.resideprovince,
         r.userInfo.residecity,
         r.userInfo.residedist,
-      r.userInfo.residecommunity,
+        r.userInfo.residecommunity,
       ] as any)
     : ([r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any); //所在地区
   ruleForm.address = r.userInfo.address; //详细地址

@@ -17,7 +17,7 @@
             <h4 class="name">{{ detailData.userInfo.userName }}</h4>
             <p class="time">加入时间：{{ detailData.userInfo.joinTime }}</p>
             <div class="btn">
-              <el-dropdown>
+              <el-dropdown v-if="detailData.userInfo.isCancelMember == 0">
                 <span class="el-dropdown-link">
                   <el-button type="primary" class="add-btn mr10">
                     新增诊疗
@@ -196,7 +196,7 @@ function deleteVip(done: any) {
       .then(async (res) => {
         let r = await getDeleteVip({ id: id.value });
         ElMessage({
-          message: '删除成功',
+          message: '已删除',
           type: 'success',
         });
         setTimeout(() => {

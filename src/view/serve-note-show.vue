@@ -28,21 +28,20 @@
         <div class="detail-box">
           <span class="label">收件人: </span>
           <div class="content-users">
-            <span class="content-user" v-for="item in detailData.userArr" :key="item.mobile">{{ item.username
-            }} {{ item.mobile }}</span><br>
+            <span class="content-user" v-for="item in detailData.userArr" :key="item.mobile"
+              >{{ item.username }} {{ item.mobile }}</span
+            ><br />
             <span class="userCount">共{{ detailData.userCount }}个收件人</span>
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, onUnmounted, computed, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getNoteSmsSendInfo, getNoteDelete } from "@/http";
+import { getNoteSmsSendInfo, getNoteDelete } from '@/http';
 import { ElMessageBox, ElMessage } from 'element-plus';
 
 const router = useRouter();
@@ -50,53 +49,49 @@ const route = useRoute();
 const emit = defineEmits(['update:hideAside']);
 let id = computed(() => route.query.id);
 const detailData = reactive<any>({
-  content: '',//内容
-  sendTime: '',//发送时间
-  statusTips: '',//发送状态
-  smsId: '',//id
-  userArr: [],//收件人
-  userCount: '',//收件人总数
+  content: '', //内容
+  sendTime: '', //发送时间
+  statusTips: '', //发送状态
+  smsId: '', //id
+  userArr: [], //收件人
+  userCount: '', //收件人总数
 });
 
 onMounted(async () => {
   emit('update:hideAside', false);
-  let r = await getNoteSmsSendInfo({ smsId: id.value })
+  let r = await getNoteSmsSendInfo({ smsId: id.value });
   // console.log('r', r)
-  detailData.content = r.content
-  detailData.sendTime = r.sendTime
-  detailData.statusTips = r.statusTips
-  detailData.smsId = r.smsId
-  detailData.userArr = r.userArr
-  detailData.userCount = r.userCount
-})
+  detailData.content = r.content;
+  detailData.sendTime = r.sendTime;
+  detailData.statusTips = r.statusTips;
+  detailData.smsId = r.smsId;
+  detailData.userArr = r.userArr;
+  detailData.userCount = r.userCount;
+});
 function delNote() {
-  ElMessageBox.confirm('确定删除这条短信记录吗？', '删除提示').then(
-    async () => {
-      let r = await getNoteDelete({ smsId: id.value })
+  ElMessageBox.confirm('确定删除这条短信记录吗？', '删除提示')
+    .then(async () => {
+      let r = await getNoteDelete({ smsId: id.value });
       ElMessage({
-        message: r instanceof Array ? '删除成功' : r.msg,
+        message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
       });
       setTimeout(() => {
-        goPage('/serve-note')
-      }, 1000)
-    }
-  ).catch(() => {
-
-  })
-
+        goPage('/serve-note');
+      }, 1000);
+    })
+    .catch(() => {});
 }
 // 隐藏侧边栏
 onUnmounted(() => {
   emit('update:hideAside', true);
-})
+});
 // 去特定的路由
 function goPage(path: string) {
   router.push({
     path,
   });
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -166,4 +161,3 @@ function goPage(path: string) {
   }
 }
 </style>
-

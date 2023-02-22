@@ -5,7 +5,7 @@
         <el-table-column type="selection"> </el-table-column>
         <el-table-column prop="avatar" label="头像" width="80px">
           <template #default="scope">
-            <el-avatar :src="scope.row.avatar" :size="50"></el-avatar>
+            <el-image :src="scope.row.avatar" :size="50" fit="cover" class="avatar"></el-image>
           </template>
         </el-table-column>
         <el-table-column prop="realname" label="姓名" width="80px" />
@@ -98,4 +98,10 @@ const getExpertListData = async () => {
   // console.log('expert-list', r);
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+</style>

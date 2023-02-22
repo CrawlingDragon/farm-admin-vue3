@@ -4,7 +4,9 @@
     <div class="table-box">
       <el-table :data="expertData.tableData" style="width: 100%">
         <el-table-column prop="avatar" label="头像" width="80">
-          <template #default="scope"> <el-avatar :size="50" :src="scope.row.avatar" /> </template>
+          <template #default="scope">
+            <el-image class="avatar" :src="scope.row.avatar" />
+          </template>
         </el-table-column>
         <el-table-column prop="realname" label="姓名" />
         <el-table-column prop="mobile" label="手机号码" />
@@ -30,7 +32,7 @@
 import Pages from '@/components/pages.vue';
 import { reactive, ref, onMounted } from 'vue';
 import { getExpertList, getExpertDelete } from '@/http';
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { Message } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router';
 
@@ -49,6 +51,8 @@ function deleteExpert(id: number, name: string) {
       if (r.code) {
         Message.error(r.msg);
         return;
+      } else {
+        ElMessage.success('已删除');
       }
       setExpertListData();
     })
@@ -81,5 +85,10 @@ onMounted(() => {
   & > div {
     cursor: pointer;
   }
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
 }
 </style>

@@ -41,7 +41,7 @@
           <template #default="scope">
             <div class="btn flex align-center">
               <!-- <div class="add mr10 color cursor"> -->
-              <el-dropdown>
+              <el-dropdown v-if="scope.row.isCancelMember == 0">
                 <span class="el-dropdown-link add mr10 color cursor">
                   新增<el-icon><CaretBottom /></el-icon>
                 </span>

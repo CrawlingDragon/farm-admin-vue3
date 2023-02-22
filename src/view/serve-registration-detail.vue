@@ -38,7 +38,9 @@
           <span class="content content-status">
             <el-radio-group v-model="detailData.statusTips" class="ml-4">
               <el-radio v-if="statusShow == 2" :label="2" size="large">待就诊</el-radio>
-              <el-radio v-if="statusShow == 3 || statusShow == 1" :label="3" size="large">已过期</el-radio>
+              <el-radio v-if="statusShow == 3 || statusShow == 1" :label="3" size="large"
+                >已过期</el-radio
+              >
               <el-radio :label="1" size="large">已就诊</el-radio>
             </el-radio-group>
           </span>
@@ -50,7 +52,6 @@
           <el-button @click="goPage('/serve-registration')" size="large">取消</el-button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -58,43 +59,43 @@
 import { onMounted, onUnmounted, computed, reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSubscribeDetail, getSubscribeDetailSave } from '@/http';
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
 const emit = defineEmits(['update:hideAside']);
 const router = useRouter();
 const route = useRoute();
 const detailData = reactive<any>({
-  orderSn: '',//挂号单
-  username: '',//会员
-  visitTimeTips: '',//就诊时间
-  positionNum: '',//序号
-  expertName: '',//专家
-  visitTime: '',//挂号时间
-  statusTips: '',//状态
+  orderSn: '', //挂号单
+  username: '', //会员
+  visitTimeTips: '', //就诊时间
+  positionNum: '', //序号
+  expertName: '', //专家
+  visitTime: '', //挂号时间
+  statusTips: '', //状态
 });
-const statusShow = ref<number>()
+const statusShow = ref<number>();
 
 let id = computed(() => route.query.id);
 
 onMounted(async () => {
   emit('update:hideAside', false);
   // 获取详情信息
-  let r = await getSubscribeDetail({ subId: id.value })
-  detailData.orderSn = r.orderSn
-  detailData.username = r.username
-  detailData.visitTimeTips = r.visitTimeTips
-  detailData.positionNum = r.positionNum
-  detailData.expertName = r.expertName
-  detailData.visitTime = r.registerTime
-  detailData.statusTips = r.status
-  statusShow.value = r.status
+  let r = await getSubscribeDetail({ subId: id.value });
+  detailData.orderSn = r.orderSn;
+  detailData.username = r.username;
+  detailData.visitTimeTips = r.visitTimeTips;
+  detailData.positionNum = r.positionNum;
+  detailData.expertName = r.expertName;
+  detailData.visitTime = r.registerTime;
+  detailData.statusTips = r.status;
+  statusShow.value = r.status;
   // console.log(detailData)
-})
+});
 
 // 隐藏侧边栏
 onUnmounted(() => {
   emit('update:hideAside', true);
-})
+});
 
 // 去特定的路由
 function goPage(path: string) {
@@ -105,21 +106,19 @@ function goPage(path: string) {
 async function preservation() {
   let r = await getSubscribeDetailSave({
     subId: id.value,
-    status: detailData.statusTips
-  })
+    status: detailData.statusTips,
+  });
   if (r.code) {
     ElMessage.error(r.msg);
   } else {
-    ElMessage.success('编辑成功');
+    ElMessage.success('已保存');
     setTimeout(() => {
       router.push({
-        path: "/serve-registration"
-      })
+        path: '/serve-registration',
+      });
     }, 1000);
-
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

@@ -9,13 +9,30 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form :rules="rules" ref="ruleFormRef" label-width="118px" size="large" :model="ruleForm">
+        <el-form
+          :rules="rules"
+          ref="ruleFormRef"
+          label-width="118px"
+          size="large"
+          :model="ruleForm"
+        >
           <el-form-item label="标题:" prop="title">
-            <el-input v-model="ruleForm.title" size="large" maxlength="18" show-word-limit class="w300 m-2 mr20"
-              placeholder="请输入标题"></el-input>
+            <el-input
+              v-model="ruleForm.title"
+              size="large"
+              maxlength="18"
+              show-word-limit
+              class="w300 m-2 mr20"
+              placeholder="请输入标题"
+            ></el-input>
           </el-form-item>
           <el-form-item label="关键词:" prop="keywords">
-            <el-input v-model="ruleForm.keywords" size="large" class="w300 m-2 mr20" placeholder="请输入关键词"></el-input>
+            <el-input
+              v-model="ruleForm.keywords"
+              size="large"
+              class="w300 m-2 mr20"
+              placeholder="请输入关键词"
+            ></el-input>
           </el-form-item>
           <el-form-item label="内容:" prop="content">
             <RichText v-model:valueHtml="ruleForm.content"></RichText>
@@ -28,7 +45,9 @@
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)">保存</el-button>
+          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)"
+            >保存</el-button
+          >
           <el-button size="large" @click="goLink('/serve-message')">取消</el-button>
         </div>
       </div>
@@ -102,7 +121,7 @@ async function setNewsInfo() {
     ruleForm.thumb = r.thumb == '' ? [] : [{ url: r.thumb }];
   } else {
     title.value = '发布信息';
-    ruleForm.thumb = []
+    ruleForm.thumb = [];
   }
 }
 const params = computed(() => {
@@ -124,9 +143,9 @@ async function setSaveNews() {
     ElMessage.error(r.msg);
   } else {
     if (id.value) {
-      ElMessage.success('保存成功');
+      ElMessage.success('已保存');
     } else {
-      ElMessage.success('发布成功');
+      ElMessage.success('已发布');
     }
     setTimeout(() => {
       router.push({
