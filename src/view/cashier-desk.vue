@@ -3,9 +3,24 @@
     <div class="border search">
       <div class="icon"></div>
       <!-- <el-input v-model="commodityCode" class="w300 m-2 mr20" size="large" placeholder="扫描/输入编码或输入商品名称" /> -->
-      <el-select class="w300 m-2 mr20" size="large" v-model="commodityCode" @change="searchChange" filterable remote
-        placeholder="扫描/输入编码或输入商品名称" :remote-method="setProductLists" :loading="searchLoading" no-data-text="暂无商品">
-        <el-option v-for="item in tableDataOption" :key="item.specSn" :label="item.productName" :value="item">
+      <el-select
+        class="w300 m-2 mr20"
+        size="large"
+        v-model="commodityCode"
+        @change="searchChange"
+        filterable
+        remote
+        placeholder="扫描/输入编码或输入商品名称"
+        :remote-method="setProductLists"
+        :loading="searchLoading"
+        no-data-text="暂无商品"
+      >
+        <el-option
+          v-for="item in tableDataOption"
+          :key="item.specSn"
+          :label="item.productName"
+          :value="item"
+        >
         </el-option>
       </el-select>
       <el-button size="large" @click="search">确定</el-button>
@@ -27,29 +42,60 @@
     </div>
     <div class="table-box border">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column header-align="center" align="center" prop="specSn" width="100" label="编码" />
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="specSn"
+          width="100"
+          label="编码"
+        />
         <el-table-column header-align="center" align="center" prop="productName" label="商品名称" />
-        <el-table-column header-align="center" align="center" prop="unitPrice" width="100" label="单价" />
-        <el-table-column header-align="center" align="center" prop="buyNum" width="200" label="数量">
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="unitPrice"
+          width="100"
+          label="单价"
+        />
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="buyNum"
+          width="200"
+          label="数量"
+        >
           <template #default="scope">
             <div>
               <el-input-number v-model="scope.row.buyNum" :min="1" />
             </div>
           </template>
         </el-table-column>
-        <el-table-column header-align="center" align="center" prop="totalPrice" width="100" label="金额">
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="totalPrice"
+          width="100"
+          label="金额"
+        >
           <template #default="scope">
             <div>
               {{ calc(scope.row.buyNum, scope.row.unitPrice, '*') }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column header-align="center" align="center" prop="productName" width="100" label="操作">
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="productName"
+          width="100"
+          label="操作"
+        >
           <template #default="scope">
             <div>
               <span class="cursor color del" @click="deleteComm(scope.row.specSn)">删除</span>
             </div>
-          </template> </el-table-column>>
+          </template> </el-table-column
+        >>
       </el-table>
     </div>
     <div class="border settlement">
@@ -101,7 +147,7 @@ const totalNumber = ref(0); // 总件数
 let paramsJson = ref(); //结算参数
 const factMoney = ref(); //实收金额
 const zoonMoney = ref<any>(0.0); //找零
-const searchLoading = ref<boolean>(false)
+const searchLoading = ref<boolean>(false);
 
 // 确定搜索
 const search = () => {
@@ -116,7 +162,7 @@ watch(vipUid, (newVal) => {
 watch(
   tableData,
   (newVal) => {
-    if (newVal.length == 0) return 
+    if (newVal.length == 0) return;
     let price: any = 0;
     let number = 0;
     let params: any = [];
@@ -157,15 +203,17 @@ const settlement = debounce(() => {
         cancelButtonText: '继续提交',
         confirmButtonText: '添加会员',
         type: 'warning',
-      }).then(() => {
-        myUser.value.mySelect.focus();
-      }).catch(() => {
-        let params = {
-          goodsJson: paramsJson.value,
-          uid: vipUid.value,
-        };
-        setCashierOrder(params);
       })
+        .then(() => {
+          myUser.value.mySelect.focus();
+        })
+        .catch(() => {
+          let params = {
+            goodsJson: paramsJson.value,
+            uid: vipUid.value,
+          };
+          setCashierOrder(params);
+        });
     }
   } else {
     ElMessage({
@@ -184,18 +232,19 @@ const setCashierOrder = async (params: any) => {
     ElMessage({
       message: '已结算',
       type: 'success',
+      duration: 1500,
     });
-    cleanOut()
+    cleanOut();
   } else {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   }
 };
 // 获取商品列表
 async function setProductLists(query: string) {
   if (query) {
-    searchLoading.value = true
-    tableDataOption.value = await getProductLists({ keyword: query })
-    searchLoading.value = false
+    searchLoading.value = true;
+    tableDataOption.value = await getProductLists({ keyword: query });
+    searchLoading.value = false;
   }
 }
 // 删除
@@ -210,8 +259,8 @@ const deleteComm = (value: any) => {
 const searchChange = () => {
   // tableData.value.push(commodityCode.value)
   tableData.value = duplicateRemoval([].concat(...tableData.value, commodityCode.value), 'specSn');
-  commodityCode.value = ''
-}
+  commodityCode.value = '';
+};
 // 数组根据元素某个属性查重
 function duplicateRemoval(tempArr: any, key: string) {
   let newArr = [];
@@ -219,31 +268,30 @@ function duplicateRemoval(tempArr: any, key: string) {
     if (newArr.indexOf(tempArr[i][key]) == -1) {
       newArr.push(tempArr[i][key]);
     } else {
-      tempArr[newArr.indexOf(tempArr[i][key])].buyNum++
+      tempArr[newArr.indexOf(tempArr[i][key])].buyNum++;
       tempArr.splice(i, 1);
       i--;
-    };
-  };
+    }
+  }
   return tempArr;
-};
+}
 // 清空函数
 const cleanOut = () => {
-  vipUid.value = null
+  vipUid.value = null;
   vipUser.value = {
     vipNumber: '',
     userName: '',
     mobile: '',
-  }
-  tableData.value = []
-  tableDataOption.value = []
-  totalPrice.value = 0.0
-  zoonMoney.value = 0.0
-  totalNumber.value = 0
-  paramsJson.value = null
-  factMoney.value = null
-  searchLoading.value = false
-
-}
+  };
+  tableData.value = [];
+  tableDataOption.value = [];
+  totalPrice.value = 0.0;
+  zoonMoney.value = 0.0;
+  totalNumber.value = 0;
+  paramsJson.value = null;
+  factMoney.value = null;
+  searchLoading.value = false;
+};
 onMounted(async () => {
   emit('update:hideAside', false);
 });

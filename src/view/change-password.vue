@@ -1,18 +1,41 @@
 <template>
   <div class="wrap">
-    <el-form :model="formState" label-width="118px" ref="ruleFormRef" :rules="rules" class="context">
+    <el-form
+      :model="formState"
+      label-width="118px"
+      ref="ruleFormRef"
+      :rules="rules"
+      class="context"
+    >
       <div class="title">修改密码</div>
       <el-form-item label="账号：" class="item">
-        <div class="text">{{ useUserInfoStore.userInfo?.mobile || refuseUserInfoStore.userInfo?.mobile }}</div>
+        <div class="text">
+          {{ useUserInfoStore.userInfo?.mobile || refuseUserInfoStore.userInfo?.mobile }}
+        </div>
       </el-form-item>
       <el-form-item label="原密码：" prop="oldPwd" class="item">
-        <el-input v-model.trim="formState.oldPwd" size="large" placeholder="请输入原密码" type="password" />
+        <el-input
+          v-model.trim="formState.oldPwd"
+          size="large"
+          placeholder="请输入原密码"
+          type="password"
+        />
       </el-form-item>
       <el-form-item label="新密码：" class="item" prop="newPwd">
-        <el-input v-model.trim="formState.newPwd" size="large" placeholder="6-20位字母或数字组合" type="password" />
+        <el-input
+          v-model.trim="formState.newPwd"
+          size="large"
+          placeholder="6-20位字母或数字组合"
+          type="password"
+        />
       </el-form-item>
       <el-form-item label="重复密码：" class="item" prop="repeatPwd">
-        <el-input v-model.trim="formState.repeatPwd" size="large" placeholder="再次输入新密码" type="password" />
+        <el-input
+          v-model.trim="formState.repeatPwd"
+          size="large"
+          placeholder="再次输入新密码"
+          type="password"
+        />
       </el-form-item>
       <el-button type="success" @click="onFinish(ruleFormRef)" class="btn">确定修改</el-button>
     </el-form>
@@ -20,7 +43,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
-import { getPassword } from '@/http'
+import { getPassword } from '@/http';
 import { userInfoDefineStore, refuseUserDefineInfoStore } from '../store/index';
 import type { FormInstance, FormRules } from 'element-plus';
 import { ElMessage } from 'element-plus';
@@ -33,7 +56,7 @@ interface FormState {
 }
 // let userInfo = ref<any>()
 const useUserInfoStore = userInfoDefineStore();
-const refuseUserInfoStore = refuseUserDefineInfoStore()
+const refuseUserInfoStore = refuseUserDefineInfoStore();
 // let { userInfo } = storeToRefs(useUserInfoStore);
 
 const formState = reactive<FormState>({
@@ -57,7 +80,7 @@ const ValidateFn1 = (rule: any, value: any, callback: any) => {
   } else if (!/^[0-9A-Za-z~!@#$%^&*]{6,20}$/.test(value)) {
     callback(new Error('密码长度应该在6-20位字符之间!'));
   } else {
-    callback()
+    callback();
   }
 };
 
@@ -68,7 +91,7 @@ const ValidateFn2 = (rule: any, value: any, callback: any) => {
   } else if (value !== formState.newPwd) {
     callback(new Error('两次输入的密码不一致！'));
   } else {
-    callback()
+    callback();
   }
 };
 const rules = reactive<FormRules>({
@@ -82,9 +105,9 @@ const onFinish = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      setPassword()
+      setPassword();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -94,14 +117,13 @@ const onFinish = async (formEl: FormInstance | undefined) => {
 const setPassword = async () => {
   let r = await getPassword(formState);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     resetFormState();
     return;
   }
   ElMessage.success('密码修改成功，请重新登录');
   loginOut();
 };
-
 
 // 重置输入框
 function resetFormState() {
@@ -122,7 +144,6 @@ onMounted(async () => {
 onUnmounted(() => {
   emit('update:hideAside', true);
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -170,7 +191,7 @@ onUnmounted(() => {
   top: 4px;
 }
 
-.item label>span {
+.item label > span {
   color: #ff0000;
 }
 

@@ -92,7 +92,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       setAddTestSoilObservePoint();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({
+        message: '提交失败,请修改后再提交',
+        duration: 1500,
+      });
       console.log('error submit!', fields);
     }
   });
@@ -111,9 +114,15 @@ async function setAddTestSoilObservePoint() {
   let r = await addObserveConclusion(fetchParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({
+      message: r.msg,
+      duration: 1500,
+    });
   } else {
-    ElMessage.success('保存成功');
+    ElMessage.success({
+      message: '保存成功',
+      duration: 1500,
+    });
     resetForm(conclusionFormRef.value);
     emits('save', true);
     emits('update:conclusionDialogFormVisible', false);
@@ -133,8 +142,8 @@ const cancel = () => {
 };
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .form-box {

@@ -434,9 +434,9 @@ async function submitEditData() {
     codeVerify: ruleForm.codeVerify,
   });
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('已保存');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     setTimeout(() => {
       goBack();
     }, 200);
@@ -472,7 +472,7 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
         submitEditData();
       }
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -513,6 +513,7 @@ function deleteVip() {
         ElMessage({
           message: '删除成功',
           type: 'success',
+           duration: 1500,
         });
         setTimeout(() => {
           router.replace({

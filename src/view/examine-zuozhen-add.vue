@@ -336,9 +336,9 @@ const del = () => {
     .then(async (res) => {
       let r = await getDelSoil(ruleForm.zuozhenId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         router.replace({ path: '/examine-soil' });
       }
       // console.log('r', r);
@@ -385,7 +385,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -427,10 +427,10 @@ async function setZuozhenData() {
   let r = await getAddEditZuoXun(soilParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
-    ElMessage.success('已保存');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     return Promise.resolve('ok');
   }
 }

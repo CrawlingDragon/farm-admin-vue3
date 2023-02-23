@@ -95,9 +95,9 @@ const delTemplate = (templateId: number) => {
     .then(async (res) => {
       let r = await getTemplateDel(templateId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         getTemplateListData();
       }
     })

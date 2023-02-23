@@ -45,7 +45,7 @@
           <div class="left-main">
             <div class="tip">种类病情资料</div>
             <el-form-item label="会员:" prop="username">
-              {{ ruleForm.username }} {{ ruleForm.enterInfo.enterMobile }}
+              {{ ruleForm.username }} {{ ruleForm.userMobile }}
             </el-form-item>
             <el-form-item label="巡诊种类:" prop="nowKind">
               {{ ruleForm.nowKind }}
@@ -222,6 +222,7 @@ const ruleForm = reactive({
     enterTime: '',
     zuoxunNumber: '',
   },
+  userMobile: '',
   username: '', //姓名
   nameId: '', //姓名id
   address: '', //位置
@@ -278,9 +279,9 @@ const del = () => {
     .then(async (res) => {
       let r = await getDelZuoXun(xunzhenId.value as any);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         router.replace({ path: '/examine-xunzhenlist' });
       }
       // console.log('r', r);
@@ -338,7 +339,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -363,7 +364,7 @@ async function setZuoXunTrack() {
   let r = await getAddZuoXunTrack(zuoZhenParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
     ElMessage.success('已发布');
@@ -385,6 +386,7 @@ async function getZuozhenDetail() {
   let s = r.soilInfo;
   let chufangInfo = r.chufangInfo;
   ruleForm.enterInfo = enterInfo;
+  ruleForm.userMobile = s.mobile;
   ruleForm.username = s.username;
   ruleForm.nameId = s.uid;
   ruleForm.zuozhenId = s.zxId;
@@ -413,9 +415,9 @@ const delZuoTrack = async (trackId: string) => {
       let r = await getDelZuoXunTrack(trackId);
       // console.log('r', r);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         setTimeout(() => {
           getZuozhenDetail();
         }, 500);

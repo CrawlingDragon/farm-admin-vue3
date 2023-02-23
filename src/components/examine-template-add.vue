@@ -48,7 +48,7 @@ import Medicine from '@/components/medicine.vue';
 import { ElMessage } from 'element-plus';
 
 const AddTemplateId = 0;
-const titleDialog = ref('新增处方模板')
+const titleDialog = ref('新增处方模板');
 const props = defineProps({
   showDialog: {
     type: Boolean,
@@ -78,12 +78,12 @@ watch(
   (newVal) => {
     if (newVal) {
       if (props.templateId !== AddTemplateId) {
-        titleDialog.value = '处方模板详情'
+        titleDialog.value = '处方模板详情';
         getDetailFetch();
         // let r = await getTemplateExamineDetail(props.templateId);
         // console.log('r1111', r);
       } else {
-        titleDialog.value = '新增处方模板'
+        titleDialog.value = '新增处方模板';
         ruleForm.name = '';
         ruleForm.content = '';
         ruleForm.medicine = [];
@@ -99,7 +99,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       addEditFetch();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -119,12 +119,12 @@ const addEditFetch = async () => {
   let r = await getTemplateAddEdit(paramsComputed.value as any);
   console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     if (props.templateId !== AddTemplateId) {
-      ElMessage.success('已保存');
+      ElMessage.success({ message: '已保存', duration: 1500 });
     } else {
-      ElMessage.success('已添加');
+      ElMessage.success({ message: '已添加', duration: 1500 });
     }
     emits('update:showDialog', false);
     emits('addEditSuccess', true);

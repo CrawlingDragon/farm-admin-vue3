@@ -241,7 +241,7 @@ onMounted(() => {
 //邀请专家的按钮函数
 const inviteExpertFn = () => {
   if (checkedList.value.length === 0) {
-    ElMessage.error('请先选择问题');
+    ElMessage.error({ message: '请先选择问题', duration: 1500 });
   } else {
     inviteShowFlags.value = true;
   }

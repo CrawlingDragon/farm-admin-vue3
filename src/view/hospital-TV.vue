@@ -4,16 +4,20 @@
       TV广告图设置
       <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
         <template #content>
-          <h3>最多添加6张电视机广告图，其中中农在线可添加3张，<br />位置为前三个，庄稼医院可控制后三张。</h3>
+          <h3>
+            最多添加6张电视机广告图，其中中农在线可添加3张，<br />位置为前三个，庄稼医院可控制后三张。
+          </h3>
           <div class="p1">广告图区域见下图：</div>
           <el-image :src="TvTipImg" fit="cover" class="TvTipImg"></el-image>
         </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
-      <el-button :type="addBUtton" :disabled="addBUtton == 'info'" class="add" @click="goAddAdPage">新增广告图</el-button>
+      <el-button :type="addBUtton" :disabled="addBUtton == 'info'" class="add" @click="goAddAdPage"
+        >新增广告图</el-button
+      >
     </div>
     <div class="table-box">
-      <el-table :data="TVListData.tableData" :header-cell-style="{color:'#000'}">
+      <el-table :data="TVListData.tableData" :header-cell-style="{ color: '#000' }">
         <el-table-column prop="listorder" label="排序" width="110px" />
         <el-table-column prop="userName" label="广告图">
           <template #default="scope">
@@ -52,7 +56,7 @@ const TVListData = reactive({
   totalData: 0,
   tableData: [],
 });
-const addBUtton = ref<any>('primary')
+const addBUtton = ref<any>('primary');
 // 点击搜索按钮
 function search() {
   if (page.value !== 1) {
@@ -67,9 +71,9 @@ async function getTVListData() {
   TVListData.tableData = r.adLists;
   TVListData.totalData = r.adNum;
   if (r.adNum == 3) {
-    addBUtton.value = 'info'
+    addBUtton.value = 'info';
   } else {
-    addBUtton.value = 'primary'
+    addBUtton.value = 'primary';
   }
 }
 
@@ -78,9 +82,9 @@ const delTVFn = (adId: number) => {
     .then(async (res) => {
       let r = await getTvDel(adId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('已删除');
+        ElMessage.success({ message: '已删除', duration: 1500 });
         getTVListData();
       }
     })

@@ -20,7 +20,7 @@
       class="left"
       ><div
         class="save mr10"
-        @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId)"
+        @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId, '保存')"
       >
         保存
       </div>
@@ -183,11 +183,11 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, '/examine-xunzhenlist')"
+              @click="submitForm(ruleFormRef, '/examine-xunzhenlist', '添加')"
               class="mr20"
               >确定添加</el-button
             >
-            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
+            <el-button size="large" @click="submitForm(ruleFormRef, undefined, '添加')" class="mr20"
               >确定并继续添加</el-button
             >
             <el-button size="large" @click="cancel">取消</el-button>
@@ -198,7 +198,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId)"
+              @click="submitForm(ruleFormRef, '/examine-xunzhen-detail/' + xunzhenId, '保存')"
               class="mr20"
               >保存</el-button
             >
@@ -301,9 +301,9 @@ const del = () => {
     .then(async (res) => {
       let r = await getDelSoil(ruleForm.xunzhenId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('已删除');
+        ElMessage.success({ message: '已删除', duration: 1500 });
         router.replace({ path: '/examine-soil' });
       }
       // console.log('r', r);
@@ -339,12 +339,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 
 const router = useRouter();
-const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
+const submitForm = async (formEl: FormInstance | undefined, goPage?: string, msg?: string) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       // console.log('submit!');
-      let r = setZuozhenData().then((res) => {
+      let r = setZuozhenData(msg).then((res) => {
         if (goPage) {
           setTimeout(() => {
             router.push(goPage);
@@ -354,7 +354,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -390,17 +390,17 @@ const soilParams = computed<any>(() => {
 });
 
 // 提价测土结果请求
-async function setZuozhenData() {
+async function setZuozhenData(msg: string | undefined) {
   if (soilParams.value.expertId instanceof Object) {
     soilParams.value.expertId = soilParams.value.expertId.value;
   }
   let r = await getAddEditZuoXun(soilParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
-    ElMessage.success('已保存');
+    ElMessage.success('已' + msg);
     return Promise.resolve('ok');
   }
 }

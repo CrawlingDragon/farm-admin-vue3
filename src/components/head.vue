@@ -120,7 +120,8 @@
       </div>
     </div>
   </div>
-<!-- <Nav /> --></template>
+<!-- <Nav /> -->
+</template>
 <script setup lang="ts">
 import { login, loginOut } from '@/common/js/getToken';
 import { userInfoDefineStore, loginState, refuseUserDefineInfoStore } from '@/store/index';

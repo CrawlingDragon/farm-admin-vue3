@@ -110,7 +110,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
     if (valid) {
       let r = setTVData().then((res) => {});
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -121,9 +121,9 @@ const delTVFn = () => {
     .then(async (res) => {
       let r = await getTvDel(adId.value as any);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('已删除');
+        ElMessage.success({ message: '已删除', duration: 1500 });
         router.replace({
           path: '/set/hospital-TV',
         });
@@ -154,7 +154,7 @@ async function setTVData() {
   let r = await getAddEditTv(soilParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     ElMessage.success('已经添加');
     router.push({ path: '/set/hospital-TV' });
@@ -164,9 +164,9 @@ async function setTVData() {
 async function getZuozhenDetail() {
   // 没有zuozhenId，说明是新增页面不需要请求详情数据
   if (!adId.value) {
-    ruleForm.images = []
+    ruleForm.images = [];
     return;
-  };
+  }
   let r = await getTvDetail(adId.value as any);
   // console.log('r', r);
   ruleForm.title = r.title;
@@ -194,11 +194,11 @@ onMounted(async () => {
       margin: 10px;
     }
   }
-        .tips {
-          font-size: 12px;
-          color: $f-color-three;
-          padding-left: 10px;
-        }
+  .tips {
+    font-size: 12px;
+    color: $f-color-three;
+    padding-left: 10px;
+  }
 }
 
 .tip {

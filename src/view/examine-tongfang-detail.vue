@@ -155,9 +155,9 @@ const del = () => {
     .then(async (res) => {
       let r = await getDelTongFang(tfId.value as any);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('已删除');
+        ElMessage.success({ message: '已删除', duration: 1500 });
         router.replace({ path: '/examine-tongfang' });
       }
       // console.log('r', r);

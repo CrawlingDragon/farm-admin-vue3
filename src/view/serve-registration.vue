@@ -384,6 +384,7 @@ function deleteExpert(id: string | number) {
       ElMessage({
         message: '已删除',
         type: 'success',
+         duration: 1500,
       });
       page.value = 1;
       setTimeout(() => {
@@ -437,7 +438,7 @@ async function makeSureEdit(formEl: FormInstance | undefined) {
       // console.log('formEl', formEl)
       // console.log('ruleForm', ruleForm)
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -449,13 +450,13 @@ async function setAddExpert() {
   }
   let r = await getAddExpert(ruleForm);
   if (!r.msg) {
-    ElMessage({ message: '保存成功', type: 'success' });
+    ElMessage({ message: '保存成功', type: 'success', duration: 1500, });
     dialogFormVisible.value = false;
     setTimeout(() => {
       setSubscribeLists();
     }, 1000);
   } else {
-    ElMessage(r.msg);
+    ElMessage.warning(r.msg);
   }
 }
 // 新增排班时间选择限制

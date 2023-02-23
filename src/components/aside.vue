@@ -91,21 +91,21 @@ function getTestingsoilListsState(aside: any) {
   let arr = {} as any;
   aside.examine.forEach((item: any) => {
     if (item.label === 'testingsoilLists') {
-      arr['testingsoilLists'] = item.state == 1 ? true : false
+      arr['testingsoilLists'] = item.state == 1 ? true : false;
     }
     if (item.label === 'observepointLists') {
-      arr['observepointLists'] = item.state == 1 ? true : false
+      arr['observepointLists'] = item.state == 1 ? true : false;
     }
     if (item.label === 'zuozhenLists') {
-      arr['zuozhenLists'] = item.state == 1 ? true : false
+      arr['zuozhenLists'] = item.state == 1 ? true : false;
     }
     if (item.label === 'xunzhenLists') {
-      arr['xunzhenLists'] = item.state == 1 ? true : false
+      arr['xunzhenLists'] = item.state == 1 ? true : false;
     }
     if (item.label === 'questionLists') {
-      arr['questionLists'] = item.state == 1 ? true : false
+      arr['questionLists'] = item.state == 1 ? true : false;
     }
-  })
+  });
   // console.log('arr', arr)
   return arr;
 }
@@ -130,7 +130,7 @@ watch(
 async function getSwitchSetting() {
   let r = await getSwitchInfo();
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     switchSetting.setSwitchInfo(r); //用pinia 保存switch开关信息
   }

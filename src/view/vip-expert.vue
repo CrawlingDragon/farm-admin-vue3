@@ -52,7 +52,7 @@ function deleteExpert(id: number, name: string) {
         Message.error(r.msg);
         return;
       } else {
-        ElMessage.success('已删除');
+        ElMessage.success({ message: '已删除', duration: 1500 });
       }
       setExpertListData();
     })

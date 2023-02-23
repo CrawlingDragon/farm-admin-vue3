@@ -41,7 +41,9 @@
               </el-dropdown>
               <template #states>
                 <div class="status">
-                  <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"><Select /></el-icon>
+                  <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"
+                    ><Select
+                  /></el-icon>
                   <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '待跟进'">
                     <Clock />
                   </el-icon>
@@ -70,7 +72,11 @@
             <el-form-item label="试验地点:" prop="address">
               {{ ruleForm.address }}
             </el-form-item>
-            <el-form-item prop="latitude" label="北纬:" v-if="ruleForm.latitude && ruleForm.longitude">
+            <el-form-item
+              prop="latitude"
+              label="北纬:"
+              v-if="ruleForm.latitude && ruleForm.longitude"
+            >
               <!-- <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12'42”" /> -->
               <div class="mr10">{{ ruleForm.latitude }}</div>
               <span class="mr10">东经:</span>
@@ -116,7 +122,7 @@
                 v-model:expert="ruleForm.testPeople"
                 :options="selectOptions.expertList"
               ></ExpertSelect> -->
-              {{ ruleForm.testPeople }}
+              {{ ruleForm.testPeople }} {{ ruleForm.userMobile }}
             </el-form-item>
             <el-form-item label="描述:" prop="describe" v-if="ruleForm.describe">
               <!-- <el-input
@@ -163,9 +169,11 @@
             <el-form-item label="有效钾含量:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
               >{{ ruleForm.leastSoilRecord.jia }}
             </el-form-item>
-            <el-form-item label="pH值:" prop="" v-if="ruleForm.leastSoilRecord.soilId">{{ ruleForm.leastSoilRecord.ph }}
+            <el-form-item label="pH值:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
+              >{{ ruleForm.leastSoilRecord.ph }}
             </el-form-item>
-            <el-form-item label="盐分:" prop="" v-if="ruleForm.leastSoilRecord.soilId">{{ ruleForm.leastSoilRecord.salt }}
+            <el-form-item label="盐分:" prop="" v-if="ruleForm.leastSoilRecord.soilId"
+              >{{ ruleForm.leastSoilRecord.salt }}
             </el-form-item>
           </div>
           <div class="right-main"></div>
@@ -257,7 +265,7 @@
               </el-form-item>
               <el-form-item label="图片:" prop="image">
                 <el-image
-                  v-for="(img,index) in item.images"
+                  v-for="(img, index) in item.images"
                   :src="img.url"
                   fit="scale-down"
                   @click="getImgView(index, item.images)"
@@ -286,7 +294,8 @@
               </el-form-item>
               <el-form-item label="图片:" prop="image">
                 <el-image
-                  v-for="(img,index) in item.contrastImages" :key="img.url"
+                  v-for="(img, index) in item.contrastImages"
+                  :key="img.url"
                   :src="img.url"
                   @click="getImgView(index, item.contrastImages)"
                   fit="scale-down"
@@ -347,7 +356,9 @@
               <div class="p2">{{ ruleForm.conclusion.observeconclusion }}</div>
             </div>
             <div class="status">
-              <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"><Select /></el-icon>
+              <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '已调理'"
+                ><Select
+              /></el-icon>
               <el-icon color="#599524" v-if="ruleForm.conclusion.effectTips == '待跟进'">
                 <Clock />
               </el-icon>
@@ -442,6 +453,7 @@ const ruleForm = reactive({
   unit: '亩', //单位
   sampleDate: '', //开始观察日期
   testPeople: '', //试验会员
+  userMobile: '', //试验会员手机
   describe: '', //描述
   image: [] as any, // 图片
   leastSoilRecord: {
@@ -516,9 +528,9 @@ const del = () => {
     .then(async (res) => {
       let r = await delObservePoint(pointId.value as any);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         router.replace({ path: '/examine-point' });
       }
       // console.log('r', r);
@@ -595,7 +607,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -638,7 +650,7 @@ async function setPintData() {
   let r = await addObservePoint(pointParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
     ElMessage.success('添加');
@@ -668,6 +680,7 @@ async function getPointDetail() {
   ruleForm.unit = observeInfo.unitName;
   ruleForm.sampleDate = observeInfo.observeTime;
   ruleForm.testPeople = observeInfo.realname;
+  ruleForm.userMobile = observeInfo.mobile;
   ruleForm.describe = observeInfo.describe;
   ruleForm.image = observeInfo.images;
   ruleForm.leastSoilRecord.soilId = fristCetuInfo.cetuNumber;
@@ -705,9 +718,9 @@ function delDayPoint(dailyId: string) {
     .then(async (res) => {
       let r = await delDayObservePoint(dailyId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         getPointDetail();
       }
       // console.log('r', r);
@@ -721,9 +734,9 @@ function delTestSoil(logId: string) {
     .then(async (res) => {
       let r = await delTestObservePoint(logId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         getPointDetail();
       }
       // console.log('r', r);
@@ -737,9 +750,9 @@ function delConclusions() {
     .then(async (res) => {
       let r = await delConclusion(pointId.value);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         getPointDetail();
       }
       // console.log('r', r);
@@ -952,24 +965,23 @@ const getImgView = (index: number, lists: any) => {
         margin-bottom: 10px;
       }
     }
+  }
+}
 
-    }
-    }
-  
-    .status {
-      width: 180px;
-      display: flex;
-      justify-content: end;
-      align-items: center;
-  
-      span {
-        margin-right: 10px;
-        margin-left: 10px;
-      }
-  
-      .close-icon {
-        color: #999;
-        cursor: pointer;
+.status {
+  width: 180px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .close-icon {
+    color: #999;
+    cursor: pointer;
   }
 }
 

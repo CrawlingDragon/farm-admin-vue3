@@ -141,7 +141,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
       // console.log('submit!');
       editHospitalInfo();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -168,9 +168,9 @@ async function editHospitalInfo() {
   let r = await getHospitalEdit(editParams.value as any);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('保存成功');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     router.push({
       path: `/set/hospital-info`,
     });

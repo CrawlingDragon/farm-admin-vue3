@@ -84,6 +84,7 @@ function deleteMsg(params: any) {
       ElMessage({
         message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
+        duration: 1500,
       });
       page.value = 1;
       setMessageLists();

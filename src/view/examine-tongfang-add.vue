@@ -218,7 +218,7 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -228,7 +228,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   // console.log('ruleform', ruleForm);
   formEl.resetFields();
-  ruleForm.Prescribing.medicine = []
+  ruleForm.Prescribing.medicine = [];
   // debugger;
   if (tfId.value) {
     router.push(`/examine-tongfang-detail/${tfId.value}`);
@@ -261,13 +261,13 @@ async function setTongFangData() {
   let r = await getAddEditTongFang(tongFangParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
     if (tfId.value) {
-      ElMessage.success('已保存');
+      ElMessage.success({ message: '已保存', duration: 1500 });
     } else {
-      ElMessage.success('已添加');
+      ElMessage.success({ message: '已添加', duration: 1500 });
     }
     return Promise.resolve('ok');
   }

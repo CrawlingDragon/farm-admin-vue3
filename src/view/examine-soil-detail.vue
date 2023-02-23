@@ -25,12 +25,21 @@
       <div class="last-active">{{ ruleForm.trackInfo.lastEffectStr }}</div>
     </AddSecondBar>
     <div class="content">
-      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
-        size="default" status-icon>
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+        size="default"
+        status-icon
+      >
         <div class="top-box bg-w border">
           <div class="left-bar">
             <div class="tip">土壤信息</div>
-            <el-form-item label="会员:"> {{ userInfo.name }} {{ userInfo.mobile }} </el-form-item>
+            <el-form-item label="会员:">
+              {{ userInfo.name }} {{ userInfo.userMobile }}
+            </el-form-item>
             <el-form-item label="位置:" prop="address">
               {{ ruleForm.address }}
             </el-form-item>
@@ -54,7 +63,13 @@
             <el-form-item label="采样深度(cm):" prop="sampleNumber">
               {{ ruleForm.sampleNumber }}
             </el-form-item>
-            <el-form-item label="采样日期:" prop="sampleDate" v-model="ruleForm.sampleDate" class="w300" readonly>
+            <el-form-item
+              label="采样日期:"
+              prop="sampleDate"
+              v-model="ruleForm.sampleDate"
+              class="w300"
+              readonly
+            >
               {{ ruleForm.sampleDate }}
             </el-form-item>
             <el-form-item label="初复诊:" prop="diagnosis">
@@ -62,8 +77,13 @@
             </el-form-item>
 
             <el-form-item label="图片:" prop="image" v-if="ruleForm.image.length > 0">
-              <el-image v-for="(item, index) in ruleForm.image" class="upload-img" :src="item.thumb_url"
-                @click="getImgView(index, ruleForm.image)" fit="cover">
+              <el-image
+                v-for="(item, index) in ruleForm.image"
+                class="upload-img"
+                :src="item.thumb_url"
+                @click="getImgView(index, ruleForm.image)"
+                fit="cover"
+              >
               </el-image>
               <span v-if="ruleForm.image.length == 0">暂无</span>
             </el-form-item>
@@ -168,7 +188,11 @@
         </div>
         <div class="border bg-w mt10">
           <div class="tip">诊疗跟踪({{ ruleForm.trackInfo.trackCount }})</div>
-          <div v-for="track in ruleForm.trackInfo.trackLists" :key="track.trackId" class="track-wrap">
+          <div
+            v-for="track in ruleForm.trackInfo.trackLists"
+            :key="track.trackId"
+            class="track-wrap"
+          >
             <div class="track-del">
               <el-icon color="#599524" v-if="track.effectStr == '已调理'"><Select /></el-icon>
               <el-icon color="#599524" v-if="track.effectStr == '待跟进'">
@@ -188,7 +212,12 @@
             <el-form-item label="诊疗效果:" prop="" style="margin-bottom: 5px">
               <div>{{ track.effectStr }}</div>
             </el-form-item>
-            <el-form-item label="效果描述:" prop="" style="margin-bottom: 40px" v-if="track.content">
+            <el-form-item
+              label="效果描述:"
+              prop=""
+              style="margin-bottom: 40px"
+              v-if="track.content"
+            >
               <div>{{ track.content }}</div>
             </el-form-item>
           </div>
@@ -196,8 +225,14 @@
         <div class="border bg-w mt10">
           <div class="tip">新增诊疗跟踪</div>
           <el-form-item label="跟踪日期:" prop="newDate">
-            <el-date-picker :disabled-date="disabledDate" v-model="ruleForm.newDate" type="date" placeholder="选择时间" size="large"
-              value-format="YYYY-MM-DD" />
+            <el-date-picker
+              :disabled-date="disabledDate"
+              v-model="ruleForm.newDate"
+              type="date"
+              placeholder="选择时间"
+              size="large"
+              value-format="YYYY-MM-DD"
+            />
           </el-form-item>
           <el-form-item label="诊疗效果:" prop="newEffects">
             <el-radio-group v-model="ruleForm.newEffects">
@@ -207,8 +242,14 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="效果描述:" prop="newResult">
-            <el-input v-model="ruleForm.newResult" class="w300" type="textarea" rows="4" maxlength="2000"
-              show-word-limit />
+            <el-input
+              v-model="ruleForm.newResult"
+              class="w300"
+              type="textarea"
+              rows="4"
+              maxlength="2000"
+              show-word-limit
+            />
           </el-form-item>
           <el-form-item label="" prop="newResult">
             <el-button size="large" type="primary" @click="submitForm(ruleFormRef)">发布</el-button>
@@ -239,7 +280,7 @@ const cetuId = computed(() => route.params.cetuId);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
-  testingsoilNumber: '',//测土数字
+  testingsoilNumber: '', //测土数字
   nameId: '', //姓名
   address: '', //位置
   latitude: '', //经度
@@ -322,15 +363,15 @@ const delFn = () => {
     .then(async (res) => {
       let r = await getDelSoil(ruleForm.cetuId);
       if (r.code) {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       } else {
-        ElMessage.success('删除成功');
+        ElMessage.success({ message: '删除成功', duration: 1500 });
         router.replace({ path: '/examine-soil' });
       }
       // console.log('r', r);
       //删除配方
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 const router = useRouter();
@@ -351,10 +392,10 @@ const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => 
         getSoilDetail();
         clearAddData();
       } else {
-        ElMessage.error(r.msg);
+        ElMessage.error({ message: r.msg, duration: 1500 });
       }
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -414,7 +455,7 @@ const soilParams = computed<any>(() => {
   return params;
 });
 
-const userInfo = reactive({ mobile: 0, time: 0, name: '' });
+const userInfo = reactive({ mobile: 0, time: 0, name: '', userMobile: '' });
 async function getSoilDetail() {
   // 没有cetuId，说明是新增页面不需要请求详情数据
   if (!cetuId.value) return;
@@ -427,6 +468,7 @@ async function getSoilDetail() {
   ruleForm.testingsoilNumber = enterInfo.testingsoilNumber;
   ruleForm.cetuId = soilInfo.cetuId;
   userInfo.mobile = enterInfo.enterMobile;
+  userInfo.userMobile = soilInfo.mobile;
   userInfo.time = enterInfo.enterTime;
   userInfo.name = soilInfo.username;
   ruleForm.address = soilInfo.address;
@@ -471,9 +513,9 @@ const delTrackFn = (id: string) => {
     //请求删除函数
     let r = await getTrackDel(id);
     if (!r.code) {
-      ElMessage.success('删除成功');
+      ElMessage.success({ message: '删除成功', duration: 1500 });
     } else {
-      ElMessage.error(r.msg);
+      ElMessage.error({ message: r.msg, duration: 1500 });
     }
     //重新请求数据，刷新页面数据
     getSoilDetail();
@@ -489,16 +531,16 @@ onUnmounted(() => {
   emit('update:hideAside', true);
 });
 // 大图预览
-const imgIndex = ref<number>()
-const imgLists = ref<any>()
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const getImgView = (index: number, lists: any) => {
-  imgIndex.value = index
-  imgLists.value = lists
-}
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 // 新增诊疗跟踪日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {
@@ -509,7 +551,7 @@ const disabledDate = (time: Date) => {
   display: flex;
   justify-content: space-between;
 
-  &>div {
+  & > div {
     flex: 1;
   }
 
@@ -525,7 +567,7 @@ const disabledDate = (time: Date) => {
   display: flex;
   justify-content: space-between;
 
-  &>div {
+  & > div {
     flex: 1;
   }
 
@@ -647,14 +689,14 @@ const disabledDate = (time: Date) => {
     align-items: center;
     z-index: 2;
     span {
-        margin-right: 10px;
-        margin-left: 10px;
-      }
-    
-      .close-icon {
-        color: #999;
-        cursor: pointer;
-      }
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    .close-icon {
+      color: #999;
+      cursor: pointer;
+    }
   }
 }
 

@@ -182,7 +182,7 @@ async function saveMessage(formEl: FormInstance | undefined) {
       // console.log(params.value)
       setTrainAddEdit();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -191,9 +191,9 @@ async function saveMessage(formEl: FormInstance | undefined) {
 async function setTrainAddEdit() {
   let r = await getTrainAddEdit(params.value);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('已保存');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     setTimeout(() => {
       router.push({
         path: '/serve-people',

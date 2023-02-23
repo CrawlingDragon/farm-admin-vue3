@@ -15,27 +15,27 @@ interface urls {
 // 肥料;
 // 农膜;
 let dev_arr = {
-  hospital: '', //庄稼医院
-  fall_ill: '', //病虫害图库
-  video: '', //农技视频
+  hospital: 'https://beta-ai.114nz.com/hospital', //庄稼医院
+  fall_ill: 'https://beta-ai.114nz.com/fall-ill', //病虫害图库
+  video: 'https://beta-ai.114nz.com/video', //农技视频
   farm_store: 'https://mall.114nz.com/Index/Index/index.html', //农资商城
   farm_medicine: 'https://mall.114nz.com/Index/Category/index/id/2.html', //农药
   farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
   farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
   farm_index: 'https://www.114nz.com/',
-  change_password: '', //修改密码
+  change_password: 'https://beta-ai.114nz.com/change-password?from=admin', //修改密码
   vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 let prod_arr = {
-  hospital: '', //庄稼医院
-  fall_ill: '', //病虫害图库
-  video: '', //农技视频
+  hospital: 'https://beta-ai.114nz.com/hospital', //庄稼医院
+  fall_ill: 'https://beta-ai.114nz.com/fall-ill', //病虫害图库
+  video: 'https://beta-ai.114nz.com/video', //农技视频
   farm_store: 'https://mall.114nz.com/Index/Index/index.html', //农资商城
   farm_medicine: 'https://mall.114nz.com/Index/Category/index/id/2.html', //农药
   farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
   farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
   farm_index: 'https://www.114nz.com/',
-  change_password: 'https://www.114nz.com?from=admin', //修改密码
+  change_password: 'https://beta-ai.114nz.com/change-password?from=admin', //修改密码
   vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 

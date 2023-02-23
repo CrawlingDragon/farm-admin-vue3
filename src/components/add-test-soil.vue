@@ -81,7 +81,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       setAddTestSoilObservePoint();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
+
       console.log('error submit!', fields);
     }
   });
@@ -99,9 +100,9 @@ async function setAddTestSoilObservePoint() {
   let r = await addObservePointHistory(fetchParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('保存成功');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     resetForm(testSoilFormRef.value);
     emits('save', true);
     emits('update:testSoilDialogFormVisible', false);

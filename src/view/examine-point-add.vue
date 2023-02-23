@@ -421,9 +421,9 @@ const rules = reactive<FormRules>({
 //     .then(async (res) => {
 //       let r = await getDelSoil(ruleForm.cetuId);
 //       if (r.code) {
-//         ElMessage.error(r.msg);
+//         ElMessage.error({ message: r.msg, duration: 1500 });
 //       } else {
-//         ElMessage.success('删除成功');
+//          ElMessage.success({message:'删除成功',duration:1500});
 //         router.replace({ path: '/examine-soil' });
 //       }
 //       // console.log('r', r);
@@ -511,7 +511,7 @@ const submitForm = async (formEl: FormInstance | undefined, pageName?: string) =
         }
       });
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -562,10 +562,10 @@ async function setPintData() {
   let r = await addObservePoint(pointParams.value);
   console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
-    ElMessage.success('已添加');
+    ElMessage.success({ message: '已添加', duration: 1500 });
     return Promise.resolve('ok');
   }
 }

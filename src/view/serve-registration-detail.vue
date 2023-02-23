@@ -109,9 +109,9 @@ async function preservation() {
     status: detailData.statusTips,
   });
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('已保存');
+    ElMessage.success({ message: '已保存', duration: 1500 });
     setTimeout(() => {
       router.push({
         path: '/serve-registration',

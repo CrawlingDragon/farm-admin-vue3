@@ -142,7 +142,7 @@ async function sendOut(formEl: FormInstance | undefined) {
       // console.log(params, '66')
       setNoteSmsSend(params);
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -151,7 +151,7 @@ async function sendOut(formEl: FormInstance | undefined) {
 async function setNoteSmsSend(params: any) {
   let r = await getNoteSmsSend(params);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     ElMessage.success('已发送');
     goLink('/serve-note');

@@ -235,11 +235,9 @@ const submitForm = async (formEl: FormInstance | undefined, goOn: any) => {
         }
       });
     } else {
-      // ElMessage.warning('提交失败,请修改后再提交');
-      ElMessage({
-        type: 'warning',
-        // grouping: true,
+      ElMessage.warning({
         message: '提交失败,请修改后再提交',
+        duration: 1500,
       });
       console.log('error submit!', fields);
     }
@@ -304,7 +302,7 @@ async function submitVipInfo() {
 
   let r = await getAddVip(params);
   if (r.code) {
-    // ElMessage.error(r.msg);
+    // ElMessage.error({ message: r.msg, duration: 1500 });
     if (typeof r.msg == 'string') {
       msgDialogVisible.value = false;
       ElMessageBox.alert(r.msg, '录入会员', {
@@ -321,6 +319,7 @@ async function submitVipInfo() {
     ElMessage({
       type: 'success',
       message: '已录入',
+      duration: 1500,
     });
   }
 }

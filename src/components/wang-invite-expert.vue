@@ -77,9 +77,9 @@ const submitExpertParams = computed(() => {
 const confirm = async () => {
   let r = await getWangExpertAnswer(submitExpertParams.value as any);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('提交成功');
+    ElMessage.success({ message: '提交成功', duration: 1500 });
     emits('update:inviteShowFlag', false);
   }
 };

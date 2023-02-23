@@ -19,7 +19,7 @@
             size="default"
             class="date-wrap"
             value-format="YYYY-MM-DD"
-            :disabled-date="disabledDate" 
+            :disabled-date="disabledDate"
           />
         </el-form-item>
         <el-form-item label="图片:" prop="leftImgs">
@@ -53,7 +53,7 @@
             class="w300 date-wrap"
             style="width: 300px"
             value-format="YYYY-MM-DD"
-            :disabled-date="disabledDate" 
+            :disabled-date="disabledDate"
           />
         </el-form-item>
         <el-form-item label="图片:" prop="rightImgs">
@@ -128,7 +128,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!');
       setAddDayObservePoint();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({
+        message: '提交失败,请修改后再提交',
+        duration: 1500,
+      });
       console.log('error submit!', fields);
     }
   });
@@ -150,9 +153,15 @@ async function setAddDayObservePoint() {
   let r = await addDayObservePoint(fetchParams.value);
   // console.log('r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({
+      message: r.msg,
+      duration: 1500,
+    });
   } else {
-    ElMessage.success('保存成功');
+    ElMessage.success({
+      message: '保存成功',
+      duration: 1500,
+    });
     resetForm(ruleFormRef.value);
     emits('save', true);
     emits('update:dayDialogFormVisible', false);
@@ -172,8 +181,8 @@ const cancel = () => {
 };
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .form-box {

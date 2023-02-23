@@ -75,6 +75,7 @@ function delNote() {
       ElMessage({
         message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
+         duration: 1500,
       });
       setTimeout(() => {
         goPage('/serve-note');

@@ -110,7 +110,7 @@ async function setNewsInfo() {
     let r = await getNewsInfo({ newId: id.value });
     // console.log('r', r)
     if (r.code == 404) {
-      ElMessage.error(r.msg);
+      ElMessage.error({ message: r.msg, duration: 1500 });
       setTimeout(() => {
         router.go(-1);
       }, 1000);
@@ -140,10 +140,10 @@ async function setSaveNews() {
   // console.log('params', params.value)
   let r = await getSaveNews(params.value);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     if (id.value) {
-      ElMessage.success('已保存');
+      ElMessage.success({ message: '已保存', duration: 1500 });
     } else {
       ElMessage.success('已发布');
     }
@@ -162,7 +162,7 @@ async function saveMessage(formEl: FormInstance | undefined) {
     if (valid) {
       setSaveNews();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });

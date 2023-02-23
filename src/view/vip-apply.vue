@@ -361,7 +361,7 @@ async function passApplyFn() {
       setApplyData();
     }, 200);
   } else {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   }
 }
 //拒绝申请
@@ -378,7 +378,7 @@ async function refused() {
     reason: refusedVal.value,
   });
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
     setApplyData();
     ElMessage.success('已拒绝');

@@ -97,7 +97,7 @@ const addMedicineFn = () => {
 };
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (ruleForm.content == '') {
-    ElMessage.error('回复内容不能为空');
+    ElMessage.error({ message: '回复内容不能为空', duration: 1500 });
     return;
   }
   if (!formEl) return;
@@ -105,7 +105,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       submitAnswerFn();
     } else {
-      ElMessage.warning('提交失败,请修改后再提交');
+      ElMessage.warning({ message: '提交失败,请修改后再提交', duration: 1500 });
       console.log('error submit!', fields);
     }
   });
@@ -126,9 +126,9 @@ const submitAnswerFn = async () => {
   let r = await getWangToAnswer(ToAnswerParamsComputed.value as any);
   console.log('submit-r', r);
   if (r.code) {
-    ElMessage.error(r.msg);
+    ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success('回复成功');
+    ElMessage.success({ message: '回复成功', duration: 1500 });
     router.go(0);
   }
 };

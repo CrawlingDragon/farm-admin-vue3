@@ -198,6 +198,7 @@ function deleteVip(done: any) {
         ElMessage({
           message: '已删除',
           type: 'success',
+          duration: 1500,
         });
         setTimeout(() => {
           router.replace({
