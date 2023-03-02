@@ -193,7 +193,8 @@ async function setTrainAddEdit() {
   if (r.code) {
     ElMessage.error({ message: r.msg, duration: 1500 });
   } else {
-    ElMessage.success({ message: '已保存', duration: 1500 });
+    let message = id.value == '' ? '已添加' : '已保存';
+    ElMessage.success({ message, duration: 1500 });
     setTimeout(() => {
       router.push({
         path: '/serve-people',

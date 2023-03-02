@@ -116,14 +116,17 @@ watch(
   }
 );
 
-// onMounted(() => {
-//   medicine.value = shallowReactive(props.medicineProp) as any;
-// });
+onMounted(() => {
+  // medicine.value = shallowReactive(props.medicineProp) as any;
+  medicine.value = props.medicineProp as any;
+  // console.log('props.medicineProp', props.medicineProp);
+});
 watch(
   () => props.medicineProp,
   (newVal) => {
-    // console.log('props', newVal);
+    // console.log('newProp', newVal);
     medicine.value = newVal as any;
+    // console.log('medicine.value', medicine.value);
   },
   {
     // immediate: true,

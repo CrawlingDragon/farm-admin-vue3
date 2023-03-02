@@ -48,20 +48,32 @@
             <div class="" @click="login('register')">注册</div>
           </div>
           <el-dropdown v-else>
-            <div class="ant-dropdown-link flex align-center" style="height: 50px" v-if="loginStates == 'agree'">
+            <div
+              class="ant-dropdown-link flex align-center"
+              style="height: 50px"
+              v-if="loginStates == 'agree'"
+            >
               <!-- <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" /> -->
-              <img style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
-                :src="userInfoStore.userInfo.avatar" />
+              <img
+                style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
+                :src="userInfoStore.userInfo.avatar"
+              />
               {{ userInfoStore.userInfo.mobile }}
               <el-icon class="icon2">
                 <ArrowDown />
               </el-icon>
               <!-- <down-outlined class="icon2" /> -->
             </div>
-            <div class="ant-dropdown-link flex align-center" style="height: 50px" v-if="loginStates == 'refuse'">
+            <div
+              class="ant-dropdown-link flex align-center"
+              style="height: 50px"
+              v-if="loginStates == 'refuse'"
+            >
               <!-- <el-avatar :size="35" :src="userInfoStore.userInfo.avatar" /> -->
-              <img style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
-                :src="userRefInfoStore.userInfo.avatar" />
+              <img
+                style="width: 35px; height: 35px; border-radius: 50%; object-fit: fill"
+                :src="userRefInfoStore.userInfo.avatar"
+              />
               {{ userRefInfoStore.userInfo.mobile }}
               <el-icon class="icon2">
                 <ArrowDown />
@@ -71,7 +83,9 @@
             <template #dropdown class="box22">
               <div class="web-drop-box box2">
                 <!-- <router-link class="item password-item" to="/change-password"></router-link> -->
-                <a :href="urls.change_password" class="item password-item" target="_blank">修改密码</a>
+                <div class="item password-item" @click="changePassword(urls.change_password)">
+                  修改密码
+                </div>
                 <div class="item" @click="loginOut">退出</div>
               </div>
             </template>
@@ -94,7 +108,9 @@
                 </div>
                 <div v-if="loginStates == 'refuse'" class="item" @click="goPage">医院管理中心</div>
                 <div v-if="loginStates == 'refuse'" class="item" @click="goPage">会员管理</div>
-                <a :href="urls.vip_base" class="item a-item" target="_blank">基地管理中心 <el-icon>
+                <a :href="urls.vip_base" class="item a-item" target="_blank"
+                  >基地管理中心
+                  <el-icon>
                     <ArrowRight />
                   </el-icon>
                 </a>
@@ -120,7 +136,7 @@
       </div>
     </div>
   </div>
-<!-- <Nav /> -->
+  <!-- <Nav /> -->
 </template>
 <script setup lang="ts">
 import { login, loginOut } from '@/common/js/getToken';
@@ -128,16 +144,16 @@ import { userInfoDefineStore, loginState, refuseUserDefineInfoStore } from '@/st
 import { urls } from '@/common/js/urls';
 import { h, ref, onMounted } from 'vue';
 import storage from 'good-storage';
-// import { useRouter } from 'vue-router';
+// import { useRoute } from 'vue-router';
 import { ElMessageBox } from 'element-plus';
 import { getAssetsImage } from '@/common/js/util';
-import { storeToRefs } from "pinia"
+import { storeToRefs } from 'pinia';
 
 // 响应式登录状态
-const loginStateStore = loginState()
+const loginStateStore = loginState();
 const { loginStates } = storeToRefs(loginStateStore);
 
-// const router = useRouter();
+// const route = useRoute();
 const userInfoStore = userInfoDefineStore();
 const userRefInfoStore = refuseUserDefineInfoStore();
 let token = storage.session.get('token');
@@ -163,8 +179,15 @@ const goPage = () => {
     closeOnClickModal: false,
     showCancelButton: false,
   }).then(() => {
-    loginOut()
+    loginOut();
   });
+};
+
+// 修改密码
+const changePassword = (url: string) => {
+  const fromUrl = encodeURIComponent(window.location.href);
+  console.log('router', fromUrl);
+  window.location.href = `${url}?from=${fromUrl}`;
 };
 </script>
 <style lang="scss" scoped>
@@ -324,7 +347,7 @@ const goPage = () => {
   height: 100%;
 }
 
-.user-box .login-box>div {
+.user-box .login-box > div {
   display: inline-block;
   padding: 0 10px;
   cursor: pointer;

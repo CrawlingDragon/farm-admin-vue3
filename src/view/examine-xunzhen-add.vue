@@ -42,7 +42,7 @@
               <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
             </el-form-item>
             <el-form-item label="会员:" v-else>
-              {{ ruleForm.username }} {{ ruleForm.enterInfo.enterMobile }}
+              {{ ruleForm.username }} {{ ruleForm.userMobile }}
             </el-form-item>
 
             <el-form-item label="巡诊种类:" prop="nowKind">
@@ -250,6 +250,7 @@ const ruleForm = reactive({
     zuoxunNumber: '',
   },
   username: '', //姓名
+  userMobile: '', //用户手机
   nameId: '', //姓名id
   address: '', //位置
   nowKind: '', //现在种类
@@ -419,6 +420,7 @@ async function getZuozhenDetail() {
   let chufangInfo = r.chufangInfo;
   ruleForm.enterInfo = enterInfo;
   ruleForm.username = s.username;
+  ruleForm.userMobile = s.mobile;
   ruleForm.nameId = s.uid;
   ruleForm.xunzhenId = s.xunzhenId;
   ruleForm.plantType = s.plantType;

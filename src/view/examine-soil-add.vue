@@ -34,7 +34,7 @@
               <UserSelectVue v-model:user="ruleForm.nameId" :disabled="!!uId" />
             </el-form-item>
             <el-form-item label="会员:" v-else>
-              {{ userInfo.name }} {{ userInfo.mobile }}
+              {{ userInfo.name }} {{ ruleForm.userMobile }}
             </el-form-item>
             <el-form-item label="位置:" prop="address">
               <el-input
@@ -250,8 +250,9 @@
               >
               </LatestTestSoilSelectVue>
             </el-form-item>
-            <div class="tip">用药信息</div>
+            <div class="tip">用药信息2</div>
             <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
+            <!-- <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" /> -->
           </div>
           <div class="right-bar">
             <div class="tip">请选择处方模板</div>
@@ -327,6 +328,7 @@ const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   testingsoilNumber: '', //测土数字
   nameId: '', //姓名
+  userMobile: '',
   address: '', //位置
   latitude: '', //经度
   longitude: '', //纬度
@@ -361,13 +363,13 @@ const ruleForm = reactive({
     leastSoilRecord: '', //最近测土记录
     medicine: [
       //用药信息
-      {
-        drugName: '', //药品名字
-        drugId: '', //药品id
-        drugSpecIds: '', //药品规格
-        sizeSelectOption: [],
-        drugQuantity: 1, // 药品数量
-      },
+      // {
+      //   drugName: '', //药品名字
+      //   drugId: '', //药品id
+      //   drugSpecIds: '', //药品规格
+      //   sizeSelectOption: [],
+      //   drugQuantity: 1, // 药品数量
+      // },
     ],
   },
   cetuId: '', //用于详情显示的cetuId
@@ -545,6 +547,7 @@ async function getSoilDetail() {
   let chufangInfo = r.chufangInfo;
   let enterInfo = r.enterInfo;
   ruleForm.nameId = s.uid;
+  ruleForm.userMobile = s.mobile;
   ruleForm.cetuId = s.cetuId;
   ruleForm.testingsoilNumber = enterInfo.testingsoilNumber;
   userInfo.mobile = enterInfo.enterMobile;

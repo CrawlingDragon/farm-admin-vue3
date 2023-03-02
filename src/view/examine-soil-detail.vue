@@ -177,7 +177,7 @@
                 <div class="item">
                   {{ item.drugSpec }}
                 </div>
-                <div class="item">1</div>
+                <div class="item">{{ item.drugPrice }}</div>
                 <div class="item">
                   {{ item.drugQuantity }}
                 </div>
@@ -324,6 +324,7 @@ const ruleForm = reactive({
         drugId: '', //药品id
         drugSpec: '', //药品规格
         drugQuantity: 1, // 药品数量
+        drugPrice:'' //价格
       },
     ],
   },

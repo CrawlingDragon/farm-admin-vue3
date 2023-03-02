@@ -384,7 +384,7 @@ function deleteExpert(id: string | number) {
       ElMessage({
         message: '已删除',
         type: 'success',
-         duration: 1500,
+        duration: 1500,
       });
       page.value = 1;
       setTimeout(() => {
@@ -450,7 +450,8 @@ async function setAddExpert() {
   }
   let r = await getAddExpert(ruleForm);
   if (!r.msg) {
-    ElMessage({ message: '保存成功', type: 'success', duration: 1500, });
+    let message = expertTitle.value === '新增专家排班' ? '已添加' : '已保存';
+    ElMessage({ message, type: 'success', duration: 1500 });
     dialogFormVisible.value = false;
     setTimeout(() => {
       setSubscribeLists();

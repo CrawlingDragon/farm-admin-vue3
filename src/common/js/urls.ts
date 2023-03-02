@@ -23,7 +23,7 @@ let dev_arr = {
   farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
   farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
   farm_index: 'https://www.114nz.com/',
-  change_password: 'https://beta-ai.114nz.com/change-password?from=admin', //修改密码
+  change_password: 'https://beta-ai.114nz.com/change-password', //修改密码
   vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 let prod_arr = {
@@ -35,7 +35,7 @@ let prod_arr = {
   farm_manure: 'https://mall.114nz.com/Index/Category/index/id/1.html', //肥料
   farm_membrane: 'https://mall.114nz.com/Index/Category/index/id/32.html', //农膜
   farm_index: 'https://www.114nz.com/',
-  change_password: 'https://beta-ai.114nz.com/change-password?from=admin', //修改密码
+  change_password: 'https://beta-ai.114nz.com/change-password', //修改密码
   vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 

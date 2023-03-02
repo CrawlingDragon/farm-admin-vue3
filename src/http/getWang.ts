@@ -36,7 +36,7 @@ interface AnswerParams {
   yongyaoInfoJson: any; //[json]		用药信息,数据格式[{"drugName":"甲胺磷","drugId":"123","drugSpecIds":"21","drugQuantity":"1"}]
 }
 export function getWangToAnswer(params: AnswerParams) {
-  return post('/api/Question/professorAnswer', params);
+  return post('/api/atuh/professorAnswer', params);
 }
 //邀请专家回复网诊
 interface ExpertAnswerParams {
@@ -45,5 +45,5 @@ interface ExpertAnswerParams {
   expertIds: string[]; //[string]	是	专家ID,多个用逗号拼接
 }
 export function getWangExpertAnswer(params: ExpertAnswerParams) {
-  return post('/api/Question/inviteReply', params);
+  return post('/api/auth/inviteReply', params);
 }
