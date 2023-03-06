@@ -136,9 +136,7 @@
       <div class="submit-bar">
         <div class="content">
           <el-button type="primary" @click="submitForm(ruleFormRef, '')">确定录入</el-button>
-          <el-button type="primary" @click="submitForm(ruleFormRef, 'goOn')"
-            >确定并继续录入</el-button
-          >
+          <el-button @click="submitForm(ruleFormRef, 'goOn')">确定并继续录入</el-button>
           <el-button @click="goBackPage">取消</el-button>
         </div>
       </div>
@@ -403,7 +401,7 @@ const options = reactive({
   position: relative;
   .close {
     position: absolute;
-    right: 0;
+    right: 20px;
     font-size: 20px;
     cursor: pointer;
   }

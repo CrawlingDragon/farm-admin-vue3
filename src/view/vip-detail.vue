@@ -195,6 +195,14 @@ function deleteVip(done: any) {
     ElMessageBox.confirm('确定删除该会员？', '删除提示')
       .then(async (res) => {
         let r = await getDeleteVip({ id: id.value });
+        // if (r.code) {
+        //   ElMessage({
+        //     message: r.msg,
+        //     type: 'error',
+        //     duration: 1500,
+        //   });
+        //   return;
+        // }
         ElMessage({
           message: '已删除',
           type: 'success',

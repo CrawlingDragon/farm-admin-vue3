@@ -70,7 +70,7 @@ onMounted(async () => {
   //   options.testOptions = r.cetuOrderList;
   // } else {
   //   // console.log('prop');
-  //   options.testOptions = prop.soilSelectOption as any;
+  options.testOptions = prop.soilSelectOption as any;
   // }
 });
 watch(

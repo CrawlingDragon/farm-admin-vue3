@@ -1,10 +1,22 @@
 <template>
   <div>
     <div class="boxImg" :class="{ upload: small }">
-      <el-upload :class="{ hide: hideUploadEdit }" action="aaa" v-model:file-list="imgList" list-type="picture-card"
-        :show-file-list="true" :on-exceed="imgexceed" :auto-upload="false" :on-change="addchange"
-        :before-upload="addbeforeupload" :limit="limit" multiple :before-remove="beforeRemove"
-        :on-preview="handlePictureCardPreview" accept="image/*">
+      <el-upload
+        :class="{ hide: hideUploadEdit }"
+        action="aaa"
+        v-model:file-list="imgList"
+        list-type="picture-card"
+        :show-file-list="true"
+        :on-exceed="imgexceed"
+        :auto-upload="false"
+        :on-change="addchange"
+        :before-upload="addbeforeupload"
+        :limit="limit"
+        multiple
+        :before-remove="beforeRemove"
+        :on-preview="handlePictureCardPreview"
+        accept="image/*"
+      >
         <el-icon>
           <Plus />
         </el-icon>
@@ -39,7 +51,7 @@ const props = defineProps({
     default: false,
   },
 });
-const hideUploadEdit = ref<boolean>(false)
+const hideUploadEdit = ref<boolean>(false);
 const emit = defineEmits(['update:images']);
 let imgList = ref<UploadUserFile[]>([]);
 let addInfos = ref<any>([]);
@@ -55,7 +67,7 @@ const imgexceed: UploadProps['onExceed'] = (files, uploadFiles) => {
 // 判断文件的类型
 function addchange(res: any, fileList: any) {
   addbeforeupload(res.raw);
-  hideUploadEdit.value = fileList.length == props.limit
+  hideUploadEdit.value = fileList.length == props.limit;
 }
 // 上传的方法
 async function addbeforeupload(result: any) {
@@ -112,7 +124,7 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(`确定要删除这张${imgName}照片吗?`).then(
     () => {
       addInfos.value.splice(index, 1);
-      hideUploadEdit.value = addInfos.length == props.limit
+      hideUploadEdit.value = addInfos.length == props.limit;
       return true;
     },
     () => false
@@ -128,7 +140,7 @@ watch(imgList, (newVal, oldVal) => {
   // console.log('imgList-newVal', newVal);
   // console.log('imgList-oldVal', oldVal);
   emit('update:images', addInfos);
-  hideUploadEdit.value = newVal.length == props.limit
+  hideUploadEdit.value = newVal.length == props.limit;
 });
 
 //watch props，当有默认图片数据的时候，赋值给upload插件
@@ -140,13 +152,12 @@ watch(
     // if (newVal.length == 0) return;
     addInfos.value = newVal;
     imgList.value = newVal as any;
-    hideUploadEdit.value = imgList.value.length == props.limit
+    hideUploadEdit.value = imgList.value.length == props.limit;
   }
 );
 </script>
 <style lang="scss" scoped>
 .upload {
-
   :deep().el-upload--picture-card,
   :deep().el-upload-list--picture-card .el-upload-list__item {
     --el-upload-list-picture-card-size: 50px;
@@ -159,5 +170,8 @@ watch(
   :deep() .hide .el-upload--picture-card {
     display: none;
   }
+}
+:deep() .el-overlay {
+  // height: 100vh;
 }
 </style>

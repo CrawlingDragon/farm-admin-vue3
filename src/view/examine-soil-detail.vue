@@ -45,7 +45,7 @@
             </el-form-item>
             <el-form-item prop="name" label="北纬:" v-if="ruleForm.latitude && ruleForm.longitude">
               {{ ruleForm.latitude || '暂无' }}
-              <span>东经:</span>
+              <span class="mr10">东经:</span>
               {{ ruleForm.longitude || '暂无' }}
             </el-form-item>
             <el-form-item label="现种养种类:" prop="nowKind">
@@ -324,7 +324,7 @@ const ruleForm = reactive({
         drugId: '', //药品id
         drugSpec: '', //药品规格
         drugQuantity: 1, // 药品数量
-        drugPrice:'' //价格
+        drugPrice: '', //价格
       },
     ],
   },
@@ -592,13 +592,13 @@ const disabledDate = (time: Date) => {
 .result-input::after {
   position: absolute;
   content: 'mg/kg';
-  right: -50px;
+  right: -60px;
   color: #333;
 }
 
 .organic-input::after {
   content: 'g/kg';
-  right: -50px;
+  right: -47px;
   color: #333;
   position: absolute;
 }
