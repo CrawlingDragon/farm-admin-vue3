@@ -9,7 +9,7 @@
       <div class="date-box">
         <label class="mr10">{{ dateValLabel }}</label>
         <el-date-picker style="width: 250px" v-model="dateVal" :type="typePicker" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" :value-format="pickerFormat" />
+        start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" :value-format="pickerFormat" :disabled-date="disabledDate" />
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
@@ -159,9 +159,10 @@ onMounted(() => {
 watch(page, () => {
   setCountList();
 });
-
-
-
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {
