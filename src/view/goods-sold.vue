@@ -6,7 +6,7 @@
       <div class="date-box">
         <label class="mr10">购买日期</label>
         <el-date-picker style="width: 300px" v-model="dateVal" type="daterange" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" />
+        start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" :disabled-date="disabledDate" />
       </div>
       <div class="select-box mr10">
         <label class="mr10">备注</label>
@@ -179,6 +179,10 @@ watch(page, () => {
 onMounted(() => {
   setOutCommodityList();
 });
+// 日期限制
+const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {
@@ -200,6 +204,7 @@ onMounted(() => {
 .input-bar {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 30px;
 
   .export {
     width: 60px;

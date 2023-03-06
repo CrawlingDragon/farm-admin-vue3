@@ -4,7 +4,7 @@
     filterable
     v-model="transferKind"
     :data="transferData"
-    :titles="['未选的擅长种类', '已选的擅长种类']"
+      :titles="['未选的种类', '已选的种类']"
     @change="chooseTransfer"
   />
 </template>

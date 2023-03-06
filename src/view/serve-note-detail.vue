@@ -45,7 +45,7 @@
               v-model="ruleForm.userMobiles"
               :data="userVips"
               filterable
-              :titles="['请选择收件人(会员)', '请勾选左侧的收件人']"
+                :titles="['请选择收件人(会员)', '已选择的的收件人']"
             />
           </el-form-item>
         </el-form>

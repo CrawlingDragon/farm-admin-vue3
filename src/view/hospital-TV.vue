@@ -22,23 +22,25 @@
         <el-table-column prop="userName" label="广告图">
           <template #default="scope">
             <div class="image-box">
-              <el-image :src="scope.row.images" fit="fill" class="img"></el-image>
-              <p class="title">{{ scope.row.title }}</p>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="addTime" label="时间" width="210px" />
-        <el-table-column prop="status" label="操作" width="110px">
-          <template #default="scope">
-            <div class="flex">
-              <div class="color cursor mr20" @click="goTVAddEditPage(scope.row.adId)">编辑</div>
-              <div class="color cursor" @click="delTVFn(scope.row.adId)">删除</div>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <Pages :total="TVListData.totalData" v-model:page="page"></Pages>
+                  <el-image :src="scope.row.thumbImg" fit="fill" @click="getImgView(0, [{ url: scope.row.images }])" class="img"></el-image>
+                  <p class="title">{{ scope.row.title }}</p>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="addTime" label="时间" width="210px" />
+            <el-table-column prop="status" label="操作" width="110px">
+              <template #default="scope">
+                <div class="flex">
+                  <div class="color cursor mr20" @click="goTVAddEditPage(scope.row.adId)">编辑</div>
+                  <div class="color cursor" @click="delTVFn(scope.row.adId)">删除</div>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <Pages :total="TVListData.totalData" v-model:page="page"></Pages>
+        <!-- 大图预览 -->
+        <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
@@ -48,6 +50,7 @@ import { getTvListFetch, getTvDel } from '@/http';
 import { useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import TvTipImg from '@/assets/tv-tip-img.png';
+import imgPreview from '@/components/imgPreview.vue';
 const router = useRouter();
 
 const page = ref(1);
@@ -111,6 +114,13 @@ function goTVAddEditPage(adId: number) {
     path: `/set/hospital-TV-add/${adId}`,
   });
 }
+// 大图预览
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
+const getImgView = (index: number, lists: any) => {
+  imgIndex.value = index;
+  imgLists.value = lists;
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {
