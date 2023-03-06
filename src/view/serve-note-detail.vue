@@ -40,6 +40,7 @@
           </el-form-item>
           <el-form-item label="收件人:" prop="userMobiles">
             <el-transfer
+              class="transfer"
               size="large"
               v-model="ruleForm.userMobiles"
               :data="userVips"
@@ -185,6 +186,20 @@ async function setNoteSmsSend(params: any) {
 
     :deep(.el-transfer-panel) {
       width: 300px !important;
+    }
+  }
+}
+.transfer {
+  :deep(.el-button.is-disabled) {
+    background-color: #cddfbd;
+    border-color: #fff;
+  }
+
+  :deep(.el-transfer-panel__header) {
+    .el-checkbox__label {
+      span {
+        display: none;
+      }
     }
   }
 }
