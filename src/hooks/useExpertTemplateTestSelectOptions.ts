@@ -13,6 +13,7 @@ export function useExpertTemplateTestSelectOptions() {
     let { expertList, recipeTemList, cetuOrderList } = await getTestExpert();
 
     // console.log('expertList', expertList);
+    // console.log('cetuOrderList', cetuOrderList);
     expertListArr.value = expertList;
     recipeTemListArr.value = recipeTemList;
     cetuOrderListArr.value = cetuOrderList;

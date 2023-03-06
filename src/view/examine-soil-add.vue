@@ -45,7 +45,7 @@
             </el-form-item>
             <el-form-item prop="name" label="北纬:">
               <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12‘42’‘" />
-              <span>东经:</span>
+              <span class="mr10">东经: </span>
               <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12’18‘’" />
             </el-form-item>
             <el-form-item label="现种养种类:" prop="nowKind">
@@ -218,7 +218,7 @@
             </div>
           </div>
         </div>
-        <div class="bottom-box border bg-w mt10" v-if="ruleForm.soilStatus === 3">
+        <div class="bottom-box border bg-w mt10" v-show="ruleForm.soilStatus === 3">
           <div class="left-bar">
             <div class="tip">
               处方信息
@@ -246,11 +246,12 @@
             <el-form-item label="最近测土记录" prop="leastSoilRecord">
               <LatestTestSoilSelectVue
                 v-model:soilTestRecord="ruleForm.Prescribing.leastSoilRecord"
-                :soilSelectOption="selectOptions.cetuOrderList"
+                :soilSelectOption="cetuOrderListArr"
+                v-if="cetuOrderListArr.length != 0"
               >
               </LatestTestSoilSelectVue>
             </el-form-item>
-            <div class="tip">用药信息2</div>
+            <div class="tip">用药信息</div>
             <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" />
             <!-- <Medicine v-model:medicineProp="ruleForm.Prescribing.medicine" /> -->
           </div>
@@ -314,7 +315,7 @@ import Medicine from '@/components/medicine.vue';
 import { useKindUnitSelectOptions } from '@/hooks/useKindUnitSelectOptions';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
 const { kindOptions, unitOptions } = useKindUnitSelectOptions();
-let { expertListArr, cetuOrderListArr, recipeTemListArr } = useExpertTemplateTestSelectOptions();
+const { expertListArr, cetuOrderListArr, recipeTemListArr } = useExpertTemplateTestSelectOptions();
 
 // 隐藏左边栏
 const emit = defineEmits(['update:hideAside']);
@@ -642,12 +643,12 @@ const numberKeyup = () => {
 .result-input::after {
   position: absolute;
   content: 'mg/kg';
-  right: -50px;
+  right: -60px;
   color: #333;
 }
 .organic-input::after {
   content: 'g/kg';
-  right: -50px;
+  right: -47px;
   color: #333;
   position: absolute;
 }
