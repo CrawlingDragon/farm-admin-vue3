@@ -54,9 +54,11 @@
       </el-form-item>
       <el-form-item label="擅长种类:" prop="address" class="address">
         <el-transfer
+          class="transfer"
+          filterable
           v-model="ruleForm.kind"
           :data="transferData"
-          :titles="['请选择擅长种类', '请选择左侧的擅长种类']"
+          :titles="['未选的擅长种类', '已选的擅长种类']"
         />
       </el-form-item>
       <div class="submit-bar">
@@ -160,5 +162,18 @@ function goBackExpertList() {
 :deep().el-checkbox__label {
   font-size: 12px !important;
   color: $f-color-second;
+}
+.transfer{
+  :deep(.el-button.is-disabled){
+    background-color: #cddfbd;
+    border-color:#fff;
+  }
+  :deep(.el-transfer-panel__header) {
+    .el-checkbox__label {
+      span {
+        display: none;
+      }
+    }
+  }
 }
 </style>

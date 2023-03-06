@@ -1,8 +1,10 @@
 <template>
   <el-transfer
+    class="transfer"
+    filterable
     v-model="transferKind"
     :data="transferData"
-    :titles="['选择擅长种类', '选择左侧的种类']"
+      :titles="['未选的种类', '已选的种类']"
     @change="chooseTransfer"
   />
 </template>
@@ -54,4 +56,19 @@ watch(
   }
 );
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.transfer {
+  :deep(.el-button.is-disabled) {
+    background-color: #cddfbd;
+    border-color: #fff;
+  }
+
+  :deep(.el-transfer-panel__header) {
+    .el-checkbox__label {
+      span {
+        display: none;
+      }
+    }
+  }
+}
+</style>

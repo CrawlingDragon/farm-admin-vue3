@@ -40,11 +40,12 @@
           </el-form-item>
           <el-form-item label="收件人:" prop="userMobiles">
             <el-transfer
+              class="transfer"
               size="large"
               v-model="ruleForm.userMobiles"
               :data="userVips"
               filterable
-              :titles="['请选择收件人(会员)', '请勾选左侧的收件人']"
+                :titles="['请选择收件人(会员)', '已选择的的收件人']"
             />
           </el-form-item>
         </el-form>
@@ -185,6 +186,20 @@ async function setNoteSmsSend(params: any) {
 
     :deep(.el-transfer-panel) {
       width: 300px !important;
+    }
+  }
+}
+.transfer {
+  :deep(.el-button.is-disabled) {
+    background-color: #cddfbd;
+    border-color: #fff;
+  }
+
+  :deep(.el-transfer-panel__header) {
+    .el-checkbox__label {
+      span {
+        display: none;
+      }
     }
   }
 }
