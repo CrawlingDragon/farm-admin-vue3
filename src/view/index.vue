@@ -34,7 +34,7 @@
     <div class="data-content">
       <div class="title">
         整体趋势
-        <el-tooltip class="box-item" effect="customized" content="导出历史所有数据" placement="top">
+        <el-tooltip class="box-item" effect="customized" content="导出近一年数据" placement="top">
           <div class="export" @click="exportData('all')"></div>
         </el-tooltip>
       </div>
