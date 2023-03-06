@@ -23,7 +23,7 @@ axios.interceptors.request.use(
     if (config.method === 'post') {
       config.data = QS.stringify(config.data);
     }
-    if (config.url == '/api/auth/questionExportPdf') {
+    if (config.url == '/api/auth/questionExportPdf' || config.url == '/api/auth/exportExcel') {
       config.timeout = 60 * 1000;
     }
     return config;
