@@ -104,7 +104,7 @@
           <span class="left">详细地址:</span>
           <span class="text">{{ dialogVal.address }}</span>
         </li>
-        <li>
+        <li v-if="dialogVal.zuowuArr.length != 0">
           <span class="left">种类情况:</span>
           <div class="kind">
             <div v-for="item in dialogVal.zuowuArr">{{ item.name }}（{{ item.mushu }}）</div>
@@ -185,7 +185,7 @@
           <span class="left">详细地址:</span>
           <span class="text">{{ dialogVal.address }}</span>
         </li>
-        <li>
+        <li v-if="dialogVal.zuowuArr.length != 0">
           <span class="left">种类情况:</span>
           <div class="kind md10 mt10">
             <div v-for="item in dialogVal.zuowuArr">{{ item.name }}（{{ item.mushu }}）</div>
