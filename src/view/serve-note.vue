@@ -15,7 +15,7 @@
         <label class="mr10">发送日期</label>
         <el-date-picker style="width: 400px" v-model="dateVal" type="datetimerange" range-separator="-"
           start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10"
-          value-format="YYYY-MM-DD HH:mm:ss" />
+          value-format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate"/>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
@@ -99,6 +99,11 @@ function detailNote(params: any) {
   })
 
 }
+// 日期限制
+const disabledDate = (time: Date) => {
+  console.log(time.getTime())
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

@@ -22,9 +22,7 @@
         </el-icon>
       </el-upload>
     </div>
-    <el-dialog v-model="dialogVisible">
-      <el-image :src="dialogImageUrl" fit="cover" />
-    </el-dialog>
+          <imgPreview v-model:index="imgIndex" :lists="imgLists" />
   </div>
 </template>
 <script setup lang="ts">
@@ -34,6 +32,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { getAliossCount } from '@/http';
 import type { UploadProps, UploadUserFile } from 'element-plus';
 import goodStorage from 'good-storage';
+import imgPreview from './imgPreview.vue';
 
 const props = defineProps({
   limit: {
@@ -57,8 +56,6 @@ let imgList = ref<UploadUserFile[]>([]);
 let addInfos = ref<any>([]);
 let client = ref<any>({});
 
-const dialogImageUrl = ref('');
-const dialogVisible = ref(false);
 
 // 上传文件的方法超出限制的钩子
 const imgexceed: UploadProps['onExceed'] = (files, uploadFiles) => {
@@ -124,21 +121,28 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(`确定要删除这张${imgName}照片吗?`).then(
     () => {
       addInfos.value.splice(index, 1);
+      imgList.value = addInfos.value
       hideUploadEdit.value = addInfos.length == props.limit;
-      return true;
+      return false;
     },
     () => false
   );
 };
+// 大图预览
+const imgIndex = ref<number>();
+const imgLists = ref<any>();
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  // console.log('index', uploadFile);
-  dialogImageUrl.value = uploadFile.url!;
-  dialogVisible.value = true;
+  imgLists.value?.map((item: any, index: number) => {
+    if (item.uid == uploadFile.uid) {
+      imgIndex.value = index
+    }
+  })
 };
 
 watch(imgList, (newVal, oldVal) => {
   // console.log('imgList-newVal', newVal);
   // console.log('imgList-oldVal', oldVal);
+  imgLists.value = newVal
   emit('update:images', addInfos);
   hideUploadEdit.value = newVal.length == props.limit;
 });
@@ -170,8 +174,11 @@ watch(
   :deep() .hide .el-upload--picture-card {
     display: none;
   }
+  :deep(.el-upload-list__item-status-label){
+    display: none;
+  }
 }
-:deep() .el-overlay {
+// :deep() .el-overlay {
   // height: 100vh;
-}
+// }
 </style>
