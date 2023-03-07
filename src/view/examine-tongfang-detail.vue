@@ -151,7 +151,7 @@ const rules = reactive<FormRules>({});
 
 //顶部的删除按钮
 const del = () => {
-  ElMessageBox.confirm('确定删除统这条统防统治记录？', '提示')
+  ElMessageBox.confirm('确定删除这条统防统治记录？', '提示')
     .then(async (res) => {
       let r = await getDelTongFang(tfId.value as any);
       if (r.code) {

@@ -1,5 +1,5 @@
 <template>
-  <div id="line" :style="{ width: width, height: height }"></div>
+  <div id="line" class="line" :style="{ width: width, height: height }"></div>
 </template>
 <script setup lang="ts">
 import echarts from '@/common/js/echaets';
@@ -50,7 +50,7 @@ let options: any = reactive({
       type: 'line',
       stack: 'Total',
       data: [],
-      color: '#599524'
+      color: '#599524',
     },
   ],
 });
@@ -58,9 +58,11 @@ const xData = computed(() => props.echartData[props.kind].xData);
 const yData = computed(() => props.echartData[props.kind].yData);
 let myEchart: any;
 watch([() => props.kind, () => props.echartData], () => {
+  // console.log('watch');
   options.xAxis.data = xData.value;
   options.series = yData.value;
   myEchart.setOption(options);
+  // initEchart();
 });
 
 const initEchart = () => {
@@ -70,7 +72,13 @@ const initEchart = () => {
 };
 
 onMounted(() => {
+  // console.log('onMounted');
   initEchart();
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.line {
+  width: 100%;
+  height: 100%;
+}
+</style>

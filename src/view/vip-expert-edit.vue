@@ -4,7 +4,7 @@
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/vip-admin' }">专家管理</el-breadcrumb-item>
-        <el-breadcrumb-item>会员:{{ ruleForm.name }} {{ ruleForm.tel }}</el-breadcrumb-item>
+        <el-breadcrumb-item>专家:{{ ruleForm.name }} {{ ruleForm.tel }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="tip">编辑专家信息</div>
@@ -163,10 +163,10 @@ function goBackExpertList() {
   font-size: 12px !important;
   color: $f-color-second;
 }
-.transfer{
-  :deep(.el-button.is-disabled){
+.transfer {
+  :deep(.el-button.is-disabled) {
     background-color: #cddfbd;
-    border-color:#fff;
+    border-color: #fff;
   }
   :deep(.el-transfer-panel__header) {
     .el-checkbox__label {

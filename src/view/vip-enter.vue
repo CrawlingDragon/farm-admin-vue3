@@ -61,7 +61,7 @@
       <div class="tip">种类情况</div>
       <template v-for="(item, index) in ruleForm.baseInfo">
         <el-form-item
-          :label="`种类名称${index + 1}:`"
+          :label="`种类名称:`"
           prop="kinds"
           class="kind"
           :rules="
@@ -401,7 +401,7 @@ const options = reactive({
   position: relative;
   .close {
     position: absolute;
-    right: 20px;
+    right: -20px;
     font-size: 20px;
     cursor: pointer;
   }

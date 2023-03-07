@@ -192,13 +192,13 @@
               <el-form-item label="PH值:" prop="ph">
                 <div>
                   <el-input v-model="ruleForm.soilResult.ph" class="w200" />
-                  <div class="standard">标中性值:7</div>
+                  <div class="standard">中性值:7</div>
                 </div>
               </el-form-item>
               <el-form-item label="有机质:" prop="organic">
                 <el-input v-model="ruleForm.soilResult.organic" class="w200 organic-input" />
                 <div>
-                  <div class="standard">极高:>=25|高:25-20|中:20-15 | 低15-10 | 极低:&lt; 15</div>
+                  <div class="standard">极高:>=25|高:25-20|中:20-15 | 低15-10 | 极低:&lt; 10</div>
                 </div>
               </el-form-item>
               <el-form-item label="盐分" prop="salt">

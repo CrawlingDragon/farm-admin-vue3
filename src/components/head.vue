@@ -2,9 +2,9 @@
   <div class="header">
     <div class="content flex justify-between align-center">
       <div class="left-bar flex align-center">
-        <router-link to="/index" custom v-slot="{ navigate }">
-          <img class="logo" :src="getAssetsImage('logo.png')" @click="navigate" />
-        </router-link>
+        <!-- <router-link to="/index" custom v-slot="{ navigate }"> -->
+        <img class="logo" :src="getAssetsImage('logo.png')" @click="goToAi" />
+        <!-- </router-link> -->
         <div class="web-nav flex align-item">
           <el-dropdown>
             <div class="flex align-center ant-dropdown-link">
@@ -172,6 +172,9 @@ let token = storage.session.get('token');
 //   }
 //   window.location.href = url;
 // };
+const goToAi = () => {
+  window.open(urls.ai_index, '_blank');
+};
 const goPage = () => {
   ElMessageBox.confirm('医院管理中心/会员管理仅支持新型庄稼医院账号访问', '访问失败', {
     confirmButtonText: '知道了',

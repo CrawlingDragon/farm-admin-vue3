@@ -22,7 +22,7 @@
             <li v-if="item.state === 1" @click="GoPage(item.label)">
               <div class="number">{{ item.value }}</div>
               <div class="small-title">{{ item.words }}</div>
-              <div class="answer1" v-if="item.label === 'expert'">待审核 {{ item.checkNum }}</div>
+              <!-- <div class="answer1" v-if="item.label === 'expert'">待审核 {{ item.checkNum }}</div> -->
               <div class="answer" v-if="item.label === 'ask'" @click.stop="GoPage(item.label, 2)">
                 未回复 {{ item.noreply }}
               </div>
@@ -77,7 +77,7 @@
       </div>
       <div class="line-echarts">
         <!-- line 折线 echarts -->
-        <EchartLine :echartData="echartData" :kind="activeName" />
+        <EchartLine :echartData="echartData" :kind="activeName" width="1016px" height="228px" />
       </div>
       <div class="title2">数据明细</div>
       <div class="tables">
@@ -203,7 +203,7 @@ const GoPage = (label: string, status?: number) => {
 const activeName = ref('newuser');
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
+  // console.log(tab, event);
 };
 
 // 导出数据

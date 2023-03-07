@@ -9,12 +9,14 @@ interface urls {
   farm_index: string; //中农在线官网
   change_password: string;
   vip_base: string;
+  ai_index: string;
 }
 // 农资商城;
 // 农药;
 // 肥料;
 // 农膜;
 let dev_arr = {
+  ai_index: 'https://beta-ai.114nz.com', //ai首页
   hospital: 'https://beta-ai.114nz.com/hospital', //庄稼医院
   fall_ill: 'https://beta-ai.114nz.com/fall-ill', //病虫害图库
   video: 'https://beta-ai.114nz.com/video', //农技视频
@@ -27,6 +29,7 @@ let dev_arr = {
   vip_base: 'https://betajdtong.114nz.com/', //基地管理中心
 };
 let prod_arr = {
+  ai_index: 'https://ai.114nz.com', //ai首页
   hospital: 'https://ai.114nz.com/hospital', //庄稼医院
   fall_ill: 'https://ai.114nz.com/fall-ill', //病虫害图库
   video: 'https://ai.114nz.com/video', //农技视频

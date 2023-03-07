@@ -1,7 +1,8 @@
 <template>
   <div class="nav">
     <div class="content flex align-center" v-if="active">
-      <div class="name">{{ title }}</div>
+      <router-link to="/index" class="name">{{ title }}</router-link>
+      <!-- <a :href="urls.ai_index" target="_blank" class="name">{{ title }}</a> -->
       <router-link to="/index" class="nav-item">首页</router-link>
       <router-link to="/set" class="nav-item">设置</router-link>
       <router-link
@@ -38,6 +39,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getGlobalTitle } from '@/http';
+// import { urls } from '@/common/js/urls';
 import { userInfoDefineStore, switchStore } from '@/store/index';
 import storage from 'good-storage';
 
