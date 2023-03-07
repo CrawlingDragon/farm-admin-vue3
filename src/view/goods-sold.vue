@@ -230,6 +230,7 @@ const disabledDate = (time: Date) => {
       font-size: 12px;
       font-family: SimSun;
       font-weight: bold;
+      color: #333333;
     }
   }
 
@@ -251,6 +252,9 @@ const disabledDate = (time: Date) => {
       .order {
         font-weight: 400;
         margin-left: 25px;
+      }
+      .date{
+        color: #333333;
       }
     }
 

@@ -13,25 +13,24 @@
     <div class="input-bar">
       <div class="date-box">
         <label class="mr10">发送日期</label>
-        <el-date-picker style="width: 400px" v-model="dateVal" type="datetimerange" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10"
-          value-format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate"/>
+        <el-date-picker style="width: 250px" v-model="dateVal" type="daterange" range-separator="-"
+          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate" />
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
     <div class="table-box">
       <el-table :data="noteData.tableData" style="width: 100%">
-        <el-table-column header-align="center" align="center" prop="sendTime" width="300" label="发送时间" />
-        <el-table-column header-align="center" align="center" prop="content" width="300" :show-overflow-tooltip="true"
-          label="内容" />
+        <el-table-column header-align="center" align="center" prop="sendTime" width="200" label="发送时间" />
+        <el-table-column header-align="center" align="center" prop="content" :show-overflow-tooltip="true" label="内容" />
         <el-table-column header-align="center" align="center" prop="userCount" width="100" label="会员数" />
-        <el-table-column header-align="center" align="center" prop="statusTips" class-name="status-tips" label="发送状态">
+        <!-- <el-table-column header-align="center" align="center" prop="statusTips" class-name="status-tips" label="发送状态">
           <template #default="scope">
             <div>
               <span class="status-tips">{{ scope.row.statusTips }}</span>
             </div>
           </template>
-        </el-table-column>>
+        </el-table-column> -->
         <el-table-column header-align="center" align="center" width="150" label="操作">
           <template #default="scope">
             <div>
@@ -101,7 +100,6 @@ function detailNote(params: any) {
 }
 // 日期限制
 const disabledDate = (time: Date) => {
-  console.log(time.getTime())
   return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
 };
 </script>
