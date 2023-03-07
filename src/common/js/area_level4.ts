@@ -41898,8 +41898,8 @@ export const area = [
     label: '上海市',
     children: [
       {
-        value: '上海',
-        label: '上海',
+        value: '上海市',
+        label: '上海市',
         children: [
           {
             value: '长宁区',
@@ -55652,8 +55652,8 @@ export const area = [
     label: '天津市',
     children: [
       {
-        value: '天津',
-        label: '天津',
+        value: '天津市',
+        label: '天津市',
         children: [
           {
             value: '和平区',
