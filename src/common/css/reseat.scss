@@ -185,11 +185,22 @@ body {
   color: #fff;
   font-size: 14px;
 }
-
 .el-popper.is-customized .el-popper__arrow::before {
   background: #679e39;
   right: 0;
 }
+.og.el-popper.is-customized {
+  /* Set padding to ensure the height is 32px */
+  padding: 6px 12px;
+  background: #ff6600;
+  color: #fff;
+  font-size: 14px;
+}
+.og.el-popper.is-customized .el-popper__arrow::before {
+  background: #ff6600;
+  right: 0;
+}
+
 .unit .is-transparent {
   color: #000 !important;
 }

@@ -7,29 +7,35 @@
         <div class="item">数量</div>
         <div class="del"></div>
       </div>
-      <div class="bar" v-for="(item, index) in medicine">
-        <div class="item">
-          <medicineSelectVue
-            v-model:drugName="item.drugName"
-            v-model:drugId="item.drugId"
-            v-model:size="item.sizeSelectOption"
-            v-model:drugSpecIds="item.drugSpecIds"
-            v-model:drugSpec="item.drugSpec"
-            v-model:selectMyself="item.selectMyself"
-          />
-          <!-- 数据没变，但是下拉框的数据正确改变了 -->
+      <div class="" v-for="(item, index) in medicine">
+        <div class="bar">
+          <div class="item">
+            <medicineSelectVue
+              v-model:drugName="item.drugName"
+              v-model:drugId="item.drugId"
+              v-model:size="item.sizeSelectOption"
+              v-model:drugSpecIds="item.drugSpecIds"
+              v-model:drugSpec="item.drugSpec"
+              v-model:selectMyself="item.selectMyself"
+              v-model:showWarning="item.showWarning"
+            />
+            <!-- 数据没变，但是下拉框的数据正确改变了 -->
+          </div>
+          <div class="item">
+            <DrugSizeSelect
+              :sizeSelectOption="item.sizeSelectOption"
+              v-model:drugSpecIds="item.drugSpecIds"
+              v-model:selectMyself="item.selectMyself"
+            />
+          </div>
+          <div class="item">
+            <el-input v-model="item.drugQuantity" placeholder=""></el-input>
+          </div>
+          <div class="del" @click="delMedicine(index)">x</div>
         </div>
-        <div class="item">
-          <DrugSizeSelect
-            :sizeSelectOption="item.sizeSelectOption"
-            v-model:drugSpecIds="item.drugSpecIds"
-            v-model:selectMyself="item.selectMyself"
-          />
+        <div class="waring" v-show="item.showWarning && item.showWarning == 1">
+          <el-icon :size="20" color="#ff6600"><Warning /></el-icon>该商品已下架,请修改后再提交
         </div>
-        <div class="item">
-          <el-input v-model="item.drugQuantity" placeholder=""></el-input>
-        </div>
-        <div class="del" @click="delMedicine(index)">x</div>
       </div>
     </div>
     <el-button class="add-medicine-btn" @click="addMedicine" :class="{ borderRed: errRule }"
@@ -71,6 +77,7 @@ interface Medicine {
   sizeSelectOption: any[];
   drugQuantity: string; // 药品数量
   selectMyself: boolean; //是否手动选择
+  showWarning: Number; //警告，是否是已经下架的商品
 }
 const medicine = ref<Medicine[]>([]);
 const emits = defineEmits(['update:medicineProp']);
@@ -101,6 +108,7 @@ function addMedicine() {
     sizeSelectOption: [],
     drugQuantity: '1', // 药品数量
     selectMyself: false,
+    showWarning: 0,
   });
 }
 watch(
@@ -166,5 +174,11 @@ watch(
   &.borderRed {
     border: 1px solid red;
   }
+}
+.waring {
+  display: flex;
+  align-items: center;
+  color: #ff6600;
+  padding-left: 25px;
 }
 </style>

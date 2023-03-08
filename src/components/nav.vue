@@ -175,7 +175,7 @@ watch(
       cursor: pointer;
     }
 
-    .router-link-active {
+    .nav-item.router-link-active {
       font-weight: bold;
       background: $theme-second-color;
     }

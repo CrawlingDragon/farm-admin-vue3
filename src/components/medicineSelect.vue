@@ -42,6 +42,10 @@ const prop = defineProps({
     type: Boolean,
     default: false,
   },
+  showWarning: {
+    type: Number,
+    default: 0,
+  },
 });
 const drugIdSelect = ref<number | string>('');
 const emit = defineEmits([
@@ -50,6 +54,7 @@ const emit = defineEmits([
   'update:drugId',
   'update:drugSpecIds',
   'update:selectMyself',
+  'update:showWarning',
 ]);
 
 let options = reactive({
@@ -135,7 +140,7 @@ onMounted(async () => {
   let r = await getMedicineProduct();
   // console.log('getMedicineProduct', r);
   options.medicineOptions = r;
-
+  console.log('r', r);
   addNoSelectToOption();
   drugIdSelect.value = prop.drugId;
   // console.log('onMounted');

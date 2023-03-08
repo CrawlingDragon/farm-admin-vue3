@@ -3,9 +3,9 @@
     <div class="head right-head soil-right-head">
       处方模板
       <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
-        <template #content
-          >提前设置好用药和看诊结果，生成处方模板；<br />稍后在坐诊、巡诊、测土配方、网诊开处方可<br />以一键使用该模板。</template
-        >
+        <template #content>
+          提前设置好用药和看诊结果，生成处方模板；<br />稍后在坐诊、巡诊、测土配方、网诊开处方可<br />以一键使用该模板。
+        </template>
         <el-icon class="icon color"><QuestionFilled /></el-icon>
       </el-tooltip>
 
@@ -18,9 +18,18 @@
         <el-table-column prop="yongyao" label="用药">
           <template #default="scope">
             {{ scope.row.yongyao }}
-            <el-icon v-show="scope.row.showWarning !== 0" :size="25" color="#ff6600"
-              ><Warning
-            /></el-icon>
+            <el-tooltip
+              class="box-item tab"
+              effect="customized"
+              content=""
+              placement="right-start"
+              popper-class="og"
+            >
+              <template #content>该商品已下架,请修改后再提交</template>
+              <el-icon v-show="scope.row.showWarning !== 0" :size="20" color="#ff6600">
+                <Warning />
+              </el-icon>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="200px" />
