@@ -1,5 +1,5 @@
 <template>
-  <div class="border" style="margin-bottom: 50px">
+  <div class="border">
     <div class="nav-bar">
       <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
@@ -11,26 +11,27 @@
       <div class="content-detail">
         <div class="detil-title">
           <span class="title">短信详情</span>
-          <el-button type="danger" size="small" @click="delNote">删除</el-button>
+          <span class="delete" @click="delNote">删除</span>
         </div>
+        <!-- <div class="detail-box">
+        <span class="label">发送状态: </span>
+        <span class="content">{{ detailData.statusTips }}</span>
+      </div> -->
         <div class="detail-box">
-          <span class="label">发送状态: </span>
-          <span class="content">{{ detailData.statusTips }}</span>
-        </div>
-        <div class="detail-box">
-          <span class="label">发送时间: </span>
+          <span class="label"><i>*</i>发送时间: </span>
           <span class="content">{{ detailData.sendTime }}</span>
         </div>
         <div class="detail-box">
-          <span class="label">短信内容: </span>
+          <span class="label"><i>*</i>短信内容: </span>
           <span class="content">{{ detailData.content }}</span>
         </div>
         <div class="detail-box">
-          <span class="label">收件人: </span>
+          <span class="label"><i>*</i>收件人: </span>
           <div class="content-users">
-            <span class="content-user" v-for="item in detailData.userArr" :key="item.mobile"
-              >{{ item.username }} {{ item.mobile }}</span
-            ><br />
+            <span class="content-user" v-for="item in detailData.userArr" :key="item.mobile">
+              {{ item.username }} {{ item.mobile }}
+            </span>
+            <p></p>
             <span class="userCount">共{{ detailData.userCount }}个收件人</span>
           </div>
         </div>
@@ -75,13 +76,13 @@ function delNote() {
       ElMessage({
         message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
-         duration: 1500,
+        duration: 1500,
       });
       setTimeout(() => {
         goPage('/serve-note');
       }, 1000);
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 // 隐藏侧边栏
 onUnmounted(() => {
@@ -109,17 +110,29 @@ function goPage(path: string) {
   background: #fff;
 
   .content-detail {
-    min-height: 50vh;
+    min-height: 70vh;
     color: #333;
     font-size: 14px;
 
     .detil-title {
       font-weight: bold;
-      padding: 30px;
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #E5E5E5;
+      width: 100%;
+      padding-left: 21px;
+      color: #333333;
+      margin-bottom: 40px;
 
       .title {
         display: inline-block;
-        width: 100px;
+        width: 80px;
+      }
+
+      .delete {
+        color: #599524;
+        font-weight: 400;
+        cursor: pointer;
       }
     }
 
@@ -128,10 +141,17 @@ function goPage(path: string) {
 
       .label {
         display: inline-block;
-        width: 150px;
+        width: 160px;
         margin-right: 10px;
         text-align: right;
         vertical-align: top;
+
+        i {
+          display: inline-block;
+          width: 15px;
+          text-align: left;
+          color: #FF6600;
+        }
       }
 
       .content {
@@ -144,14 +164,14 @@ function goPage(path: string) {
 
         .content-user {
           display: block;
-          margin-bottom: 5px;
+          margin-bottom: 10px;
         }
 
         .userCount {
           display: inline-block;
-          padding-top: 10px;
           padding-bottom: 10px;
           color: $f-color-three;
+          font-size: 12px;
         }
       }
     }
