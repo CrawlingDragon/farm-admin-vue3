@@ -9,27 +9,11 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form
-          :rules="rules"
-          ref="ruleFormRef"
-          label-width="118px"
-          size="large"
-          :model="ruleForm"
-        >
+        <el-form :rules="rules" ref="ruleFormRef" label-width="118px" size="large" :model="ruleForm">
           <el-form-item label="选择模板:" prop="smsTempId">
-            <el-select
-              v-model="ruleForm.smsTempId"
-              class="m-2"
-              placeholder="请选择模板"
-              size="default"
-              @change="changeTemplate"
-            >
-              <el-option
-                v-for="item in templateLists"
-                :key="item.smsTempId"
-                :label="item.name"
-                :value="item.smsTempId"
-              >
+            <el-select v-model="ruleForm.smsTempId" class="m-2" placeholder="请选择模板" size="default"
+              @change="changeTemplate">
+              <el-option v-for="item in templateLists" :key="item.smsTempId" :label="item.name" :value="item.smsTempId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -39,23 +23,15 @@
             </div>
           </el-form-item>
           <el-form-item label="收件人:" prop="userMobiles">
-            <el-transfer
-              class="transfer"
-              size="large"
-              v-model="ruleForm.userMobiles"
-              :data="userVips"
-              filterable
-                :titles="['请选择收件人(会员)', '已选择的的收件人']"
-            />
+            <el-transfer class="transfer" size="large" v-model="ruleForm.userMobiles" :data="userVips" filterable
+              :titles="['请选择收件人(会员)', '已选择的收件人']" />
           </el-form-item>
         </el-form>
       </div>
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="sendOut(ruleFormRef)"
-            >发送</el-button
-          >
+          <el-button type="primary" size="large" class="mr20" @click="sendOut(ruleFormRef)">发送</el-button>
           <el-button size="large" @click="goLink('/serve-note')">取消</el-button>
         </div>
       </div>
@@ -189,6 +165,7 @@ async function setNoteSmsSend(params: any) {
     }
   }
 }
+
 .transfer {
   :deep(.el-button.is-disabled) {
     background-color: #cddfbd;
