@@ -15,7 +15,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="title-fiexed-bar border">
           <AddSecondBar
@@ -156,7 +155,7 @@
             label="跟踪日期:"
             prop="addTrack.time"
             v-model="ruleForm.addTrack.time"
-            class="w300"
+            class="date"
             readonly
           >
             <el-date-picker

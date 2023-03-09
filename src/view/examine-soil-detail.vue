@@ -32,7 +32,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="default"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">
@@ -45,7 +44,7 @@
             </el-form-item>
             <el-form-item prop="name" label="北纬:" v-if="ruleForm.latitude && ruleForm.longitude">
               {{ ruleForm.latitude || '暂无' }}
-              <span class="mr10">东经:</span>
+              <span class="mr10" style="color: #606266">东经:</span>
               {{ ruleForm.longitude || '暂无' }}
             </el-form-item>
             <el-form-item label="现种养种类:" prop="nowKind">
@@ -224,7 +223,7 @@
         </div>
         <div class="border bg-w mt10">
           <div class="tip">新增诊疗跟踪</div>
-          <el-form-item label="跟踪日期:" prop="newDate">
+          <el-form-item label="跟踪日期:" prop="newDate" class="date">
             <el-date-picker
               :disabled-date="disabledDate"
               v-model="ruleForm.newDate"

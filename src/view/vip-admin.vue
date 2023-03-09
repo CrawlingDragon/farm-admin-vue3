@@ -9,7 +9,7 @@
         placeholder="会员手机号/姓名/身份证/会员ID"
       />
       <div class="date-box">
-        <label class="mr10">加入时间</label>
+        <label class="mr10">录入时间</label>
         <el-date-picker
           v-model="dateVal"
           type="daterange"
@@ -35,7 +35,7 @@
         <el-table-column prop="selfcard" label="身份证" />
         <el-table-column prop="ssq" label="所在地" />
         <el-table-column prop="zuowuName" label="种类名" />
-        <el-table-column prop="joinTime" label="加入时间" />
+        <el-table-column prop="joinTime" label="录入时间" />
         <el-table-column prop="recentlog" label="最近诊疗记录" />
         <el-table-column prop="do" label="操作" width="110">
           <template #default="scope">

@@ -11,7 +11,13 @@
       ref="ruleFormRef"
     >
       <div class="left-bar">
-        <el-form-item label="观察日期:" prop="leftTime" v-model="dayForm.leftTime" readonly>
+        <el-form-item
+          label="观察日期:"
+          prop="leftTime"
+          v-model="dayForm.leftTime"
+          readonly
+          class="date"
+        >
           <el-date-picker
             v-model="dayForm.leftTime"
             type="date"
@@ -42,7 +48,7 @@
           label="观察日期:"
           prop="rightTime"
           v-model="dayForm.rightTime"
-          class="w300"
+         class="date"
           readonly
         >
           <el-date-picker

@@ -7,7 +7,6 @@
       label-width="120px"
       class="demo-ruleForm"
       size="large"
-      status-icon
     >
       <div class="tip">基本信息</div>
       <el-form-item label="处方名" prop="name">
@@ -33,7 +32,14 @@
       <div class="tip">基本信息</div>
       <Medicine v-model:medicine-prop="ruleForm.medicine" />
       <div class="bottom-bar">
-        <el-button type="primary" class="btn mr20" @click="submitForm(ruleFormRef)">保存</el-button>
+        <el-button
+          type="primary"
+          class="btn mr20"
+          :class="{ gray: isHaveDownMedicine }"
+          :disabled="isHaveDownMedicine"
+          @click="submitForm(ruleFormRef)"
+          >保存</el-button
+        >
         <el-button class="btn" @click="closeHandle">取消</el-button>
       </div>
     </el-form>
@@ -114,6 +120,11 @@ const paramsComputed = computed(() => {
   let params = { templateId, title, content, yongyaoInfoJson };
   return params;
 });
+const isHaveDownMedicine = computed(() => {
+  let length = ruleForm.medicine.filter((item: any) => item.showWarning == 1).length;
+  return length == 0 ? false : true;
+});
+
 //添加，编辑模版函数
 const addEditFetch = async () => {
   let r = await getTemplateAddEdit(paramsComputed.value as any);
@@ -152,5 +163,9 @@ const closeHandle = () => {
   display: flex;
   justify-content: end;
   padding-top: 30px;
+}
+.gray {
+  background: #999;
+  border: 1px solid #999;
 }
 </style>

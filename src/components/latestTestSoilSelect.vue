@@ -5,7 +5,7 @@
     :clearable="clearable"
     v-model="soilTestRecordSelect"
     placeholder="请选择测土记录"
-    class="unit"
+    class="unit w300"
     @change="changeFn"
   >
     <el-option :label="item.label" :value="item.value" v-for="item in testOptions"> </el-option>

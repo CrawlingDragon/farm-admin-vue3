@@ -25,7 +25,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">
@@ -45,14 +44,14 @@
             </el-form-item>
             <el-form-item prop="name" label="北纬:">
               <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12‘42’‘" />
-              <span class="mr10">东经: </span>
+              <span class="mr10" style="color: #606266">东经: </span>
               <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12’18‘’" />
             </el-form-item>
             <el-form-item label="现种养种类:" prop="nowKind">
               <KindSelect
+                v-if="kindOptions.length != 0"
                 v-model:kind="ruleForm.nowKind"
                 :options="kindOptions"
-                v-if="kindOptions.length != 0"
               ></KindSelect>
             </el-form-item>
             <el-form-item label="前种养种类:" prop="beforeKind">
@@ -67,7 +66,7 @@
                 v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
                 @input="numberKeyup"
               />
               <UnitSelect
@@ -97,7 +96,7 @@
               label="采样日期:"
               prop="sampleDate"
               v-model="ruleForm.sampleDate"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker
@@ -105,8 +104,6 @@
                 type="date"
                 placeholder="选择时间"
                 size="large"
-                class="w300"
-                style="width: 300px"
                 value-format="YYYY-MM-DD"
                 :disabled-date="disabledDate"
               />

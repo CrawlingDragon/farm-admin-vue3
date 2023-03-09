@@ -9,7 +9,6 @@
       label-width="158px"
       class="demo-ruleForm"
       :size="formSize"
-      status-icon
     >
       <el-form-item label="手机号码:" prop="phone">
         <el-input
@@ -17,10 +16,11 @@
           v-model.number="ruleForm.phone"
           label="right"
           placeholder="请输入手机号码"
+          class="w300"
         />
       </el-form-item>
       <el-form-item label="姓名:" prop="name">
-        <el-input v-model="ruleForm.name" label="right" placeholder="请输入姓名" />
+        <el-input v-model="ruleForm.name" label="right" placeholder="请输入姓名" class="w300" />
       </el-form-item>
       <el-form-item label="所在地区:" prop="local">
         <el-cascader
@@ -28,7 +28,7 @@
           :options="area"
           :props="{ expandTrigger: 'hover' }"
           @change="handleChange"
-          class="localCls"
+          class="localCls w300"
           placeholder="请选择省市区地址"
         />
         <!-- <el-input v-model="ruleForm.local" label="right" /> -->
@@ -43,6 +43,7 @@
           show-word-limit
           maxlength="100"
           placeholder="请输入村名，如松茸村"
+          class="w300"
         />
       </el-form-item>
 
@@ -53,10 +54,15 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="身份证:" prop="card">
-        <el-input v-model="ruleForm.card" label="right" placeholder="请输入身份证" />
+        <el-input v-model="ruleForm.card" label="right" placeholder="请输入身份证" class="w300" />
       </el-form-item>
       <el-form-item label="家庭成员数:" prop="family">
-        <el-input v-model.number="ruleForm.family" label="right" placeholder="请输入家庭成员数量" />
+        <el-input
+          v-model.number="ruleForm.family"
+          label="right"
+          placeholder="请输入家庭成员数量"
+          class="w300"
+        />
       </el-form-item>
       <div class="tip">种类情况</div>
       <template v-for="(item, index) in ruleForm.baseInfo">
@@ -82,41 +88,30 @@
                 ]
           "
         >
-          <!-- <el-select v-model="item.zuowuId" placeholder="请选择种类">
-            <el-option-group
-              v-for="group in options.kindOptions"
-              :key="group.label"
-              :label="group.label"
-            >
-              <el-option
-                v-for="item in group.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-option-group>
-          </el-select> -->
           <KindSelect
             v-model:kind="item.zuowuId"
             :options="kindOptions"
             v-if="kindOptions.length != 0"
           >
           </KindSelect>
-          <el-icon class="close" v-if="index !== 0" @click="deleteBaseInfo(index)"
-            ><CloseBold
-          /></el-icon>
+          <el-icon class="close" @click="deleteBaseInfo(index)"><CloseBold /></el-icon>
         </el-form-item>
         <el-form-item label="数量:" prop="growNumber">
           <el-input
             v-model.number="item.mushu"
             label="right"
             placeholder="请输入数字"
-            class="grow-number"
+            class="grow-number mr27 w200"
           />
           <el-select-v2 v-model="item.unitId" :options="options.unitOptions" class="unit" />
         </el-form-item>
         <el-form-item label="地址:" prop="address" class="address">
-          <el-input v-model="item.address" label="right" placeholder="种养区域/地址(选填)" />
+          <el-input
+            v-model="item.address"
+            label="right"
+            placeholder="种养区域/地址(选填)"
+            class="w300"
+          />
         </el-form-item>
         <div class="line" v-if="index !== 0"></div>
       </template>
@@ -130,6 +125,7 @@
           rows="5"
           show-word-limit
           maxlength="2000"
+          class="w300"
         />
       </el-form-item>
 
@@ -379,7 +375,7 @@ const options = reactive({
 </script>
 <style lang="scss" scoped>
 :deep().localCls {
-  width: 310px;
+  width: 300px;
 }
 .vip-enter {
   height: auto;
@@ -388,8 +384,6 @@ const options = reactive({
   width: 470px;
 }
 .grow-number {
-  width: 215px;
-  margin-right: 15px;
 }
 .unit {
   width: 73px;

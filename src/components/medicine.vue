@@ -19,6 +19,7 @@
               v-model:selectMyself="item.selectMyself"
               v-model:showWarning="item.showWarning"
             />
+            <!-- drugSpecIds: {{ item.drugSpecIds }} <br />showWarning: {{ item.showWarning }} -->
             <!-- 数据没变，但是下拉框的数据正确改变了 -->
           </div>
           <div class="item">
@@ -46,7 +47,7 @@
 <script setup lang="ts">
 import medicineSelectVue from '@/components/medicineSelect.vue';
 import DrugSizeSelect from '@/components/drugSizeSelect.vue';
-import { ref, watch, onMounted, shallowReactive } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 const props = defineProps({
   medicineProp: {
@@ -77,7 +78,7 @@ interface Medicine {
   sizeSelectOption: any[];
   drugQuantity: string; // 药品数量
   selectMyself: boolean; //是否手动选择
-  showWarning: Number; //警告，是否是已经下架的商品
+  showWarning: any; //警告，是否是已经下架的商品
 }
 const medicine = ref<Medicine[]>([]);
 const emits = defineEmits(['update:medicineProp']);
@@ -115,7 +116,6 @@ watch(
   medicine,
   (newVal) => {
     // console.log('newVal', newVal);
-    // debugger;
     emits('update:medicineProp', newVal);
   },
   {

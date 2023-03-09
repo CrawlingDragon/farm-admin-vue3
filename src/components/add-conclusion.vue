@@ -12,7 +12,7 @@
     >
       <div class="left-bar">
         <div class="tip">观测点</div>
-        <el-form-item label="日期:" prop="time" v-model="conclusionForm.time" readonly>
+        <el-form-item label="日期:" prop="time" v-model="conclusionForm.time" readonly class="date">
           <el-date-picker
             v-model="conclusionForm.time"
             type="date"

@@ -18,7 +18,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">

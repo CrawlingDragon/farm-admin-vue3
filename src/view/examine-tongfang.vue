@@ -15,7 +15,7 @@
         size="large"
         placeholder="统防统治ID/名称"
       />
-      <div class="date-box mr50">
+      <div class="date-box mr20">
         <label class="mr10">开始防治日期</label>
         <el-date-picker
           style="width: 280px"
@@ -25,7 +25,6 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
           value-format="YYYY-MM-DD"
           :disabled-date="disabledDate"
         />
@@ -127,8 +126,8 @@ function goPintPage(tfId: number) {
 }
 // 日期限制
 const disabledDate = (time: Date) => {
-  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
-}
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

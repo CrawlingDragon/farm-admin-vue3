@@ -34,7 +34,7 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
+          class="mr20"
           value-format="YYYY-MM-DD"
           :disabled-date="disabledDate"
         />

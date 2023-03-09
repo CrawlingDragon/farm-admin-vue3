@@ -42,7 +42,7 @@ const prop = defineProps({
 });
 
 const emit = defineEmits(['update:kind']);
-const selectKind = ref();
+const selectKind = ref<number | string>('');
 let kindOptions = reactive({
   options: [
     // 作物select option
@@ -80,7 +80,7 @@ const filterMethed = async (values: any) => {
     kindOptionsVal.map((item: any) => {
       kindOptions.options.push({
         label: item.label,
-        options: item.options.filter((items: any) => ~items.label.indexOf(values)),
+        options: item.options.filter((items: any) => items.label.indexOf(values)),
       });
     });
     kindOptions.options = kindOptions.options.filter((item: any) => {

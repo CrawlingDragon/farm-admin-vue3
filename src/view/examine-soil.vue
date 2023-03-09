@@ -28,8 +28,8 @@
         size="large"
         placeholder="测土单号/会员姓名"
       />
-      <div class="date-box mr50">
-        <label class="mr10">申请时间</label>
+      <div class="date-box mr10">
+        <label class="mr20">申请时间</label>
         <el-date-picker
           style="width: 280px"
           v-model="dateVal"
@@ -38,12 +38,11 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
           value-format="YYYY-MM-DD"
           :disabled-date="disabledDate"
         />
       </div>
-      <div class="select-box mr10">
+      <div class="select-box mr20">
         <label class="mr10">状态</label>
         <el-select v-model="status" style="width: 130px" placeholder="Select" size="large">
           <el-option

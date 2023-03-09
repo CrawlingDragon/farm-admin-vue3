@@ -33,7 +33,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">
@@ -74,7 +73,7 @@
                 v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
                 @input="numberKeyup"
               />
               <UnitSelect
@@ -87,7 +86,7 @@
               label="巡诊日期:"
               prop="time"
               v-model="ruleForm.time"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker

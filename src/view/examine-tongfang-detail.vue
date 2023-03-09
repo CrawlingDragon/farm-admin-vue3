@@ -17,7 +17,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="default"
-        status-icon
       >
         <div class="title-fiexed-bar border">
           <AddSecondBar

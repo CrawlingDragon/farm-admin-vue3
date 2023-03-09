@@ -42,10 +42,10 @@ const changeFn = (el: any) => {
 watch(
   () => props.sizeSelectOption,
   () => {
-    if (props.selectMyself) {
-      // console.log('1', 1);
-      emits('update:drugSpecIds', '');
-    }
+    // if (props.selectMyself) {
+    //   // console.log('1', 1);
+    //   emits('update:drugSpecIds', '');
+    // }
     drugSpecIdsSelect.value = props.drugSpecIds;
     //  drugSpecIdsSelect.value = newVal
   }

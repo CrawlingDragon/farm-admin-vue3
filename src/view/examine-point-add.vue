@@ -18,7 +18,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <el-affix target=".point-container">
           <div class="title-fiexed-bar border">
@@ -68,7 +67,7 @@
             </el-form-item>
             <el-form-item prop="latitude" label="北纬:">
               <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12'42”" />
-              <span class="mr10">东经:</span>
+              <span class="mr10" style="color: #606266">东经:</span>
               <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12'18”" />
             </el-form-item>
             <el-form-item label="数量:" prop="number">
@@ -76,7 +75,7 @@
                 v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
                 @input="numberKeyup"
               />
               <UnitSelect
@@ -89,7 +88,7 @@
               label="开始观察日期:"
               prop="sampleDate"
               v-model="ruleForm.sampleDate"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker
@@ -168,7 +167,7 @@
               label="采样日期:"
               prop="leftUseFormInfo.date"
               v-model="ruleForm.leftUseFormInfo.date"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker
@@ -206,7 +205,7 @@
               label="采样日期:"
               prop="rightUseFormInfo.date"
               v-model="ruleForm.rightUseFormInfo.date"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker

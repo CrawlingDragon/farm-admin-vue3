@@ -27,7 +27,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">
@@ -37,7 +36,7 @@
                 v-model="ruleForm.title"
                 label="right"
                 placeholder="请输入名称"
-                class="grow-number w300 mr30"
+                class="grow-number w300 mr27"
                 maxlength="30"
                 show-word-limit
               />
@@ -56,7 +55,7 @@
               label="开始防治日期:"
               prop="time"
               v-model="ruleForm.time"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker
@@ -75,7 +74,7 @@
                 v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
                 @input="numberKeyup"
               />
               <UnitSelect
@@ -89,7 +88,7 @@
                 v-model.number="ruleForm.farmersNum"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w300 mr30"
+                class="grow-number w300 mr27"
               />
             </el-form-item>
 

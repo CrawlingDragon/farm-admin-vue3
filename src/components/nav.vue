@@ -145,8 +145,16 @@ watch(
       top: 50%;
       width: 380px;
       transform: translateY(-50%);
+      :deep().el-input-group__append {
+        background: #fff;
+        border-left: 1px solid #599524;
+        margin-left: -1px;
+      }
+
       .search-but {
         color: $theme-second-color;
+        font-size: 16px;
+        color: #599524;
       }
     }
 

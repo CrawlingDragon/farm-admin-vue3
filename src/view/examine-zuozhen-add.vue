@@ -33,7 +33,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <div class="top-box bg-w border">
           <div class="left-bar">
@@ -74,7 +73,7 @@
                 v-model="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
                 @input="numberKeyup"
               />
               <UnitSelect
@@ -87,7 +86,7 @@
               label="坐诊日期:"
               prop="time"
               v-model="ruleForm.time"
-              class="w300"
+              class="date"
               readonly
             >
               <el-date-picker
@@ -204,11 +203,11 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, '/examine-zuozhenlist')"
+              @click="submitForm(ruleFormRef, '/examine-zuozhenlist', '添加')"
               class="mr20"
               >确定添加</el-button
             >
-            <el-button size="large" @click="submitForm(ruleFormRef)" class="mr20"
+            <el-button size="large" @click="submitForm(ruleFormRef, undefined, '添加')" class="mr20"
               >确定并继续添加</el-button
             >
             <el-button size="large" @click="cancel">取消</el-button>
@@ -219,7 +218,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="submitForm(ruleFormRef, '/examine-zuozhen-detail/' + zuozhenId)"
+              @click="submitForm(ruleFormRef, '/examine-zuozhen-detail/' + zuozhenId, '保存')"
               class="mr20"
               >保存</el-button
             >
@@ -370,12 +369,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 
 const router = useRouter();
-const submitForm = async (formEl: FormInstance | undefined, goPage?: string) => {
+const submitForm = async (formEl: FormInstance | undefined, goPage?: string, msg?: string) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       // console.log('submit!');
-      let r = setZuozhenData().then((res) => {
+      let r = setZuozhenData(msg).then((res) => {
         // console.log('res', res);
         if (goPage) {
           setTimeout(() => {
@@ -421,7 +420,7 @@ const soilParams = computed<any>(() => {
 });
 
 // 提价测土结果请求
-async function setZuozhenData() {
+async function setZuozhenData(msg: string | undefined) {
   if (soilParams.value.expertId instanceof Object) {
     soilParams.value.expertId = soilParams.value.expertId.value;
   }
@@ -431,7 +430,7 @@ async function setZuozhenData() {
     ElMessage.error({ message: r.msg, duration: 1500 });
     return Promise.reject('error');
   } else {
-    ElMessage.success({ message: '已保存', duration: 1500 });
+    ElMessage.success({ message: '已' + msg, duration: 1500 });
     return Promise.resolve('ok');
   }
 }

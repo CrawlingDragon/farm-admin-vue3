@@ -12,7 +12,7 @@
         <el-table-column prop="mobile" label="手机号码" />
         <el-table-column prop="company" label="单位" />
         <el-table-column prop="zuowu" label="擅长种类" />
-        <el-table-column prop="addtime" label="加入时间" />
+        <el-table-column prop="addtime" label="录入时间" />
         <el-table-column prop="do" label="操作">
           <template #default="scope">
             <div class="btn">

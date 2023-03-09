@@ -72,7 +72,6 @@ let options = reactive({
 
 const selected = (el: string | number) => {
   let arr: any = [{ label: '1', value: '1' }];
-
   options.medicineOptions.forEach((item: any) => {
     if (item.drugId == el) {
       arr = item.specLists;
@@ -89,6 +88,26 @@ const selected = (el: string | number) => {
   return arr;
 };
 
+//更新新选择的药品的showWaring值
+const updateShowWaring = (el: string | number) => {
+  let result = options.medicineOptions.filter((item: any) => {
+    return item.drugId == el;
+  });
+  console.log('result', result);
+  let selectedShowWaring = result[0].showWarning;
+  return selectedShowWaring;
+  // emit('update:showWarning', selectedShowWaring);
+};
+
+const updateDrugSpecIds = (el: string | number) => {
+  let result = options.medicineOptions.filter((item: any) => {
+    return item.drugId == el;
+  });
+  let specLists = result[0].specLists;
+  return specLists[0].drugSpecIds;
+  // emit('update:drugSpecIds', specLists[0].drugSpecIds);
+  console.log('specLists[0].drugSpecIds', specLists[0].drugSpecIds);
+};
 //计算属性 option
 const optionsComputed = computed(() => {
   let arr: any = [];
@@ -117,9 +136,13 @@ const HasDrugFilter = (drugId: string | number) => {
 };
 const changeFn = (el: any) => {
   // console.log('el', el);
-  emit('update:drugId', el);
+
   emit('update:size', selected(el));
   emit('update:selectMyself', true);
+
+  emit('update:showWarning', updateShowWaring(el));
+  emit('update:drugId', el);
+  emit('update:drugSpecIds', updateDrugSpecIds(el));
 };
 
 // 如果是不在可选中的商品，就添加到option，且添加disabled属性

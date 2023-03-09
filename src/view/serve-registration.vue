@@ -130,7 +130,7 @@
     <Pages :total="soilData.totalData" v-model:page="page"></Pages>
     <el-dialog v-model="dialogFormVisible" :title="expertTitle">
       <el-form ref="ruleFormRef" label-width="118px" :rules="rules" size="large" :model="ruleForm">
-        <el-form-item label="门诊日期:" prop="outpatientTime">
+        <el-form-item label="门诊日期:" prop="outpatientTime" class="date">
           <el-date-picker
             :disabled-date="disabledDate"
             :clearable="false"

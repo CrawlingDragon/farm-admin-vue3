@@ -9,7 +9,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <el-form-item label="申请账号:" label-width="150px" prop="account">
           {{ hospitalInfo.account }}

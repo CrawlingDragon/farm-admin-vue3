@@ -36,7 +36,7 @@ interface AnswerParams {
   yongyaoInfoJson: any; //[json]		用药信息,数据格式[{"drugName":"甲胺磷","drugId":"123","drugSpecIds":"21","drugQuantity":"1"}]
 }
 export function getWangToAnswer(params: AnswerParams) {
-  return post('/api/atuh/professorAnswer', params);
+  return post('/api/auth/professorAnswer', params);
 }
 //邀请专家回复网诊
 interface ExpertAnswerParams {

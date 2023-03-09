@@ -1,5 +1,11 @@
 <template>
-  <el-select-v2 v-model="unitSelect" :options="options.unitOptions" class="unit" @change="changeFn" placeholder="" />
+  <el-select-v2
+    v-model="unitSelect"
+    :options="options.unitOptions"
+    class="unit"
+    @change="changeFn"
+    placeholder=""
+  />
 </template>
 <script setup lang="ts">
 import { reactive, onMounted, ref } from 'vue';
@@ -8,7 +14,7 @@ import { getSelectInfo } from '../http/getSelectInfo';
 const prop = defineProps({
   unit: {
     type: [Number, String],
-    default: '亩',
+    default: 1,
   },
   options: {
     type: Array,
@@ -17,14 +23,14 @@ const prop = defineProps({
     },
   },
 });
-const unitSelect = ref<number | string>('')
+const unitSelect = ref<number | string>(1);
 const emit = defineEmits(['update:unit']);
 
 let options = reactive({
   unitOptions: [
     // 作物select option
     {
-      value: '亩',
+      value: 1,
       label: '亩',
     },
   ],
@@ -43,8 +49,9 @@ onMounted(async () => {
     options.unitOptions = prop.options as any;
   }
   // 加载数据之后，使用第一个数据，作为默认数据
+
+  unitSelect.value = prop.unit;
   emit('update:unit', options.unitOptions[0].value);
-  unitSelect.value = prop.unit
 });
 </script>
 <style lang="scss" scoped>

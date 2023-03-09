@@ -15,7 +15,6 @@
       label-width="158px"
       class="demo-ruleForm"
       :size="formSize"
-      status-icon
     >
       <el-form-item label="专家:" prop="address" class="address">
         <p>{{ ruleForm.name }} {{ ruleForm.tel }}</p>

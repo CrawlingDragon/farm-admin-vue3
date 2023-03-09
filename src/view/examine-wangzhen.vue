@@ -35,12 +35,12 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
+          class="mr20"
           value-format="YYYY-MM-DD"
         />
       </div>
 
-      <div class="select-box mr10">
+      <div class="select-box mr20">
         <label class="mr10">状态</label>
         <el-select v-model="status" style="width: 130px" placeholder="Select" size="large">
           <el-option

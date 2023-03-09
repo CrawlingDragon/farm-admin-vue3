@@ -15,7 +15,6 @@
         label-width="120px"
         class="demo-ruleForm"
         size="large"
-        status-icon
       >
         <el-affix target=".point-container">
           <div class="title-fiexed-bar border">
@@ -79,7 +78,7 @@
             >
               <!-- <el-input v-model="ruleForm.latitude" class="w120 mr20" placeholder="如:30°12'42”" /> -->
               <div class="mr10">{{ ruleForm.latitude }}</div>
-              <span class="mr10">东经:</span>
+              <span class="mr10" style="color: #606266">东经:</span>
               <!-- <el-input v-model="ruleForm.longitude" class="w120" placeholder="如:120°12'18”" /> -->
               {{ ruleForm.longitude }}
             </el-form-item>
@@ -88,7 +87,7 @@
                 v-model.number="ruleForm.number"
                 label="right"
                 placeholder="请输入数字"
-                class="grow-number w200 mr30"
+                class="grow-number w200 mr27"
               /> -->
               {{ ruleForm.number }}
               {{ ruleForm.unit }}

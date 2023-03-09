@@ -15,7 +15,7 @@
           <el-avatar :size="100" :src="detailData.userInfo.face" class="avatar" />
           <div class="info">
             <h4 class="name">{{ detailData.userInfo.userName }}</h4>
-            <p class="time">加入时间：{{ detailData.userInfo.joinTime }}</p>
+            <p class="time">录入时间：{{ detailData.userInfo.joinTime }}</p>
             <div class="btn">
               <el-dropdown>
                 <span class="el-dropdown-link">
@@ -97,7 +97,6 @@
           label-width="158px"
           class="demo-ruleForm"
           :size="formSize"
-          status-icon
         >
           <div class="tip">基本信息</div>
           <el-form-item label="姓名:" prop="name">
@@ -513,7 +512,7 @@ function deleteVip() {
         ElMessage({
           message: '删除成功',
           type: 'success',
-           duration: 1500,
+          duration: 1500,
         });
         setTimeout(() => {
           router.replace({

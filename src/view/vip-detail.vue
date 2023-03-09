@@ -15,7 +15,7 @@
           <el-avatar :size="100" :src="detailData.userInfo.face" class="avatar" />
           <div class="info">
             <h4 class="name">{{ detailData.userInfo.userName }}</h4>
-            <p class="time">加入时间：{{ detailData.userInfo.joinTime }}</p>
+            <p class="time">录入时间：{{ detailData.userInfo.joinTime }}</p>
             <div class="btn">
               <el-dropdown v-if="detailData.userInfo.isCancelMember == 0">
                 <span class="el-dropdown-link">
