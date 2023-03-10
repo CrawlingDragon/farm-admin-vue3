@@ -6,6 +6,7 @@ interface Params {
   keywords?: string,//关键词
   content: string,//内容
   thumb?: string,//缩略图链接
+  catid?: string,//栏目
 }
 export function getSaveNews(params: Params) {
   return post('/api/auth/saveNews', params)

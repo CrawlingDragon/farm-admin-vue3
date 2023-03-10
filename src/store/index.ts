@@ -7,6 +7,7 @@ interface userInfo {
   avatar?: string;
   mobile?: number;
   isUserAccount?: number; //1是个人，2是商户
+  isShaoXingTop?: number | string;//0普通医院，1是绍兴市医院
 }
 
 export const userInfoDefineStore = defineStore('userInfoDefineStore', () => {

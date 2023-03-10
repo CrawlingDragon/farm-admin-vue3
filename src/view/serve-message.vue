@@ -2,32 +2,18 @@
   <div class="vip-admin border bg-w pd40">
     <div class="head right-head soil-right-head">
       信息管理
-      <el-button type="primary" icon="Plus" class="add" @click="goLink('/serve-message-add')"
-        >发布信息</el-button
-      >
+      <el-button type="primary" icon="Plus" class="add" @click="goLink('/serve-message-add')">发布信息</el-button>
     </div>
     <div class="table-box">
       <el-table :data="messageData.tableData" style="width: 100%">
         <el-table-column header-align="center" align="center" prop="newId" width="100" label="ID" />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="title"
-          :show-overflow-tooltip="true"
-          label="标题"
-        />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="addTime"
-          width="150"
-          label="添加时间"
-        />
+        <el-table-column header-align="center" align="center" prop="title" :show-overflow-tooltip="true" label="标题" />
+        <el-table-column header-align="center" align="center" prop="addTime" width="150" label="添加时间" />
         <el-table-column header-align="center" align="center" width="200" label="操作">
           <template #default="scope">
             <div>
               <span class="color cursor del" @click="deleteMsg(scope.row)"> 删除 </span>
-              <span class="color cursor" @click="goLink('/serve-message-add', scope.row.newId)">
+              <span class="color cursor" @click="goLink('/serve-message-add', scope.row.newId, scope.row.catid)">
                 编辑
               </span>
             </div>
@@ -52,10 +38,10 @@ const messageData = reactive({
   tableData: [],
 });
 
-function goLink(params: string, id?: string | number) {
+function goLink(params: string, id?: string | number, catid?: string | number) {
   router.push({
     path: params,
-    query: { id: id },
+    query: { id: id, catid: catid },
   });
 }
 const params = computed(() => {
@@ -80,7 +66,7 @@ onMounted(() => {
 function deleteMsg(params: any) {
   ElMessageBox.confirm(`确定删除${params.title}吗？`, '删除提示')
     .then(async () => {
-      let r = await getMessageDelete({ newId: params.newId });
+      let r = await getMessageDelete({ newId: params.newId, catid: params.catid });
       ElMessage({
         message: r instanceof Array ? '已删除' : r.msg,
         type: 'success',
@@ -89,7 +75,7 @@ function deleteMsg(params: any) {
       page.value = 1;
       setMessageLists();
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 </script>
 <style lang="scss" scoped>
