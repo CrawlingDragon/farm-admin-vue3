@@ -4,11 +4,11 @@
     <div class="input-bar">
       <el-input
         v-model="keyword"
-        class="w300 m-2 mr50"
+        class="w300 m-2 mr20"
         size="large"
         placeholder="会员手机号/姓名/身份证/会员ID"
       />
-      <div class="date-box">
+      <div class="date-box mr20">
         <label class="mr10">录入时间</label>
         <el-date-picker
           v-model="dateVal"
@@ -17,7 +17,6 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
           value-format="YYYY-MM-DD"
         />
       </div>

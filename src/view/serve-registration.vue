@@ -14,7 +14,7 @@
         size="large"
         :placeholder="keywordPlaceholder"
       />
-      <div class="date-box">
+      <div class="date-box mr20">
         <label class="mr10">{{ dateValLabel }}</label>
         <el-date-picker
           style="width: 250px"
@@ -24,11 +24,10 @@
           start-placeholder="选择起始时间"
           end-placeholder="选择结束时间"
           size="large"
-          class="mr10"
           value-format="YYYY-MM-DD"
         />
       </div>
-      <div class="select-box mr10">
+      <div class="select-box mr20">
         <label class="mr10">全部时段</label>
         <el-select v-model="timeStatus" style="width: 130px" placeholder="Select" size="large">
           <el-option
@@ -39,7 +38,7 @@
           />
         </el-select>
       </div>
-      <div class="select-box mr10">
+      <div class="select-box mr20">
         <label class="mr10">状态</label>
         <el-select v-model="statuStatus" style="width: 100px" placeholder="Select" size="large">
           <el-option

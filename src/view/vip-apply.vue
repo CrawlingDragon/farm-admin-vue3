@@ -13,7 +13,7 @@
           size="large"
           placeholder="用户姓名/手机号"
         />
-        <div class="date-box">
+        <div class="date-box mr20">
           <label class="mr10">申请时间</label>
           <el-date-picker
             v-model="dateVal"
@@ -22,11 +22,10 @@
             start-placeholder="选择起始时间"
             end-placeholder="选择结束时间"
             size="large"
-            class="mr10"
             value-format="YYYY-MM-DD"
           />
         </div>
-        <div class="select-box mr10">
+        <div class="select-box mr20">
           <label class="mr10">状态</label>
           <el-select v-model="vipActive" class="w100" placeholder="Select" size="large">
             <el-option

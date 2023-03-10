@@ -2,16 +2,35 @@
   <div class="serve-registration border bg-w pd40">
     <div class="head right-head soil-right-head">已卖出的商品</div>
     <div class="input-bar">
-      <el-input v-model="keyword" class="w300 m-2 mr20" size="large" placeholder="会员手机号/订单号/商品名/商品编码" />
-      <div class="date-box">
+      <el-input
+        v-model="keyword"
+        class="w300 m-2 mr20"
+        size="large"
+        placeholder="会员手机号/订单号/商品名/商品编码"
+      />
+      <div class="date-box mr20">
         <label class="mr10">购买日期</label>
-        <el-date-picker style="width: 300px" v-model="dateVal" type="daterange" range-separator="-"
-        start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD" :disabled-date="disabledDate" />
+        <el-date-picker
+          style="width: 300px"
+          v-model="dateVal"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="选择起始时间"
+          end-placeholder="选择结束时间"
+          size="large"
+          value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
+        />
       </div>
-      <div class="select-box mr10">
+      <div class="select-box mr20">
         <label class="mr10">备注</label>
         <el-select v-model="statuStatus" style="width: 100px" placeholder="Select" size="large">
-          <el-option v-for="item in statuOptions" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in statuOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <el-button size="large" @click="search">搜索</el-button>
@@ -54,7 +73,11 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <div class="commodity-item table-item" v-for="list in item.productLists" :key="list.productCode">
+            <div
+              class="commodity-item table-item"
+              v-for="list in item.productLists"
+              :key="list.productCode"
+            >
               <el-row>
                 <el-col :span="16">
                   <div class="commodity-list">
@@ -115,8 +138,8 @@ const statuOptions = reactive([
 const page = ref(1); //当前页
 const soldData = reactive({
   totalData: 0,
-  tableData: [] as any
-})
+  tableData: [] as any,
+});
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
   let endTime = !dateVal.value ? '' : dateVal.value[1];
@@ -204,10 +227,10 @@ const disabledDate = (time: Date) => {
 .input-bar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   .export {
-    width: 60px;
+    width: 54px;
     height: 30px;
     background: url('@/assets/log-out.png') no-repeat;
     background-position: 18px center;
@@ -253,7 +276,7 @@ const disabledDate = (time: Date) => {
         font-weight: 400;
         margin-left: 25px;
       }
-      .date{
+      .date {
         color: #333333;
       }
     }

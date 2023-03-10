@@ -3,7 +3,9 @@
     <div class="head right-head soil-right-head">
       短信管理
       <el-tooltip class="box-item tab" effect="customized" content="" placement="right-start">
-        <template #content> 将最新农资商品、培训、测土配方取报告等信息发<br />短信给会员，会员会收到相应的手机短信。</template>
+        <template #content>
+          将最新农资商品、培训、测土配方取报告等信息发<br />短信给会员，会员会收到相应的手机短信。</template
+        >
         <el-icon class="icon color">
           <QuestionFilled />
         </el-icon>
@@ -11,19 +13,45 @@
       <el-button type="primary" class="add" @click="goNote">发短信</el-button>
     </div>
     <div class="input-bar">
-      <div class="date-box">
+      <div class="date-box mr20">
         <label class="mr10">发送日期</label>
-        <el-date-picker style="width: 250px" v-model="dateVal" type="daterange" range-separator="-"
-          start-placeholder="选择起始时间" end-placeholder="选择结束时间" size="large" class="mr10" value-format="YYYY-MM-DD"
-          :disabled-date="disabledDate" />
+        <el-date-picker
+          style="width: 250px"
+          v-model="dateVal"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="选择起始时间"
+          end-placeholder="选择结束时间"
+          size="large"
+          value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
+        />
       </div>
       <el-button size="large" @click="search">搜索</el-button>
     </div>
     <div class="table-box">
       <el-table :data="noteData.tableData" style="width: 100%">
-        <el-table-column header-align="center" align="center" prop="sendTime" width="200" label="发送时间" />
-        <el-table-column header-align="center" align="center" prop="content" :show-overflow-tooltip="true" label="内容" />
-        <el-table-column header-align="center" align="center" prop="userCount" width="100" label="会员数" />
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="sendTime"
+          width="200"
+          label="发送时间"
+        />
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="content"
+          :show-overflow-tooltip="true"
+          label="内容"
+        />
+        <el-table-column
+          header-align="center"
+          align="center"
+          prop="userCount"
+          width="100"
+          label="会员数"
+        />
         <!-- <el-table-column header-align="center" align="center" prop="statusTips" class-name="status-tips" label="发送状态">
           <template #default="scope">
             <div>
@@ -41,27 +69,26 @@
       </el-table>
     </div>
     <Pages :total="noteData.totalData" v-model:page="page"></Pages>
-
   </div>
 </template>
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 import Pages from '@/components/pages.vue';
 import { getNoteLists } from '@/http';
 
-const dateVal = ref('')
-const page = ref(1)
-const router = useRouter()
+const dateVal = ref('');
+const page = ref(1);
+const router = useRouter();
 const noteData = reactive({
   totalData: 0,
-  tableData: []
-})
+  tableData: [],
+});
 
 function goNote() {
   router.push({
     path: '/serve-note-detail',
-  })
+  });
 }
 const params = computed(() => {
   let startTime = !dateVal.value ? '' : dateVal.value[0];
@@ -77,26 +104,25 @@ const params = computed(() => {
 // 搜索
 async function search() {
   page.value = 1;
-  setNoteLists()
+  setNoteLists();
 }
 watch(page, () => {
-  setNoteLists()
-})
+  setNoteLists();
+});
 // 获取信息列表
 async function setNoteLists() {
-  let r = await getNoteLists(params.value)
-  noteData.totalData = r.totalData
-  noteData.tableData = r.data
+  let r = await getNoteLists(params.value);
+  noteData.totalData = r.totalData;
+  noteData.tableData = r.data;
 }
 onMounted(() => {
-  setNoteLists()
-})
+  setNoteLists();
+});
 function detailNote(params: any) {
   router.push({
     path: '/serve-note-show',
-    query: { id: params.smsId }
-  })
-
+    query: { id: params.smsId },
+  });
 }
 // 日期限制
 const disabledDate = (time: Date) => {
@@ -133,4 +159,3 @@ const disabledDate = (time: Date) => {
   color: $theme-three-color !important;
 }
 </style>
-
