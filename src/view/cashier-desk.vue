@@ -162,7 +162,7 @@ watch(vipUid, (newVal) => {
 watch(
   tableData,
   (newVal) => {
-    if (newVal.length == 0) return;
+    // if (newVal.length == 0) return;
     let price: any = 0;
     let number = 0;
     let params: any = [];
