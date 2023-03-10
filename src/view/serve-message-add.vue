@@ -9,30 +9,22 @@
     </div>
     <div class="content-box">
       <div class="content-form">
-        <el-form
-          :rules="rules"
-          ref="ruleFormRef"
-          label-width="118px"
-          size="large"
-          :model="ruleForm"
-        >
+        <el-form :rules="rules" ref="ruleFormRef" label-width="118px" size="large" :model="ruleForm">
+          <el-form-item label="栏目:" prop="column" v-if="userInfo.isShaoXingTop">
+            <el-radio-group v-model="ruleForm.column" class="ml-4">
+              <el-radio label="13" size="large">默认栏目</el-radio>
+              <el-radio label="1675" size="large">区域品牌</el-radio>
+              <el-radio label="1676" size="large">领导关怀</el-radio>
+              <el-radio label="1677" size="large">市场讯息</el-radio>
+              <el-radio label="1678" size="large">农民培训</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item label="标题:" prop="title">
-            <el-input
-              v-model="ruleForm.title"
-              size="large"
-              maxlength="18"
-              show-word-limit
-              class="w300 m-2 mr20"
-              placeholder="请输入标题"
-            ></el-input>
+            <el-input v-model="ruleForm.title" size="large" maxlength="18" show-word-limit class="w300 m-2 mr20"
+              placeholder="请输入标题"></el-input>
           </el-form-item>
           <el-form-item label="关键词:" prop="keywords">
-            <el-input
-              v-model="ruleForm.keywords"
-              size="large"
-              class="w300 m-2 mr20"
-              placeholder="请输入关键词"
-            ></el-input>
+            <el-input v-model="ruleForm.keywords" size="large" class="w300 m-2 mr20" placeholder="请输入关键词"></el-input>
           </el-form-item>
           <el-form-item label="内容:" prop="content">
             <RichText v-model:valueHtml="ruleForm.content"></RichText>
@@ -45,9 +37,7 @@
 
       <div class="submit-bar">
         <div class="content">
-          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)"
-            >保存</el-button
-          >
+          <el-button type="primary" size="large" class="mr20" @click="saveMessage(ruleFormRef)">保存</el-button>
           <el-button size="large" @click="goLink('/serve-message')">取消</el-button>
         </div>
       </div>
@@ -62,7 +52,10 @@ import { getSaveNews, getNewsInfo } from '@/http';
 import UploadImageVue from '@/components/uploadImage.vue';
 import { ElMessage } from 'element-plus';
 import RichText from '@/components/richText.vue';
+import { userInfoDefineStore } from '@/store/index';
+import { storeToRefs } from 'pinia'
 
+const { userInfo } = storeToRefs(userInfoDefineStore())
 const router = useRouter();
 const route = useRoute();
 const id = computed(() => {
@@ -72,9 +65,17 @@ const id = computed(() => {
     return '';
   }
 });
+const catid = computed(() => {
+  if (route.query.catid) {
+    return route.query.catid;
+  } else {
+    return '13';
+  }
+});
 const title = ref('信息编辑');
 const emit = defineEmits(['update:hideAside']);
 const rules = reactive<FormRules>({
+  column: [{ required: true, message: '请选择栏目', trigger: 'blur' }],
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
   keywords: [{ required: false }],
   thumb: [{ required: false }],
@@ -82,6 +83,7 @@ const rules = reactive<FormRules>({
 });
 const ruleFormRef = ref<FormInstance>();
 let ruleForm = reactive<any>({
+  column: '13',//栏目
   title: '', //标题
   keywords: '', //关键词
   content: '', //信息内容
@@ -105,9 +107,13 @@ function goLink(params: string) {
 }
 // 获取详情信息
 async function setNewsInfo() {
+  // 判断是否有栏目
+  if (userInfo.value.isShaoXingTop) {
+    ruleForm.column = catid.value
+  }
   if (id.value) {
     title.value = '信息编辑';
-    let r = await getNewsInfo({ newId: id.value });
+    let r = await getNewsInfo({ newId: id.value, catid: catid.value });
     // console.log('r', r)
     if (r.code == 404) {
       ElMessage.error({ message: r.msg, duration: 1500 });
@@ -127,6 +133,7 @@ async function setNewsInfo() {
 const params = computed(() => {
   // newId: String(id.value),
   let param = {
+    catid: ruleForm.column,
     newId: String(id.value),
     title: ruleForm.title,
     keywords: ruleForm.keywords,
