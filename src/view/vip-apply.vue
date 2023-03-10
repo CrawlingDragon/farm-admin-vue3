@@ -23,6 +23,7 @@
             end-placeholder="选择结束时间"
             size="large"
             value-format="YYYY-MM-DD"
+            :disabled-date="disabledDate"
           />
         </div>
         <div class="select-box mr20">
@@ -241,6 +242,7 @@ import Pages from '@/components/pages.vue';
 import { ref, computed, onMounted, reactive, watch } from 'vue';
 import { getVipApply, getVipApplyAction } from '../http';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { disabledDate } from '@/common/js/util';
 
 const keyword = ref('');
 const dateVal = ref(''); //默认起始，结束时间，有数据后是 [起始时间,结束时间]

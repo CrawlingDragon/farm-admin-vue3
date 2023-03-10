@@ -37,6 +37,7 @@
           size="large"
           class="mr20"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
 
@@ -132,7 +133,10 @@ import { getWangList, getWangPDF, getWangToAnswer } from '@/http';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useExpertTemplateTestSelectOptions } from '@/hooks/useExpertTemplateTestSelectOptions';
+import { disabledDate } from '@/common/js/util';
+
 const { recipeTemListArr } = useExpertTemplateTestSelectOptions();
+
 const router = useRouter();
 const route = useRoute();
 const active = ref(0);

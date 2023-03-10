@@ -18,6 +18,7 @@
           end-placeholder="选择结束时间"
           size="large"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
       <el-button size="large" @click="search">搜索</el-button>
@@ -85,6 +86,7 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getVipAdmin } from '../http/getVipAdmin';
 import storage from 'good-storage';
+import { disabledDate } from '@/common/js/util';
 
 let soil = storage.session.get('soil');
 

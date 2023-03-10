@@ -25,6 +25,7 @@
           end-placeholder="选择结束时间"
           size="large"
           value-format="YYYY-MM-DD"
+          :disabled-date="disabledDate"
         />
       </div>
       <div class="select-box mr20">
@@ -219,6 +220,7 @@ import {
 import { ElMessageBox, ElMessage } from 'element-plus';
 import ExpertSelect from '@/components/expertSelect.vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { disabledDate } from '@/common/js/util';
 
 const active = ref(0);
 const keywordPlaceholder = ref('挂号单号/会员姓名/专家姓名');
@@ -460,9 +462,9 @@ async function setAddExpert() {
   }
 }
 // 新增排班时间选择限制
-const disabledDate = (time: Date) => {
-  return time.getTime() < new Date(new Date().toLocaleDateString()).getTime();
-};
+// const disabledDate = (time: Date) => {
+//   return time.getTime() < new Date(new Date().toLocaleDateString()).getTime();
+// };
 </script>
 <style lang="scss" scoped>
 .soil-right-head {

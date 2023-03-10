@@ -251,3 +251,8 @@ export function debounce(fun: Function, wait: number) {
     }, wait);
   };
 }
+
+//date-pick 限制时间为明天
+export const disabledDate = (time: Date) => {
+  return time.getTime() > new Date(new Date().toLocaleDateString()).getTime();
+};
