@@ -3,24 +3,9 @@
     <div class="border search">
       <div class="icon"></div>
       <!-- <el-input v-model="commodityCode" class="w300 m-2 mr20" size="large" placeholder="扫描/输入编码或输入商品名称" /> -->
-      <el-select
-        class="w300 m-2 mr20"
-        size="large"
-        v-model="commodityCode"
-        @change="searchChange"
-        filterable
-        remote
-        placeholder="扫描/输入编码或输入商品名称"
-        :remote-method="setProductLists"
-        :loading="searchLoading"
-        no-data-text="暂无商品"
-      >
-        <el-option
-          v-for="item in tableDataOption"
-          :key="item.specSn"
-          :label="item.productName"
-          :value="item"
-        >
+      <el-select class="w300 m-2 mr20" size="large" v-model="commodityCode" @change="searchChange" filterable remote
+        placeholder="扫描/输入编码或输入商品名称" :remote-method="setProductLists" :loading="searchLoading" no-data-text="暂无商品">
+        <el-option v-for="item in tableDataOption" :key="item.specSn" :label="item.productName" :value="item">
         </el-option>
       </el-select>
       <el-button size="large" @click="search">确定</el-button>
@@ -42,60 +27,30 @@
     </div>
     <div class="table-box border">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="specSn"
-          width="100"
-          label="编码"
-        />
+        <el-table-column header-align="center" align="center" prop="specSn" width="100" label="编码" />
         <el-table-column header-align="center" align="center" prop="productName" label="商品名称" />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="unitPrice"
-          width="100"
-          label="单价"
-        />
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="buyNum"
-          width="200"
-          label="数量"
-        >
+        <el-table-column header-align="center" align="center" prop="unitPrice" width="100" label="单价" />
+        <el-table-column header-align="center" align="center" prop="buyNum" width="200" label="数量">
           <template #default="scope">
             <div>
               <el-input-number v-model="scope.row.buyNum" :min="1" />
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="totalPrice"
-          width="100"
-          label="金额"
-        >
+        <el-table-column header-align="center" align="center" prop="totalPrice" width="100" label="金额">
           <template #default="scope">
             <div>
               {{ calc(scope.row.buyNum, scope.row.unitPrice, '*') }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="center"
-          prop="productName"
-          width="100"
-          label="操作"
-        >
+        <el-table-column header-align="center" align="center" prop="productName" width="100" label="操作">
           <template #default="scope">
             <div>
               <span class="cursor color del" @click="deleteComm(scope.row.specSn)">删除</span>
             </div>
-          </template> </el-table-column
-        >>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="border settlement">
@@ -289,7 +244,7 @@ const cleanOut = () => {
   zoonMoney.value = 0.0;
   totalNumber.value = 0;
   paramsJson.value = null;
-  factMoney.value = null;
+  factMoney.value = '';
   searchLoading.value = false;
 };
 onMounted(async () => {
