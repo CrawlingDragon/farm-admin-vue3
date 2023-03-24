@@ -1,26 +1,14 @@
 <template>
   <!-- 种类的select的选择 -->
-  <el-select
-    v-model="selectKind"
-    :filter-method="filterMethed"
-    filterable
-    clearable
-    placeholder="请选择种类"
-    class="w300"
-    @change="changeFn"
-  >
+  <el-select v-model="selectKind" :filter-method="filterMethed" filterable clearable placeholder="请选择种类" class="w300"
+    @change="changeFn">
     <template #prefix>
       <el-icon>
         <Search />
       </el-icon>
     </template>
     <el-option-group v-for="group in kindOptions.options" :key="group.label" :label="group.label">
-      <el-option
-        v-for="item in group.options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
+      <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value" />
     </el-option-group>
   </el-select>
 </template>
@@ -80,7 +68,7 @@ const filterMethed = async (values: any) => {
     kindOptionsVal.map((item: any) => {
       kindOptions.options.push({
         label: item.label,
-        options: item.options.filter((items: any) => items.label.indexOf(values)),
+        options: item.options.filter((items: any) => ~items.label.indexOf(values)),
       });
     });
     kindOptions.options = kindOptions.options.filter((item: any) => {
