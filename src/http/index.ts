@@ -60,7 +60,13 @@ export {
   getDelZuoXunTrack,
 } from './getZuoXun';
 // 网诊
-export { getWangList, getWangPDF, getWangToAnswer, getWangExpertAnswer } from './getWang';
+export {
+  getWangList,
+  getWangPDF,
+  getWangToAnswer,
+  getWangExpertAnswer,
+  getWangReplyAnswer,
+} from './getWang';
 //统防统治
 export {
   getTongFangList,

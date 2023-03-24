@@ -66,23 +66,25 @@ const changeFn = (el: any, lab: any) => {
   emit('update:kind', el);
 };
 
-const trimData = computed(() => {
-  kindOptions.options.map((item) => {
-    item.label = `item.expertName`;
-  });
-});
+// const trimData = computed(() => {
+//   kindOptions.options.map((item) => {
+//     item.label = `item.expertName`;
+//   });
+// });
 const filterMethed = async (values: any) => {
   if (!values) {
     kindOptions.options = kindOptionsVal;
     // console.log('!values', kindOptions.options)
   } else {
     kindOptions.options = [];
+
     kindOptionsVal.map((item: any) => {
       kindOptions.options.push({
         label: item.label,
         options: item.options.filter((items: any) => items.label.indexOf(values)),
       });
     });
+
     kindOptions.options = kindOptions.options.filter((item: any) => {
       return item.options.length !== 0;
     });

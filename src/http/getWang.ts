@@ -35,8 +35,20 @@ interface AnswerParams {
   images: string; //[string]		图片地址 , 多个用分号; 拼接
   yongyaoInfoJson: any; //[json]		用药信息,数据格式[{"drugName":"甲胺磷","drugId":"123","drugSpecIds":"21","drugQuantity":"1"}]
 }
+// 正常回复网诊
 export function getWangToAnswer(params: AnswerParams) {
   return post('/api/auth/professorAnswer', params);
+}
+
+interface replyAnswerParams {
+  token?: string;
+  addWenId: string;
+  message: string;
+  images: string;
+}
+// 追问网诊
+export function getWangReplyAnswer(params: replyAnswerParams) {
+  return post('/api/auth/replyAddQuestion', params);
 }
 //邀请专家回复网诊
 interface ExpertAnswerParams {

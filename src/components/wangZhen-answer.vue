@@ -14,8 +14,8 @@
             <el-icon><Picture /></el-icon>
           </div>
           <!-- <div class="icon-item" @click="addMedicineFn">💊</div> -->
-          <div class="icon-item icon-yao" @click="addMedicineFn"></div>
-          <div class="icon-item">
+          <div class="icon-item icon-yao" @click="addMedicineFn" v-if="!isReplyAnswer"></div>
+          <div class="icon-item" v-if="!isReplyAnswer">
             <el-popover placement="right" :width="400" trigger="hover">
               <template #reference>
                 <el-icon><EditPen /></el-icon>
@@ -41,7 +41,10 @@
         v-if="showUploadBtn"
         style="margin-bottom: 10px"
       />
-      <Medicine v-if="showMedicineBtn" v-model:medicine-prop="ruleForm.medicine" />
+      <Medicine
+        v-if="showMedicineBtn && !isReplyAnswer"
+        v-model:medicine-prop="ruleForm.medicine"
+      />
       <el-button type="primary" @click="submitForm(ruleFormRef)">回复</el-button>
     </el-form>
   </div>
@@ -54,7 +57,7 @@ import UploadImage from '@/components/uploadImage.vue';
 import Medicine from '@/components/medicine.vue';
 import PrescribingTemplate from '@/components/prescribingTemplate.vue';
 import { integrationMedicine, transformImageParams } from '@/common/js/util';
-import { getWangToAnswer } from '@/http';
+import { getWangToAnswer, getWangReplyAnswer } from '@/http';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const props = defineProps({
@@ -67,6 +70,11 @@ const props = defineProps({
   questionId: {
     type: Number,
     default: 0,
+  },
+  isReplyAnswer: {
+    //是否是追问的回复
+    type: Boolean,
+    default: false,
   },
 });
 const ruleFormRef = ref<FormInstance>();
@@ -118,11 +126,21 @@ const ToAnswerParamsComputed = computed(() => {
     images: transformImageParams(ruleForm.images),
     yongyaoInfoJson,
   };
-  return params;
+  let replyParams = {
+    addWenId: props.questionId,
+    message: ruleForm.content,
+    images: transformImageParams(ruleForm.images),
+  };
+  return props.isReplyAnswer ? replyParams : params;
 });
 //提交回复 fetch
 const submitAnswerFn = async () => {
-  let r = await getWangToAnswer(ToAnswerParamsComputed.value as any);
+  let r: any = '';
+  if (props.isReplyAnswer) {
+    r = await getWangReplyAnswer(ToAnswerParamsComputed.value as any);
+  } else {
+    r = await getWangToAnswer(ToAnswerParamsComputed.value as any);
+  }
   console.log('submit-r', r);
   if (r.code) {
     ElMessage.error({ message: r.msg, duration: 1500 });

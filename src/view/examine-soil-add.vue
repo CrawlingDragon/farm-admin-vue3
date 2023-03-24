@@ -215,7 +215,7 @@
             </div>
           </div>
         </div>
-        <div class="bottom-box border bg-w mt10" v-show="ruleForm.soilStatus === 3">
+        <div class="bottom-box border bg-w mt10" v-if="ruleForm.soilStatus === 3">
           <div class="left-bar">
             <div class="tip">
               处方信息

@@ -117,8 +117,9 @@
             <el-cascader
               v-model="ruleForm.local"
               :options="area"
-              :props="{ expandTrigger: 'hover' }"
+              :props="{ expandTrigger: 'hover', checkStrictly: cascaderCheckStrictly }"
               @change="handleChange"
+              @focus="cascaderFocus"
               class="localCls w300"
               placeholder="请选择省市区地址"
             />
@@ -319,7 +320,16 @@ const ruleForm = reactive({
   codeVerify: '', //验证码
   codeVerifyFlag: true,
 });
-
+//所在地区的三级联动是否可以单选，false表示不可以，true表示可以
+// 只要为了获取用户数据的时候，地区只有1级或者2级
+const cascaderCheckStrictly = ref(false);
+const cascaderCheckStrictlyComputed = computed(() => (residecity: string, residedist: string) => {
+  if (residecity == '' || residedist == '') {
+    return true;
+  } else {
+    return false;
+  }
+});
 //自定义弹窗的显示
 const dialogFormVisible = ref(false);
 
@@ -349,9 +359,26 @@ function getSetInterval() {
     }
   }, 1000);
 }
-
+//增加地区是否为三级以上的验证
+const validatorLocal = (rule: any, value: any, callback: any) => {
+  if (value == '') {
+    callback(new Error('所在地区不能为空'));
+  } else if (value.length < 3) {
+    // console.log('value', value);
+    callback(new Error('所在地区必须为三级以上'));
+  } else {
+    callback();
+  }
+};
 const rules = reactive<FormRules>({
-  local: [{ required: true, message: '所在地区不能为空', trigger: 'change' }],
+  local: [
+    {
+      required: true,
+      message: '所在地区不能为空',
+      trigger: 'change',
+    },
+    { validator: validatorLocal, trigger: 'change' },
+  ],
   name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
   card: [{ required: false, message: '身份证不能为空', trigger: 'change' }],
 });
@@ -530,6 +557,30 @@ function deleteVip() {
   }
 }
 
+// 根据接口数据整理用户所在地区数据的，数据格式为数组
+const initLocal = (
+  resideprovince: string,
+  residecity: string,
+  residedist: string,
+  residecommunity: string
+) => {
+  if (resideprovince == '') {
+    return [''];
+  } else if (residecity == '') {
+    return [resideprovince];
+  } else if (residedist == '') {
+    return [resideprovince, residecity];
+  } else if (residecommunity == '') {
+    return [resideprovince, residecity, residedist];
+  } else {
+    return [resideprovince, residecity, residedist, residecommunity];
+  }
+};
+
+const cascaderFocus = () => {
+  // console.log('1', 1);
+  // cascaderCheckStrictly.value = false;
+};
 onMounted(async () => {
   // 隐藏左边栏
   emit('update:hideAside', false);
@@ -541,14 +592,18 @@ onMounted(async () => {
   detailData.canDelete = r.canDelete; //是否可以删除
   detailData.isJoinOther = r.isJoinOther;
   ruleForm.name = r.userInfo.userName; //姓名
-  ruleForm.local = r.userInfo.residecommunity
-    ? ([
-        r.userInfo.resideprovince,
-        r.userInfo.residecity,
-        r.userInfo.residedist,
-        r.userInfo.residecommunity,
-      ] as any)
-    : ([r.userInfo.resideprovince, r.userInfo.residecity, r.userInfo.residedist] as any); //所在地区
+  cascaderCheckStrictly.value = cascaderCheckStrictlyComputed.value(
+    r.userInfo.residecity,
+    r.userInfo.residedist
+  );
+  ruleForm.local = initLocal(
+    r.userInfo.resideprovince,
+    r.userInfo.residecity,
+    r.userInfo.residedist,
+    r.userInfo.residecommunity
+  ) as any;
+  //所在地区
+
   ruleForm.address = r.userInfo.address; //详细地址
   ruleForm.phone = r.userInfo.tel; // 手机号码
   ruleForm.sex = r.userInfo.sex; // 性别

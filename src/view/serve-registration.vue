@@ -223,7 +223,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { disabledDate } from '@/common/js/util';
 
 const active = ref(0);
-const keywordPlaceholder = ref('挂号单号/会员姓名/专家姓名');
+const keywordPlaceholder = ref('挂号单号/会员/专家');
 const dateValLabel = ref('就诊日期');
 
 const keyword = ref('');
@@ -290,7 +290,7 @@ watch(active, (newVal, oldVal) => {
   dateVal.value = null;
   page.value = 1;
   if (newVal == 0) {
-    keywordPlaceholder.value = '挂号单号/会员姓名/专家姓名';
+    keywordPlaceholder.value = '挂号单号/会员/专家';
     dateValLabel.value = '就诊日期';
     statuOptions.value = [
       { label: '全部', value: 0 },

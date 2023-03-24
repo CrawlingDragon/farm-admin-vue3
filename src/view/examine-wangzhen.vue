@@ -108,6 +108,7 @@
                 <WangExpertAnsweredList
                   :list-data="item.replyLists"
                   v-if="item.replyLists.length !== 0"
+                  :useExpertTemplateTestSelectOptions="recipeTemListArr"
                 />
               </div>
             </div>

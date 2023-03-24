@@ -240,3 +240,6 @@ body {
   background-color: var(--el-button-hover-bg-color);
   outline: 0;
 }
+.el-input--large .el-input__wrapper {
+  padding: 1px 10px;
+}
