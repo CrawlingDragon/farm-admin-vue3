@@ -68,7 +68,7 @@ const filterMethed = async (values: any) => {
     kindOptionsVal.map((item: any) => {
       kindOptions.options.push({
         label: item.label,
-        options: item.options.filter((items: any) => ~items.label.indexOf(values)),
+        options: item.options.filter((items: any) => items.label.indexOf(values) >= 0),
       });
     });
     kindOptions.options = kindOptions.options.filter((item: any) => {
